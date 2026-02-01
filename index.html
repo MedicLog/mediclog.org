@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedicLog — EMS Call Logging</title>
+    <meta name="description" content="Real-time patient care documentation for EMS first responders. Coming soon to iOS and Android.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            background: #0a0e1a;
+            color: #e8ecf1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 640px;
+            text-align: center;
+        }
+
+        .icon {
+            width: 128px;
+            height: 128px;
+            border-radius: 28px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(33, 150, 243, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            color: #90a4ae;
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+        }
+
+        .platforms {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            border: 1px solid #2a3a4a;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: #b0bec5;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .features {
+            text-align: left;
+            margin-bottom: 3rem;
+        }
+
+        .features ul {
+            list-style: none;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .features li {
+            font-size: 1rem;
+            color: #90a4ae;
+            padding-left: 1.75rem;
+            position: relative;
+        }
+
+        .features li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5em;
+            width: 8px;
+            height: 8px;
+            background: #2196f3;
+            border-radius: 50%;
+        }
+
+        .contact {
+            margin-top: 1rem;
+        }
+
+        .contact a {
+            color: #2196f3;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .contact a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 4rem;
+            font-size: 0.8rem;
+            color: #455a64;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="icon.png" alt="MedicLog" class="icon">
+        <h1>MedicLog</h1>
+        <p class="tagline">Real-time patient care documentation<br>for EMS first responders</p>
+
+        <div class="platforms">
+            <span class="badge">
+                <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                iOS — Coming Soon
+            </span>
+            <span class="badge">
+                <svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm10 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>
+                Android — Coming Soon
+            </span>
+        </div>
+
+        <div class="features">
+            <ul>
+                <li>Voice-first logging designed for gloved hands in moving ambulances</li>
+                <li>Medication timers with haptic alerts at 30s, 10s, and expiration</li>
+                <li>Cross-platform encrypted patient care sharing between medics</li>
+                <li>Apple Watch companion for wrist-level timer and entry access</li>
+                <li>No account required, no cloud dependency, works offline</li>
+            </ul>
+        </div>
+
+        <div class="contact">
+            <a href="https://github.com/MedicLog/mediclog-support/issues">Bug Reports &amp; Feature Requests</a>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 MedicLog</footer>
+</body>
+</html>
