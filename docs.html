@@ -32,140 +32,187 @@
             <p class="subtitle">Everything you need to know about using MedicLog</p>
         </header>
 
+        <!-- Getting Started -->
+        <section class="section" id="getting-started">
+            <h2>Getting Started</h2>
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <img src="screenshots/01-active-call-light.png" alt="Start Call screen">
+                </div>
+                <div class="feature-description">
+                    <h3>Start a Call</h3>
+                    <p>Set your agency, unit, and run number. Add optional patient demographics (name, DOB, age, sex) if needed for your documentation.</p>
+                    <p>Tap <strong>Start Call</strong> when you arrive on scene. The call timer begins immediately.</p>
+                    <p>Resume previous calls from the button below if you need to add entries after the fact.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Entry -->
         <section class="section" id="quick-entry">
             <h2>Quick Entry</h2>
-            <p>MedicLog's quick-tap interface is designed for the reality of EMS work: gloved hands, bouncing ambulances, and split-second decisions. No typing required.</p>
+            <p>MedicLog's quick-tap interface is designed for gloved hands in moving ambulances. No typing required.</p>
 
-            <!-- Quick entry screenshots -->
-            <div class="screenshot-gallery hero">
-                <div class="screenshot-item phone">
-                    <img src="screenshots/03-quick-entry.png" alt="Quick entry button bar">
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <img src="screenshots/01-active-call-dark.png" alt="Active call with button grid">
                 </div>
-                <div class="screenshot-item phone">
+                <div class="feature-description">
+                    <h3>Active Call View</h3>
+                    <p>The main interface during a call. Quick-tap buttons across the top: <strong>Vitals, Meds, Cardiac, IV, Procedures, Notes, Trauma, Photo</strong>.</p>
+                    <p>Active medication timers display at the top with color-coded urgency. Your log entries scroll below with timestamps.</p>
+                    <p>Voice Log button for hands-free entry. Add Entry for manual input.</p>
+                </div>
+            </div>
+
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <img src="screenshots/05-med-picker.png" alt="Medication picker">
+                </div>
+                <div class="feature-description">
+                    <h3>Medication Picker</h3>
+                    <p>Tap <strong>Med</strong> to see your formulary organized by category (Cardiac, Respiratory, etc.).</p>
+                    <p>Select a medication, confirm dose and route. Entry logs automatically with timestamp, and relevant timers start.</p>
+                    <p>Customize your formulary in Settings to match your protocols.</p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
                     <img src="screenshots/04-vitals-entry.png" alt="Vitals entry form">
                 </div>
+                <div class="feature-description">
+                    <h3>Vitals Entry</h3>
+                    <p>Quick entry grid for <strong>BP, Heart Rate, SpO2, Respirations</strong>. Scroll down for GCS, pupils, and more.</p>
+                    <p>Patient demographics section at top if you need to update age/sex mid-call.</p>
+                    <p>All values log as a single vitals entry with timestamp.</p>
+                </div>
             </div>
 
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="icon">&#9889;</div>
-                    <h3>Instant Medication Logging</h3>
-                    <p>Tap to log common medications with pre-configured doses. Each entry automatically timestamps and starts relevant timers.</p>
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <img src="screenshots/03-quick-entry.png" alt="Add Entry form">
                 </div>
-                <div class="feature-card">
-                    <div class="icon">&#128200;</div>
-                    <h3>Vital Signs</h3>
-                    <p>Quick-entry grid for BP, pulse, SpO2, respirations, and GCS. Swipe to adjust values or use voice input for hands-free entry.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">&#128203;</div>
-                    <h3>Procedures</h3>
-                    <p>Log IVs, airways, cardiac interventions, and other procedures with a single tap. Each includes configurable sub-options.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">&#128221;</div>
-                    <h3>Custom Buttons</h3>
-                    <p>Create your own quick-entry buttons for frequently used items specific to your protocols or service area.</p>
+                <div class="feature-description">
+                    <h3>Add Entry Form</h3>
+                    <p>Manual entry when you need to type something specific. Select entry type (Medication, Vitals, Procedure, etc.).</p>
+                    <p>Voice dictation available - tap the microphone icon to speak instead of type.</p>
+                    <p>PHI toggle marks entries containing patient-identifiable information for proper redaction during export.</p>
                 </div>
             </div>
         </section>
 
+        <!-- Medication Timers -->
         <section class="section" id="timers">
             <h2>Medication Timers</h2>
-            <p>Never miss a redose window. MedicLog automatically tracks medication timing with intelligent alerts.</p>
+            <p>Never miss a redose window. MedicLog automatically tracks medication timing with haptic alerts.</p>
 
-            <!-- Timer screenshot -->
-            <div class="screenshot-gallery hero">
-                <div class="screenshot-item phone">
-                    <img src="screenshots/06-timer-detail.png" alt="Medication timer countdown">
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <img src="screenshots/06-timer-detail.png" alt="Timer action menu">
+                </div>
+                <div class="feature-description">
+                    <h3>Timer Actions</h3>
+                    <p>When a timer expires, you get options: <strong>Redose</strong> (log another dose), <strong>Snooze</strong> (extend timer), <strong>Withheld</strong> (document decision not to give), or <strong>Delete</strong>.</p>
+                    <p>Color-coded urgency - green when time remains, yellow approaching, red when OVER.</p>
+                    <p>Haptic alerts at 30 seconds and expiration on both iPhone and Apple Watch.</p>
                 </div>
             </div>
 
-            <ul>
-                <li><strong>Automatic Timer Start:</strong> Logging a medication starts its timer based on your protocol settings</li>
-                <li><strong>Haptic Alerts:</strong> Feel countdown warnings at 30 seconds, 10 seconds, and expiration on your iPhone or Apple Watch</li>
-                <li><strong>Visual Dashboard:</strong> See all active timers at a glance with color-coded urgency indicators</li>
-                <li><strong>Expiration Warnings:</strong> Get notified when medications like Epi or Lidocaine approach their effective window end</li>
-                <li><strong>Custom Intervals:</strong> Configure timer durations per medication to match your protocols</li>
-            </ul>
-
-            <div class="highlight-box">
-                <p><strong>Pro Tip:</strong> Enable Watch haptics in Settings for wrist-level timer alerts even when your phone is in your pocket.</p>
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <img src="screenshots/07-timer-redose.png" alt="Timer redose">
+                </div>
+                <div class="feature-description">
+                    <h3>Redose Flow</h3>
+                    <p>One tap on <strong>Redose</strong> logs another dose of the same medication with the same dose/route.</p>
+                    <p>Fresh timer starts automatically. No need to navigate back through the medication picker.</p>
+                    <p>Dose count tracks in the timer pill so you know how many you've given.</p>
+                </div>
             </div>
         </section>
 
+        <!-- Voice Logging -->
         <section class="section" id="voice">
             <h2>Voice Logging</h2>
-            <p>MedicLog is built voice-first because your hands are busy saving lives. Speak naturally and let the app understand.</p>
+            <p>MedicLog is built voice-first because your hands are busy saving lives.</p>
 
-            <!-- Voice entry screenshot -->
-            <div class="screenshot-gallery hero">
-                <div class="screenshot-item phone">
-                    <img src="screenshots/02-voice-entry.png" alt="Voice entry with mic active">
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <img src="screenshots/02-voice-entry.png" alt="Voice entry">
+                </div>
+                <div class="feature-description">
+                    <h3>Voice Input</h3>
+                    <p>Tap <strong>Voice Log</strong> and speak naturally: "Adenosine 12 mg IV push" - MedicLog parses medication, dose, and route automatically.</p>
+                    <p>Works completely offline using on-device speech recognition. No internet required.</p>
+                    <p>Custom aliases let you train the app to recognize your pronunciation ("epi" vs "epinephrine").</p>
                 </div>
             </div>
-
-            <ul>
-                <li><strong>Natural Language:</strong> Say "Epi one milligram IV push" and MedicLog logs it correctly</li>
-                <li><strong>Custom Aliases:</strong> Train the app to recognize your pronunciation or abbreviations ("Epi" vs "Epinephrine")</li>
-                <li><strong>Noise Filtering:</strong> Optimized for noisy ambulance environments with siren and road noise filtering</li>
-                <li><strong>Confirmation Feedback:</strong> Audio and haptic confirmation so you know your entry was captured</li>
-                <li><strong>Works Offline:</strong> Voice recognition runs entirely on-device, no internet required</li>
-            </ul>
         </section>
 
+        <!-- Apple Watch -->
         <section class="section" id="watch">
-            <h2>Apple Watch App</h2>
-            <p>Your MedicLog companion right on your wrist. Perfect for when pulling out your phone isn't practical.</p>
+            <h2>Apple Watch</h2>
+            <p>Your MedicLog companion on your wrist. Perfect when pulling out your phone isn't practical.</p>
 
-            <!-- Watch screenshots -->
-            <div class="screenshot-gallery hero">
-                <div class="screenshot-item watch">
+            <div class="feature-row">
+                <div class="feature-screenshot watch">
                     <img src="screenshots/watch-timers.png" alt="Watch timer display">
                 </div>
-            </div>
-
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>Timer Display</h3>
-                    <p>See all active medication timers with time remaining. Haptic alerts keep you informed without looking.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Quick Entry</h3>
-                    <p>Log common medications and vitals directly from your wrist with simplified quick-tap buttons.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Voice Input</h3>
-                    <p>Raise to speak and log entries hands-free. Same natural language processing as the iPhone app.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Complications</h3>
-                    <p>Add MedicLog to your watch face for instant access to current call status and next timer alert.</p>
+                <div class="feature-description">
+                    <h3>Watch Timers</h3>
+                    <p>See all active medication timers on your wrist. Haptic alerts keep you informed without looking.</p>
+                    <p>When a timer expires, double-tap for options or <strong>shake your wrist to dismiss</strong>.</p>
+                    <p>Voice Log button for hands-free entry directly from the watch.</p>
                 </div>
             </div>
         </section>
 
-        <section class="section" id="sharing">
-            <h2>Encrypted Sharing</h2>
-            <p>Share patient care records securely between medics, across devices, or with receiving facilities.</p>
+        <!-- iPad Support -->
+        <section class="section" id="ipad">
+            <h2>iPad Support</h2>
+            <p>MedicLog works great on iPad with the same features and more screen space.</p>
 
-            <!-- QR sharing screenshot -->
-            <div class="screenshot-gallery hero">
-                <div class="screenshot-item phone">
-                    <img src="screenshots/09-qr-share.png" alt="QR code sharing screen">
+            <div class="feature-row">
+                <div class="feature-screenshot tablet">
+                    <img src="screenshots/ipad-active-call.png" alt="iPad active call">
+                </div>
+                <div class="feature-description">
+                    <h3>iPad Layout</h3>
+                    <p>Full active call view optimized for iPad's larger screen. See more log entries at once.</p>
+                    <p>Same quick-tap buttons, same timers, same voice logging. Everything syncs across your devices.</p>
+                    <p>Great for supervisors reviewing calls or training scenarios.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sharing & History -->
+        <section class="section" id="sharing">
+            <h2>Sharing &amp; History</h2>
+            <p>Share patient care records securely and review past calls.</p>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <img src="screenshots/09-qr-share.png" alt="Share and export menu">
+                </div>
+                <div class="feature-description">
+                    <h3>Share &amp; Export</h3>
+                    <p><strong>AirDrop</strong> for instant secure transfer to another iOS device. <strong>QR Code</strong> for quick sharing.</p>
+                    <p><strong>Email/SMS</strong> sends encrypted with code sent separately. <strong>Photo Handoff</strong> displays for the receiving crew to photograph.</p>
+                    <p><strong>Redact patient info</strong> toggle replaces names/DOB with [REDACTED] for privacy-safe sharing.</p>
                 </div>
             </div>
 
-            <ul>
-                <li><strong>End-to-End Encryption:</strong> All shared data is encrypted before leaving your device using industry-standard encryption</li>
-                <li><strong>QR Code Transfer:</strong> Generate a QR code to share the current call with a partner's device instantly</li>
-                <li><strong>Cross-Platform:</strong> Share between iOS devices now, Android coming soon</li>
-                <li><strong>No Cloud Required:</strong> Data transfers directly between devices via local network when possible</li>
-                <li><strong>Audit Trail:</strong> Track who accessed what data and when for compliance requirements</li>
-            </ul>
-
-            <div class="highlight-box">
-                <p><strong>Privacy First:</strong> Shared data is never stored on any server. Transfer happens directly between devices or via temporary encrypted relay that cannot read the contents.</p>
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <img src="screenshots/08-call-history.png" alt="Call history">
+                </div>
+                <div class="feature-description">
+                    <h3>Call History</h3>
+                    <p>Review past calls from the History tab. See call duration, entry count, and patient info at a glance.</p>
+                    <p>Tap any call to view full details, export records, or resume to add more entries.</p>
+                    <p>All data stays on your device - no cloud sync, no account required.</p>
+                </div>
             </div>
         </section>
 
