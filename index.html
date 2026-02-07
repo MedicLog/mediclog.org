@@ -6,31 +6,20 @@
     <title>MedicLog — EMS Call Logging</title>
     <meta name="description" content="Real-time patient care documentation for EMS first responders. Coming soon to iOS and Android.">
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
-            background: #0a0e1a;
-            color: #e8ecf1;
-            min-height: 100vh;
+        /* Homepage-specific styles */
+        .hero {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 640px;
+            min-height: calc(100vh - 200px);
             text-align: center;
+            padding: 3rem 2rem;
         }
 
-        .icon {
+        .hero-icon {
             width: 128px;
             height: 128px;
             border-radius: 28px;
@@ -38,14 +27,14 @@
             box-shadow: 0 8px 32px rgba(33, 150, 243, 0.3);
         }
 
-        h1 {
+        .hero h1 {
             font-size: 2.5rem;
             font-weight: 700;
             letter-spacing: -0.02em;
             margin-bottom: 0.5rem;
         }
 
-        .tagline {
+        .hero .tagline {
             font-size: 1.25rem;
             color: #90a4ae;
             margin-bottom: 2.5rem;
@@ -78,25 +67,26 @@
             fill: currentColor;
         }
 
-        .features {
+        .hero-features {
             text-align: left;
-            margin-bottom: 3rem;
+            max-width: 480px;
+            margin-bottom: 2rem;
         }
 
-        .features ul {
+        .hero-features ul {
             list-style: none;
             display: grid;
             gap: 0.75rem;
         }
 
-        .features li {
+        .hero-features li {
             font-size: 1rem;
             color: #90a4ae;
             padding-left: 1.75rem;
             position: relative;
         }
 
-        .features li::before {
+        .hero-features li::before {
             content: '';
             position: absolute;
             left: 0;
@@ -107,30 +97,34 @@
             border-radius: 50%;
         }
 
-        .contact {
-            margin-top: 1rem;
-        }
-
-        .contact a {
-            color: #2196f3;
-            text-decoration: none;
-            font-size: 0.95rem;
-        }
-
-        .contact a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            margin-top: 4rem;
-            font-size: 0.8rem;
-            color: #455a64;
+        .hero-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="icon.png" alt="MedicLog" class="icon">
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="icon.png" alt="MedicLog">
+                MedicLog
+            </a>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+            <div class="nav-links">
+                <a href="docs.html">Docs</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="faq.html">FAQ</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <img src="icon.png" alt="MedicLog" class="hero-icon">
         <h1>MedicLog</h1>
         <p class="tagline">Real-time patient care documentation<br>for EMS first responders</p>
 
@@ -145,7 +139,7 @@
             </span>
         </div>
 
-        <div class="features">
+        <div class="hero-features">
             <ul>
                 <li>Voice-first logging designed for gloved hands in moving ambulances</li>
                 <li>Medication timers with haptic alerts at 30s, 10s, and expiration</li>
@@ -155,11 +149,18 @@
             </ul>
         </div>
 
+        <div class="hero-links">
+            <a href="docs.html" class="btn">View Documentation</a>
+            <a href="tutorial.html" class="btn btn-outline">Start Tutorial</a>
+        </div>
+
         <div class="contact">
             <a href="https://github.com/MedicLog/mediclog-support/issues">Bug Reports &amp; Feature Requests</a>
         </div>
-    </div>
+    </main>
 
-    <footer>&copy; 2026 MedicLog</footer>
+    <footer>
+        <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
+    </footer>
 </body>
 </html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ — MedicLog</title>
+    <meta name="description" content="Frequently asked questions about MedicLog: offline usage, data privacy, backup options, supported devices, and more.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="icon.png" alt="MedicLog">
+                MedicLog
+            </a>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+            <div class="nav-links">
+                <a href="docs.html">Docs</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="faq.html" class="active">FAQ</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1>Frequently Asked Questions</h1>
+            <p class="subtitle">Quick answers to common questions</p>
+        </header>
+
+        <section class="section">
+            <h2>General</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Does MedicLog work offline?
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, MedicLog is designed to work completely offline. All features including voice recognition run entirely on your device. You never need an internet connection to log calls, use timers, or access your data. The app was built specifically for EMS environments where cellular coverage is unreliable.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    What devices are supported?
+                </button>
+                <div class="faq-answer">
+                    <p><strong>iOS:</strong> iPhone running iOS 17 or later, iPad running iPadOS 17 or later, Apple Watch running watchOS 10 or later.</p>
+                    <p><strong>Android:</strong> Coming soon. We're actively developing the Android version with feature parity planned.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Is MedicLog free?
+                </button>
+                <div class="faq-answer">
+                    <p>MedicLog is a free app with no in-app purchases, subscriptions, or ads. It's built by EMS professionals for EMS professionals.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Do I need to create an account?
+                </button>
+                <div class="faq-answer">
+                    <p>No. MedicLog requires no account, no login, and no personal information. Just download and start using it. This is intentional—we believe your patient care data should stay on your device, not on our servers.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Data & Privacy</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Where is my data stored?
+                </button>
+                <div class="faq-answer">
+                    <p>All data is stored locally on your device only. Nothing is uploaded to any cloud server. When you share a call via QR code, data transfers directly between devices using end-to-end encryption—it never passes through our servers in readable form.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Is MedicLog HIPAA compliant?
+                </button>
+                <div class="faq-answer">
+                    <p>MedicLog is designed with privacy as a core principle. Because we never receive, store, or have access to your patient data, there is no covered data for us to protect. Your data stays entirely on your device. See our <a href="privacy.html">Privacy page</a> for complete details on our approach to data handling and HIPAA considerations.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How do I back up my data?
+                </button>
+                <div class="faq-answer">
+                    <p>MedicLog data is included in your standard iPhone/iPad backup (iCloud or local iTunes backup). You can also export individual calls as PDF or JSON files to save to your preferred location. We recommend enabling iCloud backup for automatic protection.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Can I export my data?
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. Each call can be exported as:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li><strong>PDF:</strong> Formatted patient care report suitable for printing or sharing with facilities</li>
+                        <li><strong>JSON:</strong> Machine-readable format for integration with ePCR systems</li>
+                        <li><strong>Share Link:</strong> Encrypted QR code for device-to-device transfer</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    What happens if I delete the app?
+                </button>
+                <div class="faq-answer">
+                    <p>Deleting the app removes all local data from your device. If you have an iCloud backup, you can restore your data by reinstalling the app and restoring from backup. We recommend exporting important calls before deleting the app.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Features</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Does voice recognition require internet?
+                </button>
+                <div class="faq-answer">
+                    <p>No. Voice recognition runs entirely on-device using Apple's on-device speech recognition. This means it works without any internet connection, and your voice data never leaves your device. It's optimized for noisy ambulance environments.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Can I customize the medication list?
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. You can add, remove, or modify medications in Settings. Each medication can have custom default doses, timer intervals, and voice aliases. This lets you match MedicLog to your specific protocols and preferences.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How do I share a call with my partner?
+                </button>
+                <div class="faq-answer">
+                    <p>Tap the Share button on any call to generate a QR code. Your partner scans it with their MedicLog app, and the call syncs to their device instantly. The transfer is end-to-end encrypted and works even without internet (via local WiFi or Bluetooth).</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Does the Apple Watch app work independently?
+                </button>
+                <div class="faq-answer">
+                    <p>The Watch app syncs with your iPhone but can function independently for quick entries and timer viewing. For full functionality including voice logging and complete call review, your iPhone should be nearby. Timer haptic alerts work even when your iPhone is in your pocket.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Troubleshooting</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Voice recognition isn't working well. How can I improve it?
+                </button>
+                <div class="faq-answer">
+                    <p>Try these steps:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Train custom voice aliases in Settings for medications you use frequently</li>
+                        <li>Speak clearly and at a normal pace—no need to shout</li>
+                        <li>Hold the device or Watch closer to your mouth in very noisy environments</li>
+                        <li>Make sure microphone permissions are enabled for MedicLog</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Timer haptics aren't working on my Watch. What should I check?
+                </button>
+                <div class="faq-answer">
+                    <p>Verify these settings:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Watch app: Settings > Sounds & Haptics > Haptic Alerts is ON</li>
+                        <li>MedicLog Watch settings: Timer haptics enabled</li>
+                        <li>Do Not Disturb / Focus mode is not blocking alerts</li>
+                        <li>Watch is paired and connected to your iPhone</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How do I report a bug or request a feature?
+                </button>
+                <div class="faq-answer">
+                    <p>Visit our <a href="https://github.com/MedicLog/mediclog-support/issues">GitHub support page</a> to submit bug reports or feature requests. Please include your device model and iOS version when reporting bugs. We actively monitor and respond to all submissions.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section text-center">
+            <p class="text-muted">Still have questions? <a href="https://github.com/MedicLog/mediclog-support/issues">Open a support ticket</a> and we'll help you out.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
+    </footer>
+</body>
+</html>
