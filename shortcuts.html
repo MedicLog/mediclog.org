@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Shortcuts Setup Guide — MedicLog</title>
+    <meta name="description" content="Learn how to automate MedicLog with iOS Shortcuts. Set up dispatch SMS triggers, quick status updates, and more.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            background: #0a0e1a;
+            color: #e8ecf1;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #2196f3;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #1a2332;
+            position: sticky;
+            top: 0;
+            background: #0a0e1a;
+            z-index: 100;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #e8ecf1;
+            text-decoration: none;
+        }
+
+        .header-brand:hover {
+            text-decoration: none;
+        }
+
+        .header-brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        .header-brand span {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .header-nav a {
+            color: #90a4ae;
+            font-size: 0.95rem;
+        }
+
+        .header-nav a:hover {
+            color: #e8ecf1;
+            text-decoration: none;
+        }
+
+        /* Main content */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid #1a2332;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #90a4ae;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #e8ecf1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h2 .section-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #2196f3;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: #b0bec5;
+        }
+
+        p {
+            color: #90a4ae;
+            margin-bottom: 1rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            color: #90a4ae;
+            margin-bottom: 0.5rem;
+        }
+
+        li strong {
+            color: #e8ecf1;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #1a2332;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e8ecf1;
+            margin-bottom: 0.75rem;
+        }
+
+        .card p {
+            margin-bottom: 0.5rem;
+        }
+
+        .card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Recipe cards */
+        .recipe {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(33, 150, 243, 0.02));
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+
+        .recipe-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-icon {
+            width: 40px;
+            height: 40px;
+            background: #2196f3;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .recipe-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+
+        .recipe-name {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #e8ecf1;
+        }
+
+        .recipe-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .recipe-label {
+            font-weight: 600;
+            color: #2196f3;
+            min-width: 70px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .recipe-value {
+            color: #b0bec5;
+        }
+
+        /* Intent cards */
+        .intent-card {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .intent-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(33, 150, 243, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .intent-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #2196f3;
+        }
+
+        .intent-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e8ecf1;
+            margin-bottom: 0.25rem;
+        }
+
+        .intent-content p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .intent-content code {
+            font-size: 0.8rem;
+            color: #78909c;
+            background: rgba(0,0,0,0.2);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        /* Steps */
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            counter-increment: step;
+            width: 32px;
+            height: 32px;
+            background: rgba(33, 150, 243, 0.15);
+            border: 2px solid #2196f3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #2196f3;
+            flex-shrink: 0;
+        }
+
+        .step-num::before {
+            content: counter(step);
+        }
+
+        .step-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e8ecf1;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Code blocks */
+        code {
+            font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #80cbc4;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #1a2332;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #80cbc4;
+        }
+
+        /* Alert boxes */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .alert-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        .alert-info {
+            background: rgba(33, 150, 243, 0.1);
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+
+        .alert-info .alert-icon {
+            fill: #2196f3;
+        }
+
+        .alert-warning {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .alert-warning .alert-icon {
+            fill: #ff9800;
+        }
+
+        .alert-content {
+            color: #b0bec5;
+        }
+
+        .alert-content strong {
+            color: #e8ecf1;
+        }
+
+        /* Troubleshooting */
+        .troubleshoot-item {
+            border-bottom: 1px solid #1a2332;
+            padding: 1rem 0;
+        }
+
+        .troubleshoot-item:last-child {
+            border-bottom: none;
+        }
+
+        .troubleshoot-q {
+            font-weight: 600;
+            color: #e8ecf1;
+            margin-bottom: 0.5rem;
+        }
+
+        .troubleshoot-a {
+            color: #90a4ae;
+        }
+
+        /* Table of contents */
+        .toc {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #1a2332;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-weight: 600;
+            color: #e8ecf1;
+            margin-bottom: 0.75rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc a {
+            color: #90a4ae;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc a:hover {
+            color: #2196f3;
+            text-decoration: none;
+        }
+
+        .toc-num {
+            color: #546e7a;
+            font-weight: 600;
+            min-width: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #1a2332;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #455a64;
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            .hero {
+                padding: 2rem 0;
+            }
+
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.25rem;
+            }
+
+            .recipe-row {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .recipe-label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="header-brand">
+            <img src="icon.png" alt="MedicLog">
+            <span>MedicLog</span>
+        </a>
+        <nav class="header-nav">
+            <a href="index.html">Home</a>
+            <a href="shortcuts.html">Shortcuts</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="hero">
+            <h1>iOS Shortcuts Setup Guide</h1>
+            <p>Automate your EMS workflow by connecting MedicLog to iOS Shortcuts. Set up triggers for dispatch notifications, quick status updates, and more.</p>
+        </div>
+
+        <nav class="toc">
+            <div class="toc-title">On This Page</div>
+            <ul>
+                <li><a href="#getting-started"><span class="toc-num">1.</span> Getting Started</a></li>
+                <li><a href="#setup-guide"><span class="toc-num">2.</span> Step-by-Step Setup</a></li>
+                <li><a href="#recipes"><span class="toc-num">3.</span> Automation Recipes</a></li>
+                <li><a href="#actions"><span class="toc-num">4.</span> Available Actions</a></li>
+                <li><a href="#troubleshooting"><span class="toc-num">5.</span> Troubleshooting</a></li>
+            </ul>
+        </nav>
+
+        <!-- Section 1: Getting Started -->
+        <section id="getting-started">
+            <h2><span class="section-num">1</span> Getting Started</h2>
+
+            <h3>What are iOS Shortcuts?</h3>
+            <p>iOS Shortcuts is Apple's built-in automation app that lets you create custom workflows. You can trigger actions automatically (like when you receive a text message) or manually with a single tap or voice command.</p>
+
+            <h3>Why Use Shortcuts with MedicLog?</h3>
+            <p>In emergency situations, every second counts. Shortcuts let you:</p>
+            <ul>
+                <li><strong>Auto-start calls</strong> when you receive a dispatch SMS</li>
+                <li><strong>Log status updates</strong> with a single tap or NFC tag</li>
+                <li><strong>Reduce manual input</strong> while wearing gloves or in a moving ambulance</li>
+                <li><strong>Create consistent workflows</strong> that work every time</li>
+            </ul>
+
+            <h3>Prerequisites</h3>
+            <div class="card">
+                <ul>
+                    <li><strong>iOS 16 or later</strong> (iOS 17+ recommended for best experience)</li>
+                    <li><strong>MedicLog installed</strong> from the App Store</li>
+                    <li><strong>Shortcuts app</strong> (pre-installed on all iPhones)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 2: Setup Guide -->
+        <section id="setup-guide">
+            <h2><span class="section-num">2</span> Step-by-Step Setup</h2>
+            <p>Let's create a basic automation that starts a new call when you receive a dispatch message.</p>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Open the Shortcuts App</h4>
+                        <p>Find and tap the Shortcuts app on your home screen. It has a colorful icon with overlapping squares.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Go to the Automation Tab</h4>
+                        <p>Tap <strong>Automation</strong> at the bottom of the screen. This is where you create triggers that run automatically.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Create New Automation</h4>
+                        <p>Tap the <strong>+</strong> button in the top right corner, then tap <strong>Create Personal Automation</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Choose Your Trigger</h4>
+                        <p>Scroll down and select <strong>Message</strong>. Configure it to trigger when you receive a message from your dispatch number containing specific keywords like "Respond to" or "Call at".</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Add MedicLog Action</h4>
+                        <p>Tap <strong>Add Action</strong>, then search for "MedicLog". Select the action you want, such as <strong>Start New Call</strong> or <strong>Receive Run Number</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Configure the Action</h4>
+                        <p>Some actions have parameters you can fill in. For <strong>Receive Run Number</strong>, you can pass the message content so MedicLog can extract the address automatically.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Enable "Run Without Asking"</h4>
+                        <p>Before saving, toggle off <strong>Ask Before Running</strong>. This is critical for emergency automations to work instantly without confirmation.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Save and Test</h4>
+                        <p>Tap <strong>Done</strong> to save. Test by having someone send you a message matching your trigger criteria.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <svg class="alert-icon" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+                <div class="alert-content">
+                    <strong>Important:</strong> For message-based automations, you must specify a sender. iOS requires this for security. Use your dispatch center's phone number.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Recipes -->
+        <section id="recipes">
+            <h2><span class="section-num">3</span> Automation Recipes</h2>
+            <p>Here are ready-to-use automation ideas for common EMS workflows.</p>
+
+            <div class="card recipe">
+                <div class="recipe-header">
+                    <div class="recipe-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                    </div>
+                    <div class="recipe-name">Dispatch SMS Auto-Start</div>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Trigger</span>
+                    <span class="recipe-value">Receive SMS from dispatch number containing "Respond to"</span>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Action</span>
+                    <span class="recipe-value">Receive Run Number with message content passed as parameter</span>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Result</span>
+                    <span class="recipe-value">MedicLog opens with a new call, address pre-filled from the dispatch message</span>
+                </div>
+            </div>
+
+            <div class="card recipe">
+                <div class="recipe-header">
+                    <div class="recipe-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    </div>
+                    <div class="recipe-name">Quick Status Update via NFC</div>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Trigger</span>
+                    <span class="recipe-value">NFC tag scan (place tags on your rig's dashboard)</span>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Action</span>
+                    <span class="recipe-value">Log Entry with status text (e.g., "On Scene", "Transporting", "At Hospital")</span>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Result</span>
+                    <span class="recipe-value">Status logged to the active call with a single tap, no screen interaction needed</span>
+                </div>
+            </div>
+
+            <div class="card recipe">
+                <div class="recipe-header">
+                    <div class="recipe-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    </div>
+                    <div class="recipe-name">Voice-Triggered Log Entry</div>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Trigger</span>
+                    <span class="recipe-value">Say "Hey Siri, log vitals" or add to home screen for one-tap access</span>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Action</span>
+                    <span class="recipe-value">Log Entry action in MedicLog</span>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Result</span>
+                    <span class="recipe-value">MedicLog opens ready to record, hands-free activation</span>
+                </div>
+            </div>
+
+            <div class="card recipe">
+                <div class="recipe-header">
+                    <div class="recipe-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z"/></svg>
+                    </div>
+                    <div class="recipe-name">End of Call Workflow</div>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Trigger</span>
+                    <span class="recipe-value">Manual shortcut (add to home screen or widget)</span>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Action</span>
+                    <span class="recipe-value">End Current Call in MedicLog</span>
+                </div>
+                <div class="recipe-row">
+                    <span class="recipe-label">Result</span>
+                    <span class="recipe-value">Call is closed and ready for documentation review</span>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <svg class="alert-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v4z"/></svg>
+                <div class="alert-content">
+                    <strong>Pro Tip:</strong> Create multiple NFC tags with different pre-configured status entries. Label them clearly and mount them where you can tap them easily during a call.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Available Actions -->
+        <section id="actions">
+            <h2><span class="section-num">4</span> Available MedicLog Actions</h2>
+            <p>These are the Shortcuts actions currently available in MedicLog. Search for "MedicLog" in the Shortcuts app to find them.</p>
+
+            <div class="card intent-card">
+                <div class="intent-icon">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                </div>
+                <div class="intent-content">
+                    <h4>Start New Call</h4>
+                    <p>Begins a new call session in MedicLog. Use this when you're dispatched to a new incident.</p>
+                    <code>StartCallIntent</code>
+                </div>
+            </div>
+
+            <div class="card intent-card">
+                <div class="intent-icon">
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </div>
+                <div class="intent-content">
+                    <h4>End Current Call</h4>
+                    <p>Closes the active call session. The call data remains saved for later review and export.</p>
+                    <code>EndCallIntent</code>
+                </div>
+            </div>
+
+            <div class="card intent-card">
+                <div class="intent-icon">
+                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                </div>
+                <div class="intent-content">
+                    <h4>Log Entry</h4>
+                    <p>Adds a new entry to the active call. You can pass text content to pre-fill the entry.</p>
+                    <code>LogEntryIntent</code>
+                </div>
+            </div>
+
+            <div class="card intent-card">
+                <div class="intent-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                </div>
+                <div class="intent-content">
+                    <h4>Receive Run Number</h4>
+                    <p>Receives dispatch information from an SMS automation. Parses the message to extract run number and address.</p>
+                    <code>ReceiveRunNumberIntent</code>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <svg class="alert-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v4z"/></svg>
+                <div class="alert-content">
+                    <strong>Note:</strong> More Shortcuts actions are coming in future updates. Features like "Start Timer" and "Export PCR" are planned but not yet available via Shortcuts.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Troubleshooting -->
+        <section id="troubleshooting">
+            <h2><span class="section-num">5</span> Troubleshooting</h2>
+
+            <div class="card">
+                <div class="troubleshoot-item">
+                    <div class="troubleshoot-q">"My automation doesn't run automatically"</div>
+                    <div class="troubleshoot-a">Make sure <strong>Ask Before Running</strong> is turned off in the automation settings. iOS requires confirmation by default for many triggers. Also verify the trigger conditions match exactly (sender number, keywords, etc.).</div>
+                </div>
+
+                <div class="troubleshoot-item">
+                    <div class="troubleshoot-q">"MedicLog doesn't appear in Shortcuts actions"</div>
+                    <div class="troubleshoot-a">Ensure MedicLog is installed and has been opened at least once. Try restarting your iPhone. If still missing, delete and reinstall MedicLog from the App Store.</div>
+                </div>
+
+                <div class="troubleshoot-item">
+                    <div class="troubleshoot-q">"The action runs but MedicLog doesn't open"</div>
+                    <div class="troubleshoot-a">Some actions work in the background. If you need MedicLog to open, add an "Open App" action before your MedicLog action, or use actions that require the app to be in the foreground.</div>
+                </div>
+
+                <div class="troubleshoot-item">
+                    <div class="troubleshoot-q">"Data from the message isn't passed correctly"</div>
+                    <div class="troubleshoot-a">When setting up the action, make sure you're using the Shortcut Input variable (the message content) rather than typing static text. Tap the variable button and select the message body from the trigger.</div>
+                </div>
+
+                <div class="troubleshoot-item">
+                    <div class="troubleshoot-q">"My NFC automation stopped working"</div>
+                    <div class="troubleshoot-a">NFC automations require your iPhone to be unlocked. If the screen is off, you'll need to tap the NFC tag, then authenticate. Consider using a time-based trigger or manual shortcut as a backup.</div>
+                </div>
+
+                <div class="troubleshoot-item">
+                    <div class="troubleshoot-q">"Siri doesn't recognize my shortcut name"</div>
+                    <div class="troubleshoot-a">Give your shortcut a simple, distinct name that's easy to pronounce. Avoid names that sound like common phrases. You can also add alternative phrases in the shortcut's settings.</div>
+                </div>
+            </div>
+
+            <h3>Still Having Issues?</h3>
+            <p>If you're still having trouble, please <a href="https://github.com/MedicLog/mediclog-support/issues">open an issue on GitHub</a> with details about your automation setup and what's not working. Include your iOS version and MedicLog version.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MedicLog</p>
+    </footer>
+</body>
+</html>
