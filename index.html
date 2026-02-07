@@ -126,9 +126,47 @@
             font-size: 0.8rem;
             color: #455a64;
         }
+
+        /* Header for nav consistency */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 1rem 2rem;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .header-nav a {
+            color: #90a4ae;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .header-nav a:hover {
+            color: #e8ecf1;
+        }
+
+        @media (max-width: 640px) {
+            .header {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <header class="header">
+        <nav class="header-nav">
+            <a href="shortcuts.html">Shortcuts Guide</a>
+        </nav>
+    </header>
+
     <div class="container">
         <img src="icon.png" alt="MedicLog" class="icon">
         <h1>MedicLog</h1>
