@@ -6,192 +6,52 @@
     <title>iOS Shortcuts Setup Guide — MedicLog</title>
     <meta name="description" content="Learn how to automate MedicLog with iOS Shortcuts. Set up dispatch SMS triggers, quick status updates, and more.">
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
-            background: #0a0e1a;
-            color: #e8ecf1;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        a {
-            color: #2196f3;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid #1a2332;
-            position: sticky;
-            top: 0;
-            background: #0a0e1a;
-            z-index: 100;
-        }
-
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: #e8ecf1;
-            text-decoration: none;
-        }
-
-        .header-brand:hover {
-            text-decoration: none;
-        }
-
-        .header-brand img {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-        }
-
-        .header-brand span {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .header-nav {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .header-nav a {
-            color: #90a4ae;
-            font-size: 0.95rem;
-        }
-
-        .header-nav a:hover {
-            color: #e8ecf1;
-            text-decoration: none;
-        }
-
-        /* Main content */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .hero {
+        /* Shortcuts page specific styles */
+        .hero-shortcuts {
             text-align: center;
             padding: 3rem 0;
-            border-bottom: 1px solid #1a2332;
+            border-bottom: 1px solid var(--border);
             margin-bottom: 3rem;
         }
 
-        .hero h1 {
+        .hero-shortcuts h1 {
             font-size: 2.25rem;
             font-weight: 700;
             letter-spacing: -0.02em;
             margin-bottom: 1rem;
         }
 
-        .hero p {
+        .hero-shortcuts p {
             font-size: 1.1rem;
-            color: #90a4ae;
+            color: var(--text-muted);
             max-width: 600px;
             margin: 0 auto;
         }
 
-        /* Sections */
-        section {
-            margin-bottom: 3rem;
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #e8ecf1;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        h2 .section-num {
+        /* Numbered section headers */
+        .section h2 .section-num {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 32px;
             height: 32px;
-            background: #2196f3;
+            background: var(--accent);
             color: white;
             border-radius: 50%;
             font-size: 0.9rem;
             font-weight: 700;
-        }
-
-        h3 {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin: 1.5rem 0 0.75rem;
-            color: #b0bec5;
-        }
-
-        p {
-            color: #90a4ae;
-            margin-bottom: 1rem;
-        }
-
-        /* Lists */
-        ul, ol {
-            margin: 1rem 0;
-            padding-left: 1.5rem;
-        }
-
-        li {
-            color: #90a4ae;
-            margin-bottom: 0.5rem;
-        }
-
-        li strong {
-            color: #e8ecf1;
-        }
-
-        /* Cards */
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #1a2332;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #e8ecf1;
-            margin-bottom: 0.75rem;
-        }
-
-        .card p {
-            margin-bottom: 0.5rem;
-        }
-
-        .card p:last-child {
-            margin-bottom: 0;
+            margin-right: 0.5rem;
         }
 
         /* Recipe cards */
         .recipe {
-            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(33, 150, 243, 0.02));
-            border: 1px solid rgba(33, 150, 243, 0.3);
+            background: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
         }
 
         .recipe-header {
@@ -204,7 +64,7 @@
         .recipe-icon {
             width: 40px;
             height: 40px;
-            background: #2196f3;
+            background: var(--accent);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -220,7 +80,7 @@
         .recipe-name {
             font-size: 1.15rem;
             font-weight: 600;
-            color: #e8ecf1;
+            color: var(--text-primary);
         }
 
         .recipe-row {
@@ -232,7 +92,7 @@
 
         .recipe-label {
             font-weight: 600;
-            color: #2196f3;
+            color: var(--accent);
             min-width: 70px;
             font-size: 0.85rem;
             text-transform: uppercase;
@@ -240,7 +100,7 @@
         }
 
         .recipe-value {
-            color: #b0bec5;
+            color: var(--text-secondary);
         }
 
         /* Intent cards */
@@ -248,12 +108,17 @@
             display: flex;
             gap: 1rem;
             align-items: flex-start;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
         }
 
         .intent-icon {
             width: 44px;
             height: 44px;
-            background: rgba(33, 150, 243, 0.15);
+            background: var(--highlight-bg);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -264,25 +129,25 @@
         .intent-icon svg {
             width: 24px;
             height: 24px;
-            fill: #2196f3;
+            fill: var(--accent);
         }
 
         .intent-content h4 {
             font-size: 1rem;
             font-weight: 600;
-            color: #e8ecf1;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
 
         .intent-content p {
             font-size: 0.95rem;
-            margin-bottom: 0;
+            margin-bottom: 0.5rem;
         }
 
         .intent-content code {
             font-size: 0.8rem;
-            color: #78909c;
-            background: rgba(0,0,0,0.2);
+            color: var(--text-muted);
+            background: var(--code-bg);
             padding: 0.1rem 0.4rem;
             border-radius: 4px;
         }
@@ -303,15 +168,15 @@
             counter-increment: step;
             width: 32px;
             height: 32px;
-            background: rgba(33, 150, 243, 0.15);
-            border: 2px solid #2196f3;
+            background: var(--highlight-bg);
+            border: 2px solid var(--accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             font-size: 0.9rem;
-            color: #2196f3;
+            color: var(--accent);
             flex-shrink: 0;
         }
 
@@ -322,7 +187,7 @@
         .step-content h4 {
             font-size: 1rem;
             font-weight: 600;
-            color: #e8ecf1;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
 
@@ -334,16 +199,16 @@
         /* Code blocks */
         code {
             font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--code-bg);
             padding: 0.2rem 0.5rem;
             border-radius: 4px;
             font-size: 0.9em;
-            color: #80cbc4;
+            color: var(--accent);
         }
 
         pre {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid #1a2332;
+            background: var(--code-bg);
+            border: 1px solid var(--border);
             border-radius: 8px;
             padding: 1rem;
             overflow-x: auto;
@@ -353,7 +218,6 @@
         pre code {
             background: none;
             padding: 0;
-            color: #80cbc4;
         }
 
         /* Alert boxes */
@@ -373,12 +237,12 @@
         }
 
         .alert-info {
-            background: rgba(33, 150, 243, 0.1);
-            border: 1px solid rgba(33, 150, 243, 0.3);
+            background: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
         }
 
         .alert-info .alert-icon {
-            fill: #2196f3;
+            fill: var(--accent);
         }
 
         .alert-warning {
@@ -391,16 +255,16 @@
         }
 
         .alert-content {
-            color: #b0bec5;
+            color: var(--text-secondary);
         }
 
         .alert-content strong {
-            color: #e8ecf1;
+            color: var(--text-primary);
         }
 
         /* Troubleshooting */
         .troubleshoot-item {
-            border-bottom: 1px solid #1a2332;
+            border-bottom: 1px solid var(--border);
             padding: 1rem 0;
         }
 
@@ -410,18 +274,18 @@
 
         .troubleshoot-q {
             font-weight: 600;
-            color: #e8ecf1;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
         .troubleshoot-a {
-            color: #90a4ae;
+            color: var(--text-muted);
         }
 
         /* Table of contents */
         .toc {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #1a2332;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 2rem;
@@ -429,7 +293,7 @@
 
         .toc-title {
             font-weight: 600;
-            color: #e8ecf1;
+            color: var(--text-primary);
             margin-bottom: 0.75rem;
         }
 
@@ -441,63 +305,52 @@
 
         .toc li {
             margin-bottom: 0.5rem;
+            padding-left: 0;
+        }
+
+        .toc li::before {
+            display: none;
         }
 
         .toc a {
-            color: #90a4ae;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         .toc a:hover {
-            color: #2196f3;
+            color: var(--accent);
             text-decoration: none;
         }
 
         .toc-num {
-            color: #546e7a;
+            color: var(--text-muted);
             font-weight: 600;
             min-width: 1.5rem;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid #1a2332;
-            margin-top: 3rem;
+        /* Card override for this page */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
         }
 
-        footer p {
-            font-size: 0.85rem;
-            color: #455a64;
+        .card ul {
+            margin: 0;
         }
 
         /* Mobile */
         @media (max-width: 640px) {
-            .header {
-                padding: 1rem;
-            }
-
-            .header-nav {
-                display: none;
-            }
-
-            .container {
-                padding: 1.5rem;
-            }
-
-            .hero {
+            .hero-shortcuts {
                 padding: 2rem 0;
             }
 
-            .hero h1 {
+            .hero-shortcuts h1 {
                 font-size: 1.75rem;
-            }
-
-            h2 {
-                font-size: 1.25rem;
             }
 
             .recipe-row {
@@ -512,19 +365,25 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <a href="index.html" class="header-brand">
-            <img src="icon.png" alt="MedicLog">
-            <span>MedicLog</span>
-        </a>
-        <nav class="header-nav">
-            <a href="index.html">Home</a>
-            <a href="shortcuts.html">Shortcuts</a>
-        </nav>
-    </header>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="icon.png" alt="MedicLog">
+                MedicLog
+            </a>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+            <div class="nav-links">
+                <a href="docs.html">Docs</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="shortcuts.html" class="active">Shortcuts</a>
+                <a href="faq.html">FAQ</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
 
     <main class="container">
-        <div class="hero">
+        <div class="hero-shortcuts">
             <h1>iOS Shortcuts Setup Guide</h1>
             <p>Automate your EMS workflow by connecting MedicLog to iOS Shortcuts. Set up triggers for dispatch notifications, quick status updates, and more.</p>
         </div>
@@ -541,7 +400,7 @@
         </nav>
 
         <!-- Section 1: Getting Started -->
-        <section id="getting-started">
+        <section id="getting-started" class="section">
             <h2><span class="section-num">1</span> Getting Started</h2>
 
             <h3>What are iOS Shortcuts?</h3>
@@ -567,7 +426,7 @@
         </section>
 
         <!-- Section 2: Setup Guide -->
-        <section id="setup-guide">
+        <section id="setup-guide" class="section">
             <h2><span class="section-num">2</span> Step-by-Step Setup</h2>
             <p>Let's create a basic automation that starts a new call when you receive a dispatch message.</p>
 
@@ -646,11 +505,11 @@
         </section>
 
         <!-- Section 3: Recipes -->
-        <section id="recipes">
+        <section id="recipes" class="section">
             <h2><span class="section-num">3</span> Automation Recipes</h2>
             <p>Here are ready-to-use automation ideas for common EMS workflows.</p>
 
-            <div class="card recipe">
+            <div class="recipe">
                 <div class="recipe-header">
                     <div class="recipe-icon">
                         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
@@ -671,7 +530,7 @@
                 </div>
             </div>
 
-            <div class="card recipe">
+            <div class="recipe">
                 <div class="recipe-header">
                     <div class="recipe-icon">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
@@ -692,7 +551,7 @@
                 </div>
             </div>
 
-            <div class="card recipe">
+            <div class="recipe">
                 <div class="recipe-header">
                     <div class="recipe-icon">
                         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
@@ -713,7 +572,7 @@
                 </div>
             </div>
 
-            <div class="card recipe">
+            <div class="recipe">
                 <div class="recipe-header">
                     <div class="recipe-icon">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z"/></svg>
@@ -743,11 +602,11 @@
         </section>
 
         <!-- Section 4: Available Actions -->
-        <section id="actions">
+        <section id="actions" class="section">
             <h2><span class="section-num">4</span> Available MedicLog Actions</h2>
             <p>These are the Shortcuts actions currently available in MedicLog. Search for "MedicLog" in the Shortcuts app to find them.</p>
 
-            <div class="card intent-card">
+            <div class="intent-card">
                 <div class="intent-icon">
                     <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 </div>
@@ -758,7 +617,7 @@
                 </div>
             </div>
 
-            <div class="card intent-card">
+            <div class="intent-card">
                 <div class="intent-icon">
                     <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                 </div>
@@ -769,7 +628,7 @@
                 </div>
             </div>
 
-            <div class="card intent-card">
+            <div class="intent-card">
                 <div class="intent-icon">
                     <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
                 </div>
@@ -780,7 +639,7 @@
                 </div>
             </div>
 
-            <div class="card intent-card">
+            <div class="intent-card">
                 <div class="intent-icon">
                     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
                 </div>
@@ -800,7 +659,7 @@
         </section>
 
         <!-- Section 5: Troubleshooting -->
-        <section id="troubleshooting">
+        <section id="troubleshooting" class="section">
             <h2><span class="section-num">5</span> Troubleshooting</h2>
 
             <div class="card">
@@ -841,7 +700,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 MedicLog</p>
+        <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
     </footer>
 </body>
 </html>

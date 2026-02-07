@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Homepage-specific styles */
+        /* Homepage-specific styles - uses CSS vars from styles.css */
         .hero {
             display: flex;
             flex-direction: column;
@@ -36,7 +36,7 @@
 
         .hero .tagline {
             font-size: 1.25rem;
-            color: #90a4ae;
+            color: var(--text-muted);
             margin-bottom: 2.5rem;
             line-height: 1.5;
         }
@@ -54,11 +54,11 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.625rem 1.25rem;
-            border: 1px solid #2a3a4a;
+            border: 1px solid var(--border);
             border-radius: 12px;
             font-size: 0.95rem;
-            color: #b0bec5;
-            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
         }
 
         .badge svg {
@@ -86,6 +86,7 @@
         .beta-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 24px rgba(33, 150, 243, 0.5);
+            text-decoration: none;
         }
 
         .beta-btn svg {
@@ -108,7 +109,7 @@
 
         .hero-features li {
             font-size: 1rem;
-            color: #90a4ae;
+            color: var(--text-secondary);
             padding-left: 1.75rem;
             position: relative;
         }
@@ -120,7 +121,7 @@
             top: 0.5em;
             width: 8px;
             height: 8px;
-            background: #2196f3;
+            background: var(--accent);
             border-radius: 50%;
         }
 
@@ -132,35 +133,17 @@
             margin-bottom: 1rem;
         }
 
-        /* Header for nav consistency */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding: 1rem 2rem;
-            position: absolute;
-            top: 0;
-            right: 0;
+        .contact a {
+            color: var(--text-muted);
         }
 
-        .header-nav {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .header-nav a {
-            color: #90a4ae;
-            text-decoration: none;
-            font-size: 0.95rem;
-        }
-
-        .header-nav a:hover {
-            color: #e8ecf1;
+        .contact a:hover {
+            color: var(--accent);
         }
 
         @media (max-width: 640px) {
-            .header {
-                padding: 1rem;
+            .hero h1 {
+                font-size: 2rem;
             }
         }
     </style>
@@ -212,6 +195,18 @@
                 <li>Apple Watch companion for wrist-level timer and entry access</li>
                 <li>No account required, no cloud dependency, works offline</li>
             </ul>
+        </div>
+
+        <!-- Hero screenshots: Light and Dark mode side by side -->
+        <div class="screenshot-compare">
+            <div class="screenshot-item phone">
+                <img src="screenshots/01-active-call-light.png" alt="MedicLog in light mode">
+                <p class="screenshot-caption">Light Mode</p>
+            </div>
+            <div class="screenshot-item phone">
+                <img src="screenshots/01-active-call-dark.png" alt="MedicLog in dark mode">
+                <p class="screenshot-caption">Dark Mode</p>
+            </div>
         </div>
 
         <div class="hero-links">

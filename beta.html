@@ -6,53 +6,39 @@
     <title>Join the Beta — MedicLog</title>
     <meta name="description" content="Join the MedicLog beta program. Get early access to the EMS call logging app for iOS. Android coming soon.">
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
-            background: #0a0e1a;
-            color: #e8ecf1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* Beta page specific styles */
+        .beta-container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 2rem;
         }
 
-        .container {
-            max-width: 800px;
-            width: 100%;
-        }
-
-        .header {
+        .beta-header {
             text-align: center;
             margin-bottom: 3rem;
         }
 
-        .header a {
+        .beta-header a {
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 1rem;
         }
 
-        .icon {
+        .beta-header .icon {
             width: 64px;
             height: 64px;
             border-radius: 14px;
             box-shadow: 0 4px 16px rgba(33, 150, 243, 0.3);
         }
 
-        .header h1 {
+        .beta-header h1 {
             font-size: 2rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            color: #e8ecf1;
+            color: var(--text-primary);
         }
 
         .page-title {
@@ -60,18 +46,19 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
         .page-subtitle {
             text-align: center;
             font-size: 1.1rem;
-            color: #90a4ae;
+            color: var(--text-muted);
             margin-bottom: 3rem;
         }
 
         .platform-section {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #2a3a4a;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
@@ -93,6 +80,7 @@
         .platform-header h2 {
             font-size: 1.5rem;
             font-weight: 600;
+            color: var(--text-primary);
         }
 
         .platform-header .status {
@@ -147,6 +135,7 @@
         .testflight-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 24px rgba(33, 150, 243, 0.5);
+            text-decoration: none;
         }
 
         .testflight-btn svg {
@@ -162,13 +151,15 @@
         .instructions h3 {
             font-size: 1rem;
             font-weight: 600;
-            color: #b0bec5;
+            color: var(--text-secondary);
             margin-bottom: 0.75rem;
         }
 
         .instructions ol {
             list-style: none;
             counter-reset: steps;
+            padding: 0;
+            margin: 0;
         }
 
         .instructions li {
@@ -176,7 +167,7 @@
             padding-left: 2rem;
             position: relative;
             margin-bottom: 0.5rem;
-            color: #90a4ae;
+            color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.5;
         }
@@ -188,8 +179,8 @@
             top: 0;
             width: 1.5rem;
             height: 1.5rem;
-            background: rgba(33, 150, 243, 0.2);
-            color: #2196f3;
+            background: var(--highlight-bg);
+            color: var(--accent);
             border-radius: 50%;
             font-size: 0.8rem;
             font-weight: 600;
@@ -201,7 +192,7 @@
         .qr-section {
             text-align: center;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--bg-tertiary);
             border-radius: 12px;
         }
 
@@ -244,16 +235,16 @@
 
         .qr-label {
             font-size: 0.85rem;
-            color: #78909c;
+            color: var(--text-muted);
         }
 
-        /* Android section - muted styling */
+        /* Android section */
         .android-section {
             opacity: 0.7;
         }
 
         .android-section .platform-header svg {
-            fill: #78909c;
+            fill: var(--text-muted);
         }
 
         .android-content {
@@ -262,7 +253,7 @@
         }
 
         .android-content p {
-            color: #78909c;
+            color: var(--text-muted);
             margin-bottom: 1rem;
             font-size: 1rem;
             line-height: 1.6;
@@ -283,7 +274,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: #2196f3;
+            color: var(--accent);
             text-decoration: none;
             font-size: 0.95rem;
         }
@@ -300,8 +291,8 @@
 
         /* Beta tester info */
         .beta-info {
-            background: rgba(33, 150, 243, 0.08);
-            border: 1px solid rgba(33, 150, 243, 0.2);
+            background: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
@@ -311,18 +302,20 @@
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 1rem;
-            color: #64b5f6;
+            color: var(--accent);
         }
 
         .beta-info ul {
             list-style: none;
             display: grid;
             gap: 0.75rem;
+            padding: 0;
+            margin: 0;
         }
 
         .beta-info li {
             font-size: 0.95rem;
-            color: #90a4ae;
+            color: var(--text-muted);
             padding-left: 1.75rem;
             position: relative;
             line-height: 1.5;
@@ -335,7 +328,7 @@
             top: 0.5em;
             width: 8px;
             height: 8px;
-            background: #2196f3;
+            background: var(--accent);
             border-radius: 50%;
         }
 
@@ -344,7 +337,7 @@
             align-items: center;
             gap: 0.5rem;
             margin-top: 1rem;
-            color: #2196f3;
+            color: var(--accent);
             text-decoration: none;
             font-size: 0.95rem;
         }
@@ -365,20 +358,13 @@
         }
 
         .back-link a {
-            color: #78909c;
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 0.95rem;
         }
 
         .back-link a:hover {
-            color: #2196f3;
-        }
-
-        footer {
-            margin-top: 4rem;
-            font-size: 0.8rem;
-            color: #455a64;
-            text-align: center;
+            color: var(--accent);
         }
 
         @media (max-width: 600px) {
@@ -397,14 +383,24 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <a href="index.html">
-                <img src="icon.png" alt="MedicLog" class="icon">
-                <h1>MedicLog</h1>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="icon.png" alt="MedicLog">
+                MedicLog
             </a>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+            <div class="nav-links">
+                <a href="docs.html">Docs</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="shortcuts.html">Shortcuts</a>
+                <a href="faq.html">FAQ</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
         </div>
+    </nav>
 
+    <main class="beta-container">
         <h2 class="page-title">Join the Beta</h2>
         <p class="page-subtitle">Get early access to MedicLog and help shape the future of EMS documentation</p>
 
@@ -436,7 +432,7 @@
 
                 <div class="qr-section">
                     <div class="qr-code">
-                        <!-- QR code placeholder - will be replaced with actual QR when TestFlight link is finalized -->
+                        <!-- QR code placeholder -->
                         <div class="qr-placeholder">
                             <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm8-2v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm13 2h-2v2h2v2h2v-2h2v-2h-2v-2h2v-2h-2v2h-2v2zm0-6h2v2h-2v-2zm-4 4h2v4h-2v-4z"/></svg>
                             <span>QR code pending<br>TestFlight link</span>
@@ -458,7 +454,7 @@
             <div class="android-content">
                 <p>The Android version of MedicLog is under active development.<br>We're working hard to bring the same great experience to Android users.</p>
 
-                <div class="timeline">Expected: Q2 2025</div>
+                <div class="timeline">Expected: Q2 2026</div>
 
                 <p>Want to be notified when Android beta is available?</p>
 
@@ -476,7 +472,7 @@
                 <li>New builds are released frequently with improvements and new features</li>
                 <li>You may encounter bugs — please report them so we can fix them!</li>
                 <li>Your feedback directly shapes the final product</li>
-                <li>Beta access is free and does not require any commitment</li>
+                <li>Beta access is completely free and does not require any commitment</li>
             </ul>
             <a href="https://github.com/MedicLog/mediclog-support/issues" class="feedback-link">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
@@ -487,8 +483,10 @@
         <div class="back-link">
             <a href="index.html">&larr; Back to MedicLog</a>
         </div>
-    </div>
+    </main>
 
-    <footer>&copy; 2026 MedicLog</footer>
+    <footer>
+        <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
+    </footer>
 </body>
 </html>

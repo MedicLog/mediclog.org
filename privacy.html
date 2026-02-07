@@ -19,6 +19,7 @@
             <div class="nav-links">
                 <a href="docs.html">Docs</a>
                 <a href="tutorial.html">Tutorial</a>
+                <a href="shortcuts.html">Shortcuts</a>
                 <a href="faq.html">FAQ</a>
                 <a href="privacy.html" class="active">Privacy</a>
             </div>
@@ -45,6 +46,7 @@
             <p>MedicLog stores the following data <strong>locally on your device only</strong>:</p>
             <ul>
                 <li>Patient care records you create (vitals, medications, procedures, timestamps)</li>
+                <li>Patient identifying information if configured (name, date of birth)</li>
                 <li>Your custom settings and preferences</li>
                 <li>Voice recognition training data for custom aliases</li>
                 <li>Archived call history</li>
@@ -56,14 +58,22 @@
             <h2>What We Do NOT Collect</h2>
             <p>MedicLog does not collect, transmit, or have access to:</p>
             <ul>
-                <li>Patient information or protected health information (PHI)</li>
                 <li>Your name, email, phone number, or any personal identifiers</li>
-                <li>Location data or GPS coordinates</li>
                 <li>Voice recordings (speech is processed on-device and discarded)</li>
                 <li>Usage analytics or behavioral data</li>
                 <li>Device identifiers or advertising IDs</li>
             </ul>
             <p>We have no servers that receive your data. We cannot access your information because we never receive it.</p>
+        </section>
+
+        <section class="legal-section">
+            <h2>Location Data</h2>
+            <p>MedicLog uses your device's GPS for the following features:</p>
+            <ul>
+                <li><strong>Closest Hospital:</strong> When you tap "Find Hospital," MedicLog uses your current location to show nearby hospitals sorted by distance</li>
+                <li><strong>Navigation:</strong> When you select a hospital, MedicLog passes the address to your chosen mapping app (Apple Maps or Google Maps) for turn-by-turn directions</li>
+            </ul>
+            <p>Location data is used transiently for these features and is not stored or transmitted to our servers. The mapping application you choose handles navigation according to their own privacy policy.</p>
         </section>
 
         <section class="legal-section">
@@ -78,13 +88,17 @@
         </section>
 
         <section class="legal-section">
-            <h2>HIPAA Considerations</h2>
+            <h2>Patient Data & HIPAA Compliance</h2>
 
-            <div class="highlight-box">
-                <p><strong>Important:</strong> MedicLog is a documentation tool used on your personal or agency-issued device. We are not a Business Associate under HIPAA because we never receive, store, or process protected health information (PHI).</p>
-            </div>
+            <p>MedicLog is designed to handle patient data responsibly while maintaining HIPAA compliance:</p>
 
-            <p>Here's what this means for you:</p>
+            <h3>How MedicLog Protects PHI</h3>
+            <ul>
+                <li><strong>Encryption at Rest:</strong> All patient data is stored in iOS's secure app container, encrypted by the operating system</li>
+                <li><strong>Encryption in Transit:</strong> When sharing data via QR code, end-to-end encryption ensures only the intended recipient can decrypt the information</li>
+                <li><strong>No Cloud Storage:</strong> Patient data never leaves your device unless you explicitly share or export it</li>
+                <li><strong>On-Device Processing:</strong> Voice recognition and all data processing happens locally on your device</li>
+            </ul>
 
             <h3>Your Responsibilities</h3>
             <p>As an EMS professional, you are responsible for:</p>
@@ -95,18 +109,14 @@
                 <li>Properly disposing of exported files containing PHI</li>
             </ul>
 
-            <h3>How MedicLog Helps</h3>
-            <p>MedicLog supports your HIPAA compliance by:</p>
+            <h3>Data Architecture</h3>
+            <p>MedicLog's architecture ensures we never receive or have access to your patient data. Your PHI exists only on:</p>
             <ul>
-                <li>Storing data only in iOS's secure app container (encrypted at rest)</li>
-                <li>Using end-to-end encryption for all data sharing</li>
-                <li>Requiring no cloud storage or account creation</li>
-                <li>Keeping all voice processing on-device</li>
-                <li>Never transmitting data without your explicit action</li>
+                <li>Your device (encrypted in the app's secure container)</li>
+                <li>Devices you explicitly share data with (via encrypted transfer)</li>
+                <li>Files you export (under your control)</li>
             </ul>
-
-            <h3>We Are Not a Business Associate</h3>
-            <p>Because MedicLog's architecture ensures we never receive or have access to PHI, we do not meet the HIPAA definition of a Business Associate. There is no data for us to protect because we never have it. Your data exists only on your device and any devices you explicitly share it with.</p>
+            <p>We have no servers that store patient data. The only data we receive is optional support logs (which never contain patient information) that you explicitly submit.</p>
         </section>
 
         <section class="legal-section">
@@ -118,6 +128,30 @@
                 <li><strong>iCloud Backup:</strong> If enabled, your MedicLog data is included in your iOS backup, subject to Apple's privacy policy.</li>
             </ul>
             <p>We do not use any analytics services, advertising networks, or crash reporting tools that would transmit your data.</p>
+        </section>
+
+        <section class="legal-section">
+            <h2>Support Logging (Opt-In)</h2>
+            <p>MedicLog includes an optional support logging feature that you can enable to help us diagnose issues:</p>
+
+            <h3>What Support Logging Does</h3>
+            <ul>
+                <li><strong>When Enabled:</strong> Technical diagnostic data (button taps, screen navigation, timer states, error messages) is logged locally on your device</li>
+                <li><strong>What Is NOT Logged:</strong> Patient data, medications, vitals, or any clinical information is never included in support logs</li>
+                <li><strong>Submission:</strong> Logs are only sent to us when you explicitly tap "Submit" in Settings → Support</li>
+            </ul>
+
+            <h3>Where Logs Go</h3>
+            <p>When you submit support logs, they are sent to our GitHub repository's issue tracker as a private diagnostic file. This includes:</p>
+            <ul>
+                <li>App version and device model</li>
+                <li>Technical interaction logs (no patient data)</li>
+                <li>Error messages and crash context</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Important:</strong> Support logging is disabled by default. You must explicitly enable it in Settings, and logs are only transmitted when you manually submit them. A persistent banner appears on screen while logging is active.</p>
+            </div>
         </section>
 
         <section class="legal-section">

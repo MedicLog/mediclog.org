@@ -19,6 +19,7 @@
             <div class="nav-links">
                 <a href="docs.html">Docs</a>
                 <a href="tutorial.html">Tutorial</a>
+                <a href="shortcuts.html">Shortcuts</a>
                 <a href="faq.html" class="active">FAQ</a>
                 <a href="privacy.html">Privacy</a>
             </div>
@@ -58,7 +59,7 @@
                     Is MedicLog free?
                 </button>
                 <div class="faq-answer">
-                    <p>MedicLog is a free app with no in-app purchases, subscriptions, or ads. It's built by EMS professionals for EMS professionals.</p>
+                    <p>The beta is completely free—no in-app purchases, subscriptions, or ads. After full release, there may be a small one-time purchase to help cover development costs, but we're committed to keeping it affordable for EMS professionals. No recurring fees, ever.</p>
                 </div>
             </div>
 
@@ -149,6 +150,24 @@
 
             <div class="faq-item">
                 <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How do I configure MedicLog for my certification level?
+                </button>
+                <div class="faq-answer">
+                    <p>Visit our <a href="presets.html">Role Presets</a> page and scan the QR code for your certification (EMR, EMT-Basic, AEMT, EMT-Varianced, Paramedic, or Critical Care). This instantly configures your formulary and available interventions to match your scope of practice.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Can I automate MedicLog with iOS Shortcuts?
+                </button>
+                <div class="faq-answer">
+                    <p>Yes! MedicLog supports iOS Shortcuts for automation. You can set up triggers like "start a new call when I receive a dispatch SMS" or use NFC tags for quick status updates. See our <a href="shortcuts.html">Shortcuts guide</a> for step-by-step setup instructions.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
                     How do I share a call with my partner?
                 </button>
                 <div class="faq-answer">
@@ -162,6 +181,37 @@
                 </button>
                 <div class="faq-answer">
                     <p>The Watch app syncs with your iPhone but can function independently for quick entries and timer viewing. For full functionality including voice logging and complete call review, your iPhone should be nearby. Timer haptic alerts work even when your iPhone is in your pocket.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Support & Feedback</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    What is Support Logging?
+                </button>
+                <div class="faq-answer">
+                    <p>Support Logging is an opt-in feature that records technical diagnostic data (button taps, screen navigation, errors) to help us troubleshoot issues. <strong>No patient data is ever logged.</strong> When enabled, a red "Support Logging Active" banner appears on screen. Logs are only sent when you explicitly submit them in Settings → Support.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How do I report a bug or request a feature?
+                </button>
+                <div class="faq-answer">
+                    <p>Visit our <a href="https://github.com/MedicLog/mediclog-support/issues">GitHub support page</a> to submit bug reports or feature requests. For bugs, you can enable Support Logging (Settings → Support) to capture diagnostic data that helps us fix the issue faster. Please include your device model and iOS version when reporting.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How do I join the beta program?
+                </button>
+                <div class="faq-answer">
+                    <p>Visit our <a href="beta.html">Beta page</a> to join via TestFlight. Beta testers get early access to new features and can provide feedback that shapes the final product. Android beta coming soon.</p>
                 </div>
             </div>
         </section>
@@ -201,10 +251,17 @@
 
             <div class="faq-item">
                 <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-                    How do I report a bug or request a feature?
+                    My Shortcuts automation isn't working. What should I check?
                 </button>
                 <div class="faq-answer">
-                    <p>Visit our <a href="https://github.com/MedicLog/mediclog-support/issues">GitHub support page</a> to submit bug reports or feature requests. Please include your device model and iOS version when reporting bugs. We actively monitor and respond to all submissions.</p>
+                    <p>Try these troubleshooting steps:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Make sure "Ask Before Running" is turned OFF in the automation settings</li>
+                        <li>Verify the trigger conditions match exactly (sender number, keywords, etc.)</li>
+                        <li>Ensure MedicLog is installed and has been opened at least once</li>
+                        <li>Try restarting your iPhone if MedicLog doesn't appear in Shortcuts</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;">See our <a href="shortcuts.html">Shortcuts guide</a> for detailed troubleshooting.</p>
                 </div>
             </div>
         </section>

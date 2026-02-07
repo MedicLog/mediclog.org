@@ -6,37 +6,26 @@
     <title>Role Presets — MedicLog</title>
     <meta name="description" content="QR codes to instantly configure MedicLog for your EMS certification level. Scan once, your app is configured.">
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
-            background: #0a0e1a;
-            color: #e8ecf1;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
+        /* Presets page specific styles - uses CSS vars from styles.css */
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
+            padding: 2rem;
         }
 
         header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: #2196f3;
+            color: var(--accent);
             text-decoration: none;
             font-size: 0.95rem;
             margin-bottom: 1.5rem;
@@ -61,143 +50,138 @@
 
         .subtitle {
             font-size: 1.1rem;
-            color: #90a4ae;
+            color: var(--text-muted);
             line-height: 1.5;
             max-width: 600px;
             margin: 0 auto;
         }
 
-        .presets-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+        /* Role Selection */
+        .role-selector {
+            margin: 2rem 0;
         }
 
-        .preset-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #2a3a4a;
-            border-radius: 16px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .preset-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
+        .role-selector h2 {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
             margin-bottom: 1rem;
+            text-align: center;
         }
 
-        .preset-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+        .role-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .role-btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
         }
 
-        .preset-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
+        .role-btn:hover {
+            border-color: var(--text-muted);
+            background: var(--bg-tertiary);
         }
 
-        .preset-title-block {
-            flex: 1;
+        .role-btn.selected {
+            border-color: var(--accent);
+            background: var(--highlight-bg);
         }
 
-        .preset-title {
-            font-size: 1.25rem;
+        .role-btn .role-name {
+            font-size: 1rem;
             font-weight: 600;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
 
-        .preset-subtitle {
-            font-size: 0.875rem;
-            color: #90a4ae;
+        .role-btn .role-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
 
-        .preset-description {
+        /* Tier colors for selected state */
+        .role-btn[data-tier="emr"].selected { border-color: #78909c; }
+        .role-btn[data-tier="emt-basic"].selected { border-color: #66bb6a; }
+        .role-btn[data-tier="aemt"].selected { border-color: #ffa726; }
+        .role-btn[data-tier="emt-varianced"].selected { border-color: #ab47bc; }
+        .role-btn[data-tier="paramedic"].selected { border-color: #2196f3; }
+        .role-btn[data-tier="critical-care"].selected { border-color: #ef5350; }
+
+        /* QR Display Area */
+        .qr-display {
+            display: none;
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .qr-display.visible {
+            display: block;
+        }
+
+        .qr-display h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .qr-display .role-description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
             font-size: 0.95rem;
-            color: #b0bec5;
-            line-height: 1.5;
-            margin-bottom: 1rem;
         }
 
         .qr-container {
             background: white;
-            border-radius: 12px;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
         }
 
         .qr-container canvas {
             display: block;
         }
 
-        .details-toggle {
-            background: none;
-            border: 1px solid #2a3a4a;
-            border-radius: 8px;
-            color: #90a4ae;
-            padding: 0.625rem 1rem;
-            font-size: 0.875rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.2s;
-            width: 100%;
+        .scan-instruction {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
         }
 
-        .details-toggle:hover {
-            border-color: #2196f3;
-            color: #2196f3;
-        }
-
-        .details-toggle svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-            transition: transform 0.2s;
-        }
-
-        .details-toggle.expanded svg {
-            transform: rotate(180deg);
-        }
-
-        .details-content {
-            display: none;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #2a3a4a;
-        }
-
-        .details-content.visible {
-            display: block;
-        }
-
+        /* Details Section */
         .details-section {
-            margin-bottom: 0.75rem;
+            text-align: left;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
         }
 
-        .details-section:last-child {
-            margin-bottom: 0;
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .details-item {
+            margin-bottom: 0.5rem;
         }
 
         .details-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            color: #2196f3;
+            color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 0.375rem;
@@ -208,10 +192,10 @@
         }
 
         .details-list li {
-            font-size: 0.875rem;
-            color: #90a4ae;
-            padding: 0.25rem 0;
-            padding-left: 1.25rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 0.2rem 0;
+            padding-left: 1rem;
             position: relative;
         }
 
@@ -219,10 +203,10 @@
             content: '';
             position: absolute;
             left: 0;
-            top: 0.625em;
+            top: 0.5em;
             width: 6px;
             height: 6px;
-            background: #455a64;
+            background: var(--text-muted);
             border-radius: 50%;
         }
 
@@ -237,48 +221,16 @@
         .url-scheme {
             font-family: 'SF Mono', Monaco, Consolas, monospace;
             font-size: 0.75rem;
-            color: #78909c;
-            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-muted);
+            background: var(--code-bg);
             padding: 0.5rem 0.75rem;
             border-radius: 6px;
-            word-break: break-all;
-            margin-top: 0.75rem;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 4rem;
-            font-size: 0.8rem;
-            color: #455a64;
-        }
-
-        /* Tier-specific colors */
-        .preset-card[data-tier="emr"] .preset-icon {
-            background: linear-gradient(135deg, #78909c 0%, #546e7a 100%);
-        }
-
-        .preset-card[data-tier="emt-basic"] .preset-icon {
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-        }
-
-        .preset-card[data-tier="aemt"] .preset-icon {
-            background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%);
-        }
-
-        .preset-card[data-tier="emt-varianced"] .preset-icon {
-            background: linear-gradient(135deg, #ab47bc 0%, #8e24aa 100%);
-        }
-
-        .preset-card[data-tier="paramedic"] .preset-icon {
-            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
-        }
-
-        .preset-card[data-tier="critical-care"] .preset-icon {
-            background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
+            margin-top: 1rem;
+            display: inline-block;
         }
 
         @media (max-width: 480px) {
-            body {
+            .container {
                 padding: 1rem;
             }
 
@@ -286,12 +238,12 @@
                 font-size: 1.75rem;
             }
 
-            .presets-grid {
-                grid-template-columns: 1fr;
+            .role-buttons {
+                grid-template-columns: 1fr 1fr;
             }
 
-            .preset-card {
-                padding: 1.25rem;
+            .role-btn {
+                padding: 0.75rem;
             }
         }
     </style>
@@ -304,404 +256,54 @@
                 Back to MedicLog
             </a>
             <h1>Role Presets</h1>
-            <p class="subtitle">Scan a QR code to instantly configure MedicLog for your EMS certification level. One scan sets up your entire formulary and scope of practice.</p>
+            <p class="subtitle">Select your certification level to get a QR code that instantly configures MedicLog for your scope of practice.</p>
         </header>
 
-        <div class="presets-grid">
-            <!-- EMR -->
-            <div class="preset-card" data-tier="emr">
-                <div class="preset-header">
-                    <div class="preset-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-                    </div>
-                    <div class="preset-title-block">
-                        <h2 class="preset-title">EMR</h2>
-                        <p class="preset-subtitle">Emergency Medical Responder</p>
-                    </div>
-                </div>
-                <p class="preset-description">Entry-level certification focused on vital signs assessment and basic life support. No medication administration.</p>
-                <div class="qr-container" id="qr-emr"></div>
-                <button class="details-toggle" onclick="toggleDetails(this)">
-                    What's included
-                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+        <div class="role-selector">
+            <h2>Select Your Role</h2>
+            <div class="role-buttons">
+                <button class="role-btn" data-tier="emr" onclick="selectRole('emr')">
+                    <div class="role-name">EMR</div>
+                    <div class="role-subtitle">Emergency Medical Responder</div>
                 </button>
-                <div class="details-content">
-                    <div class="details-section">
-                        <div class="details-label">Vitals</div>
-                        <ul class="details-list">
-                            <li class="included">All vital signs monitoring</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Airways</div>
-                        <ul class="details-list">
-                            <li class="included">OPA / NPA</li>
-                            <li class="excluded">No advanced airways</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Cardiac</div>
-                        <ul class="details-list">
-                            <li class="included">CPR</li>
-                            <li class="included">AED</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medications</div>
-                        <ul class="details-list">
-                            <li class="excluded">No medications</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">IV/IO Access</div>
-                        <ul class="details-list">
-                            <li class="excluded">None</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medication Timers</div>
-                        <ul class="details-list">
-                            <li class="excluded">OFF</li>
-                        </ul>
-                    </div>
-                    <div class="url-scheme">mediclog://config?preset=emr</div>
-                </div>
+                <button class="role-btn" data-tier="emt-basic" onclick="selectRole('emt-basic')">
+                    <div class="role-name">EMT-Basic</div>
+                    <div class="role-subtitle">Emergency Medical Technician</div>
+                </button>
+                <button class="role-btn" data-tier="aemt" onclick="selectRole('aemt')">
+                    <div class="role-name">AEMT</div>
+                    <div class="role-subtitle">Advanced EMT</div>
+                </button>
+                <button class="role-btn" data-tier="emt-varianced" onclick="selectRole('emt-varianced')">
+                    <div class="role-name">EMT-Varianced</div>
+                    <div class="role-subtitle">EMT-IV / Expanded Scope</div>
+                </button>
+                <button class="role-btn" data-tier="paramedic" onclick="selectRole('paramedic')">
+                    <div class="role-name">Paramedic</div>
+                    <div class="role-subtitle">NRP / Licensed Paramedic</div>
+                </button>
+                <button class="role-btn" data-tier="critical-care" onclick="selectRole('critical-care')">
+                    <div class="role-name">Critical Care</div>
+                    <div class="role-subtitle">CCP / FP-C / Flight</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="qr-display" id="qr-display">
+            <h3 id="selected-role-name"></h3>
+            <p class="role-description" id="selected-role-desc"></p>
+
+            <div class="qr-container">
+                <canvas id="qr-canvas"></canvas>
             </div>
 
-            <!-- EMT-Basic -->
-            <div class="preset-card" data-tier="emt-basic">
-                <div class="preset-header">
-                    <div class="preset-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-                    </div>
-                    <div class="preset-title-block">
-                        <h2 class="preset-title">EMT-Basic</h2>
-                        <p class="preset-subtitle">Emergency Medical Technician</p>
-                    </div>
-                </div>
-                <p class="preset-description">Standard EMT certification with fixed-dose medications and BLS interventions. Foundation of prehospital care.</p>
-                <div class="qr-container" id="qr-emt-basic"></div>
-                <button class="details-toggle" onclick="toggleDetails(this)">
-                    What's included
-                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </button>
-                <div class="details-content">
-                    <div class="details-section">
-                        <div class="details-label">Vitals</div>
-                        <ul class="details-list">
-                            <li class="included">All vital signs monitoring</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Airways</div>
-                        <ul class="details-list">
-                            <li class="included">OPA / NPA</li>
-                            <li class="included">BVM</li>
-                            <li class="excluded">No supraglottic / ETT</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Cardiac</div>
-                        <ul class="details-list">
-                            <li class="included">CPR</li>
-                            <li class="included">AED</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medications</div>
-                        <ul class="details-list">
-                            <li class="included">Aspirin 324mg</li>
-                            <li class="included">Epinephrine auto-injector</li>
-                            <li class="included">Oxygen</li>
-                            <li class="included">Oral glucose</li>
-                            <li class="included">Naloxone (Narcan)</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">IV/IO Access</div>
-                        <ul class="details-list">
-                            <li class="excluded">None</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medication Timers</div>
-                        <ul class="details-list">
-                            <li class="excluded">OFF</li>
-                        </ul>
-                    </div>
-                    <div class="url-scheme">mediclog://config?preset=emt-basic</div>
-                </div>
-            </div>
+            <p class="scan-instruction">Point your iPhone camera at this QR code to configure MedicLog</p>
 
-            <!-- AEMT -->
-            <div class="preset-card" data-tier="aemt">
-                <div class="preset-header">
-                    <div class="preset-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-                    </div>
-                    <div class="preset-title-block">
-                        <h2 class="preset-title">AEMT</h2>
-                        <p class="preset-subtitle">Advanced Emergency Medical Technician</p>
-                    </div>
+            <div class="details-section">
+                <div class="details-grid" id="details-grid">
+                    <!-- Populated by JS -->
                 </div>
-                <p class="preset-description">NREMT Advanced EMT with IV access and limited ALS medications. Bridge between EMT and Paramedic scope.</p>
-                <div class="qr-container" id="qr-aemt"></div>
-                <button class="details-toggle" onclick="toggleDetails(this)">
-                    What's included
-                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </button>
-                <div class="details-content">
-                    <div class="details-section">
-                        <div class="details-label">Vitals</div>
-                        <ul class="details-list">
-                            <li class="included">All vital signs monitoring</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Airways</div>
-                        <ul class="details-list">
-                            <li class="included">OPA / NPA</li>
-                            <li class="included">BVM</li>
-                            <li class="included">Supraglottic (iGel, King)</li>
-                            <li class="excluded">No ETT</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Cardiac</div>
-                        <ul class="details-list">
-                            <li class="included">CPR</li>
-                            <li class="included">AED</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medications</div>
-                        <ul class="details-list">
-                            <li class="included">All EMT-Basic meds</li>
-                            <li class="included">Limited ALS meds (state-dependent)</li>
-                            <li class="included">Some calculated doses may apply</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">IV/IO Access</div>
-                        <ul class="details-list">
-                            <li class="included">IV access</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medication Timers</div>
-                        <ul class="details-list">
-                            <li class="included">ON</li>
-                        </ul>
-                    </div>
-                    <div class="url-scheme">mediclog://config?preset=aemt</div>
-                </div>
-            </div>
-
-            <!-- EMT-Varianced -->
-            <div class="preset-card" data-tier="emt-varianced">
-                <div class="preset-header">
-                    <div class="preset-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-                    </div>
-                    <div class="preset-title-block">
-                        <h2 class="preset-title">EMT-Varianced</h2>
-                        <p class="preset-subtitle">EMT-IV / Expanded Scope</p>
-                    </div>
-                </div>
-                <p class="preset-description">State variance or expanded scope EMT with IV access and fixed-dose medications only. No weight-based dosing calculations.</p>
-                <div class="qr-container" id="qr-emt-varianced"></div>
-                <button class="details-toggle" onclick="toggleDetails(this)">
-                    What's included
-                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </button>
-                <div class="details-content">
-                    <div class="details-section">
-                        <div class="details-label">Vitals</div>
-                        <ul class="details-list">
-                            <li class="included">All vital signs monitoring</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Airways</div>
-                        <ul class="details-list">
-                            <li class="included">OPA / NPA</li>
-                            <li class="included">BVM</li>
-                            <li class="included">Supraglottic (iGel, King)</li>
-                            <li class="excluded">No ETT / surgical airways</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Cardiac</div>
-                        <ul class="details-list">
-                            <li class="included">CPR</li>
-                            <li class="included">AED</li>
-                            <li class="excluded">No manual defib / pacing</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medications (Fixed-Dose Only)</div>
-                        <ul class="details-list">
-                            <li class="included">Naloxone 4mg IN</li>
-                            <li class="included">Epinephrine 0.3mg IM</li>
-                            <li class="included">Ondansetron 4mg ODT</li>
-                            <li class="included">Aspirin</li>
-                            <li class="included">Oral glucose</li>
-                            <li class="excluded">No mg/kg or titrated meds</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">IV/IO Access</div>
-                        <ul class="details-list">
-                            <li class="included">IV access</li>
-                            <li class="included">IO access</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medication Timers</div>
-                        <ul class="details-list">
-                            <li class="included">ON</li>
-                        </ul>
-                    </div>
-                    <div class="url-scheme">mediclog://config?preset=emt-varianced</div>
-                </div>
-            </div>
-
-            <!-- Paramedic -->
-            <div class="preset-card" data-tier="paramedic">
-                <div class="preset-header">
-                    <div class="preset-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-                    </div>
-                    <div class="preset-title-block">
-                        <h2 class="preset-title">Paramedic</h2>
-                        <p class="preset-subtitle">NRP / Licensed Paramedic</p>
-                    </div>
-                </div>
-                <p class="preset-description">Full ALS scope with complete formulary, advanced airways, and comprehensive cardiac interventions including 12-lead interpretation.</p>
-                <div class="qr-container" id="qr-paramedic"></div>
-                <button class="details-toggle" onclick="toggleDetails(this)">
-                    What's included
-                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </button>
-                <div class="details-content">
-                    <div class="details-section">
-                        <div class="details-label">Vitals</div>
-                        <ul class="details-list">
-                            <li class="included">All vital signs monitoring</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Airways</div>
-                        <ul class="details-list">
-                            <li class="included">OPA / NPA</li>
-                            <li class="included">BVM</li>
-                            <li class="included">Supraglottic</li>
-                            <li class="included">ETT / intubation</li>
-                            <li class="included">Surgical cricothyrotomy</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Cardiac</div>
-                        <ul class="details-list">
-                            <li class="included">CPR</li>
-                            <li class="included">AED</li>
-                            <li class="included">Manual defibrillation</li>
-                            <li class="included">Synchronized cardioversion</li>
-                            <li class="included">Transcutaneous pacing</li>
-                            <li class="included">12-lead ECG</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medications</div>
-                        <ul class="details-list">
-                            <li class="included">Full formulary</li>
-                            <li class="included">Weight-based dosing</li>
-                            <li class="included">Titrated infusions</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">IV/IO Access</div>
-                        <ul class="details-list">
-                            <li class="included">IV access</li>
-                            <li class="included">IO access</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medication Timers</div>
-                        <ul class="details-list">
-                            <li class="included">ON</li>
-                        </ul>
-                    </div>
-                    <div class="url-scheme">mediclog://config?preset=paramedic</div>
-                </div>
-            </div>
-
-            <!-- Critical Care -->
-            <div class="preset-card" data-tier="critical-care">
-                <div class="preset-header">
-                    <div class="preset-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-                    </div>
-                    <div class="preset-title-block">
-                        <h2 class="preset-title">Critical Care / Flight</h2>
-                        <p class="preset-subtitle">CCP / FP-C / CFRN</p>
-                    </div>
-                </div>
-                <p class="preset-description">Extended scope for critical care transport and flight medicine. Includes pressors, sedation, paralytics, blood products, and ventilator management.</p>
-                <div class="qr-container" id="qr-critical-care"></div>
-                <button class="details-toggle" onclick="toggleDetails(this)">
-                    What's included
-                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </button>
-                <div class="details-content">
-                    <div class="details-section">
-                        <div class="details-label">Vitals</div>
-                        <ul class="details-list">
-                            <li class="included">All vital signs monitoring</li>
-                            <li class="included">Invasive monitoring (art lines)</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Airways</div>
-                        <ul class="details-list">
-                            <li class="included">All paramedic airways</li>
-                            <li class="included">Ventilator management</li>
-                            <li class="included">RSI / DSI</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Cardiac</div>
-                        <ul class="details-list">
-                            <li class="included">All paramedic cardiac</li>
-                            <li class="included">Advanced hemodynamic monitoring</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medications</div>
-                        <ul class="details-list">
-                            <li class="included">Full paramedic formulary</li>
-                            <li class="included">Vasopressors / inotropes</li>
-                            <li class="included">Sedation / analgesia infusions</li>
-                            <li class="included">Paralytics (RSI)</li>
-                            <li class="included">Blood products</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">IV/IO Access</div>
-                        <ul class="details-list">
-                            <li class="included">IV access</li>
-                            <li class="included">IO access</li>
-                            <li class="included">Central line management</li>
-                        </ul>
-                    </div>
-                    <div class="details-section">
-                        <div class="details-label">Medication Timers</div>
-                        <ul class="details-list">
-                            <li class="included">ON</li>
-                        </ul>
-                    </div>
-                    <div class="url-scheme">mediclog://config?preset=critical-care</div>
-                </div>
+                <div class="url-scheme" id="url-scheme"></div>
             </div>
         </div>
     </div>
@@ -709,36 +311,146 @@
     <footer>&copy; 2026 MedicLog</footer>
 
     <script>
-        // Generate QR codes for each preset
-        const presets = [
-            { id: 'qr-emr', url: 'mediclog://config?preset=emr' },
-            { id: 'qr-emt-basic', url: 'mediclog://config?preset=emt-basic' },
-            { id: 'qr-aemt', url: 'mediclog://config?preset=aemt' },
-            { id: 'qr-emt-varianced', url: 'mediclog://config?preset=emt-varianced' },
-            { id: 'qr-paramedic', url: 'mediclog://config?preset=paramedic' },
-            { id: 'qr-critical-care', url: 'mediclog://config?preset=critical-care' }
-        ];
+        const roleData = {
+            'emr': {
+                name: 'EMR',
+                fullName: 'Emergency Medical Responder',
+                description: 'Entry-level certification focused on vital signs assessment and basic life support. No medication administration.',
+                url: 'mediclog://config?preset=emr',
+                details: {
+                    'Vitals': ['included:All vital signs monitoring'],
+                    'Airways': ['included:OPA / NPA', 'excluded:No advanced airways'],
+                    'Cardiac': ['included:CPR', 'included:AED'],
+                    'Medications': ['excluded:No medications'],
+                    'IV/IO Access': ['excluded:None'],
+                    'Timers': ['excluded:OFF']
+                }
+            },
+            'emt-basic': {
+                name: 'EMT-Basic',
+                fullName: 'Emergency Medical Technician',
+                description: 'Standard EMT certification with fixed-dose medications and BLS interventions.',
+                url: 'mediclog://config?preset=emt-basic',
+                details: {
+                    'Vitals': ['included:All vital signs monitoring'],
+                    'Airways': ['included:OPA / NPA', 'included:BVM', 'excluded:No supraglottic / ETT'],
+                    'Cardiac': ['included:CPR', 'included:AED'],
+                    'Medications': ['included:Aspirin 324mg', 'included:Epi auto-injector', 'included:Oxygen', 'included:Oral glucose', 'included:Naloxone'],
+                    'IV/IO Access': ['excluded:None'],
+                    'Timers': ['excluded:OFF']
+                }
+            },
+            'aemt': {
+                name: 'AEMT',
+                fullName: 'Advanced Emergency Medical Technician',
+                description: 'NREMT Advanced EMT with IV access and limited ALS medications. Bridge between EMT and Paramedic scope.',
+                url: 'mediclog://config?preset=aemt',
+                details: {
+                    'Vitals': ['included:All vital signs monitoring'],
+                    'Airways': ['included:OPA / NPA', 'included:BVM', 'included:Supraglottic (iGel, King)', 'excluded:No ETT'],
+                    'Cardiac': ['included:CPR', 'included:AED'],
+                    'Medications': ['included:All EMT-Basic meds', 'included:Limited ALS meds (state-dependent)'],
+                    'IV/IO Access': ['included:IV access'],
+                    'Timers': ['included:ON']
+                }
+            },
+            'emt-varianced': {
+                name: 'EMT-Varianced',
+                fullName: 'EMT-IV / Expanded Scope',
+                description: 'State variance or expanded scope EMT with IV/IO access and fixed-dose medications only. No weight-based dosing.',
+                url: 'mediclog://config?preset=emt-varianced',
+                details: {
+                    'Vitals': ['included:All vital signs monitoring'],
+                    'Airways': ['included:OPA / NPA', 'included:BVM', 'included:Supraglottic (iGel, King)', 'excluded:No ETT / surgical'],
+                    'Cardiac': ['included:CPR', 'included:AED', 'excluded:No manual defib / pacing'],
+                    'Medications': ['included:Naloxone 4mg IN', 'included:Epi 0.3mg IM', 'included:Zofran 4mg ODT', 'included:Aspirin', 'excluded:No mg/kg or titrated meds'],
+                    'IV/IO Access': ['included:IV access', 'included:IO access'],
+                    'Timers': ['included:ON']
+                }
+            },
+            'paramedic': {
+                name: 'Paramedic',
+                fullName: 'NRP / Licensed Paramedic',
+                description: 'Full ALS scope with complete formulary, advanced airways, and comprehensive cardiac interventions.',
+                url: 'mediclog://config?preset=paramedic',
+                details: {
+                    'Vitals': ['included:All vital signs monitoring'],
+                    'Airways': ['included:OPA / NPA / BVM', 'included:Supraglottic', 'included:ETT / intubation', 'included:Surgical cric'],
+                    'Cardiac': ['included:CPR / AED', 'included:Manual defibrillation', 'included:Cardioversion / pacing', 'included:12-lead ECG'],
+                    'Medications': ['included:Full formulary', 'included:Weight-based dosing', 'included:Titrated infusions'],
+                    'IV/IO Access': ['included:IV access', 'included:IO access'],
+                    'Timers': ['included:ON']
+                }
+            },
+            'critical-care': {
+                name: 'Critical Care / Flight',
+                fullName: 'CCP / FP-C / CFRN',
+                description: 'Extended scope for critical care transport. Includes pressors, sedation, paralytics, blood products, and vent management.',
+                url: 'mediclog://config?preset=critical-care',
+                details: {
+                    'Vitals': ['included:All vital signs', 'included:Invasive monitoring (art lines)'],
+                    'Airways': ['included:All paramedic airways', 'included:Ventilator management', 'included:RSI / DSI'],
+                    'Cardiac': ['included:All paramedic cardiac', 'included:Advanced hemodynamics'],
+                    'Medications': ['included:Full paramedic formulary', 'included:Vasopressors / inotropes', 'included:Sedation / paralytics', 'included:Blood products'],
+                    'IV/IO Access': ['included:IV / IO access', 'included:Central line management'],
+                    'Timers': ['included:ON']
+                }
+            }
+        };
 
-        presets.forEach(preset => {
-            QRCode.toCanvas(document.getElementById(preset.id), preset.url, {
-                width: 200,
-                margin: 1,
+        let currentRole = null;
+
+        function selectRole(role) {
+            // Update button states
+            document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('selected'));
+            document.querySelector(`[data-tier="${role}"]`).classList.add('selected');
+
+            // Get role data
+            const data = roleData[role];
+            currentRole = role;
+
+            // Update display
+            document.getElementById('selected-role-name').textContent = data.name + ' — ' + data.fullName;
+            document.getElementById('selected-role-desc').textContent = data.description;
+            document.getElementById('url-scheme').textContent = data.url;
+
+            // Generate QR code (always dark on light for scannability)
+            const canvas = document.getElementById('qr-canvas');
+            QRCode.toCanvas(canvas, data.url, {
+                width: 250,
+                margin: 2,
                 color: {
-                    dark: '#0a0e1a',
+                    dark: '#000000',
                     light: '#ffffff'
                 }
             }, function (error) {
                 if (error) console.error(error);
             });
-        });
 
-        // Toggle details visibility
-        function toggleDetails(button) {
-            const content = button.nextElementSibling;
-            const isVisible = content.classList.contains('visible');
+            // Build details grid
+            const detailsGrid = document.getElementById('details-grid');
+            detailsGrid.innerHTML = '';
 
-            content.classList.toggle('visible');
-            button.classList.toggle('expanded');
+            for (const [label, items] of Object.entries(data.details)) {
+                const detailItem = document.createElement('div');
+                detailItem.className = 'details-item';
+
+                let html = `<div class="details-label">${label}</div><ul class="details-list">`;
+                items.forEach(item => {
+                    const [status, text] = item.split(':');
+                    html += `<li class="${status}">${text}</li>`;
+                });
+                html += '</ul>';
+
+                detailItem.innerHTML = html;
+                detailsGrid.appendChild(detailItem);
+            }
+
+            // Show QR display
+            document.getElementById('qr-display').classList.add('visible');
+
+            // Scroll to QR code
+            document.getElementById('qr-display').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>
