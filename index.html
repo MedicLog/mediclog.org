@@ -67,6 +67,33 @@
             fill: currentColor;
         }
 
+        .beta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(33, 150, 243, 0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        .beta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(33, 150, 243, 0.5);
+        }
+
+        .beta-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
         .hero-features {
             text-align: left;
             max-width: 480px;
@@ -160,6 +187,11 @@
         <img src="icon.png" alt="MedicLog" class="hero-icon">
         <h1>MedicLog</h1>
         <p class="tagline">Real-time patient care documentation<br>for EMS first responders</p>
+
+        <a href="beta.html" class="beta-btn">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            Join the iOS Beta
+        </a>
 
         <div class="platforms">
             <span class="badge">
