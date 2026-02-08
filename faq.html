@@ -18,6 +18,7 @@
             <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
             <div class="nav-links">
                 <a href="docs.html">Docs</a>
+                <a href="transfer.html">Transfer</a>
                 <a href="tutorial.html">Tutorial</a>
                 <a href="shortcuts.html">Shortcuts</a>
                 <a href="faq.html" class="active">FAQ</a>
@@ -183,6 +184,98 @@
                     <p>The Watch app syncs with your iPhone but can function independently for quick entries and timer viewing. For full functionality including voice logging and complete call review, your iPhone should be nearby. Timer haptic alerts work even when your iPhone is in your pocket.</p>
                 </div>
             </div>
+        </section>
+
+        <section class="section">
+            <h2>Sharing &amp; Handoff</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    What's the difference between AirDrop, QR Code, and Photo Handoff?
+                </button>
+                <div class="faq-answer">
+                    <p><strong>AirDrop:</strong> Fastest method if both people have iPhones nearby. Instant, encrypted transfer via Bluetooth. No internet needed, no scanning required.</p>
+                    <p><strong>QR Code:</strong> Good when you're in different locations or don't have immediate proximity. Your partner scans the code with their phone. Works over WiFi or Bluetooth. Your partner's phone must have MedicLog installed.</p>
+                    <p><strong>Photo Handoff:</strong> Works with any phone or tablet, even without MedicLog installed. Perfect at hospital handoff - display it on your screen and let the receiving RN photograph it for their records.</p>
+                    <p><strong>Email/SMS:</strong> Use when you need a record that can be forwarded or when asynchronous transfer is needed. Encryption code is sent separately for security.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How does encryption work? Is my patient data secure?
+                </button>
+                <div class="faq-answer">
+                    <p>All sharing methods use end-to-end encryption. When you generate a QR code or AirDrop a call, the data is encrypted before leaving your device. It never travels to our servers unencrypted.</p>
+                    <p>Each QR code is uniquely encrypted - the encryption changes every time you generate a code. Your partner scans it and their device decrypts it locally on their phone.</p>
+                    <p>For Email/SMS sharing, the call data is encrypted and sent separately from the decryption code, so neither piece alone is useful without both.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Can I export my call as a PDF or other format?
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. Each call can be exported as:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li><strong>PDF:</strong> Professional patient care report for printing or attaching to hospital records</li>
+                        <li><strong>JSON:</strong> Machine-readable format for integration with ePCR systems</li>
+                        <li><strong>CSV:</strong> Spreadsheet format for data analysis or integration with other tools</li>
+                    </ul>
+                    <p>All formats can include a "redact patient info" option to replace names/DOB with [REDACTED] for privacy.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How does Profile Switching work? Do my settings carry across profiles?
+                </button>
+                <div class="faq-answer">
+                    <p>Create separate profiles in Settings for different roles (Paramedic, EMT-Basic, Critical Care, etc.). Each profile has its own name and certification level.</p>
+                    <p><strong>Profile-specific settings:</strong> Your name, unit assignment, which medications are enabled in your formulary, and personal documentation preferences.</p>
+                    <p><strong>Shared across profiles:</strong> Your agency's destination list, any custom medications you've created, and global display preferences (colors, layouts, timer settings).</p>
+                    <p>To switch profiles, tap the profile name at the top of the screen when starting a call. The change takes effect immediately for the next call.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How do I customize my formulary? Can I add or remove medications?
+                </button>
+                <div class="faq-answer">
+                    <p>Go to <strong>Settings → Formulary Management</strong> to control your medication list.</p>
+                    <p><strong>Enable/Disable:</strong> Turn off medications you don't carry (e.g., paramedic-only drugs). Disabled meds don't appear in quick entry but remain in your database.</p>
+                    <p><strong>Add Custom Meds:</strong> Add agency-specific medications, off-protocol drugs, or documentation-only entries.</p>
+                    <p><strong>Set Defaults:</strong> Define standard doses and routes for each medication. When you select a med, it pre-fills with your defaults.</p>
+                    <p><strong>Timer Intervals:</strong> Set redose windows, regulatory intervals, and other timing for each medication.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    What's the difference between Timer Actions? When should I use Snooze vs Withheld?
+                </button>
+                <div class="faq-answer">
+                    <p><strong>Redose:</strong> Log another dose of the same medication with the same dose/route. Fresh timer starts immediately.</p>
+                    <p><strong>Snooze:</strong> Temporarily pause the timer (default 5 minutes). Use this when you're not ready to redose yet but don't want the alert. Timer resumes where it left off.</p>
+                    <p><strong>Withheld:</strong> Document that you chose NOT to give the medication at the redose time. This creates a log entry showing the decision and reason (medical decision, patient refused, etc.).</p>
+                    <p><strong>Delete:</strong> Remove the timer entirely. Use this if you logged a medication in error.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How do I use Hospital Handoff? What should I show the receiving nurse?
+                </button>
+                <div class="faq-answer">
+                    <p>Tap the <strong>Hospital Handoff</strong> button on any completed call. This generates a structured report of your entire call: initial assessment, medications with timestamps, vital signs progression, procedures, and special notes.</p>
+                    <p>Use <strong>Photo Handoff mode</strong> to display it on your screen - let the receiving RN photograph it with their phone or tablet for their records. This works even if their hospital ePCR system is down.</p>
+                    <p>Or export as PDF to email to the hospital, print, or attach to your agency's records.</p>
+                    <p>The handoff report shows the complete timeline in a format nurses expect - they can quickly understand your assessment, interventions, and patient response.</p>
+                </div>
+            </div>
+
         </section>
 
         <section class="section">
