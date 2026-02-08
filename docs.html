@@ -18,6 +18,7 @@
             <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
             <div class="nav-links">
                 <a href="docs.html" class="active">Docs</a>
+                <a href="transfer.html">Transfer</a>
                 <a href="tutorial.html">Tutorial</a>
                 <a href="shortcuts.html">Shortcuts</a>
                 <a href="faq.html">FAQ</a>
@@ -37,7 +38,7 @@
             <h2>Getting Started</h2>
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <img src="screenshots/01-active-call-light.png" alt="Start Call screen">
+                    <div class="device-frame-iphone"><img src="screenshots/01-active-call-light.png" alt="Start Call screen"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Start a Call</h3>
@@ -55,7 +56,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <img src="screenshots/01-active-call-dark.png" alt="Active call with button grid">
+                    <div class="device-frame-iphone"><img src="screenshots/01-active-call-dark.png" alt="Active call with button grid"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Active Call View</h3>
@@ -67,7 +68,7 @@
 
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
-                    <img src="screenshots/05-med-picker.png" alt="Medication picker">
+                    <div class="device-frame-iphone"><img src="screenshots/05-med-picker.png" alt="Medication picker"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Medication Picker</h3>
@@ -79,7 +80,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <img src="screenshots/04-vitals-entry.png" alt="Vitals entry form">
+                    <div class="device-frame-iphone"><img src="screenshots/04-vitals-entry.png" alt="Vitals entry form"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Vitals Entry</h3>
@@ -91,7 +92,7 @@
 
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
-                    <img src="screenshots/03-quick-entry.png" alt="Add Entry form">
+                    <div class="device-frame-iphone"><img src="screenshots/03-quick-entry.png" alt="Add Entry form"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Add Entry Form</h3>
@@ -109,7 +110,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <img src="screenshots/06-timer-detail.png" alt="Timer action menu">
+                    <div class="device-frame-iphone"><img src="screenshots/06-timer-detail.png" alt="Timer action menu"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Timer Actions</h3>
@@ -121,13 +122,25 @@
 
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
-                    <img src="screenshots/07-timer-redose.png" alt="Timer redose">
+                    <div class="device-frame-iphone"><img src="screenshots/07-timer-redose.png" alt="Timer redose"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Redose Flow</h3>
                     <p>One tap on <strong>Redose</strong> logs another dose of the same medication with the same dose/route.</p>
                     <p>Fresh timer starts automatically. No need to navigate back through the medication picker.</p>
                     <p>Dose count tracks in the timer pill so you know how many you've given.</p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/06-timer-detail.png" alt="Timer pill interactions"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Timer Interactions</h3>
+                    <p><strong>Double-tap any timer pill</strong> at the top to see detailed options. You can redose, snooze, mark as withheld, or delete the timer entirely.</p>
+                    <p>Colors tell the story at a glance: <strong>Green</strong> = time remaining, <strong>Yellow</strong> = approaching redose window, <strong>Red</strong> = OVERDUE - needs attention now.</p>
+                    <p>On the <strong>call clock</strong> (top-left countdown), double-tap to minimize it if you need more screen space. Tap again to restore.</p>
                 </div>
             </div>
         </section>
@@ -139,13 +152,26 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <img src="screenshots/02-voice-entry.png" alt="Voice entry">
+                    <div class="device-frame-iphone"><img src="screenshots/02-voice-entry.png" alt="Voice entry"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Voice Input</h3>
                     <p>Tap <strong>Voice Log</strong> and speak naturally: "Adenosine 12 mg IV push" - MedicLog parses medication, dose, and route automatically.</p>
                     <p>Works completely offline using on-device speech recognition. No internet required.</p>
                     <p>Custom aliases let you train the app to recognize your pronunciation ("epi" vs "epinephrine").</p>
+                </div>
+            </div>
+
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/02-voice-entry.png" alt="Voice entry confirmation"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>How Voice Recognition Works</h3>
+                    <p>MedicLog listens for medication names, doses, and routes. Say the medication, amount, and how you're giving it: <strong>"Narcan 2 mg intranasal" or "Epi 0.3 point 3 IV push"</strong>.</p>
+                    <p>The app shows you what it heard before logging. If recognition isn't perfect, edit it in the confirmation screen - your edits teach the app.</p>
+                    <p>For best results, speak clearly and avoid background noise when possible (though it's designed to work in ambulances).</p>
+                    <p>What gets transcribed: medication, dose, route, and timing. Patient information, vital signs, and clinical notes stay in typed entries.</p>
                 </div>
             </div>
         </section>
@@ -156,8 +182,8 @@
             <p>Your MedicLog companion on your wrist. Perfect when pulling out your phone isn't practical.</p>
 
             <div class="feature-row">
-                <div class="feature-screenshot watch">
-                    <img src="screenshots/watch-timers.png" alt="Watch timer display">
+                <div class="feature-screenshot">
+                    <div class="device-frame-watch"><img src="screenshots/watch-timers.png" alt="Watch timer display"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Watch Timers</h3>
@@ -174,14 +200,32 @@
             <p>MedicLog works great on iPad with the same features and more screen space.</p>
 
             <div class="feature-row">
-                <div class="feature-screenshot tablet">
-                    <img src="screenshots/ipad-active-call.png" alt="iPad active call">
+                <div class="feature-screenshot">
+                    <div class="device-frame-ipad"><img src="screenshots/ipad-active-call.png" alt="iPad active call"></div>
                 </div>
                 <div class="feature-description">
                     <h3>iPad Layout</h3>
                     <p>Full active call view optimized for iPad's larger screen. See more log entries at once.</p>
                     <p>Same quick-tap buttons, same timers, same voice logging. Everything syncs across your devices.</p>
                     <p>Great for supervisors reviewing calls or training scenarios.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reports -->
+        <section class="section" id="reports">
+            <h2>Reports</h2>
+            <p>Generate professional reports from your call documentation.</p>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/16-radio-report.png" alt="Radio Report MIST format"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Radio Report (MIST)</h3>
+                    <p>Generate a structured radio report using the <strong>MIST</strong> format: Mechanism, Injuries/Illness, Signs, Treatment.</p>
+                    <p>Shows initial vs current vitals side-by-side. Interventions listed chronologically with timestamps.</p>
+                    <p>Perfect for giving a concise handoff report to receiving facilities or calling in to medical control.</p>
                 </div>
             </div>
         </section>
@@ -193,25 +237,152 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <img src="screenshots/09-qr-share.png" alt="Share and export menu">
+                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="Share and export menu"></div>
                 </div>
                 <div class="feature-description">
-                    <h3>Share &amp; Export</h3>
-                    <p><strong>AirDrop</strong> for instant secure transfer to another iOS device. <strong>QR Code</strong> for quick sharing.</p>
-                    <p><strong>Email/SMS</strong> sends encrypted with code sent separately. <strong>Photo Handoff</strong> displays for the receiving crew to photograph.</p>
-                    <p><strong>Redact patient info</strong> toggle replaces names/DOB with [REDACTED] for privacy-safe sharing.</p>
+                    <h3>Sharing Methods</h3>
+                    <p><strong>AirDrop:</strong> Instant, encrypted transfer to another iOS device nearby. Great when you and your partner both have iPhones.</p>
+                    <p><strong>QR Code:</strong> Generate a code and have your partner scan it. Works with or without cellular signal. Can also work as a backup encryption method if you don't want to share via Bluetooth.</p>
+                    <p><strong>Email/SMS:</strong> Send the call encrypted, with the decryption code sent as a separate message for security.</p>
+                    <p><strong>Photo Handoff:</strong> Display the call summary on your phone for the receiving nurse to photograph with theirs (useful at hospital handoff).</p>
+                    <p><strong>Redact Patient Info:</strong> Toggle to replace names, DOB, age, and sex with [REDACTED] before sharing - keeps the clinical record while protecting privacy.</p>
                 </div>
             </div>
 
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
-                    <img src="screenshots/08-call-history.png" alt="Call history">
+                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="QR code sharing"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>QR Code Sharing Details</h3>
+                    <p>Each QR code is uniquely encrypted. Your partner scans the code, and the call data transfers securely over Bluetooth or WiFi - never through internet servers.</p>
+                    <p>QR codes are fairly large on screen (so your partner can scan from several feet away), and the encryption changes every time you generate a code.</p>
+                    <p>Your partner's phone must have MedicLog installed. If they don't yet, use AirDrop, Email, or Photo Handoff instead.</p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="Export formats"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Export Formats</h3>
+                    <p><strong>PDF:</strong> Professional patient care report suitable for printing or attaching to hospital records. Includes timeline, medications, vitals, and other entries formatted for clinical review.</p>
+                    <p><strong>JSON:</strong> Machine-readable format for integration with electronic patient care reporting (ePCR) systems. Contains complete call data in structured format.</p>
+                    <p><strong>CSV:</strong> Spreadsheet-friendly format - useful if you want to analyze multiple calls or integrate with other tools.</p>
+                </div>
+            </div>
+
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/08-call-history.png" alt="Call history"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Call History</h3>
                     <p>Review past calls from the History tab. See call duration, entry count, and patient info at a glance.</p>
                     <p>Tap any call to view full details, export records, or resume to add more entries.</p>
                     <p>All data stays on your device - no cloud sync, no account required.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hospital Handoff Report -->
+        <section class="section" id="handoff">
+            <h2>Hospital Handoff Report</h2>
+            <p>Hand off your documentation directly to the receiving facility with a professional report.</p>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/16-radio-report.png" alt="Hospital handoff report"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Hospital Handoff</h3>
+                    <p>Tap the <strong>Hospital Handoff</strong> button on any call to generate a formatted report for nursing handoff at the hospital.</p>
+                    <p>The report shows the complete call timeline: initial assessment, medications given with times, vital signs progression, procedures performed, and special notes.</p>
+                    <p>Use <strong>Photo Handoff</strong> mode to display it on your screen for the receiving RN to photograph with their phone, or export as PDF to email/print.</p>
+                    <p>Perfect for communicating the full story to the hospital team taking over patient care.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Handoff -->
+        <section class="section" id="photo-handoff">
+            <h2>Photo Handoff Mode</h2>
+            <p>Bedside display for hospital crews to photograph your call documentation.</p>
+
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="Photo handoff display"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Display Mode for Photography</h3>
+                    <p>Select <strong>Photo Handoff</strong> from the Share menu. Your iPhone displays the complete call summary in a large, readable format.</p>
+                    <p>The screen stays on and shows high-contrast, easy-to-read details. Let the receiving nurse photograph it with their phone or tablet for their records.</p>
+                    <p>This works even when the hospital's computer systems are busy or down - it's a simple, reliable backup method.</p>
+                    <p>Compared to QR codes (requires scanning and app), or AirDrop (requires shared devices) - Photo Handoff works with any phone and any ePCR system.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulary Customization -->
+        <section class="section" id="formulary">
+            <h2>Formulary Customization</h2>
+            <p>Tailor MedicLog's medication list to match your scope of practice and protocols.</p>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/05-med-picker.png" alt="Medication picker with customization"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Customize Your Medications</h3>
+                    <p>Go to <strong>Settings → Formulary Management</strong> to control which medications appear in your picker.</p>
+                    <p><strong>Enable/Disable:</strong> Turn off medications you don't carry (e.g., paramedic-only drugs if you're an EMT). Only enabled meds appear in quick entry.</p>
+                    <p><strong>Add Custom Medications:</strong> Add agency-specific medications, off-protocol drugs you might use, or documentation-only entries (like "Protocol Violation Documented").</p>
+                    <p><strong>Set Default Doses & Routes:</strong> Define standard doses and routes for each medication. When you select a med, it pre-fills with your defaults - faster entry.</p>
+                    <p><strong>Organize by Category:</strong> Reorder categories or create custom groupings to match your mental model of your formulary.</p>
+                    <p><strong>Configure Timer Intervals:</strong> Set how long timers run for each medication (redose windows, regulatory intervals, etc.).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Switching -->
+        <section class="section" id="profiles">
+            <h2>Profile Switching</h2>
+            <p>Create separate profiles for different roles and switch between them instantly.</p>
+
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/01-active-call-light.png" alt="Profile selection"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Multiple Profiles</h3>
+                    <p><strong>Create profiles</strong> in Settings for different roles: Paramedic, EMT-Basic, Critical Care, Supervisor, or custom titles.</p>
+                    <p>Each profile remembers: your name, certification level, agency/unit, default destination, and custom formulary settings.</p>
+                    <p><strong>Quick switch:</strong> When starting a call, tap the profile name at the top to change who's logging. Profiles switch instantly.</p>
+                    <p><strong>What carries across profiles:</strong> Your agency's destination list, shared custom medications, and global preferences (timer colors, display settings).</p>
+                    <p><strong>What's profile-specific:</strong> Your name, unit assignment, which meds are enabled, and your personal documentation preferences.</p>
+                    <p>Perfect for medics who work multiple roles, or crews where multiple people use the same iPad.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reports Details -->
+        <section class="section" id="radio-report">
+            <h2>Radio Reports (MIST Format)</h2>
+            <p>Generate structured handoff reports for medical control or receiving facilities.</p>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/16-radio-report.png" alt="Radio Report MIST format"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>MIST Structure</h3>
+                    <p>MedicLog generates radio reports in the standard MIST format: <strong>Mechanism, Injuries/Illness, Signs, Treatment</strong>.</p>
+                    <p><strong>Mechanism:</strong> How the injury happened (from patient demographics and initial notes).</p>
+                    <p><strong>Injuries/Illness:</strong> Chief complaint and pertinent findings from your assessment.</p>
+                    <p><strong>Signs:</strong> Initial vital signs and any changes during transport. MedicLog shows initial vs current for easy comparison.</p>
+                    <p><strong>Treatment:</strong> Interventions performed with timestamps - medications, procedures, oxygen, fluids, etc.</p>
+                    <p>Perfect for radio traffic to medical control or for structured hospital handoff. See our <a href="transfer.html">Transfer Workflow</a> documentation for detailed handoff strategies.</p>
                 </div>
             </div>
         </section>
