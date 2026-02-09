@@ -172,7 +172,25 @@
                     How do I share a call with my partner?
                 </button>
                 <div class="faq-answer">
-                    <p>Tap the Share button on any call to generate a QR code. Your partner scans it with their MedicLog app, and the call syncs to their device instantly. The transfer is end-to-end encrypted and works even without internet (via local WiFi or Bluetooth).</p>
+                    <p>Multiple options: <strong>AirDrop</strong> is fastest (tap Share → AirDrop, select their device). <strong>QR Code</strong> works for smaller calls — your partner scans the code with MedicLog. For larger calls, use AirDrop or <strong>Email/SMS</strong> with an encrypted file and separate decryption code. All methods use end-to-end encryption and work without internet.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Why is the QR Code option greyed out for my call?
+                </button>
+                <div class="faq-answer">
+                    <p>QR codes can hold about 3 KB of data. If your call has many entries, vitals, or photos, it exceeds this limit and QR is disabled. Use AirDrop instead — MedicLog will automatically encrypt the file and show a QR code with just the encryption key for your partner to scan.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    How do I train custom voice aliases?
+                </button>
+                <div class="faq-answer">
+                    <p>Go to <strong>Settings → Voice Aliases</strong>, tap "Train New Alias", then record yourself saying the word 3 times. MedicLog extracts the speech variants it hears and lets you pick which ones to save. Map them to a medication and you're done. Your custom aliases override the built-in ones.</p>
                 </div>
             </div>
 
@@ -219,7 +237,9 @@
                 <div class="faq-answer">
                     <p>Yes. Each call can be exported as:</p>
                     <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
-                        <li><strong>PDF:</strong> Professional patient care report for printing or attaching to hospital records</li>
+                        <li><strong>PDF (Detailed):</strong> Multi-page patient care report with full timeline, embedded photos</li>
+                        <li><strong>PDF (Summary):</strong> Single-page MIST format for quick handoff</li>
+                        <li><strong>Text:</strong> Human-readable plain text for pasting into other documentation systems</li>
                         <li><strong>JSON:</strong> Machine-readable format for integration with ePCR systems</li>
                         <li><strong>CSV:</strong> Spreadsheet format for data analysis or integration with other tools</li>
                     </ul>
@@ -258,9 +278,27 @@
                 </button>
                 <div class="faq-answer">
                     <p><strong>Redose:</strong> Log another dose of the same medication with the same dose/route. Fresh timer starts immediately.</p>
-                    <p><strong>Snooze:</strong> Temporarily pause the timer (default 5 minutes). Use this when you're not ready to redose yet but don't want the alert. Timer resumes where it left off.</p>
+                    <p><strong>Snooze:</strong> Extend the timer by 1 minute. Use this when you're not ready to redose yet but don't want the overdue alert.</p>
                     <p><strong>Withheld:</strong> Document that you chose NOT to give the medication at the redose time. This creates a log entry showing the decision and reason (medical decision, patient refused, etc.).</p>
                     <p><strong>Delete:</strong> Remove the timer entirely. Use this if you logged a medication in error.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    What does the "OVER...×3" badge mean on my timer bar?
+                </button>
+                <div class="faq-answer">
+                    <p>When multiple timers expire, MedicLog groups the oldest expired timers into a compact badge (e.g., "OVER...×3") to keep your active and newest expired timers visible. Tap the badge to expand and see all expired timers individually. It auto-collapses after a few seconds.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Can I transfer my profile and settings to a new device or share with a crew member?
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. Go to <strong>Settings → Profile → Export</strong> to create a .mlconfig file containing your profile, display preferences, dispatch templates, voice aliases, and destinations. Share it via AirDrop or email. When imported on another device, it creates a new profile without overwriting anything. Note: call history and medication formulary are not included in the export.</p>
                 </div>
             </div>
 
@@ -339,6 +377,22 @@
                         <li>Do Not Disturb / Focus mode is not blocking alerts</li>
                         <li>Watch is paired and connected to your iPhone</li>
                     </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    QR code scanning isn't working. What should I check?
+                </button>
+                <div class="faq-answer">
+                    <p>Try these steps:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Make sure camera permissions are enabled for MedicLog in iOS Settings</li>
+                        <li>Hold the device steady and ensure the QR code is well-lit</li>
+                        <li>If the QR code is on another phone screen, increase their screen brightness</li>
+                        <li>MedicLog uses high error correction (30% recovery) so it should scan even at angles or through dirty screens</li>
+                    </ul>
+                    <p>For encrypted files received via email: make sure you have the 6-digit decryption code (sent separately). After 3 failed code attempts, the file locks and you'll need a fresh code from the sender.</p>
                 </div>
             </div>
 

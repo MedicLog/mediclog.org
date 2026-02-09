@@ -179,11 +179,29 @@
                     <div class="device-frame-iphone"><img src="screenshots/02-voice-entry.png" alt="Voice entry confirmation"></div>
                 </div>
                 <div class="feature-description">
-                    <h3>How Voice Recognition Works</h3>
-                    <p>MedicLog listens for medication names, doses, and routes. Say the medication, amount, and how you're giving it: <strong>"Narcan 2 mg intranasal" or "Epi 0.3 point 3 IV push"</strong>.</p>
-                    <p>The app shows you what it heard before logging. If recognition isn't perfect, edit it in the confirmation screen - your edits teach the app.</p>
-                    <p>For best results, speak clearly and avoid background noise when possible (though it's designed to work in ambulances).</p>
-                    <p>What gets transcribed: medication, dose, route, and timing. Patient information, vital signs, and clinical notes stay in typed entries.</p>
+                    <h3>What Voice Recognition Understands</h3>
+                    <p>MedicLog parses your speech into structured entries. It recognizes:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li><strong>Medications:</strong> "Fentanyl 50 mcg IV" — extracts drug name, dose, unit, and route</li>
+                        <li><strong>Vitals:</strong> "BP 120 over 80, heart rate 88, spo2 98"</li>
+                        <li><strong>Procedures:</strong> "IV placed 18 gauge" or "intubated" or "12 lead obtained"</li>
+                        <li><strong>Cardiac:</strong> "Started CPR" or "Shock delivered 200 joules" or "ROSC achieved"</li>
+                        <li><strong>Corrections:</strong> Say "Correction..." to modify a previous entry</li>
+                    </ul>
+                    <p>The app shows you what it heard before logging. If recognition isn't perfect, edit it in the confirmation screen.</p>
+                    <p>For best results, speak clearly and say dose units explicitly ("fifty mike" or "fifty micrograms" instead of just "fifty").</p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/02-voice-entry.png" alt="Custom voice aliases"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Custom Voice Aliases</h3>
+                    <p>Every medication comes with built-in speech aliases (e.g., "epi", "epinephrine", and "adrenaline" all match Epinephrine). Common phonetic mishears are pre-loaded too ("nar can" for Narcan, "so fran" for Zofran).</p>
+                    <p><strong>Train your own aliases:</strong> In Settings, tap a medication and record yourself saying the word 3 times. MedicLog extracts the speech variants and saves them. Your custom aliases override the built-in ones.</p>
+                    <p><strong>On Apple Watch:</strong> Raise your wrist to auto-launch dictation. Quick suggestion buttons appear for common entries like "Vitals taken", "IV started", "CPR started" — just tap or speak.</p>
                 </div>
             </div>
         </section>
@@ -267,9 +285,23 @@
                 </div>
                 <div class="feature-description">
                     <h3>QR Code Sharing Details</h3>
-                    <p>Each QR code is uniquely encrypted. Your partner scans the code, and the call data transfers securely over Bluetooth or WiFi - never through internet servers.</p>
-                    <p>QR codes are fairly large on screen (so your partner can scan from several feet away), and the encryption changes every time you generate a code.</p>
-                    <p>Your partner's phone must have MedicLog installed. If they don't yet, use AirDrop, Email, or Photo Handoff instead.</p>
+                    <p><strong>Small calls (under ~3 KB):</strong> The entire call fits in a single QR code. Your partner scans it and gets the data instantly - no extra steps needed.</p>
+                    <p><strong>Larger calls:</strong> The QR code option is disabled (greyed out) when the call data exceeds what a QR code can hold. Use AirDrop instead - MedicLog encrypts the file automatically and shows you a separate QR code with the encryption key for your partner to scan.</p>
+                    <p><strong>Email/SMS sharing:</strong> The call is encrypted with a random 6-digit code. Send the file one way (email) and the code another way (text message) so neither is useful alone.</p>
+                    <p>QR codes use the highest error correction level (30% recovery) so they scan reliably even at angles, in poor lighting, or through dirty screens.</p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="QR scanning"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Scanning &amp; Receiving</h3>
+                    <p>To receive a call via QR, open MedicLog and tap <strong>Scan QR Code</strong> from the Share menu. Point your camera at the sender's screen.</p>
+                    <p>MedicLog recognizes what type of QR it's scanning automatically: call data, encryption keys, contact info, or configuration settings.</p>
+                    <p>For encrypted files received via email, enter the 6-digit code the sender texted you. MedicLog auto-fills the code if it detects a matching SMS on your device.</p>
+                    <p>All encryption uses AES-256-GCM (the same standard used by banks and governments). Your data never passes through any server.</p>
                 </div>
             </div>
 
@@ -279,9 +311,38 @@
                 </div>
                 <div class="feature-description">
                     <h3>Export Formats</h3>
-                    <p><strong>PDF:</strong> Professional patient care report suitable for printing or attaching to hospital records. Includes timeline, medications, vitals, and other entries formatted for clinical review.</p>
-                    <p><strong>JSON:</strong> Machine-readable format for integration with electronic patient care reporting (ePCR) systems. Contains complete call data in structured format.</p>
-                    <p><strong>CSV:</strong> Spreadsheet-friendly format - useful if you want to analyze multiple calls or integrate with other tools.</p>
+                    <p><strong>PDF (Detailed):</strong> Multi-page patient care report with full timeline, medications, vitals, and procedures. Includes embedded photos if any were attached to the call.</p>
+                    <p><strong>PDF (Summary/MIST):</strong> Single-page report in MIST format for quick handoff. Key vitals and treatments only.</p>
+                    <p><strong>Text:</strong> Human-readable plain text report with all entries and timestamps. Good for pasting into other documentation systems.</p>
+                    <p><strong>JSON:</strong> Machine-readable format for integration with ePCR systems. Contains complete structured call data.</p>
+                    <p><strong>CSV:</strong> Spreadsheet-friendly format for data analysis or integration with other tools.</p>
+                </div>
+            </div>
+
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="When to use each sharing method"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>When to Use Each Method</h3>
+                    <p><strong>AirDrop</strong> — Your partner is right here with an iPhone. Fastest and most secure. Recommended for crew-to-crew transfers.</p>
+                    <p><strong>QR Code</strong> — Small call, quick one-scan transfer. Disabled for larger calls that won't fit.</p>
+                    <p><strong>Email/SMS</strong> — Your partner isn't nearby, or you're transferring to someone on a different platform. Encrypted file sent separately from the decryption code.</p>
+                    <p><strong>Photo Handoff</strong> — At the hospital, the RN needs a quick record. Works with any phone, no app needed on their end.</p>
+                    <p><strong>PDF Export</strong> — For printing, attaching to hospital records, or emailing to your agency. Choose Detailed for complete documentation or Summary for a quick MIST handoff report.</p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="PHI warnings"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Patient Information Protection</h3>
+                    <p>MedicLog detects when a call contains patient-identifiable information (name, DOB, etc.) and shows smart warnings before sharing.</p>
+                    <p><strong>No nagging:</strong> If your call has no patient info, or you're using a secure method like AirDrop, you won't see any warnings. They only appear when needed.</p>
+                    <p><strong>Redact toggle:</strong> When exporting for records, flip the "Redact patient info" switch to replace names and DOB with [REDACTED]. This resets to ON each session so you never accidentally export unredacted data.</p>
+                    <p>Every export includes a reminder that you're responsible for HIPAA compliance with the exported data.</p>
                 </div>
             </div>
 
@@ -309,10 +370,16 @@
                 </div>
                 <div class="feature-description">
                     <h3>Hospital Handoff</h3>
-                    <p>Tap the <strong>Hospital Handoff</strong> button on any call to generate a formatted report for nursing handoff at the hospital.</p>
-                    <p>The report shows the complete call timeline: initial assessment, medications given with times, vital signs progression, procedures performed, and special notes.</p>
-                    <p>Use <strong>Photo Handoff</strong> mode to display it on your screen for the receiving RN to photograph with their phone, or export as PDF to email/print.</p>
-                    <p>Perfect for communicating the full story to the hospital team taking over patient care.</p>
+                    <p>Tap the <strong>Report</strong> button in the toolbar during any call, or find it in the Share menu. MedicLog can also prompt you automatically when you end a call.</p>
+                    <p>The report is organized for bedside reference, not as a minute-by-minute timeline. Sections include:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li><strong>Vital Signs Trend:</strong> Scrollable table showing BP, HR, RR, SpO&#x2082;, Temp, and GCS over time (newest first)</li>
+                        <li><strong>Medications Given:</strong> Grouped by medication name with doses and routes - easy to scan "what did they get?"</li>
+                        <li><strong>Procedures:</strong> Color-coded by type (IV access, cardiac, monitoring, transfer)</li>
+                        <li><strong>Assessment &amp; Notes:</strong> Timestamped clinical notes and status changes</li>
+                        <li><strong>Patient's Own Medications:</strong> Pre-existing meds reported by the patient (marked as not EMS-administered)</li>
+                    </ul>
+                    <p>Optional dispatch times section lets you record Dispatched, On Scene, Transporting, and At Hospital milestones.</p>
                 </div>
             </div>
         </section>
@@ -328,10 +395,10 @@
                 </div>
                 <div class="feature-description">
                     <h3>Display Mode for Photography</h3>
-                    <p>Select <strong>Photo Handoff</strong> from the Share menu. Your iPhone displays the complete call summary in a large, readable format.</p>
-                    <p>The screen stays on and shows high-contrast, easy-to-read details. Let the receiving nurse photograph it with their phone or tablet for their records.</p>
-                    <p>This works even when the hospital's computer systems are busy or down - it's a simple, reliable backup method.</p>
-                    <p>Compared to QR codes (requires scanning and app), or AirDrop (requires shared devices) - Photo Handoff works with any phone and any ePCR system.</p>
+                    <p>Select <strong>Photo Handoff</strong> from the Share menu. Your iPhone switches to a black background with white monospaced text - optimized for clear, glare-free photos.</p>
+                    <p>Screen brightness automatically maximizes. Content is organized with clear section dividers (Vitals, Medications, Procedures, Notes). Vitals taken within 2 minutes are grouped on one line.</p>
+                    <p>Use the large chevron buttons (sized for gloved hands) to page through the report. Text snaps to line boundaries so nothing gets cut off mid-line. Controls auto-hide after 3 seconds for clean screenshots.</p>
+                    <p><strong>Why Photo Handoff?</strong> It works with any phone, any ePCR system, no app required on the receiving end. When the hospital's computers are busy or down, this is the most reliable way to get your documentation to the receiving nurse.</p>
                 </div>
             </div>
         </section>
@@ -352,7 +419,7 @@
                     <p><strong>Add Custom Medications:</strong> Add agency-specific medications, off-protocol drugs you might use, or documentation-only entries (like "Protocol Violation Documented").</p>
                     <p><strong>Set Default Doses & Routes:</strong> Define standard doses and routes for each medication. When you select a med, it pre-fills with your defaults - faster entry.</p>
                     <p><strong>Organize by Category:</strong> Reorder categories or create custom groupings to match your mental model of your formulary.</p>
-                    <p><strong>Configure Timer Intervals:</strong> Set how long timers run for each medication (redose windows, regulatory intervals, etc.).</p>
+                    <p><strong>Configure Timer Intervals:</strong> Set how long timers run for each medication (redose windows, regulatory intervals, etc.). Choose a timer color from 8 presets or pick a custom color so you can tell medications apart at a glance.</p>
                 </div>
             </div>
         </section>
@@ -373,6 +440,7 @@
                     <p><strong>Quick switch:</strong> When starting a call, tap the profile name at the top to change who's logging. Profiles switch instantly.</p>
                     <p><strong>What carries across profiles:</strong> Your agency's destination list, shared custom medications, and global preferences (timer colors, display settings).</p>
                     <p><strong>What's profile-specific:</strong> Your name, unit assignment, which meds are enabled, and your personal documentation preferences.</p>
+                    <p><strong>Export/Import:</strong> Export your profile as a .mlconfig file to share with crew members or transfer to a new device. Importing creates a new profile — it never overwrites your existing data.</p>
                     <p>Perfect for medics who work multiple roles, or crews where multiple people use the same iPad.</p>
                 </div>
             </div>
@@ -394,6 +462,7 @@
                     <p><strong>Injuries/Illness:</strong> Chief complaint and pertinent findings from your assessment.</p>
                     <p><strong>Signs:</strong> Initial vital signs and any changes during transport. MedicLog shows initial vs current for easy comparison.</p>
                     <p><strong>Treatment:</strong> Interventions performed with timestamps - medications, procedures, oxygen, fluids, etc.</p>
+                    <p>Access the radio report by tapping the green <strong>Report</strong> button in the toolbar during an active call. MedicLog also offers it when you end a call via the transfer report prompt.</p>
                     <p>Perfect for radio traffic to medical control or for structured hospital handoff. See our <a href="transfer.html">Transfer Workflow</a> documentation for detailed handoff strategies.</p>
                 </div>
             </div>
