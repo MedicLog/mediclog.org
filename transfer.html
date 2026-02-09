@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Workflow — MedicLog</title>
+    <meta name="description" content="How MedicLog enables seamless patient care documentation from first responder to ALS to hospital handoff.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Transfer page specific styles */
+        .flow-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            min-width: 120px;
+        }
+
+        .flow-step .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .flow-step.first-responder .icon { background: #4caf50; color: white; }
+        .flow-step.als .icon { background: #2196f3; color: white; }
+        .flow-step.transport .icon { background: #ff9800; color: white; }
+        .flow-step.hospital .icon { background: #9c27b0; color: white; }
+
+        .flow-step .label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .flow-step .sublabel {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 600px) {
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+            .flow-diagram {
+                flex-direction: column;
+            }
+        }
+
+        .method-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .method-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .method-card h3 svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .method-card .when-to-use {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .method-card ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .method-card li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: 0.5rem;
+        }
+
+        .badge-secure {
+            background: rgba(76, 175, 80, 0.2);
+            color: #81c784;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .badge-fast {
+            background: rgba(33, 150, 243, 0.2);
+            color: #64b5f6;
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+
+        .badge-hospital {
+            background: rgba(156, 39, 176, 0.2);
+            color: #ce93d8;
+            border: 1px solid rgba(156, 39, 176, 0.3);
+        }
+
+        .scenario-section {
+            margin: 2rem 0;
+        }
+
+        .scenario-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .scenario-steps {
+            counter-reset: scenario-step;
+            list-style: none;
+            padding: 0;
+        }
+
+        .scenario-steps li {
+            counter-increment: scenario-step;
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-left: 2px solid var(--border);
+            margin-left: 0.75rem;
+        }
+
+        .scenario-steps li:last-child {
+            border-left-color: transparent;
+            padding-bottom: 0;
+        }
+
+        .scenario-steps li::before {
+            content: counter(scenario-step);
+            position: absolute;
+            left: -0.75rem;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scenario-steps li strong {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="icon.png" alt="MedicLog">
+                MedicLog
+            </a>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+            <div class="nav-links">
+                <a href="docs.html">Docs</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="shortcuts.html">Shortcuts</a>
+                <a href="faq.html">FAQ</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1>Transfer Workflow</h1>
+            <p class="subtitle">Seamless patient care documentation from scene to hospital</p>
+        </header>
+
+        <!-- The Patient Care Continuity Chain -->
+        <section class="section" id="overview">
+            <h2>The Patient Care Continuity Chain</h2>
+            <p>MedicLog is designed for how EMS really works: multiple providers, multiple handoffs, one patient. Every entry is timestamped, attributed, and transferable.</p>
+
+            <div class="flow-diagram">
+                <div class="flow-step first-responder">
+                    <div class="icon">🚒</div>
+                    <span class="label">First Responder</span>
+                    <span class="sublabel">Initial assessment</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step als">
+                    <div class="icon">🚑</div>
+                    <span class="label">BLS/ALS Ambulance</span>
+                    <span class="sublabel">Receives handoff</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step transport">
+                    <div class="icon">🚁</div>
+                    <span class="label">Flight</span>
+                    <span class="sublabel">Continued care</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step hospital">
+                    <div class="icon">👩‍⚕️</div>
+                    <span class="label">Hospital</span>
+                    <span class="sublabel">Bedside handoff</span>
+                </div>
+            </div>
+
+            <p>At each stage, the complete log transfers instantly — vitals, medications, timestamps, and notes. The receiving crew continues where you left off.</p>
+        </section>
+
+        <!-- Sharing Methods -->
+        <section class="section" id="sharing-methods">
+            <h2>Sharing Methods</h2>
+            <p>Choose the right method for your situation:</p>
+
+            <div class="feature-row" style="margin-bottom: 1.5rem;">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/10-share-menu.png" alt="Share and Export menu"></div>
+                </div>
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/14-phi-warning.png" alt="PHI transmission warning"></div>
+                </div>
+            </div>
+            <p class="text-muted" style="text-align: center; font-size: 0.85rem; margin-bottom: 1.5rem;">Share & Export menu with PHI transmission warning for methods without end-to-end encryption</p>
+
+            <div class="method-card">
+                <h3>
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                    AirDrop
+                    <span class="method-badge badge-secure">Recommended</span>
+                    <span class="method-badge badge-fast">Instant</span>
+                </h3>
+                <p class="when-to-use"><strong>When to use:</strong> Same-agency crew swap, partner taking over, any iOS-to-iOS transfer</p>
+                <ul>
+                    <li>Encrypted end-to-end by Apple</li>
+                    <li>One tap to send, one tap to receive</li>
+                    <li>Works without cellular or WiFi (uses Bluetooth + WiFi Direct)</li>
+                    <li>Large files automatically encrypted with QR key</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h3>
+                    <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm8-2v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm8 0h2v2h-2v2h2v-2h2v2h2v-2h-2v-2h2v-2h-2v2h-2v-2h-2v2zm0 4h2v2h-2zm4 0h2v2h-2z"/></svg>
+                    QR Code
+                    <span class="method-badge badge-fast">No Setup</span>
+                </h3>
+                <p class="when-to-use"><strong>When to use:</strong> Quick share when AirDrop isn't available, cross-platform (iOS ↔ Android)</p>
+                <ul>
+                    <li>Receiver scans with their camera — no app needed to view</li>
+                    <li>Small calls (&lt;3KB) fit in a single QR code</li>
+                    <li>Physical security: you control who can see the screen</li>
+                    <li>Works completely offline</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h3>
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    Email/SMS
+                    <span class="method-badge badge-secure">Encrypted</span>
+                </h3>
+                <p class="when-to-use"><strong>When to use:</strong> Remote sharing, iOS ↔ Android cross-platform, you scan flight crew's contact QR so they can get in the air</p>
+                <ul>
+                    <li>File sent via email, 6-digit code sent via SMS (or vice versa)</li>
+                    <li>AES-256 encryption — file is useless without the code</li>
+                    <li>Two-channel delivery prevents interception</li>
+                    <li>Use when you can't AirDrop (different locations, later handoff)</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h3>
+                    <svg viewBox="0 0 24 24"><path d="M12 15c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/></svg>
+                    Photo Handoff
+                    <span class="method-badge badge-hospital">Hospital</span>
+                </h3>
+                <p class="when-to-use"><strong>When to use:</strong> ER staff, hospital personnel, anyone without MedicLog</p>
+                <ul>
+                    <li>Full-screen display optimized for photography</li>
+                    <li>Black background, white monospaced text — camera-friendly</li>
+                    <li>Brightness maxed, screen stays on</li>
+                    <li>Receiving nurse/doc photographs your screen with their phone</li>
+                    <li>Page-at-a-time scrolling for long calls</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h3>
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    Hospital Handoff Report
+                    <span class="method-badge badge-hospital">Bedside</span>
+                </h3>
+                <p class="when-to-use"><strong>When to use:</strong> Formal bedside transfer to ER/hospital staff</p>
+                <ul>
+                    <li>Clinical reference format (not chronological timeline)</li>
+                    <li>Vitals trend table, medications grouped by drug</li>
+                    <li>Procedures grouped by category (IV/IO, Cardiac, etc.)</li>
+                    <li>Optional dispatch times section (paste from CAD)</li>
+                    <li>Export as PDF for hospital records</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h3>
+                    <svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                    Radio Report (MIST)
+                    <span class="method-badge badge-fast">Verbal</span>
+                </h3>
+                <p class="when-to-use"><strong>When to use:</strong> Calling medical control, giving report en route, verbal handoff</p>
+                <ul>
+                    <li>MIST format: Mechanism, Injuries/Illness, Signs, Treatment</li>
+                    <li>Initial vs current vitals side-by-side</li>
+                    <li>Interventions listed chronologically with timestamps</li>
+                    <li>Concise format for quick verbal handoff</li>
+                </ul>
+            </div>
+
+            <!-- Screenshots of handoff methods -->
+            <div class="feature-row" style="margin-top: 1.5rem;">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/11-photo-handoff.png" alt="Photo Handoff display"></div>
+                </div>
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/12-hospital-handoff.png" alt="Hospital Handoff report"></div>
+                </div>
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/16-radio-report.png" alt="Radio Report MIST format"></div>
+                </div>
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/13-encrypted-transfer.png" alt="Encrypted Transfer screen"></div>
+                </div>
+            </div>
+            <p class="text-muted" style="text-align: center; font-size: 0.85rem;">Photo Handoff, Hospital Handoff (clinical format), Radio Report (MIST), and Encrypted Transfer</p>
+        </section>
+
+        <!-- Care Provider Attribution -->
+        <section class="section" id="attribution">
+            <h2>Care Provider Attribution</h2>
+            <p>Every crew member who touches the call is tracked. The Call Details view shows all Care Providers with their agency and role.</p>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/15-call-details-providers.png" alt="Call Details showing Care Providers"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Chain of Custody</h3>
+                    <p>When a call transfers between providers, MedicLog maintains the complete chain of custody. See exactly who documented what and when.</p>
+                    <p>Each provider's entries are attributed to them, even after the call has been handed off multiple times.</p>
+                    <p>Perfect for QA review, legal documentation, and training feedback.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Scenarios -->
+        <section class="section" id="scenarios">
+            <h2>Common Scenarios</h2>
+
+            <div class="scenario-section">
+                <h3>Scenario 1: BLS to ALS Handoff</h3>
+                <ol class="scenario-steps">
+                    <li><strong>BLS arrives first</strong> — starts call in MedicLog, logs initial vitals and assessment</li>
+                    <li><strong>ALS arrives</strong> — BLS taps Share → AirDrop → sends to ALS medic</li>
+                    <li><strong>ALS receives</strong> — taps notification, call loads automatically with all BLS entries</li>
+                    <li><strong>ALS continues</strong> — adds medications, additional vitals, procedures. All entries show "logged by" attribution</li>
+                </ol>
+            </div>
+
+            <div class="scenario-section">
+                <h3>Scenario 2: Multi-Unit Response</h3>
+                <ol class="scenario-steps">
+                    <li><strong>Engine company</strong> on scene first, starts call, begins CPR</li>
+                    <li><strong>Ambulance arrives</strong> — Engine QR shares to medic (different agencies, no AirDrop)</li>
+                    <li><strong>Medic continues</strong> — defibrillation, meds, advanced airway all logged</li>
+                    <li><strong>Flight</strong> — flight crew takes over, receives call via AirDrop</li>
+                    <li><strong>Hospital</strong> — Photo Handoff to ER doc, PDF report to chart</li>
+                </ol>
+            </div>
+
+            <div class="scenario-section">
+                <h3>Scenario 3: Hospital Handoff</h3>
+                <ol class="scenario-steps">
+                    <li><strong>Arrive at ER</strong> — tap Share → Hospital Handoff</li>
+                    <li><strong>Bedside report</strong> — structured view: vitals trend, meds given, procedures</li>
+                    <li><strong>RN/Doc needs copy</strong> — tap Photo Handoff, they photograph your screen</li>
+                    <li><strong>For medical records</strong> — Export PDF, email to hospital or print</li>
+                </ol>
+            </div>
+
+            <div class="scenario-section">
+                <h3>Scenario 4: Partner Swap Mid-Call</h3>
+                <ol class="scenario-steps">
+                    <li><strong>You're logging</strong> on your phone in the back</li>
+                    <li><strong>Shift change</strong> — new medic takes over patient care</li>
+                    <li><strong>AirDrop to new medic</strong> — they continue logging on their phone</li>
+                    <li><strong>Attribution preserved</strong> — entries show who logged what</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Export for PCR -->
+        <section class="section" id="export">
+            <h2>Export for PCR/ePCR</h2>
+            <p>After the call, export your documentation for your Patient Care Report:</p>
+
+            <ul>
+                <li><strong>PDF Detailed</strong> — Full timeline with all entries, timestamps, and notes</li>
+                <li><strong>PDF Summary</strong> — MIST format with key vitals and interventions</li>
+                <li><strong>Text</strong> — Plain text for pasting into ePCR narrative</li>
+                <li><strong>CSV</strong> — Spreadsheet format for analysis</li>
+            </ul>
+
+            <p>All exports support <strong>PHI redaction</strong> — toggle "Redact patient info" to replace names and DOB with [REDACTED] for privacy-safe sharing.</p>
+        </section>
+
+        <!-- Cross-Platform -->
+        <section class="section" id="cross-platform">
+            <h2>Cross-Platform Sharing</h2>
+            <p>MedicLog supports sharing between iOS and Android:</p>
+
+            <ul>
+                <li><strong>QR Code</strong> — works between any devices</li>
+                <li><strong>Email/SMS</strong> — encrypted files work on both platforms</li>
+                <li><strong>.mlshare files</strong> — identical format, cross-platform compatible</li>
+            </ul>
+
+            <p>The Android version is currently in alpha — join the beta to test cross-platform sharing.</p>
+        </section>
+
+        <div class="text-center mt-2">
+            <a href="docs.html" class="btn">View Full Documentation</a>
+            <a href="beta.html" class="btn btn-outline">Join the Beta</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
+    </footer>
+</body>
+</html>

@@ -590,16 +590,31 @@ footer a:hover {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin: 2rem 0;
+    align-items: flex-end;
+}
+
+@media (max-width: 900px) {
+    .screenshot-compare {
+        flex-wrap: wrap;
+    }
 }
 
 .screenshot-compare .screenshot-item {
-    flex: 0 1 300px;
+    flex: 0 0 auto;
 }
 
 .screenshot-compare .screenshot-item img {
     max-width: 100%;
+}
+
+/* Device frames override - don't apply default screenshot styling */
+.screenshot-item .device-frame-iphone img,
+.screenshot-item .device-frame-watch img,
+.screenshot-item .device-frame-ipad img {
+    border: none;
+    box-shadow: none;
 }
 
 /* Device showcase row */
@@ -628,6 +643,131 @@ footer a:hover {
     max-width: 320px;
 }
 
+/* Device Frames - CSS-only bezels for screenshots */
+
+/* iPhone frame */
+.device-frame-iphone {
+    position: relative;
+    display: inline-block;
+    padding: 12px 10px;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    border-radius: 40px;
+    box-shadow:
+        inset 0 0 0 2px #3a3a3a,
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.device-frame-iphone::before {
+    /* Notch/Dynamic Island */
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 28px;
+    background: #1a1a1a;
+    border-radius: 14px;
+    z-index: 10;
+}
+
+.device-frame-iphone img {
+    display: block;
+    border-radius: 32px;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Watch frame - circular bezel */
+.device-frame-watch {
+    position: relative;
+    display: inline-block;
+    padding: 8px;
+    background: linear-gradient(145deg, #3a3a3a, #1a1a1a);
+    border-radius: 28%;
+    box-shadow:
+        inset 0 0 0 2px #4a4a4a,
+        0 0 0 3px #2a2a2a,
+        0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.device-frame-watch::before {
+    /* Digital Crown */
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 35%;
+    width: 6px;
+    height: 20px;
+    background: linear-gradient(180deg, #4a4a4a, #2a2a2a);
+    border-radius: 2px;
+}
+
+.device-frame-watch::after {
+    /* Side button */
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: calc(35% + 28px);
+    width: 5px;
+    height: 14px;
+    background: linear-gradient(180deg, #3a3a3a, #2a2a2a);
+    border-radius: 2px;
+}
+
+.device-frame-watch img {
+    display: block;
+    border-radius: 22%;
+    max-width: 100%;
+    height: auto;
+}
+
+/* iPad frame */
+.device-frame-ipad {
+    position: relative;
+    display: inline-block;
+    padding: 14px;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    border-radius: 24px;
+    box-shadow:
+        inset 0 0 0 2px #3a3a3a,
+        0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.device-frame-ipad img {
+    display: block;
+    border-radius: 12px;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Light mode adjustments - slightly softer shadows */
+@media (prefers-color-scheme: light) {
+    .device-frame-iphone,
+    .device-frame-watch,
+    .device-frame-ipad {
+        box-shadow:
+            inset 0 0 0 2px #4a4a4a,
+            0 4px 20px rgba(0, 0, 0, 0.2),
+            0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* Sizing for device frames in hero section */
+.screenshot-compare .device-frame-iphone {
+    max-width: 280px;
+}
+
+.screenshot-compare .device-frame-watch {
+    max-width: 180px;
+}
+
+/* Ensure order is preserved on wrap */
+.screenshot-compare .screenshot-item:nth-child(1) { order: 1; }
+.screenshot-compare .screenshot-item:nth-child(2) { order: 2; }
+.screenshot-compare .screenshot-item:nth-child(3) { order: 3; }
+
 /* Feature rows - screenshot left, description right */
 .feature-row {
     display: flex;
@@ -649,11 +789,33 @@ footer a:hover {
     text-align: center;
 }
 
+/* When feature-row has multiple screenshots (gallery mode), allow wrapping and shrinking */
+.feature-row:has(.feature-screenshot:nth-child(3)) {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.feature-row:has(.feature-screenshot:nth-child(3)) .feature-screenshot {
+    flex: 0 1 200px;
+    min-width: 150px;
+}
+
+.feature-row:has(.feature-screenshot:nth-child(3)) .device-frame-iphone {
+    max-width: 180px;
+}
+
 .feature-screenshot img {
     max-width: 100%;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Device frames handle their own styling - don't add extra shadows */
+.feature-screenshot .device-frame-iphone img,
+.feature-screenshot .device-frame-watch img,
+.feature-screenshot .device-frame-ipad img {
+    box-shadow: none;
 }
 
 .feature-screenshot.watch img {
