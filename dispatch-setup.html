@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dispatch Setup Guide — MedicLog</title>
+    <meta name="description" content="Step-by-step guide to configuring dispatch message integration in MedicLog. Automatically detect run numbers and addresses from dispatch messages.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Dispatch page specific styles - follows shortcuts.html pattern */
+        .hero-shortcuts {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .hero-shortcuts h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .hero-shortcuts p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hero-shortcuts .version-note {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* Numbered section headers */
+        .section h2 .section-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        /* Steps */
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            counter-increment: step;
+            width: 32px;
+            height: 32px;
+            background: var(--highlight-bg);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .step-num::before {
+            content: counter(step);
+        }
+
+        .step-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Alert boxes */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .alert-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        .alert-info {
+            background: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
+        }
+
+        .alert-info .alert-icon {
+            fill: var(--accent);
+        }
+
+        .alert-warning {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .alert-warning .alert-icon {
+            fill: #ff9800;
+        }
+
+        .alert-content {
+            color: var(--text-secondary);
+        }
+
+        .alert-content strong {
+            color: var(--text-primary);
+        }
+
+        /* Troubleshooting */
+        .troubleshoot-item {
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .troubleshoot-item:last-child {
+            border-bottom: none;
+        }
+
+        .troubleshoot-q {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .troubleshoot-a {
+            color: var(--text-muted);
+        }
+
+        /* Table of contents */
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc li {
+            margin-bottom: 0.5rem;
+            padding-left: 0;
+        }
+
+        .toc li::before {
+            display: none;
+        }
+
+        .toc a {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc a:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .toc-num {
+            color: var(--text-muted);
+            font-weight: 600;
+            min-width: 1.5rem;
+        }
+
+        /* Card */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .card ul {
+            margin: 0;
+        }
+
+        /* Example message */
+        .example-message {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 1rem 0;
+            white-space: pre-wrap;
+        }
+
+        /* Screenshot */
+        .screenshot {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin: 1rem 0;
+        }
+
+        .screenshot-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .hero-shortcuts {
+                padding: 2rem 0;
+            }
+
+            .hero-shortcuts h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="icon.png" alt="MedicLog">
+                MedicLog
+            </a>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+            <div class="nav-links">
+                <a href="docs.html">Docs</a>
+                <a href="transfer.html">Transfer</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="shortcuts.html">Shortcuts</a>
+                <a href="faq.html">FAQ</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="hero-shortcuts">
+            <h1>Dispatch Setup Guide</h1>
+            <p>Configure MedicLog to automatically detect run numbers and addresses from dispatch messages.</p>
+            <p class="version-note">Last updated: February 10, 2026 for MedicLog v1.0</p>
+        </div>
+
+        <nav class="toc">
+            <div class="toc-title">On This Page</div>
+            <ul>
+                <li><a href="#getting-started"><span class="toc-num">1.</span> Getting Started</a></li>
+                <li><a href="#in-app-wizard"><span class="toc-num">2.</span> In-App Setup Wizard</a></li>
+                <li><a href="#manual-config"><span class="toc-num">3.</span> Manual Template Configuration</a></li>
+                <li><a href="#shortcuts-integration"><span class="toc-num">4.</span> iOS Shortcuts Integration</a></li>
+                <li><a href="#troubleshooting"><span class="toc-num">5.</span> Troubleshooting</a></li>
+            </ul>
+        </nav>
+
+        <!-- Section 1: Getting Started -->
+        <section id="getting-started" class="section">
+            <h2><span class="section-num">1</span> Getting Started</h2>
+
+            <h3>What is Dispatch Integration?</h3>
+            <p>MedicLog can automatically detect run numbers, addresses, and other call details from dispatch text messages. Once configured, you can copy a dispatch message and MedicLog will automatically fill in the run number when you start a new call. Combined with iOS Shortcuts, this process becomes completely automatic.</p>
+
+            <h3>Why Set It Up?</h3>
+            <p>Dispatch integration saves time and reduces errors by:</p>
+            <ul>
+                <li><strong>Auto-filling run numbers</strong> from dispatch messages</li>
+                <li><strong>Capturing addresses and call types</strong> without manual entry</li>
+                <li><strong>Detecting unit numbers</strong> for multi-provider agencies</li>
+                <li><strong>Working offline</strong> – no network connection required after setup</li>
+            </ul>
+
+            <h3>Prerequisites</h3>
+            <div class="card">
+                <ul>
+                    <li><strong>iOS 16 or later</strong> (for paste permission feature)</li>
+                    <li><strong>MedicLog installed</strong> from the App Store</li>
+                    <li><strong>A sample dispatch message</strong> (text or email)</li>
+                    <li><strong>Optional:</strong> iOS Shortcuts app for automation</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-info">
+                <svg class="alert-icon" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                <div class="alert-content">
+                    <strong>Tip:</strong> Your dispatch system doesn't need to change anything. MedicLog learns your format from a single example message.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: In-App Wizard -->
+        <section id="in-app-wizard" class="section">
+            <h2><span class="section-num">2</span> In-App Setup Wizard</h2>
+            <p>The easiest way to configure dispatch integration is using the built-in setup wizard. It guides you through the entire process step-by-step.</p>
+
+            <h3>How to Access</h3>
+            <p>Open MedicLog → <strong>Settings</strong> → <strong>Agency Configuration</strong> → <strong>Dispatch Setup</strong></p>
+
+            <img src="screenshots/dispatch/dispatch-01-access.png" alt="Settings screen showing Dispatch Setup button" class="screenshot">
+            <p class="screenshot-caption">Access Dispatch Setup from Agency Configuration in Settings</p>
+
+            <h3>Step-by-Step Walkthrough</h3>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Introduction Screen</h4>
+                        <p>The wizard explains how dispatch integration works: copy & paste mode for manual detection, and Shortcuts automation for instant background detection. Tap <strong>Get Started</strong> to begin.</p>
+                        <img src="screenshots/dispatch/dispatch-02-intro.png" alt="Dispatch setup intro screen" class="screenshot">
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Choose Your Method</h4>
+                        <p>Select how you receive run numbers:</p>
+                        <ul>
+                            <li><strong>I have a text or email to copy</strong> – if you receive dispatch via SMS, email, or other text-based notification</li>
+                            <li><strong>I'll type an example</strong> – if you receive dispatch via radio, CAD, or verbal notification</li>
+                        </ul>
+                        <p>Most users should choose the first option if they receive text messages from dispatch.</p>
+                        <img src="screenshots/dispatch/dispatch-03-choose-method.png" alt="Choose method screen with two options" class="screenshot">
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Paste a Dispatch Message</h4>
+                        <p>If you chose the paste option, copy a real dispatch message from your Messages app, then tap <strong>Paste from Clipboard</strong>. The wizard will analyze the message and identify potential fields like run number, address, and unit.</p>
+
+                        <div class="alert alert-warning">
+                            <svg class="alert-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                            </svg>
+                            <div class="alert-content">
+                                <strong>Privacy note:</strong> The dispatch message stays on your device. It's used only to create a template and is never sent to MedicLog's servers.
+                            </div>
+                        </div>
+
+                        <p><strong>Example dispatch message:</strong></p>
+                        <div class="example-message">DISPATCH: Unit M42, Run# L2602101234, 123 Main St, Chest Pain, 68 y/o M</div>
+
+                        <img src="screenshots/dispatch/dispatch-04-paste.png" alt="Paste message screen with clipboard button" class="screenshot">
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Tag Dispatch Fields</h4>
+                        <p>The most important step: select each word or phrase and tag it with the correct field type. Tap on a word-pill (highlighted text segment), then choose what it represents:</p>
+                        <ul>
+                            <li><strong>Run Number</strong> – the unique call identifier</li>
+                            <li><strong>Address</strong> – the location</li>
+                            <li><strong>Unit</strong> – your medic unit number</li>
+                            <li><strong>Chief Complaint</strong> – the call type</li>
+                            <li><strong>Age/Sex/Name</strong> – patient demographics (if included)</li>
+                            <li><strong>Ignore</strong> – headers like "DISPATCH:" that should be skipped</li>
+                        </ul>
+
+                        <img src="screenshots/dispatch/dispatch-05-tagger.png" alt="Word-pill tagger interface showing tagged fields" class="screenshot">
+                        <p class="screenshot-caption">Tag each field by tapping the highlighted word-pill</p>
+
+                        <div class="alert alert-info">
+                            <svg class="alert-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                            <div class="alert-content">
+                                <strong>Tip:</strong> Tag the exact format your dispatch uses. If run numbers are always "L" followed by 10 digits, select the entire "L2602101234" segment, not just the numbers.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Confirm and Save</h4>
+                        <p>Review your template and tap <strong>Save Template</strong>. The wizard will confirm the template is ready to use.</p>
+                        <img src="screenshots/dispatch/dispatch-06-confirm.png" alt="Template confirmation screen" class="screenshot">
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Grant Paste Permission</h4>
+                        <p>iOS requires apps to request permission before reading the clipboard. The wizard will guide you to Settings → MedicLog → Paste from Other Apps → set to <strong>Allow</strong>.</p>
+                        <p>Without this permission, MedicLog will show a popup every time you paste a dispatch message.</p>
+                        <img src="screenshots/dispatch/dispatch-07-paste-permission.png" alt="iOS Settings showing paste permission toggle" class="screenshot">
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <h4>Optional: Set Up Shortcuts</h4>
+                        <p>The final screen asks if you want to configure iOS Shortcuts for automatic detection. This is optional but highly recommended for the best experience. See <a href="#shortcuts-integration">Section 4</a> for details.</p>
+                        <img src="screenshots/dispatch/dispatch-08-shortcuts-offer.png" alt="Shortcuts integration offer screen" class="screenshot">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Manual Configuration -->
+        <section id="manual-config" class="section">
+            <h2><span class="section-num">3</span> Manual Template Configuration</h2>
+            <p>You can edit or create templates manually if you have multiple dispatch formats or need to fine-tune an existing template.</p>
+
+            <h3>When to Use Manual Configuration</h3>
+            <ul>
+                <li><strong>Multiple dispatch formats</strong> – if you receive messages from different sources with different formats</li>
+                <li><strong>Editing existing templates</strong> – if your dispatch format changes</li>
+                <li><strong>Advanced tagging</strong> – if you need to combine multiple word-pills into a single field</li>
+            </ul>
+
+            <h3>Field Types Available</h3>
+            <div class="card">
+                <ul>
+                    <li><strong>Run Number</strong> – unique call identifier (required)</li>
+                    <li><strong>Address</strong> – location of the call</li>
+                    <li><strong>Unit</strong> – your medic unit number</li>
+                    <li><strong>Chief Complaint</strong> – call type or nature</li>
+                    <li><strong>Patient Name</strong> – patient's full name</li>
+                    <li><strong>Patient Age</strong> – age in years</li>
+                    <li><strong>Patient Sex</strong> – M/F/Other</li>
+                    <li><strong>Ignore</strong> – headers or irrelevant text</li>
+                </ul>
+            </div>
+
+            <h3>Tagging Tips</h3>
+            <ul>
+                <li><strong>Select exact text</strong> – don't tag partial words or extra spaces</li>
+                <li><strong>Tag complete segments</strong> – if run numbers include a prefix (like "L2602101234"), tag the entire segment including the letter</li>
+                <li><strong>Ignore headers</strong> – tag words like "DISPATCH:" or "RUN#:" as "Ignore" so they're skipped during parsing</li>
+                <li><strong>Test with multiple messages</strong> – after saving, test with 2-3 recent dispatch messages to verify accuracy</li>
+            </ul>
+
+            <div class="alert alert-info">
+                <svg class="alert-icon" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                <div class="alert-content">
+                    <strong>Multiple senders?</strong> If you receive dispatch messages from different phone numbers with different formats, you'll need to create a separate template for each format. MedicLog will try all templates when detecting run numbers.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Shortcuts Integration -->
+        <section id="shortcuts-integration" class="section">
+            <h2><span class="section-num">4</span> iOS Shortcuts Integration</h2>
+            <p>Once your dispatch template is configured, you can set up iOS Shortcuts for automatic run number detection in the background.</p>
+
+            <h3>How It Works</h3>
+            <p>When you receive a text message from dispatch, iOS Shortcuts can automatically extract the run number and send it to MedicLog. When you open MedicLog, the run number is already filled in – no copy/paste required.</p>
+
+            <h3>Setup Process</h3>
+            <p>The in-app wizard guides you through Shortcuts setup, or you can follow the full guide at:</p>
+            <p><a href="shortcuts.html">iOS Shortcuts Setup Guide</a></p>
+
+            <h3>Key Points</h3>
+            <ul>
+                <li><strong>Trigger:</strong> Message received from dispatch phone number</li>
+                <li><strong>Action:</strong> "Receive Run Number" MedicLog intent</li>
+                <li><strong>Runs in background:</strong> No notification, instant detection</li>
+                <li><strong>Offline capable:</strong> Works without network connection</li>
+            </ul>
+
+            <div class="alert alert-info">
+                <svg class="alert-icon" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                <div class="alert-content">
+                    <strong>Want more automation?</strong> Check out the <a href="shortcuts.html">full Shortcuts guide</a> for recipes like NFC tags for status updates, voice commands for quick logging, and more.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Troubleshooting -->
+        <section id="troubleshooting" class="section">
+            <h2><span class="section-num">5</span> Troubleshooting</h2>
+
+            <div class="troubleshoot-item">
+                <div class="troubleshoot-q">Template not detecting run number</div>
+                <div class="troubleshoot-a">
+                    <p>This usually means the format changed or the tagging doesn't match exactly. Go back to Dispatch Setup, paste a recent message, and re-tag the run number field. Make sure you select the entire run number including any prefixes (letters, dashes, etc.).</p>
+                </div>
+            </div>
+
+            <div class="troubleshoot-item">
+                <div class="troubleshoot-q">Paste permission popup appears every time</div>
+                <div class="troubleshoot-a">
+                    <p>iOS Settings → MedicLog → Paste from Other Apps → set to <strong>Allow</strong>. This grants permanent clipboard access so you don't see the popup on every paste.</p>
+                </div>
+            </div>
+
+            <div class="troubleshoot-item">
+                <div class="troubleshoot-q">Shortcut not triggering automatically</div>
+                <div class="troubleshoot-a">
+                    <p>Check the Shortcuts app → Automation tab. Make sure:</p>
+                    <ul>
+                        <li>The trigger phone number matches your dispatch sender</li>
+                        <li>"Run Immediately" is enabled (no confirmation prompt)</li>
+                        <li>The automation is toggled ON (green)</li>
+                        <li>Focus Mode isn't blocking automations</li>
+                    </ul>
+                    <p>See the <a href="shortcuts.html#troubleshooting">Shortcuts troubleshooting guide</a> for more details.</p>
+                </div>
+            </div>
+
+            <div class="troubleshoot-item">
+                <div class="troubleshoot-q">Multiple dispatch formats from different senders</div>
+                <div class="troubleshoot-a">
+                    <p>You can create multiple templates. Each template saves the example message, so MedicLog tries all templates when parsing. Go to Dispatch Setup and create a new template for each format. In Shortcuts, create separate automations for each sender phone number.</p>
+                </div>
+            </div>
+
+            <div class="troubleshoot-item">
+                <div class="troubleshoot-q">Wrong field detected (address instead of run number)</div>
+                <div class="troubleshoot-a">
+                    <p>Re-tag the template. Make sure each field type is tagged correctly. If your dispatch message has multiple numbers (run number, unit number, badge number), make sure you tag the run number field specifically, not other numeric values.</p>
+                </div>
+            </div>
+
+            <div class="troubleshoot-item">
+                <div class="troubleshoot-q">Run number appears in "Recent" but doesn't auto-fill</div>
+                <div class="troubleshoot-a">
+                    <p>This is expected behavior. The run number is saved to "Recent Run Numbers" (accessible via the dropdown), but it doesn't auto-fill unless you explicitly tap it. This prevents accidental overwrites if you're manually entering a different run number.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <section class="section" style="border-top: 1px solid var(--border); padding-top: 2rem; margin-top: 3rem;">
+            <h3>Still Need Help?</h3>
+            <p>If you're having trouble with dispatch setup, reach out:</p>
+            <ul>
+                <li>Email: <a href="mailto:support@mediclog.org">support@mediclog.org</a></li>
+                <li>GitHub Issues: <a href="https://github.com/MedicLog/mediclog-support/issues">mediclog-support</a></li>
+            </ul>
+
+            <div class="alert alert-info">
+                <svg class="alert-icon" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                <div class="alert-content">
+                    <strong>Found this guide helpful?</strong> Share it with your crew or agency. The more medics using MedicLog, the better the tool becomes.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem;">
+        <div class="container" style="text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+            <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
+        </div>
+    </footer>
+</body>
+</html>
