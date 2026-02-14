@@ -468,6 +468,88 @@
             height: 16px;
             fill: currentColor;
         }
+
+        /* Scenario toggle */
+        .scenario-toggle {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        .scenario-btn {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .scenario-btn:hover {
+            border-color: var(--text-muted);
+        }
+
+        .scenario-btn.selected {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* More compact log entries for full scenario */
+        .preview-log .log-entry {
+            font-size: 10px;
+            padding: 4px 6px;
+            margin-bottom: 2px;
+        }
+
+        .preview-log .log-time {
+            font-size: 9px;
+            min-width: 32px;
+        }
+
+        .preview-log .log-icon {
+            font-size: 10px;
+            width: 14px;
+        }
+
+        .preview-log .vitals-inline {
+            font-size: 9px;
+        }
+
+        /* Text inputs and selects */
+        .text-input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            min-width: 140px;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .select-input {
+            padding: 0.4rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            min-width: 120px;
+            cursor: pointer;
+        }
+
+        .select-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
     </style>
 </head>
 <body>
@@ -496,8 +578,8 @@
         </a>
 
         <header class="creator-header">
-            <h1>Display Settings Creator</h1>
-            <p class="subtitle">Customize your MedicLog display preferences and generate a QR code to import them</p>
+            <h1>Settings Creator</h1>
+            <p class="subtitle">Configure MedicLog settings and generate a QR code to apply them instantly</p>
         </header>
 
         <div class="creator-layout">
@@ -669,12 +751,257 @@
                     </div>
                 </section>
 
+                <!-- Agency Configuration -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+                        Agency Configuration
+                    </h3>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Agency Name</span>
+                            <small>Your service or department name</small>
+                        </div>
+                        <input type="text" id="agencyName" placeholder="Ambulance Service" class="text-input">
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Use Incident Numbers</span>
+                            <small>Track calls by incident number</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="useIncidentNumbers" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show PHI Warnings</span>
+                            <small>Warn before sharing protected data</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showPHIWarnings" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show Test Data Tools</span>
+                            <small>Enable sample data generators</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showTestDataTools" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show Handoff in Share Menu</span>
+                            <small>Quick access to hospital handoff</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showHandoffInShareMenu" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Stroke Scale</span>
+                            <small>Default stroke assessment tool</small>
+                        </div>
+                        <select id="strokeScale" class="select-input">
+                            <option value="cincinnati" selected>Cincinnati</option>
+                            <option value="lams">LAMS</option>
+                            <option value="fast-ed">FAST-ED</option>
+                            <option value="race">RACE</option>
+                            <option value="nihss">NIHSS</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>End of Call Action</span>
+                            <small>What happens when call ends</small>
+                        </div>
+                        <select id="endOfCallAction" class="select-input">
+                            <option value="hospital" selected>Prompt Hospital Handoff</option>
+                            <option value="save">Save Silently</option>
+                            <option value="export">Show Export Options</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Cardiac Options -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+                        Cardiac Procedures
+                    </h3>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show Vector Change</span>
+                            <small>Defibrillator pad swap option</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showVectorChange" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show Dual Sequential</span>
+                            <small>Double defibrillation option</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showDualSequential" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Quick Entry Buttons -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+                        Quick Entry Buttons
+                    </h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Which buttons appear during active calls</p>
+                    <div class="vitals-grid">
+                        <label><input type="checkbox" id="qe-vitals"> <span>Vitals</span></label>
+                        <label><input type="checkbox" id="qe-medication" checked> <span>Medication</span></label>
+                        <label><input type="checkbox" id="qe-cardiac" checked> <span>Cardiac</span></label>
+                        <label><input type="checkbox" id="qe-iv" checked> <span>IV Access</span></label>
+                        <label><input type="checkbox" id="qe-procedure" checked> <span>Procedures</span></label>
+                        <label><input type="checkbox" id="qe-note" checked> <span>Notes</span></label>
+                    </div>
+                    <div class="setting-row" style="margin-top: 0.75rem;">
+                        <div class="setting-label">
+                            <span>Default IV Gauge</span>
+                        </div>
+                        <select id="defaultIVGauge" class="select-input">
+                            <option value="14g">14g</option>
+                            <option value="16g">16g</option>
+                            <option value="18g" selected>18g</option>
+                            <option value="20g">20g</option>
+                            <option value="22g">22g</option>
+                            <option value="24g">24g</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Watch Configuration -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M20 12c0-2.54-1.19-4.81-3.04-6.27L16 0H8l-.95 5.73C5.19 7.19 4 9.45 4 12s1.19 4.81 3.05 6.27L8 24h8l.96-5.73C18.81 16.81 20 14.54 20 12zM6 12c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6z"/></svg>
+                        Watch Configuration
+                    </h3>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Enable Watch Connectivity</span>
+                            <small>Sync with Apple Watch app</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showWatchConnectivity" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Watch Voice Mode</span>
+                            <small>How Watch handles voice input</small>
+                        </div>
+                        <select id="watchVoiceMode" class="select-input">
+                            <option value="auto" selected>Auto</option>
+                            <option value="tap">Tap to Speak</option>
+                            <option value="always">Always Listening</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Vitals Settings -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5z"/></svg>
+                        Vitals Settings
+                    </h3>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show Vitals Button</span>
+                            <small>In quick entry toolbar</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showVitalsButton" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Radio Report: Full Vitals</span>
+                            <small>Show trending arrows in reports</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="radioShowFullVitals" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Vitals Reminder</span>
+                            <small>Periodic reassessment timer</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="vitalsReminderEnabled">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Reminder Interval</span>
+                        </div>
+                        <select id="vitalsReminderInterval" class="select-input">
+                            <option value="300" selected>5 min</option>
+                            <option value="600">10 min</option>
+                            <option value="900">15 min</option>
+                            <option value="1800">30 min</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show Math Helpers</span>
+                            <small>MAP, Shock Index calculations</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="vitalsShowMathHelper" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Export Settings -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                        Export Settings
+                    </h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Which export formats are enabled</p>
+                    <div class="vitals-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <label><input type="checkbox" id="export-pdf" checked> <span>PDF</span></label>
+                        <label><input type="checkbox" id="export-text" checked> <span>Text</span></label>
+                        <label><input type="checkbox" id="export-csv" checked> <span>CSV</span></label>
+                    </div>
+                </section>
+
             </div>
 
             <!-- Preview Panel -->
             <div class="preview-panel">
                 <div class="preview-card">
                     <h3>Live Preview</h3>
+
+                    <!-- Scenario Toggle -->
+                    <div class="scenario-toggle">
+                        <button class="scenario-btn selected" data-scenario="cardiac" onclick="setScenario('cardiac')">Cardiac Arrest</button>
+                        <button class="scenario-btn" data-scenario="clean" onclick="setScenario('clean')">Clean Call</button>
+                    </div>
 
                     <div class="phone-mockup">
                         <div class="phone-screen">
@@ -688,32 +1015,11 @@
                                     <span class="timer-pill call" id="timer-call">⏱ 12:45</span>
                                     <span class="timer-pill med-green" id="timer-epi">Epi 2:15</span>
                                     <span class="timer-pill med-yellow" id="timer-amio">Amio 0:45</span>
+                                    <span class="timer-pill med-red" id="timer-bicarb">Bicarb 0:12</span>
                                 </div>
 
-                                <div class="preview-log">
-                                    <div class="log-entry">
-                                        <span class="log-time" id="log-time-1">14:30</span>
-                                        <span class="log-icon">💊</span>
-                                        <span class="log-content">Epinephrine 1mg IV</span>
-                                    </div>
-                                    <div class="log-entry">
-                                        <span class="log-time" id="log-time-2">14:28</span>
-                                        <span class="log-icon">❤️</span>
-                                        <span class="log-content">
-                                            Vitals<br>
-                                            <span class="vitals-inline" id="vitals-preview">BP: 120/80 • HR: 88 • RR: 16</span>
-                                        </span>
-                                    </div>
-                                    <div class="log-entry">
-                                        <span class="log-time" id="log-time-3">14:25</span>
-                                        <span class="log-icon">⚡</span>
-                                        <span class="log-content">Defibrillation 200J</span>
-                                    </div>
-                                    <div class="log-entry">
-                                        <span class="log-time" id="log-time-4">14:20</span>
-                                        <span class="log-icon">🩺</span>
-                                        <span class="log-content">IV Access 18g L AC</span>
-                                    </div>
+                                <div class="preview-log" id="preview-log">
+                                    <!-- Populated by setScenario() -->
                                 </div>
                             </div>
                         </div>
@@ -741,6 +1047,37 @@
     </footer>
 
     <script>
+        // Current scenario
+        let currentScenario = 'cardiac';
+
+        // Scenario data - cardiac arrest and clean call
+        const scenarios = {
+            cardiac: {
+                times24: ['14:32', '14:31', '14:30', '14:28', '14:27', '14:25', '14:23', '14:21', '14:20', '14:18', '14:15'],
+                times12: ['2:32', '2:31', '2:30', '2:28', '2:27', '2:25', '2:23', '2:21', '2:20', '2:18', '2:15'],
+                entries: [
+                    { icon: '💊', text: 'Epinephrine 1mg IV (3rd dose)' },
+                    { icon: '⚡', text: 'Defibrillation 200J - V-Fib' },
+                    { icon: '💊', text: 'Amiodarone 150mg IV' },
+                    { icon: '❤️', text: 'Vitals', vitals: true },
+                    { icon: '💊', text: 'Sodium Bicarb 50mEq IV' },
+                    { icon: '⚡', text: 'Defibrillation 200J - V-Fib' },
+                    { icon: '💊', text: 'Epinephrine 1mg IV (2nd dose)' },
+                    { icon: '💊', text: 'Amiodarone 300mg IV' },
+                    { icon: '⚡', text: 'Defibrillation 200J - V-Fib' },
+                    { icon: '💊', text: 'Epinephrine 1mg IV (1st dose)' },
+                    { icon: '🩺', text: 'IV Access 18g L AC' }
+                ]
+            },
+            clean: {
+                times24: ['14:20'],
+                times12: ['2:20'],
+                entries: [
+                    { icon: '🚑', text: 'Call Started' }
+                ]
+            }
+        };
+
         // Get all settings elements
         const settings = {
             // Theme
@@ -773,13 +1110,95 @@
                 showGlucose: document.getElementById('vitals-glucose').checked,
                 showPain: document.getElementById('vitals-pain').checked,
                 showGCS: document.getElementById('vitals-gcs').checked
-            })
+            }),
+
+            // Agency
+            agencyName: () => document.getElementById('agencyName').value.trim() || null,
+            useIncidentNumbers: () => document.getElementById('useIncidentNumbers').checked,
+            showPHIWarnings: () => document.getElementById('showPHIWarnings').checked,
+            showTestDataTools: () => document.getElementById('showTestDataTools').checked,
+            showHandoffInShareMenu: () => document.getElementById('showHandoffInShareMenu').checked,
+            strokeScale: () => document.getElementById('strokeScale').value,
+            endOfCallAction: () => document.getElementById('endOfCallAction').value,
+            showVectorChange: () => document.getElementById('showVectorChange').checked,
+            showDualSequential: () => document.getElementById('showDualSequential').checked,
+
+            // Quick Entry
+            quickEntry: () => ({
+                vitals: document.getElementById('qe-vitals').checked,
+                medication: document.getElementById('qe-medication').checked,
+                cardiac: document.getElementById('qe-cardiac').checked,
+                iv: document.getElementById('qe-iv').checked,
+                procedure: document.getElementById('qe-procedure').checked,
+                note: document.getElementById('qe-note').checked,
+                defaultIVGauge: document.getElementById('defaultIVGauge').value
+            }),
+
+            // Watch
+            showWatchConnectivity: () => document.getElementById('showWatchConnectivity').checked,
+            watchVoiceMode: () => document.getElementById('watchVoiceMode').value,
+
+            // Vitals settings
+            showVitalsButton: () => document.getElementById('showVitalsButton').checked,
+            radioShowFullVitals: () => document.getElementById('radioShowFullVitals').checked,
+            vitalsReminderEnabled: () => document.getElementById('vitalsReminderEnabled').checked,
+            vitalsReminderInterval: () => parseInt(document.getElementById('vitalsReminderInterval').value),
+            vitalsShowMathHelper: () => document.getElementById('vitalsShowMathHelper').checked,
+
+            // Export
+            exportPDF: () => document.getElementById('export-pdf').checked,
+            exportText: () => document.getElementById('export-text').checked,
+            exportCSV: () => document.getElementById('export-csv').checked
         };
+
+        // Build vitals string based on current settings
+        function getVitalsString() {
+            const vc = settings.vitalsCollapsed();
+            let parts = [];
+            if (vc.showBP) parts.push('BP: 60/40');
+            if (vc.showHR) parts.push('HR: 0');
+            if (vc.showRR) parts.push('RR: 0');
+            if (vc.showSpO2) parts.push('SpO₂: --');
+            if (vc.showTemp) parts.push('T: 97.2°');
+            if (vc.showETCO2) parts.push('CO₂: 12');
+            if (vc.showGlucose) parts.push('BGL: 145');
+            if (vc.showPain) parts.push('Pain: U');
+            if (vc.showGCS) parts.push('GCS: 3');
+            return parts.join(' • ') || 'No vitals selected';
+        }
+
+        // Set scenario and rebuild log
+        function setScenario(scenario) {
+            currentScenario = scenario;
+
+            // Update toggle buttons
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.toggle('selected', btn.dataset.scenario === scenario);
+            });
+
+            // Update timers visibility for clean scenario
+            if (scenario === 'clean') {
+                document.getElementById('timer-epi').classList.add('hidden');
+                document.getElementById('timer-amio').classList.add('hidden');
+                document.getElementById('timer-bicarb').classList.add('hidden');
+            } else {
+                // Restore based on settings
+                const showMed = settings.showMedicationTimers();
+                document.getElementById('timer-epi').classList.toggle('hidden', !showMed);
+                document.getElementById('timer-amio').classList.toggle('hidden', !showMed);
+                document.getElementById('timer-bicarb').classList.toggle('hidden', !showMed);
+            }
+
+            updatePreview();
+        }
 
         // Update preview when any setting changes
         function updatePreview() {
             const screen = document.getElementById('preview-screen');
             const theme = settings.theme();
+            const use24 = settings.use24HourTime();
+            const useUTC = settings.useUTCTime();
+            const scenario = scenarios[currentScenario];
 
             // Theme
             screen.classList.remove('light', 'dark');
@@ -796,54 +1215,65 @@
                 }
             }
 
+            // Header time
+            let headerTime = use24 ? scenario.times24[0] : scenario.times12[0] + ' PM';
+            if (useUTC) headerTime += 'Z';
+            document.getElementById('preview-time').textContent = headerTime;
+
             // Timers visibility
             document.getElementById('timer-call').classList.toggle('hidden', !settings.showCallTimer());
-            const medTimers = document.querySelectorAll('.timer-pill.med-green, .timer-pill.med-yellow, .timer-pill.med-red');
-            medTimers.forEach(t => t.classList.toggle('hidden', !settings.showMedicationTimers()));
-
-            // Time format
-            const use24 = settings.use24HourTime();
-            const timeEls = document.querySelectorAll('.log-time, #preview-time');
-            if (use24) {
-                document.getElementById('preview-time').textContent = '14:32';
-                document.getElementById('log-time-1').textContent = '14:30';
-                document.getElementById('log-time-2').textContent = '14:28';
-                document.getElementById('log-time-3').textContent = '14:25';
-                document.getElementById('log-time-4').textContent = '14:20';
-            } else {
-                document.getElementById('preview-time').textContent = '2:32 PM';
-                document.getElementById('log-time-1').textContent = '2:30';
-                document.getElementById('log-time-2').textContent = '2:28';
-                document.getElementById('log-time-3').textContent = '2:25';
-                document.getElementById('log-time-4').textContent = '2:20';
+            if (currentScenario === 'cardiac') {
+                const showMed = settings.showMedicationTimers();
+                document.getElementById('timer-epi').classList.toggle('hidden', !showMed);
+                document.getElementById('timer-amio').classList.toggle('hidden', !showMed);
+                document.getElementById('timer-bicarb').classList.toggle('hidden', !showMed);
             }
 
-            // UTC suffix
-            if (settings.useUTCTime()) {
-                document.getElementById('preview-time').textContent += 'Z';
-            }
+            // Build log entries
+            const logContainer = document.getElementById('preview-log');
+            const times = use24 ? scenario.times24 : scenario.times12;
 
-            // Vitals collapsed preview
-            const vc = settings.vitalsCollapsed();
-            let vitalsStr = [];
-            if (vc.showBP) vitalsStr.push('BP: 120/80');
-            if (vc.showHR) vitalsStr.push('HR: 88');
-            if (vc.showRR) vitalsStr.push('RR: 16');
-            if (vc.showSpO2) vitalsStr.push('SpO₂: 98%');
-            if (vc.showTemp) vitalsStr.push('T: 98.6°');
-            if (vc.showETCO2) vitalsStr.push('CO₂: 38');
-            if (vc.showGlucose) vitalsStr.push('BGL: 110');
-            if (vc.showPain) vitalsStr.push('Pain: 4');
-            if (vc.showGCS) vitalsStr.push('GCS: 15');
-            document.getElementById('vitals-preview').textContent = vitalsStr.join(' • ') || 'No vitals selected';
+            let html = '';
+            scenario.entries.forEach((entry, i) => {
+                const time = times[i] || times[times.length - 1];
+                let content = entry.text;
+                if (entry.vitals) {
+                    content = `Vitals<br><span class="vitals-inline">${getVitalsString()}</span>`;
+                }
+                html += `
+                    <div class="log-entry">
+                        <span class="log-time">${time}</span>
+                        <span class="log-icon">${entry.icon}</span>
+                        <span class="log-content">${content}</span>
+                    </div>
+                `;
+            });
+            logContainer.innerHTML = html;
         }
 
         // Generate QR code with quick_config payload
         function generateQR() {
+            const qe = settings.quickEntry();
+
             const payload = {
                 type: 'quick_config',
                 configVersion: 1,
                 exportedAt: new Date().toISOString(),
+
+                // Agency configuration
+                agency: {
+                    name: settings.agencyName(),
+                    useIncidentNumbers: settings.useIncidentNumbers(),
+                    showPHIWarnings: settings.showPHIWarnings(),
+                    showTestDataTools: settings.showTestDataTools(),
+                    'cardiac.showVectorChange': settings.showVectorChange(),
+                    'cardiac.showDualSequential': settings.showDualSequential(),
+                    endOfCallAction: settings.endOfCallAction(),
+                    'hospitalHandoff.showInShareMenu': settings.showHandoffInShareMenu(),
+                    strokeScale: settings.strokeScale()
+                },
+
+                // Display preferences
                 display: {
                     appearanceMode: settings.theme(),
                     use24HourTime: settings.use24HourTime(),
@@ -858,9 +1288,48 @@
                     showPatientInfoButton: settings.showPatientInfoButton(),
                     vitalsCollapsed: settings.vitalsCollapsed()
                 },
+
+                // Quick entry buttons
+                quickEntry: {
+                    vitals: qe.vitals,
+                    medication: qe.medication,
+                    cardiac: qe.cardiac,
+                    iv: qe.iv,
+                    procedure: qe.procedure,
+                    note: qe.note,
+                    defaultIVGauge: qe.defaultIVGauge
+                },
+
+                // Watch settings
+                watch: {
+                    showWatchConnectivity: settings.showWatchConnectivity(),
+                    watchVoiceMode: settings.watchVoiceMode()
+                },
+
+                // Vitals settings
+                vitals: {
+                    showVitalsButton: settings.showVitalsButton(),
+                    radioShowFullVitals: settings.radioShowFullVitals(),
+                    reminderEnabled: settings.vitalsReminderEnabled(),
+                    reminderInterval: settings.vitalsReminderInterval(),
+                    showMathHelper: settings.vitalsShowMathHelper()
+                },
+
+                // Export settings
+                export: {
+                    pdf: settings.exportPDF(),
+                    text: settings.exportText(),
+                    csv: settings.exportCSV()
+                },
+
                 page: 1,
                 totalPages: 1
             };
+
+            // Remove null agency name if not set
+            if (!payload.agency.name) {
+                delete payload.agency.name;
+            }
 
             const json = JSON.stringify(payload);
 
@@ -877,34 +1346,38 @@
             }, function(error) {
                 if (error) {
                     console.error(error);
-                    alert('Error generating QR code. Settings may be too complex.');
+                    alert('Error generating QR code. The configuration may be too large for a single QR code. Try reducing settings.');
                     return;
                 }
 
                 // Show QR section
                 document.getElementById('qr-section').style.display = 'block';
 
-                // Summary
-                let count = 0;
-                count += 1; // theme
-                count += 3; // time/date
-                count += 4; // timer/screen
-                count += 3; // timeline
-                count += Object.values(settings.vitalsCollapsed()).filter(v => v !== false).length > 0 ? 1 : 0;
-                document.getElementById('settings-summary').textContent = `${count} display preferences configured`;
+                // Summary - count configured sections
+                let sections = [];
+                if (settings.agencyName()) sections.push('Agency');
+                sections.push('Display');
+                sections.push('Quick Entry');
+                sections.push('Watch');
+                sections.push('Vitals');
+                sections.push('Export');
+                document.getElementById('settings-summary').textContent = `Configuration includes: ${sections.join(', ')}`;
             });
         }
 
-        // Attach event listeners to all inputs
+        // Attach event listeners to all inputs and selects
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('change', updatePreview);
+        });
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', updatePreview);
         });
 
         // Handle system theme changes
         window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', updatePreview);
 
-        // Initial update
-        updatePreview();
+        // Initial setup
+        setScenario('cardiac');
     </script>
 </body>
 </html>
