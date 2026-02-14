@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Settings Creator — MedicLog</title>
+    <meta name="description" content="Customize MedicLog display settings visually and generate a QR code to import them instantly.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        .creator-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .creator-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .creator-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .creator-header .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Main layout: settings left, preview right */
+        .creator-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .creator-layout {
+                grid-template-columns: 1fr;
+            }
+            .preview-panel {
+                order: -1;
+            }
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .settings-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+
+        .settings-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .settings-section h3 svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--accent);
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+        }
+
+        .setting-label span {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .setting-label small {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Toggle switch */
+        .toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: var(--border);
+            border-radius: 24px;
+            transition: 0.2s;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .toggle input:checked + .toggle-slider {
+            background: var(--accent);
+        }
+
+        .toggle input:checked + .toggle-slider::before {
+            transform: translateX(20px);
+        }
+
+        /* Segmented control */
+        .segmented {
+            display: flex;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .segmented label {
+            flex: 1;
+            text-align: center;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .segmented input {
+            display: none;
+        }
+
+        .segmented input:checked + label {
+            background: var(--accent);
+            color: white;
+            font-weight: 500;
+        }
+
+        /* Vitals checkboxes grid */
+        .vitals-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 500px) {
+            .vitals-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .vitals-grid label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.15s;
+        }
+
+        .vitals-grid label:hover {
+            background: var(--highlight-bg);
+        }
+
+        .vitals-grid input:checked + span {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .vitals-grid input {
+            accent-color: var(--accent);
+        }
+
+        /* Preview Panel */
+        .preview-panel {
+            position: sticky;
+            top: 100px;
+        }
+
+        .preview-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .preview-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Phone mockup */
+        .phone-mockup {
+            background: #1a1a1a;
+            border-radius: 32px;
+            padding: 12px;
+            margin: 0 auto 1.5rem;
+            max-width: 280px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .phone-screen {
+            border-radius: 24px;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Preview screen content - mimics MedicLog active call */
+        .preview-screen {
+            min-height: 400px;
+            padding: 0;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .preview-screen.light {
+            background: #f2f2f7;
+            color: #1c1c1e;
+        }
+
+        .preview-screen.dark {
+            background: #1c1c1e;
+            color: #f2f2f7;
+        }
+
+        /* Header bar */
+        .preview-header {
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .preview-screen.light .preview-header {
+            background: #fff;
+            border-bottom: 1px solid #e5e5ea;
+        }
+
+        .preview-screen.dark .preview-header {
+            background: #2c2c2e;
+            border-bottom: 1px solid #3a3a3c;
+        }
+
+        .preview-title {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* Timer grid */
+        .preview-timers {
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .timer-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .timer-pill.call {
+            background: #007aff;
+            color: white;
+        }
+
+        .timer-pill.med-green {
+            background: #34c759;
+            color: white;
+        }
+
+        .timer-pill.med-yellow {
+            background: #ff9500;
+            color: white;
+        }
+
+        .timer-pill.med-red {
+            background: #ff3b30;
+            color: white;
+        }
+
+        .timer-pill.hidden {
+            display: none;
+        }
+
+        /* Log entries */
+        .preview-log {
+            padding: 8px;
+        }
+
+        .log-entry {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+
+        .preview-screen.light .log-entry {
+            background: #fff;
+        }
+
+        .preview-screen.dark .log-entry {
+            background: #2c2c2e;
+        }
+
+        .log-time {
+            font-family: 'SF Mono', Menlo, monospace;
+            font-size: 10px;
+            opacity: 0.7;
+            min-width: 36px;
+        }
+
+        .log-icon {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .log-content {
+            flex: 1;
+            line-height: 1.3;
+        }
+
+        .log-content .vitals-inline {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        /* QR Section */
+        .qr-section {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .qr-container {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+
+        .qr-container canvas {
+            display: block;
+        }
+
+        .qr-instruction {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .generate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            margin-bottom: 1rem;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+        }
+
+        .generate-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Summary */
+        .settings-summary {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            text-align: center;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="icon.png" alt="MedicLog">
+                MedicLog
+            </a>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+            <div class="nav-links">
+                <a href="docs.html">Docs</a>
+                <a href="transfer.html">Transfer</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="shortcuts.html">Shortcuts</a>
+                <a href="faq.html">FAQ</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="creator-container">
+        <a href="presets.html" class="back-link">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            Back to Role Presets
+        </a>
+
+        <header class="creator-header">
+            <h1>Display Settings Creator</h1>
+            <p class="subtitle">Customize your MedicLog display preferences and generate a QR code to import them</p>
+        </header>
+
+        <div class="creator-layout">
+            <!-- Settings Panel -->
+            <div class="settings-panel">
+
+                <!-- Appearance -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                        Appearance
+                    </h3>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Theme</span>
+                        </div>
+                        <div class="segmented">
+                            <input type="radio" name="theme" id="theme-system" value="0" checked>
+                            <label for="theme-system">System</label>
+                            <input type="radio" name="theme" id="theme-light" value="1">
+                            <label for="theme-light">Light</label>
+                            <input type="radio" name="theme" id="theme-dark" value="2">
+                            <label for="theme-dark">Dark</label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Timer & Screen -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                        Timer & Screen
+                    </h3>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show Call Timer</span>
+                            <small>Elapsed call time in timer grid</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showCallTimer" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show Medication Timers</span>
+                            <small>Countdown timers for meds</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showMedicationTimers" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Keep Screen Awake</span>
+                            <small>Prevent dimming during calls</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="keepScreenAwake" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show Patient Info Button</span>
+                            <small>Quick access to demographics (iPad)</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showPatientInfoButton">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Time & Date Format -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        Time & Date Format
+                    </h3>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>24-Hour Time</span>
+                            <small>14:30 instead of 2:30 PM</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="use24HourTime" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>UTC Time (Zulu)</span>
+                            <small>For flight medics</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="useUTCTime">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Military Date Format</span>
+                            <small>14FEB2026 instead of locale</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="useMilitaryDate">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Timeline Display -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                        Timeline Display
+                    </h3>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Group Active Call Entries</span>
+                            <small>By type instead of chronological</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="groupActiveCallEntries">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Group History Entries</span>
+                            <small>By type in call history</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="groupHistoryEntries">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Group Medications by Type</span>
+                            <small>Cardiac, Respiratory, etc.</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="groupMedicationsByType" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Vitals Collapsed Display -->
+                <section class="settings-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        Vitals Collapsed Display
+                    </h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Select which vitals appear in collapsed timeline entries</p>
+                    <div class="vitals-grid">
+                        <label><input type="checkbox" id="vitals-bp" checked> <span>Blood Pressure</span></label>
+                        <label><input type="checkbox" id="vitals-hr" checked> <span>Heart Rate</span></label>
+                        <label><input type="checkbox" id="vitals-rr" checked> <span>Resp Rate</span></label>
+                        <label><input type="checkbox" id="vitals-spo2"> <span>SpO₂</span></label>
+                        <label><input type="checkbox" id="vitals-temp"> <span>Temperature</span></label>
+                        <label><input type="checkbox" id="vitals-etco2"> <span>ETCO₂</span></label>
+                        <label><input type="checkbox" id="vitals-glucose"> <span>Blood Glucose</span></label>
+                        <label><input type="checkbox" id="vitals-pain"> <span>Pain Scale</span></label>
+                        <label><input type="checkbox" id="vitals-gcs"> <span>GCS</span></label>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="preview-panel">
+                <div class="preview-card">
+                    <h3>Live Preview</h3>
+
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="preview-screen dark" id="preview-screen">
+                                <div class="preview-header">
+                                    <span class="preview-title">Active Call</span>
+                                    <span id="preview-time">14:32</span>
+                                </div>
+
+                                <div class="preview-timers" id="preview-timers">
+                                    <span class="timer-pill call" id="timer-call">⏱ 12:45</span>
+                                    <span class="timer-pill med-green" id="timer-epi">Epi 2:15</span>
+                                    <span class="timer-pill med-yellow" id="timer-amio">Amio 0:45</span>
+                                </div>
+
+                                <div class="preview-log">
+                                    <div class="log-entry">
+                                        <span class="log-time" id="log-time-1">14:30</span>
+                                        <span class="log-icon">💊</span>
+                                        <span class="log-content">Epinephrine 1mg IV</span>
+                                    </div>
+                                    <div class="log-entry">
+                                        <span class="log-time" id="log-time-2">14:28</span>
+                                        <span class="log-icon">❤️</span>
+                                        <span class="log-content">
+                                            Vitals<br>
+                                            <span class="vitals-inline" id="vitals-preview">BP: 120/80 • HR: 88 • RR: 16</span>
+                                        </span>
+                                    </div>
+                                    <div class="log-entry">
+                                        <span class="log-time" id="log-time-3">14:25</span>
+                                        <span class="log-icon">⚡</span>
+                                        <span class="log-content">Defibrillation 200J</span>
+                                    </div>
+                                    <div class="log-entry">
+                                        <span class="log-time" id="log-time-4">14:20</span>
+                                        <span class="log-icon">🩺</span>
+                                        <span class="log-content">IV Access 18g L AC</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="generate-btn" onclick="generateQR()">
+                        <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm8-2v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm8 0h2v2h-2v2h2v-2h2v2h2v-2h-2v-2h2v-2h-2v2h-2v-2h-2v2zm0 4h2v2h-2zm4 0h2v2h-2z"/></svg>
+                        Generate QR Code
+                    </button>
+
+                    <div class="qr-section" id="qr-section" style="display: none;">
+                        <div class="qr-container">
+                            <canvas id="qr-canvas"></canvas>
+                        </div>
+                        <p class="qr-instruction">Scan with your iPhone camera to import settings</p>
+                        <p class="settings-summary" id="settings-summary"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
+    </footer>
+
+    <script>
+        // Get all settings elements
+        const settings = {
+            // Theme
+            theme: () => parseInt(document.querySelector('input[name="theme"]:checked').value),
+
+            // Timer & Screen
+            showCallTimer: () => document.getElementById('showCallTimer').checked,
+            showMedicationTimers: () => document.getElementById('showMedicationTimers').checked,
+            keepScreenAwake: () => document.getElementById('keepScreenAwake').checked,
+            showPatientInfoButton: () => document.getElementById('showPatientInfoButton').checked,
+
+            // Time & Date
+            use24HourTime: () => document.getElementById('use24HourTime').checked,
+            useUTCTime: () => document.getElementById('useUTCTime').checked,
+            useMilitaryDate: () => document.getElementById('useMilitaryDate').checked,
+
+            // Timeline
+            groupActiveCallEntries: () => document.getElementById('groupActiveCallEntries').checked,
+            groupHistoryEntries: () => document.getElementById('groupHistoryEntries').checked,
+            groupMedicationsByType: () => document.getElementById('groupMedicationsByType').checked,
+
+            // Vitals collapsed
+            vitalsCollapsed: () => ({
+                showBP: document.getElementById('vitals-bp').checked,
+                showHR: document.getElementById('vitals-hr').checked,
+                showRR: document.getElementById('vitals-rr').checked,
+                showSpO2: document.getElementById('vitals-spo2').checked,
+                showTemp: document.getElementById('vitals-temp').checked,
+                showETCO2: document.getElementById('vitals-etco2').checked,
+                showGlucose: document.getElementById('vitals-glucose').checked,
+                showPain: document.getElementById('vitals-pain').checked,
+                showGCS: document.getElementById('vitals-gcs').checked
+            })
+        };
+
+        // Update preview when any setting changes
+        function updatePreview() {
+            const screen = document.getElementById('preview-screen');
+            const theme = settings.theme();
+
+            // Theme
+            screen.classList.remove('light', 'dark');
+            if (theme === 1) {
+                screen.classList.add('light');
+            } else if (theme === 2) {
+                screen.classList.add('dark');
+            } else {
+                // System - use prefers-color-scheme
+                if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+                    screen.classList.add('light');
+                } else {
+                    screen.classList.add('dark');
+                }
+            }
+
+            // Timers visibility
+            document.getElementById('timer-call').classList.toggle('hidden', !settings.showCallTimer());
+            const medTimers = document.querySelectorAll('.timer-pill.med-green, .timer-pill.med-yellow, .timer-pill.med-red');
+            medTimers.forEach(t => t.classList.toggle('hidden', !settings.showMedicationTimers()));
+
+            // Time format
+            const use24 = settings.use24HourTime();
+            const timeEls = document.querySelectorAll('.log-time, #preview-time');
+            if (use24) {
+                document.getElementById('preview-time').textContent = '14:32';
+                document.getElementById('log-time-1').textContent = '14:30';
+                document.getElementById('log-time-2').textContent = '14:28';
+                document.getElementById('log-time-3').textContent = '14:25';
+                document.getElementById('log-time-4').textContent = '14:20';
+            } else {
+                document.getElementById('preview-time').textContent = '2:32 PM';
+                document.getElementById('log-time-1').textContent = '2:30';
+                document.getElementById('log-time-2').textContent = '2:28';
+                document.getElementById('log-time-3').textContent = '2:25';
+                document.getElementById('log-time-4').textContent = '2:20';
+            }
+
+            // UTC suffix
+            if (settings.useUTCTime()) {
+                document.getElementById('preview-time').textContent += 'Z';
+            }
+
+            // Vitals collapsed preview
+            const vc = settings.vitalsCollapsed();
+            let vitalsStr = [];
+            if (vc.showBP) vitalsStr.push('BP: 120/80');
+            if (vc.showHR) vitalsStr.push('HR: 88');
+            if (vc.showRR) vitalsStr.push('RR: 16');
+            if (vc.showSpO2) vitalsStr.push('SpO₂: 98%');
+            if (vc.showTemp) vitalsStr.push('T: 98.6°');
+            if (vc.showETCO2) vitalsStr.push('CO₂: 38');
+            if (vc.showGlucose) vitalsStr.push('BGL: 110');
+            if (vc.showPain) vitalsStr.push('Pain: 4');
+            if (vc.showGCS) vitalsStr.push('GCS: 15');
+            document.getElementById('vitals-preview').textContent = vitalsStr.join(' • ') || 'No vitals selected';
+        }
+
+        // Generate QR code with quick_config payload
+        function generateQR() {
+            const payload = {
+                type: 'quick_config',
+                configVersion: 1,
+                exportedAt: new Date().toISOString(),
+                display: {
+                    appearanceMode: settings.theme(),
+                    use24HourTime: settings.use24HourTime(),
+                    useUTCTime: settings.useUTCTime(),
+                    useMilitaryDate: settings.useMilitaryDate(),
+                    groupActiveCallEntries: settings.groupActiveCallEntries(),
+                    groupHistoryEntries: settings.groupHistoryEntries(),
+                    groupMedicationsByType: settings.groupMedicationsByType(),
+                    keepScreenAwake: settings.keepScreenAwake(),
+                    showCallTimer: settings.showCallTimer(),
+                    showMedicationTimers: settings.showMedicationTimers(),
+                    showPatientInfoButton: settings.showPatientInfoButton(),
+                    vitalsCollapsed: settings.vitalsCollapsed()
+                },
+                page: 1,
+                totalPages: 1
+            };
+
+            const json = JSON.stringify(payload);
+
+            // Generate QR
+            const canvas = document.getElementById('qr-canvas');
+            QRCode.toCanvas(canvas, json, {
+                width: 200,
+                margin: 2,
+                errorCorrectionLevel: 'M',
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
+                }
+            }, function(error) {
+                if (error) {
+                    console.error(error);
+                    alert('Error generating QR code. Settings may be too complex.');
+                    return;
+                }
+
+                // Show QR section
+                document.getElementById('qr-section').style.display = 'block';
+
+                // Summary
+                let count = 0;
+                count += 1; // theme
+                count += 3; // time/date
+                count += 4; // timer/screen
+                count += 3; // timeline
+                count += Object.values(settings.vitalsCollapsed()).filter(v => v !== false).length > 0 ? 1 : 0;
+                document.getElementById('settings-summary').textContent = `${count} display preferences configured`;
+            });
+        }
+
+        // Attach event listeners to all inputs
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('change', updatePreview);
+        });
+
+        // Handle system theme changes
+        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', updatePreview);
+
+        // Initial update
+        updatePreview();
+    </script>
+</body>
+</html>
