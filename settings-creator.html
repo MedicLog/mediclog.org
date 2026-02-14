@@ -567,6 +567,205 @@
         .preview-screen.light .tab-item:not(.active) { color: #8e8e93; }
         .preview-screen.light .tab-item:not(.active) svg { fill: #8e8e93; }
 
+        /* Screen selector */
+        .screen-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            justify-content: center;
+        }
+        .screen-btn {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .screen-btn:hover {
+            border-color: var(--text-muted);
+        }
+        .screen-btn.selected {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* ========== VITALS ENTRY SCREEN STYLES ========== */
+        #vitals-mockup .preview-screen {
+            height: auto;
+            min-height: 520px;
+            background: #f2f2f7;
+            color: #1c1c1e;
+        }
+
+        .vitals-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: #f2f2f7;
+            border-bottom: 1px solid #c6c6c8;
+        }
+        .modal-cancel, .modal-save {
+            color: #007aff;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .modal-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .vitals-section {
+            background: #fff;
+            margin: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .vitals-section-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            font-size: 9px;
+            color: #8e8e93;
+        }
+        .section-done {
+            color: #007aff;
+            font-weight: 500;
+        }
+
+        .vitals-demographics {
+            padding: 0 12px 8px;
+        }
+        .demo-row {
+            display: flex;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid #e5e5ea;
+            font-size: 10px;
+        }
+        .demo-row:last-child { border-bottom: none; }
+        .demo-label {
+            width: 36px;
+            color: #000;
+            font-weight: 500;
+        }
+        .demo-value {
+            flex: 1;
+            color: #000;
+        }
+        .demo-value.placeholder {
+            color: #c7c7cc;
+        }
+        .demo-value.link {
+            color: #007aff;
+        }
+        .demo-checkbox {
+            font-size: 9px;
+            color: #8e8e93;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .demo-checkbox input {
+            width: 12px;
+            height: 12px;
+        }
+        .sex-selector {
+            display: flex;
+            gap: 4px;
+        }
+        .sex-option {
+            width: 28px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: #e5e5ea;
+            font-size: 10px;
+            font-weight: 600;
+            color: #000;
+        }
+        .sex-option.selected {
+            background: #007aff;
+            color: #fff;
+        }
+
+        .vitals-fields {
+            padding: 0 8px 8px;
+        }
+        .vitals-field {
+            background: #fff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+        }
+        .vitals-field.hidden {
+            display: none;
+        }
+        .field-label {
+            font-size: 9px;
+            color: #8e8e93;
+            margin-bottom: 4px;
+        }
+        .field-input {
+            background: #f2f2f7;
+            border-radius: 6px;
+            padding: 8px 10px;
+        }
+        .field-value {
+            font-size: 12px;
+            color: #000;
+        }
+        .field-value.link {
+            color: #007aff;
+        }
+
+        /* Blood Pressure special layout */
+        .bp-inputs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .bp-col {
+            flex: 1;
+        }
+        .bp-sublabel {
+            font-size: 8px;
+            color: #8e8e93;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .bp-col .field-value {
+            background: #f2f2f7;
+            border-radius: 6px;
+            padding: 8px 10px;
+            display: block;
+        }
+        .bp-slash {
+            font-size: 16px;
+            color: #c7c7cc;
+            margin-top: 12px;
+        }
+
+        /* Math helper */
+        .vitals-field.math-helper {
+            background: #e8f4fd;
+            border: 1px solid #007aff;
+        }
+        .math-values {
+            display: flex;
+            gap: 16px;
+            font-size: 10px;
+            color: #007aff;
+            font-weight: 500;
+        }
+
         /* QR Section */
         .qr-section {
             text-align: center;
@@ -745,8 +944,8 @@
             <!-- Settings Panel -->
             <div class="settings-panel">
 
-                <!-- Appearance -->
-                <section class="settings-section">
+                <!-- Appearance - affects ALL screens -->
+                <section class="settings-section" data-screens="active-call vitals-entry history share">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
                         Appearance
@@ -767,7 +966,7 @@
                 </section>
 
                 <!-- Timer & Screen -->
-                <section class="settings-section">
+                <section class="settings-section" data-screens="active-call">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
                         Timer & Screen
@@ -814,8 +1013,8 @@
                     </div>
                 </section>
 
-                <!-- Time & Date Format -->
-                <section class="settings-section">
+                <!-- Time & Date Format - affects ALL screens -->
+                <section class="settings-section" data-screens="active-call vitals-entry history share">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
                         Time & Date Format
@@ -852,16 +1051,16 @@
                     </div>
                 </section>
 
-                <!-- Timeline Display -->
-                <section class="settings-section">
+                <!-- Timeline Display - Active Call specific -->
+                <section class="settings-section" data-screens="active-call">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
                         Timeline Display
                     </h3>
                     <div class="setting-row">
                         <div class="setting-label">
-                            <span>Group Active Call Entries</span>
-                            <small>By type instead of chronological <span class="screen-tag">Active Call</span></small>
+                            <span>Group Entries by Type</span>
+                            <small>Group by type instead of chronological</small>
                         </div>
                         <label class="toggle">
                             <input type="checkbox" id="groupActiveCallEntries">
@@ -870,18 +1069,8 @@
                     </div>
                     <div class="setting-row">
                         <div class="setting-label">
-                            <span>Group History Entries</span>
-                            <small>By type in call history <span class="screen-tag">History</span></small>
-                        </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="groupHistoryEntries">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <div class="setting-label">
                             <span>Group Medications by Type</span>
-                            <small>Cardiac, Respiratory, etc. <span class="screen-tag">Med Entry</span></small>
+                            <small>Cardiac, Respiratory, etc. in picker</small>
                         </div>
                         <label class="toggle">
                             <input type="checkbox" id="groupMedicationsByType" checked>
@@ -890,8 +1079,26 @@
                     </div>
                 </section>
 
+                <!-- History Timeline - History specific -->
+                <section class="settings-section" data-screens="history">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                        History Display
+                    </h3>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Group Entries by Type</span>
+                            <small>Group by type instead of chronological</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="groupHistoryEntries">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </section>
+
                 <!-- Vitals Collapsed Display -->
-                <section class="settings-section">
+                <section class="settings-section" data-screens="active-call">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                         Vitals Collapsed Display
@@ -910,8 +1117,8 @@
                     </div>
                 </section>
 
-                <!-- Agency Configuration -->
-                <section class="settings-section">
+                <!-- Agency Configuration - global settings -->
+                <section class="settings-section" data-screens="active-call vitals-entry history share">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
                         Agency Configuration
@@ -935,31 +1142,11 @@
                     </div>
                     <div class="setting-row">
                         <div class="setting-label">
-                            <span>Show PHI Warnings</span>
-                            <small>Warn before sharing protected data</small>
-                        </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="showPHIWarnings" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <div class="setting-label">
                             <span>Show Test Data Tools</span>
                             <small>Enable sample data generators</small>
                         </div>
                         <label class="toggle">
                             <input type="checkbox" id="showTestDataTools" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <div class="setting-label">
-                            <span>Show Handoff in Share Menu</span>
-                            <small>Quick access to hospital handoff</small>
-                        </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="showHandoffInShareMenu" checked>
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
@@ -990,7 +1177,7 @@
                 </section>
 
                 <!-- Cardiac Options -->
-                <section class="settings-section">
+                <section class="settings-section" data-screens="active-call">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
                         Cardiac Procedures
@@ -1018,7 +1205,7 @@
                 </section>
 
                 <!-- Quick Entry Buttons -->
-                <section class="settings-section">
+                <section class="settings-section" data-screens="active-call">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
                         Quick Entry Buttons
@@ -1047,12 +1234,11 @@
                     </div>
                 </section>
 
-                <!-- Watch Configuration -->
-                <section class="settings-section">
+                <!-- Watch Configuration - Watch screen (currently disabled, no current screenshot) -->
+                <section class="settings-section" data-screens="watch">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M20 12c0-2.54-1.19-4.81-3.04-6.27L16 0H8l-.95 5.73C5.19 7.19 4 9.45 4 12s1.19 4.81 3.05 6.27L8 24h8l.96-5.73C18.81 16.81 20 14.54 20 12zM6 12c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6z"/></svg>
                         Watch Configuration
-                        <span class="screen-tag" style="margin-left: 8px;">Watch App</span>
                     </h3>
                     <div class="setting-row">
                         <div class="setting-label">
@@ -1077,33 +1263,26 @@
                     </div>
                 </section>
 
-                <!-- Vitals Settings -->
-                <section class="settings-section">
+                <!-- Vitals Entry Fields - Vitals Entry screen -->
+                <section class="settings-section" data-screens="vitals-entry">
                     <h3>
-                        <svg viewBox="0 0 24 24"><path d="M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5z"/></svg>
-                        Vitals Settings
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        Vitals Entry Fields
                     </h3>
-                    <div class="setting-row">
-                        <div class="setting-label">
-                            <span>Show Vitals Button</span>
-                            <small>In quick entry toolbar</small>
-                        </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="showVitalsButton" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Which fields appear on the Vitals Entry screen</p>
+                    <div class="vitals-grid">
+                        <label><input type="checkbox" id="ve-bp" checked> <span>Blood Pressure</span></label>
+                        <label><input type="checkbox" id="ve-hr" checked> <span>Heart Rate</span></label>
+                        <label><input type="checkbox" id="ve-spo2" checked> <span>SpO₂</span></label>
+                        <label><input type="checkbox" id="ve-rr" checked> <span>Resp Rate</span></label>
+                        <label><input type="checkbox" id="ve-temp" checked> <span>Temperature</span></label>
+                        <label><input type="checkbox" id="ve-etco2" checked> <span>ETCO₂</span></label>
+                        <label><input type="checkbox" id="ve-glucose" checked> <span>Blood Glucose</span></label>
+                        <label><input type="checkbox" id="ve-pain" checked> <span>Pain Scale</span></label>
+                        <label><input type="checkbox" id="ve-gcs"> <span>GCS</span></label>
+                        <label><input type="checkbox" id="ve-stroke"> <span>Stroke Screen</span></label>
                     </div>
-                    <div class="setting-row">
-                        <div class="setting-label">
-                            <span>Radio Report: Full Vitals</span>
-                            <small>Show trending arrows in reports</small>
-                        </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="radioShowFullVitals" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
+                    <div class="setting-row" style="margin-top: 0.75rem;">
                         <div class="setting-label">
                             <span>Vitals Reminder</span>
                             <small>Periodic reassessment timer</small>
@@ -1136,8 +1315,8 @@
                     </div>
                 </section>
 
-                <!-- Export Settings -->
-                <section class="settings-section">
+                <!-- Export Settings - Share screen -->
+                <section class="settings-section" data-screens="share">
                     <h3>
                         <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                         Export Settings
@@ -1148,6 +1327,26 @@
                         <label><input type="checkbox" id="export-text" checked> <span>Text</span></label>
                         <label><input type="checkbox" id="export-csv" checked> <span>CSV</span></label>
                     </div>
+                    <div class="setting-row" style="margin-top: 0.75rem;">
+                        <div class="setting-label">
+                            <span>Show Handoff in Share Menu</span>
+                            <small>Quick access to hospital handoff</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showHandoffInShareMenu" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-label">
+                            <span>Show PHI Warnings</span>
+                            <small>Warn before sharing protected data</small>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="showPHIWarnings" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </section>
 
             </div>
@@ -1157,8 +1356,16 @@
                 <div class="preview-card">
                     <h3>Live Preview</h3>
 
-                    <!-- Scenario Toggle -->
-                    <div class="scenario-toggle">
+                    <!-- Screen Selector -->
+                    <div class="screen-selector">
+                        <button class="screen-btn selected" data-screen="active-call" onclick="setScreen('active-call')">Active Call</button>
+                        <button class="screen-btn" data-screen="vitals-entry" onclick="setScreen('vitals-entry')">Vitals Entry</button>
+                        <button class="screen-btn" data-screen="history" onclick="setScreen('history')">History</button>
+                        <button class="screen-btn" data-screen="share" onclick="setScreen('share')">Share</button>
+                    </div>
+
+                    <!-- Active Call: Scenario Toggle -->
+                    <div class="scenario-toggle" id="scenario-toggle">
                         <button class="scenario-btn selected" data-scenario="cardiac" onclick="setScenario('cardiac')">Cardiac Arrest</button>
                         <button class="scenario-btn" data-scenario="clean" onclick="setScenario('clean')">Clean Call</button>
                     </div>
@@ -1285,6 +1492,191 @@
                         </div>
                     </div>
 
+                    <!-- Vitals Entry Screen Preview -->
+                    <div class="phone-mockup" id="vitals-mockup" style="display: none;">
+                        <div class="phone-screen">
+                            <div class="preview-screen light" id="vitals-preview-screen">
+                                <!-- Status bar -->
+                                <div class="preview-status-bar">
+                                    <span>9:42</span>
+                                    <div class="status-icons">
+                                        <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                                        <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+                                    </div>
+                                </div>
+
+                                <!-- Modal header -->
+                                <div class="vitals-modal-header">
+                                    <span class="modal-cancel">Cancel</span>
+                                    <span class="modal-title">Vitals Entry</span>
+                                    <span class="modal-save">Save</span>
+                                </div>
+
+                                <!-- Patient Demographics section -->
+                                <div class="vitals-section">
+                                    <div class="vitals-section-header">
+                                        <span>Patient Demographics</span>
+                                        <span class="section-done">Done</span>
+                                    </div>
+                                    <div class="vitals-demographics">
+                                        <div class="demo-row">
+                                            <span class="demo-label">Name</span>
+                                            <span class="demo-value placeholder">First</span>
+                                            <span class="demo-value placeholder">Last</span>
+                                        </div>
+                                        <div class="demo-row">
+                                            <span class="demo-label">DOB</span>
+                                            <span class="demo-value link">Set DOB</span>
+                                        </div>
+                                        <div class="demo-row">
+                                            <span class="demo-label">Age</span>
+                                            <span class="demo-value">58</span>
+                                            <label class="demo-checkbox"><input type="checkbox"> Approx</label>
+                                        </div>
+                                        <div class="demo-row">
+                                            <span class="demo-label">Sex</span>
+                                            <div class="sex-selector">
+                                                <span class="sex-option selected">M</span>
+                                                <span class="sex-option">F</span>
+                                                <span class="sex-option">X</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vitals fields container -->
+                                <div class="vitals-fields" id="vitals-fields">
+                                    <!-- BP -->
+                                    <div class="vitals-field" id="vf-bp">
+                                        <div class="field-label">Blood Pressure</div>
+                                        <div class="bp-inputs">
+                                            <div class="bp-col">
+                                                <span class="bp-sublabel">Systolic</span>
+                                                <span class="field-value">120</span>
+                                            </div>
+                                            <span class="bp-slash">/</span>
+                                            <div class="bp-col">
+                                                <span class="bp-sublabel">Diastolic</span>
+                                                <span class="field-value">80</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- HR -->
+                                    <div class="vitals-field" id="vf-hr">
+                                        <div class="field-label">Heart Rate (bpm)</div>
+                                        <div class="field-input"><span class="field-value">72</span></div>
+                                    </div>
+                                    <!-- SpO2 -->
+                                    <div class="vitals-field" id="vf-spo2">
+                                        <div class="field-label">SpO2 (%)</div>
+                                        <div class="field-input"><span class="field-value">98</span></div>
+                                    </div>
+                                    <!-- RR -->
+                                    <div class="vitals-field" id="vf-rr">
+                                        <div class="field-label">Respiratory Rate (breaths/min)</div>
+                                        <div class="field-input"><span class="field-value">16</span></div>
+                                    </div>
+                                    <!-- Temp -->
+                                    <div class="vitals-field" id="vf-temp">
+                                        <div class="field-label">Temperature (°F)</div>
+                                        <div class="field-input"><span class="field-value">98.6</span></div>
+                                    </div>
+                                    <!-- ETCO2 -->
+                                    <div class="vitals-field" id="vf-etco2">
+                                        <div class="field-label">ETCO2 (mmHg)</div>
+                                        <div class="field-input"><span class="field-value">35</span></div>
+                                    </div>
+                                    <!-- Glucose -->
+                                    <div class="vitals-field" id="vf-glucose">
+                                        <div class="field-label">Blood Glucose (mg/dL)</div>
+                                        <div class="field-input"><span class="field-value">110</span></div>
+                                    </div>
+                                    <!-- Pain -->
+                                    <div class="vitals-field" id="vf-pain">
+                                        <div class="field-label">Pain Scale (0-10)</div>
+                                        <div class="field-input"><span class="field-value">3</span></div>
+                                    </div>
+                                    <!-- GCS -->
+                                    <div class="vitals-field" id="vf-gcs">
+                                        <div class="field-label">GCS</div>
+                                        <div class="field-input"><span class="field-value">15</span></div>
+                                    </div>
+                                    <!-- Stroke Screen -->
+                                    <div class="vitals-field" id="vf-stroke">
+                                        <div class="field-label">Stroke Screen</div>
+                                        <div class="field-input"><span class="field-value link">Cincinnati Scale →</span></div>
+                                    </div>
+                                    <!-- Math Helper -->
+                                    <div class="vitals-field math-helper" id="vf-math">
+                                        <div class="field-label">Calculated Values</div>
+                                        <div class="math-values">
+                                            <span>MAP: 93</span>
+                                            <span>Shock Index: 0.60</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- History Screen Preview (placeholder) -->
+                    <div class="phone-mockup" id="history-mockup" style="display: none;">
+                        <div class="phone-screen">
+                            <div class="preview-screen dark" id="history-preview-screen">
+                                <div class="preview-status-bar">
+                                    <span>9:42</span>
+                                    <div class="status-icons">
+                                        <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                                        <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+                                    </div>
+                                </div>
+                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center;">
+                                    <svg viewBox="0 0 24 24" style="width: 48px; height: 48px; fill: #8e8e93; margin-bottom: 12px;"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                                    <span style="font-size: 14px; font-weight: 600; color: #fff;">Call History</span>
+                                    <span style="font-size: 11px; color: #8e8e93; margin-top: 4px;">Preview coming soon</span>
+                                </div>
+                                <div class="preview-tab-bar">
+                                    <div class="tab-item">
+                                        <svg viewBox="0 0 24 24"><path d="M2 12h4l2-4 3 8 2-4h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                                        <span>Active</span>
+                                    </div>
+                                    <div class="tab-item active">
+                                        <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                                        <span>History</span>
+                                    </div>
+                                    <div class="tab-item">
+                                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                                        <span>Destinations</span>
+                                    </div>
+                                    <div class="tab-item">
+                                        <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                                        <span>Settings</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Share Screen Preview (placeholder) -->
+                    <div class="phone-mockup" id="share-mockup" style="display: none;">
+                        <div class="phone-screen">
+                            <div class="preview-screen dark" id="share-preview-screen">
+                                <div class="preview-status-bar">
+                                    <span>9:42</span>
+                                    <div class="status-icons">
+                                        <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                                        <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+                                    </div>
+                                </div>
+                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center;">
+                                    <svg viewBox="0 0 24 24" style="width: 48px; height: 48px; fill: #8e8e93; margin-bottom: 12px;"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+                                    <span style="font-size: 14px; font-weight: 600; color: #fff;">Share & Export</span>
+                                    <span style="font-size: 11px; color: #8e8e93; margin-top: 4px;">Preview coming soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <button class="generate-btn" onclick="generateQR()">
                         <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm8-2v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm8 0h2v2h-2v2h2v-2h2v2h2v-2h-2v-2h2v-2h-2v2h-2v-2h-2v2zm0 4h2v2h-2zm4 0h2v2h-2z"/></svg>
                         Generate QR Code
@@ -1307,8 +1699,9 @@
     </footer>
 
     <script>
-        // Current scenario
+        // Current state
         let currentScenario = 'cardiac';
+        let currentScreen = 'active-call';
 
         // SF Symbol SVG icons matching LogEntry.EntryType.icon
         const sfSymbols = {
@@ -1446,6 +1839,81 @@
             timersContainer.className = 'preview-timers grid-' + Math.min(visibleTimers, 4);
         }
 
+        // Switch between screen previews
+        function setScreen(screen) {
+            currentScreen = screen;
+
+            // Update screen selector buttons
+            document.querySelectorAll('.screen-btn').forEach(btn => {
+                btn.classList.toggle('selected', btn.dataset.screen === screen);
+            });
+
+            // Show/hide mockups based on selected screen
+            const activeCallMockup = document.querySelector('.phone-mockup:not(#vitals-mockup):not(#history-mockup):not(#share-mockup)');
+            activeCallMockup.style.display = screen === 'active-call' ? 'block' : 'none';
+            document.getElementById('vitals-mockup').style.display = screen === 'vitals-entry' ? 'block' : 'none';
+            document.getElementById('history-mockup').style.display = screen === 'history' ? 'block' : 'none';
+            document.getElementById('share-mockup').style.display = screen === 'share' ? 'block' : 'none';
+
+            // Show/hide scenario toggle (only for Active Call)
+            document.getElementById('scenario-toggle').style.display = screen === 'active-call' ? 'flex' : 'none';
+
+            // Filter settings sections based on selected screen
+            document.querySelectorAll('.settings-section').forEach(section => {
+                const screens = section.dataset.screens || '';
+                const shouldShow = screens.split(' ').includes(screen);
+                section.style.display = shouldShow ? 'block' : 'none';
+            });
+
+            // Update the appropriate preview
+            if (screen === 'vitals-entry') {
+                updateVitalsPreview();
+            } else if (screen === 'active-call') {
+                updatePreview();
+            }
+            // History and Share previews are static placeholders for now
+        }
+
+        // Update Vitals Entry preview based on settings
+        function updateVitalsPreview() {
+            // Field visibility based on checkboxes
+            const fields = {
+                'vf-bp': document.getElementById('ve-bp').checked,
+                'vf-hr': document.getElementById('ve-hr').checked,
+                'vf-spo2': document.getElementById('ve-spo2').checked,
+                'vf-rr': document.getElementById('ve-rr').checked,
+                'vf-temp': document.getElementById('ve-temp').checked,
+                'vf-etco2': document.getElementById('ve-etco2').checked,
+                'vf-glucose': document.getElementById('ve-glucose').checked,
+                'vf-pain': document.getElementById('ve-pain').checked,
+                'vf-gcs': document.getElementById('ve-gcs').checked,
+                'vf-stroke': document.getElementById('ve-stroke').checked,
+                'vf-math': document.getElementById('vitalsShowMathHelper').checked
+            };
+
+            // Show/hide each field
+            for (const [id, show] of Object.entries(fields)) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.toggle('hidden', !show);
+                }
+            }
+
+            // Update stroke scale name based on setting
+            const strokeScale = settings.strokeScale();
+            const strokeNames = {
+                'cincinnati': 'Cincinnati Scale',
+                'lams': 'LAMS Scale',
+                'fast-ed': 'FAST-ED Scale',
+                'race': 'RACE Scale',
+                'nihss': 'NIHSS Scale'
+            };
+            const strokeField = document.querySelector('#vf-stroke .field-value');
+            if (strokeField) {
+                strokeField.textContent = (strokeNames[strokeScale] || 'Cincinnati Scale') + ' →';
+            }
+        }
+
         // Set scenario and rebuild log - ONLY affects timers and log entries
         function setScenario(scenario) {
             currentScenario = scenario;
@@ -1502,25 +1970,33 @@
             });
         }
 
+        // Get theme class based on current theme setting
+        function getThemeClass() {
+            const theme = settings.theme();
+            if (theme === 1) return 'light';
+            if (theme === 2) return 'dark';
+            // System - use prefers-color-scheme
+            return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+
+        // Apply theme to all preview screens
+        function applyThemeToAllScreens() {
+            const themeClass = getThemeClass();
+            ['preview-screen', 'history-preview-screen', 'share-preview-screen'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.remove('light', 'dark');
+                    el.classList.add(themeClass);
+                }
+            });
+        }
+
         // Update preview when any setting changes
         function updatePreview() {
             const screen = document.getElementById('preview-screen');
-            const theme = settings.theme();
 
-            // Theme - only thing that affects the whole screen
-            screen.classList.remove('light', 'dark');
-            if (theme === 1) {
-                screen.classList.add('light');
-            } else if (theme === 2) {
-                screen.classList.add('dark');
-            } else {
-                // System - use prefers-color-scheme
-                if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-                    screen.classList.add('light');
-                } else {
-                    screen.classList.add('dark');
-                }
-            }
+            // Apply theme to all screens
+            applyThemeToAllScreens();
 
             // Timer grid - respects scenario
             if (currentScenario === 'cardiac') {
@@ -1651,16 +2127,25 @@
             });
         }
 
+        // Update the correct preview based on current screen
+        function updateCurrentPreview() {
+            if (currentScreen === 'vitals-entry') {
+                updateVitalsPreview();
+            } else {
+                updatePreview();
+            }
+        }
+
         // Attach event listeners to all inputs and selects
         document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('change', updatePreview);
+            input.addEventListener('change', updateCurrentPreview);
         });
         document.querySelectorAll('select').forEach(select => {
-            select.addEventListener('change', updatePreview);
+            select.addEventListener('change', updateCurrentPreview);
         });
 
         // Handle system theme changes
-        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', updatePreview);
+        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', updateCurrentPreview);
 
         // Initial setup
         setScenario('cardiac');
