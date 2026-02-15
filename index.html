@@ -141,9 +141,36 @@
             color: var(--accent);
         }
 
+        /* Device mockup images (PNG framed screenshots) */
+        .device-mockup {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Sizing for device mockups in hero */
+        .screenshot-compare .screenshot-item:nth-child(1) .device-mockup {
+            max-width: 180px; /* Watch */
+        }
+
+        .screenshot-compare .screenshot-item:nth-child(2) .device-mockup,
+        .screenshot-compare .screenshot-item:nth-child(3) .device-mockup {
+            max-width: 280px; /* iPhone */
+        }
+
         @media (max-width: 640px) {
             .hero h1 {
                 font-size: 2rem;
+            }
+
+            /* Smaller mockups on mobile */
+            .screenshot-compare .screenshot-item:nth-child(1) .device-mockup {
+                max-width: 140px;
+            }
+
+            .screenshot-compare .screenshot-item:nth-child(2) .device-mockup,
+            .screenshot-compare .screenshot-item:nth-child(3) .device-mockup {
+                max-width: 220px;
             }
         }
     </style>
@@ -199,24 +226,18 @@
             </ul>
         </div>
 
-        <!-- Hero screenshots: Watch + iPhone Light/Dark -->
+        <!-- Hero screenshots: Watch + iPhone Light/Dark (PNG device mockups) -->
         <div class="screenshot-compare">
             <div class="screenshot-item">
-                <div class="device-frame-watch">
-                    <img src="screenshots/watch-timers.png" alt="MedicLog on Apple Watch">
-                </div>
+                <img src="screenshots/framed/watch-framed.png" alt="MedicLog on Apple Watch showing medication timers" class="device-mockup">
                 <p class="screenshot-caption">Apple Watch</p>
             </div>
             <div class="screenshot-item">
-                <div class="device-frame-iphone">
-                    <img src="screenshots/01-active-call-light.png" alt="MedicLog in light mode">
-                </div>
+                <img src="screenshots/framed/iphone-light-framed.png" alt="MedicLog active call view in light mode" class="device-mockup">
                 <p class="screenshot-caption">Light Mode</p>
             </div>
             <div class="screenshot-item">
-                <div class="device-frame-iphone">
-                    <img src="screenshots/01-active-call-dark.png" alt="MedicLog in dark mode">
-                </div>
+                <img src="screenshots/framed/iphone-dark-framed.png" alt="MedicLog active call view in dark mode" class="device-mockup">
                 <p class="screenshot-caption">Dark Mode</p>
             </div>
         </div>
