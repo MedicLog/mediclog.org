@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "title": "BETA SOFTWARE AND HIPAA",
+    "content": "This is BETA SOFTWARE in active development. While designed for field use by medical professionals, bugs may occur. However, YOU remain solely responsible for HIPAA compliance."
+  },
+  {
+    "id": "2",
+    "title": "YOUR RESPONSIBILITY FOR HIPAA COMPLIANCE",
+    "content": "YOU (the user) are solely responsible for:\n✓ Ensuring your use complies with HIPAA and applicable laws\n✓ Following your organization's policies and procedures\n✓ Properly handling Protected Health Information (PHI)\n✓ Using device security (passcode, Face ID, encryption)\n✓ Sharing data only with authorized personnel\n✓ Maintaining patient confidentiality\n\nThe developer is NOT a Business Associate under HIPAA. We do not access, transmit, or store your patient data. All data remains on YOUR device."
+  },
+  {
+    "id": "3",
+    "title": "MEDICAL DISCLAIMER",
+    "content": "This app is a documentation tool, NOT medical advice. Always follow your training, protocols, and medical direction.\n\nThe developer is NOT LIABLE for:\n• Clinical decisions made using this app\n• Errors or omissions in documentation\n• Medication dosing or treatment decisions\n• Patient outcomes or adverse events"
+  },
+  {
+    "id": "4",
+    "title": "DATA STORAGE AND SECURITY",
+    "content": "• All data stored locally on YOUR device only\n• YOU are responsible for device security\n• Enable device passcode/biometrics (Settings → Face ID & Passcode)\n• Device backups (iCloud/iTunes) may contain PHI — secure appropriately\n• No cloud sync — developer cannot access your data"
+  },
+  {
+    "id": "5",
+    "title": "SHARING AND EXPORTS",
+    "content": "When sharing call logs via AirDrop, email, or other methods, YOU are responsible for:\n✓ Verifying recipient is authorized to receive PHI\n✓ Using secure transmission methods when available\n✓ Following HIPAA minimum necessary standard\n✓ Documenting disclosures per your organization's requirements\n\nInter-agency handoffs (fire to ambulance) include patient information. This is standard EMS practice and medically necessary for continuity of care. MedicLog provides better security than paper handoffs."
+  },
+  {
+    "id": "6",
+    "title": "AGENCY AND ORGANIZATIONAL USE",
+    "content": "If using MedicLog as part of an organization:\n• Obtain approval from your supervisor or compliance officer\n• Follow organizational policies for documentation\n• Report security incidents per your policies\n• Understand EMS documentation requirements in your jurisdiction"
+  },
+  {
+    "id": "7",
+    "title": "LIMITATION OF LIABILITY",
+    "content": "TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE DEVELOPER SHALL NOT BE LIABLE FOR:\n• HIPAA violations or regulatory penalties\n• Loss, corruption, or unauthorized access to data\n• Clinical errors or patient harm\n• Any damages arising from use or inability to use this app"
+  },
+  {
+    "id": "8",
+    "title": "INDEMNIFICATION",
+    "content": "You agree to indemnify and hold harmless the developer from any claims, damages, or expenses arising from:\n• Your use of this app\n• Your violation of these terms\n• Your violation of HIPAA or other regulations\n• Clinical decisions or patient care activities"
+  },
+  {
+    "id": "9",
+    "title": "CHANGES TO TERMS",
+    "content": "These terms may be updated for new versions. Major changes will require re-acceptance. Continued use constitutes acceptance of updated terms."
+  }
+]
