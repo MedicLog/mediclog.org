@@ -71,6 +71,17 @@
         .cross-left  { grid-column: 1; justify-self: end;   align-self: start; }
         .cross-right { grid-column: 3; justify-self: start; align-self: start; }
 
+        /* ── Center column: vertical flex spine ────────────────────────── */
+        /* above-stack → home → below-stack in natural document flow.     */
+        /* Keeps stacks flush with home independent of side panel height.  */
+        .center-column {
+            grid-column: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
         /* ── Gravity stack — fanned card deck above home ─────────────── */
         /* All cards same size; each peeks from behind the one below it.  */
         /* 75px peek = enough to read med name + time on each card.       */
@@ -78,9 +89,6 @@
             position: relative;
             width: 180px;
             height: 380px;        /* card_height ≈ 230px + 2×75px peek */
-            grid-column: 2;
-            align-self: end;      /* bottom of stack sits flush with home */
-            margin-bottom: -8px;  /* pull cards snug against home bezel  */
         }
 
         /* ── Gravity stack — fanned card deck below home ─────────────── */
@@ -89,9 +97,6 @@
             position: relative;
             width: 180px;
             height: 380px;
-            grid-column: 2;
-            align-self: start;    /* top of stack sits flush with home   */
-            margin-top: -8px;     /* pull cards snug against home bezel  */
         }
 
         .timer-card {
@@ -150,27 +155,9 @@
             mask-image: linear-gradient(to top, transparent 0%, black 50%);
         }
 
-        /* Swipe label — above stack (sits below the fan, above home) */
-        .stack-swipe-label {
-            position: absolute;
-            bottom: -22px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            opacity: 0.55;
-            white-space: nowrap;
-        }
-
-        /* Swipe label — below stack (sits above the fan, below home) */
+        /* Swipe labels — static flex items between stack and home */
+        .stack-swipe-label,
         .stack-swipe-label-below {
-            position: absolute;
-            top: -22px;
-            left: 50%;
-            transform: translateX(-50%);
             font-size: 0.7rem;
             font-weight: 600;
             letter-spacing: 0.04em;
@@ -178,13 +165,14 @@
             color: var(--text-muted);
             opacity: 0.55;
             white-space: nowrap;
+            text-align: center;
+            padding: 4px 0;
         }
 
-        /* Home screen — full size, full opacity, top-aligned with log */
+        /* Home screen — full size, full opacity */
         .cross-home-cell {
             position: relative;
             z-index: 10;
-            align-self: start;
         }
 
         /* Log image — raw screenshot, no bezel, fades bottom */
@@ -352,6 +340,13 @@
                 justify-self: center !important;
             }
 
+            /* Center column collapses to full-width on mobile */
+            .center-column {
+                grid-column: 1 !important;
+                width: 100%;
+                align-items: center;
+            }
+
             /* Flatten fanned decks on mobile — show cards inline */
             .timer-stack-above,
             .timer-stack-below {
@@ -422,36 +417,7 @@
 
             <div class="watch-cross">
 
-                <!-- ↑ Timer stack above — fanned deck, bottom card closest to home -->
-                <div class="timer-stack-above">
-                    <!-- Far — topmost, fades in from transparent -->
-                    <div class="timer-card timer-card-far">
-                        <div class="device-frame-watch">
-                            <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed OVER">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Mid — second from front -->
-                    <div class="timer-card timer-card-mid">
-                        <div class="device-frame-watch">
-                            <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-2.png" alt="Timer overdue — Pulse Check −31s">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Close — front card, nearest home -->
-                    <div class="timer-card timer-card-close">
-                        <div class="device-frame-watch">
-                            <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-1.png" alt="Timer counting — Atropine 24s">
-                            </div>
-                        </div>
-                    </div>
-                    <span class="stack-swipe-label">↑ swipe up</span>
-                </div>
-
-                <!-- ── Middle row: QA | Home | Log ──────────────────── -->
+                <!-- Left: QA ───────────────────────────────────────── -->
                 <div class="cross-cell cross-left">
                     <div class="cross-left-inner">
                         <div class="device-frame-watch">
@@ -464,50 +430,88 @@
                     <span class="cell-label">Quick Entry<br><span class="cell-nav">swipe right</span></span>
                 </div>
 
-                <div class="cross-cell cross-center cross-home-cell">
-                    <div class="device-frame-watch">
-                            <div class="watch-screen">
-                                <img src="screenshots/watch/watch-home.png" alt="Home — gravity stack ring view">
-                            </div>
-                    </div>
-                    <span class="cell-label">Home Screen</span>
-                </div>
+                <!-- Center column: above stack → home → below stack ─── -->
+                <div class="center-column">
 
+                    <!-- ↑ Timer stack above — fanned deck, close card nearest home -->
+                    <div class="timer-stack-above">
+                        <!-- Far — topmost, fades in from transparent -->
+                        <div class="timer-card timer-card-far">
+                            <div class="device-frame-watch">
+                                <div class="watch-screen">
+                                    <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed OVER">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mid — second from front -->
+                        <div class="timer-card timer-card-mid">
+                            <div class="device-frame-watch">
+                                <div class="watch-screen">
+                                    <img src="screenshots/watch/watch-timer-2.png" alt="Timer overdue — Pulse Check −31s">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Close — front card, nearest home -->
+                        <div class="timer-card timer-card-close">
+                            <div class="device-frame-watch">
+                                <div class="watch-screen">
+                                    <img src="screenshots/watch/watch-timer-1.png" alt="Timer counting — Atropine 24s">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="stack-swipe-label">↑ swipe up</span>
+
+                    <!-- Home screen -->
+                    <div class="cross-cell cross-home-cell">
+                        <div class="device-frame-watch">
+                                <div class="watch-screen">
+                                    <img src="screenshots/watch/watch-home.png" alt="Home — gravity stack ring view">
+                                </div>
+                        </div>
+                        <span class="cell-label">Home Screen</span>
+                    </div>
+
+                    <span class="stack-swipe-label-below">↓ swipe down</span>
+
+                    <!-- ↓ Timer stack below — fanned deck, close card nearest home -->
+                    <div class="timer-stack-below">
+                        <!-- Close — front card, nearest home -->
+                        <div class="timer-card timer-card-below-close">
+                            <div class="device-frame-watch">
+                                <div class="watch-screen">
+                                    <img src="screenshots/watch/watch-timer-4.png" alt="Timer overdue — Pulse Check −20s">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mid — second from front -->
+                        <div class="timer-card timer-card-below-mid">
+                            <div class="device-frame-watch">
+                                <div class="watch-screen">
+                                    <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed LATE">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Far — bottommost, fades out downward -->
+                        <div class="timer-card timer-card-below-far">
+                            <div class="device-frame-watch">
+                                <div class="watch-screen">
+                                    <img src="screenshots/watch/watch-timer-2.png" alt="Timer expired — Albuterol OVER">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /.center-column -->
+
+                <!-- Right: Log ──────────────────────────────────────── -->
                 <div class="cross-cell cross-right">
                     <div class="cross-right-inner">
                         <span class="side-arrow">←</span>
                         <img class="log-img" src="screenshots/watch/watch-log.jpg" alt="Call log">
                     </div>
                     <span class="cell-label">Call Log<br><span class="cell-nav">swipe left</span></span>
-                </div>
-
-                <!-- ↓ Timer stack below — fanned deck, top card closest to home -->
-                <div class="timer-stack-below">
-                    <span class="stack-swipe-label-below">↓ swipe down</span>
-                    <!-- Close — front card, nearest home -->
-                    <div class="timer-card timer-card-below-close">
-                        <div class="device-frame-watch">
-                            <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-4.png" alt="Timer overdue — Pulse Check −20s">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Mid — second from front -->
-                    <div class="timer-card timer-card-below-mid">
-                        <div class="device-frame-watch">
-                            <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed LATE">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Far — bottommost, fades out downward -->
-                    <div class="timer-card timer-card-below-far">
-                        <div class="device-frame-watch">
-                            <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-2.png" alt="Timer expired — Albuterol OVER">
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div><!-- /.watch-cross -->
