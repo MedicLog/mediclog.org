@@ -68,8 +68,12 @@
         .cross-center { grid-column: 2; }
 
         /* Side cells */
-        .cross-left  { grid-column: 1; justify-self: end;   align-self: start; }
-        .cross-right { grid-column: 3; justify-self: start; align-self: start; }
+        /* align-self intentionally omitted — grid's align-items:center centers these
+           against the full center-column height. Since above-stack and below-stack are
+           both 380px, the home screen sits at the exact vertical midpoint of the column,
+           so centering the side panels aligns them with the home screen. */
+        .cross-left  { grid-column: 1; justify-self: end; }
+        .cross-right { grid-column: 3; justify-self: start; }
 
         /* ── Center column: vertical flex spine ────────────────────────── */
         /* above-stack → home → below-stack in natural document flow.     */
@@ -439,7 +443,7 @@
                         <div class="timer-card timer-card-far">
                             <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed OVER">
+                                    <img src="screenshots/watch/watch-timer-above-far.png" alt="Ketamine 7:34 — active timer, farthest above home">
                                 </div>
                             </div>
                         </div>
@@ -447,7 +451,7 @@
                         <div class="timer-card timer-card-mid">
                             <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-timer-2.png" alt="Timer overdue — Pulse Check −31s">
+                                    <img src="screenshots/watch/watch-timer-above-mid.png" alt="Atropine 59s — active timer">
                                 </div>
                             </div>
                         </div>
@@ -455,7 +459,7 @@
                         <div class="timer-card timer-card-close">
                             <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-timer-1.png" alt="Timer counting — Atropine 24s">
+                                    <img src="screenshots/watch/watch-timer-above-close.png" alt="Epi 1:10,000 35s — active timer, one swipe from home">
                                 </div>
                             </div>
                         </div>
@@ -467,7 +471,7 @@
                     <div class="cross-cell cross-home-cell">
                         <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-home.png" alt="Home — gravity stack ring view">
+                                    <img src="screenshots/watch/watch-home.png" alt="Home — gravity stack ring view with 3 active timers">
                                 </div>
                         </div>
                         <span class="cell-label">Home Screen</span>
@@ -481,7 +485,7 @@
                         <div class="timer-card timer-card-below-close">
                             <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-timer-4.png" alt="Timer overdue — Pulse Check −20s">
+                                    <img src="screenshots/watch/watch-timer-below-close.png" alt="Epi 1:10,000 −4s — just expired, one swipe below home">
                                 </div>
                             </div>
                         </div>
@@ -489,7 +493,7 @@
                         <div class="timer-card timer-card-below-mid">
                             <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed LATE">
+                                    <img src="screenshots/watch/watch-timer-below-mid.png" alt="Pulse Check LATE — significantly overdue">
                                 </div>
                             </div>
                         </div>
@@ -497,7 +501,7 @@
                         <div class="timer-card timer-card-below-far">
                             <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-timer-2.png" alt="Timer expired — Albuterol OVER">
+                                    <img src="screenshots/watch/watch-timer-below-far.png" alt="Albuterol OVER — fully expired">
                                 </div>
                             </div>
                         </div>
@@ -532,7 +536,7 @@
                 <div class="feature-screenshot">
                     <div class="device-frame-watch">
                             <div class="watch-screen">
-                                <img src="screenshots/watch/watch-home.png" alt="Watch home screen — gravity stack ring view">
+                                <img src="screenshots/watch/watch-home.png" alt="Watch home screen — gravity stack ring view with active timers">
                             </div>
                     </div>
                 </div>
@@ -595,7 +599,7 @@
                 <div class="timer-state-item">
                     <div class="device-frame-watch">
                             <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-1.png" alt="Timer counting — Atropine 24s">
+                                <img src="screenshots/watch/watch-timer-counting.png" alt="Fentanyl 1:57 — active, counting down">
                             </div>
                     </div>
                     <span class="state-label">Counting</span>
@@ -603,7 +607,7 @@
                 <div class="timer-state-item">
                     <div class="device-frame-watch">
                             <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-2.png" alt="Timer overdue — Pulse Check −31s">
+                                <img src="screenshots/watch/watch-timer-overdue.png" alt="Epi 1:10,000 −10s — overdue, negative elapsed">
                             </div>
                     </div>
                     <span class="state-label">Overdue</span>
@@ -611,15 +615,23 @@
                 <div class="timer-state-item">
                     <div class="device-frame-watch">
                             <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed OVER">
+                                <img src="screenshots/watch/watch-timer-late.png" alt="Pulse Check LATE — significantly overdue">
                             </div>
                     </div>
-                    <span class="state-label">Expired</span>
+                    <span class="state-label">Late</span>
+                </div>
+                <div class="timer-state-item">
+                    <div class="device-frame-watch">
+                            <div class="watch-screen">
+                                <img src="screenshots/watch/watch-timer-over.png" alt="Albuterol OVER — fully expired">
+                            </div>
+                    </div>
+                    <span class="state-label">Over</span>
                 </div>
             </div>
             <div class="feature-row" style="margin-top: 1.5rem;">
                 <div class="feature-description" style="flex: none; max-width: 560px; margin: 0 auto;">
-                    <p>Timers cycle through three states: <strong>counting</strong> (time remaining, red when urgent), <strong>overdue</strong> (negative elapsed, pulsing alert), and <strong>expired</strong> (OVER — interval has fully elapsed). A haptic tap alerts you at each transition.</p>
+                    <p>Timers cycle through four states: <strong>counting</strong> (time remaining, red when urgent), <strong>overdue</strong> (negative elapsed, orange), <strong>late</strong> (significantly past the repeat interval), and <strong>over</strong> (interval fully elapsed, red). A haptic alerts you at each transition.</p>
                     <p style="margin-top: 0.75rem;">The up/down arrows in the corner show your position in the gravity stack — how many timers are above or below the one you're viewing.</p>
                     <p style="margin-top: 0.75rem;"><strong>Shake to dismiss</strong> an expired timer from your wrist. Dismissing from the phone is authoritative and syncs to the Watch.</p>
                 </div>
