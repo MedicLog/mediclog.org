@@ -511,20 +511,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-brand">
-                <img src="icon.png" alt="MedicLog">
-                MedicLog
-            </a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="docs.html">Docs</a>
-                <a href="presets.html">Presets</a>
-                <a href="settings-creator.html" class="active">Settings Creator</a>
-            </div>
-        </div>
-    </nav>
+    <nav class="nav" data-page="agency"></nav>
 
     <div class="creator-container">
         <div class="creator-header">
@@ -1402,5 +1389,6 @@
         ScreenFilter.filterSettings();
         PreviewRenderer.update();
     </script>
+    <script src="nav-loader.js"></script>
 </body>
 </html>

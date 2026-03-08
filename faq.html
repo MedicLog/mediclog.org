@@ -9,24 +9,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="nav">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-brand">
-                <img src="icon.png" alt="MedicLog">
-                MedicLog
-            </a>
-            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
-            <div class="nav-links">
-                <a href="docs.html">Docs</a>
-                <a href="transfer.html">Transfer</a>
-                <a href="tutorial.html">Tutorial</a>
-                <a href="shortcuts.html">Shortcuts</a>
-                <a href="faq.html" class="active">FAQ</a>
-                <a href="privacy.html">Privacy</a>
-                <a href="terms.html">Terms</a>
-            </div>
-        </div>
-    </nav>
+    <nav class="nav" data-page="faq"></nav>
 
     <main class="container">
         <header class="page-header">
@@ -102,6 +85,17 @@
                 </button>
                 <div class="faq-answer">
                     <p>MedicLog data is included in your standard iPhone/iPad backup (iCloud or local iTunes backup). You can also export individual calls as PDF or JSON files to save to your preferred location. We recommend enabling iCloud backup for automatic protection.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Why does MedicLog need HealthKit access on Apple Watch?
+                </button>
+                <div class="faq-answer">
+                    <p>MedicLog uses an Apple Watch workout session to stay active during your entire call — that's what keeps your timers running and haptics firing even when your wrist is down. As a side effect, Apple Health tracks your heart rate, calories, and activity during calls. We write it, we forget it, we never look at it again.</p>
+                    <p>Your health data is yours — it never touches patient records, never leaves your Watch, and never shows up in any call export. MedicLog has no screen to view it, no database to store it, and no way to send it anywhere. Apple Health handles it from there.</p>
+                    <p>And honestly? Carrying 50 lbs of gear up three flights of stairs counts as exercise, even if nobody gives you credit for it.</p>
                 </div>
             </div>
 
@@ -423,5 +417,6 @@
         <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a>
                 <a href="terms.html">Terms</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
     </footer>
+    <script src="nav-loader.js"></script>
 </body>
 </html>
