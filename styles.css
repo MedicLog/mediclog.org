@@ -692,6 +692,14 @@ footer a:hover {
         0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
+/* Inner screen area — clips image to the watch's rounded rectangle
+   without clipping the ::before/::after crown and button decorations */
+.device-frame-watch .watch-screen {
+    overflow: hidden;
+    border-radius: 21%;
+    line-height: 0;
+}
+
 .device-frame-watch::before {
     /* Digital Crown */
     content: '';
