@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Watch — MedicLog</title>
+    <meta name="description" content="MedicLog on Apple Watch. One-wrist access to medication timers, quick entry, voice logging, and your full call log — without touching your phone.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ── Watch cross layout ─────────────────────────────────────── */
+        .watch-cross-section {
+            padding: 3rem 0;
+        }
+
+        .watch-cross-intro {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .watch-cross-intro h2 {
+            font-size: 1.6rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .watch-cross-intro p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* 3-column grid: [left panel] [center column] [right panel] */
+        .watch-cross {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            grid-template-rows: auto auto auto auto auto auto;
+            column-gap: 2rem;
+            row-gap: 0;
+            align-items: center;
+            justify-items: center;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        /* ── Cross cells ────────────────────────────────────────────── */
+        .cross-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cross-cell .cell-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .cross-cell .cell-nav {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Center column cells */
+        .cross-center { grid-column: 2; }
+
+        /* Side cells */
+        .cross-left  { grid-column: 1; justify-self: end; }
+        .cross-right { grid-column: 3; justify-self: start; }
+
+        /* ── Gravity stack — timer cells above home ──────────────────── */
+        /* Timers fade and shrink as they get further from home */
+        .timer-close {
+            opacity: 0.82;
+            transform: scale(0.88);
+            transform-origin: bottom center;
+            margin-bottom: -20px;
+            z-index: 2;
+        }
+
+        .timer-mid {
+            opacity: 0.55;
+            transform: scale(0.76);
+            transform-origin: bottom center;
+            margin-bottom: -24px;
+            z-index: 1;
+        }
+
+        .timer-far {
+            opacity: 0.30;
+            transform: scale(0.64);
+            transform-origin: bottom center;
+            margin-bottom: -20px;
+            z-index: 0;
+        }
+
+        /* Timers below home grow away in the other direction */
+        .timer-below-close {
+            opacity: 0.82;
+            transform: scale(0.88);
+            transform-origin: top center;
+            margin-top: -20px;
+            z-index: 2;
+        }
+
+        .timer-below-mid {
+            opacity: 0.55;
+            transform: scale(0.76);
+            transform-origin: top center;
+            margin-top: -24px;
+            z-index: 1;
+        }
+
+        /* Home screen — full size, full opacity */
+        .cross-home-cell {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ── Connector arrows between cross cells ───────────────────── */
+        .cross-arrow {
+            grid-column: 2;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+            line-height: 1;
+            margin: 2px 0;
+        }
+
+        /* Side arrows — rendered inside .cross-left/.cross-right */
+        .side-arrow {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+            margin: 0 0.5rem;
+        }
+
+        .cross-left-inner,
+        .cross-right-inner {
+            display: flex;
+            align-items: center;
+        }
+
+        /* ── Device frame overrides for Watch ──────────────────────── */
+        /* Slightly smaller watch frames for the cross layout */
+        .watch-cross .device-frame-watch {
+            --watch-scale: 1;
+        }
+
+        /* ── Gravity stack callout box ──────────────────────────────── */
+        .gravity-callout {
+            background: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            max-width: 540px;
+            margin: 2rem auto 0;
+            text-align: center;
+        }
+
+        .gravity-callout h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .gravity-callout p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ── Feature grid below cross ───────────────────────────────── */
+        .watch-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .watch-feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+        }
+
+        .watch-feature-card .card-shot {
+            flex-shrink: 0;
+        }
+
+        .watch-feature-card .card-text h3 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .watch-feature-card .card-text p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ── Timer state strip ──────────────────────────────────────── */
+        .timer-states {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .timer-state-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timer-state-item .state-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+        }
+
+        /* ── Section divider style ──────────────────────────────────── */
+        .watch-section {
+            margin-top: 3.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .watch-section h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .watch-section .section-lead {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 560px;
+        }
+
+        /* ── Responsive ─────────────────────────────────────────────── */
+        @media (max-width: 680px) {
+            .watch-cross {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            /* Collapse to vertical list on mobile */
+            .cross-left,
+            .cross-right,
+            .cross-center,
+            .cross-arrow {
+                grid-column: 1 !important;
+                justify-self: center !important;
+            }
+
+            .timer-close,
+            .timer-mid,
+            .timer-far,
+            .timer-below-close,
+            .timer-below-mid {
+                transform: none;
+                opacity: 1;
+                margin: 0;
+            }
+
+            .watch-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .watch-feature-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" data-page="watch"></nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1>Apple Watch</h1>
+            <p class="subtitle">MedicLog on your wrist — timers, quick entry, voice, and your full call log without touching your phone.</p>
+        </header>
+
+        <!-- ── Spatial Navigation Cross ───────────────────────────── -->
+        <section class="watch-cross-section">
+            <div class="watch-cross-intro">
+                <h2>Spatial Navigation</h2>
+                <p>The Watch app is organized around a single gesture model. From the home screen, swipe in any direction to reach what you need — no menus, no back buttons.</p>
+            </div>
+
+            <div class="watch-cross">
+
+                <!-- ↑ Timer stack above — gravity stack fading upward -->
+                <div class="cross-cell cross-center timer-far">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed OVER">
+                    </div>
+                </div>
+
+                <div class="cross-cell cross-center timer-mid">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-timer-2.png" alt="Timer overdue — Pulse Check −31s">
+                    </div>
+                </div>
+
+                <div class="cross-cell cross-center timer-close">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-timer-1.png" alt="Timer counting — Atropine 24s">
+                    </div>
+                    <span class="cell-label" style="opacity:0.6;">↑ swipe up</span>
+                </div>
+
+                <!-- ── Middle row: QA | Home | Log ──────────────────── -->
+                <div class="cross-cell cross-left">
+                    <div class="cross-left-inner">
+                        <div class="device-frame-watch">
+                            <img src="screenshots/watch/watch-qa.png" alt="Quick entry buttons">
+                        </div>
+                        <span class="side-arrow">→</span>
+                    </div>
+                    <span class="cell-label">Quick Entry<br><span class="cell-nav">swipe right</span></span>
+                </div>
+
+                <div class="cross-cell cross-center cross-home-cell">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-home.png" alt="Home — gravity stack ring view">
+                    </div>
+                    <span class="cell-label">Home Screen</span>
+                </div>
+
+                <div class="cross-cell cross-right">
+                    <div class="cross-right-inner">
+                        <span class="side-arrow">←</span>
+                        <div class="device-frame-watch">
+                            <img src="screenshots/watch/watch-log.jpg" alt="Call log">
+                        </div>
+                    </div>
+                    <span class="cell-label">Call Log<br><span class="cell-nav">swipe left</span></span>
+                </div>
+
+                <!-- ↓ Timer stack below — gravity stack fading downward -->
+                <div class="cross-cell cross-center timer-below-close">
+                    <span class="cell-label" style="opacity:0.6;">↓ swipe down</span>
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-timer-4.png" alt="Timer overdue — Amio −10s">
+                    </div>
+                </div>
+
+                <div class="cross-cell cross-center timer-below-mid">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-timer-5.png" alt="Timer counting — Epi 59s">
+                    </div>
+                </div>
+
+            </div><!-- /.watch-cross -->
+
+            <!-- Gravity stack explanation -->
+            <div class="gravity-callout">
+                <h4>The Gravity Stack</h4>
+                <p>Timers are ranked by urgency — the most time-critical medication floats to the top. Swipe up or down from the home ring to navigate through individual timer screens. The timer closest to its repeat interval is always one swipe away.</p>
+            </div>
+
+        </section><!-- /.watch-cross-section -->
+
+        <!-- ── Home Screen — Ring View ──────────────────────────────── -->
+        <section class="watch-section">
+            <h2>Home Screen — The Ring View</h2>
+            <p class="section-lead">All active medication and procedure timers appear as concentric colored rings. Each ring is a running timer — color-coded to match the medication's category. The most urgent timer sits at the front.</p>
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-home.png" alt="Watch home screen — gravity stack ring view">
+                    </div>
+                </div>
+                <div class="feature-description">
+                    <h3>At a Glance</h3>
+                    <p>The ring view shows every active timer simultaneously — no scrolling required. Color matches what you configured for each medication.</p>
+                    <p>Timer names appear in the upper left corner. The current time appears top right.</p>
+                    <p>Swipe in any direction to navigate: <strong>up/down</strong> for individual timer detail, <strong>right</strong> for quick entry, <strong>left</strong> for the call log.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Quick Entry ───────────────────────────────────────────── -->
+        <section class="watch-section">
+            <h2>Quick Entry</h2>
+            <p class="section-lead">One-tap logging directly from your wrist. Swipe right from the home screen to reach the quick entry grid.</p>
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-qa.png" alt="Watch quick entry buttons">
+                    </div>
+                </div>
+                <div class="feature-description">
+                    <h3>One Tap to Log</h3>
+                    <p>Large, glove-safe buttons for the most common interventions: <strong>Meds, Procedures, Cardiac Meds, Cardiac Procedures</strong> — and <strong>Voice</strong> for anything else.</p>
+                    <p>Each entry logs instantly to your phone's call record and syncs to the active session. No phone needed.</p>
+                    <p>The arc at the top of the screen indicates the gravity stack — showing you have active timers above.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Voice Log ─────────────────────────────────────────────── -->
+        <section class="watch-section">
+            <h2>Voice Log</h2>
+            <p class="section-lead">Raise your wrist and speak. MedicLog transcribes your entry on the phone and adds it to the call record.</p>
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-voice.png" alt="Watch voice recording in progress">
+                    </div>
+                </div>
+                <div class="feature-description">
+                    <h3>Hands-Free Entry</h3>
+                    <p>Tap <strong>Voice</strong> from the quick entry grid. The green dots show live audio activity — speak naturally. Tap <strong>Stop</strong> when done, or it stops automatically after a moment of silence.</p>
+                    <p>The orange microphone in the status bar confirms the mic is active.</p>
+                    <p>MedicLog parses your speech on the phone — medications, doses, routes, vitals — and prompts you to confirm before logging. Common entries auto-confirm immediately.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Medication Timers ─────────────────────────────────────── -->
+        <section class="watch-section">
+            <h2>Medication Timers</h2>
+            <p class="section-lead">Every timed medication gets a dedicated timer screen. Swipe up or down from the home ring to navigate through them in gravity stack order.</p>
+            <div class="timer-states">
+                <div class="timer-state-item">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-timer-1.png" alt="Timer counting — Atropine 24s">
+                    </div>
+                    <span class="state-label">Counting</span>
+                </div>
+                <div class="timer-state-item">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-timer-2.png" alt="Timer overdue — Pulse Check −31s">
+                    </div>
+                    <span class="state-label">Overdue</span>
+                </div>
+                <div class="timer-state-item">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed OVER">
+                    </div>
+                    <span class="state-label">Expired</span>
+                </div>
+            </div>
+            <div class="feature-row" style="margin-top: 1.5rem;">
+                <div class="feature-description" style="flex: none; max-width: 560px; margin: 0 auto;">
+                    <p>Timers cycle through three states: <strong>counting</strong> (time remaining, red when urgent), <strong>overdue</strong> (negative elapsed, pulsing alert), and <strong>expired</strong> (OVER — interval has fully elapsed). A haptic tap alerts you at each transition.</p>
+                    <p style="margin-top: 0.75rem;">The up/down arrows in the corner show your position in the gravity stack — how many timers are above or below the one you're viewing.</p>
+                    <p style="margin-top: 0.75rem;"><strong>Shake to dismiss</strong> an expired timer from your wrist. Dismissing from the phone is authoritative and syncs to the Watch.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Call Log ──────────────────────────────────────────────── -->
+        <section class="watch-section">
+            <h2>Call Log</h2>
+            <p class="section-lead">Your full call timeline on your wrist. Swipe left from the home screen to browse everything logged this call.</p>
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-log.jpg" alt="Watch call log">
+                    </div>
+                </div>
+                <div class="feature-description">
+                    <h3>Full Timeline</h3>
+                    <p>Every entry — vitals, medications, procedures, notes, dispatch — appears in reverse chronological order with timestamps. Icon indicators mark each entry type.</p>
+                    <p>The log syncs from the phone in real time. Entries your partner logs on their device appear here immediately.</p>
+                    <p>Useful for quick reference during handoff, or to verify what was given and when without unlocking your phone.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Starting a Call ───────────────────────────────────────── -->
+        <section class="watch-section" style="margin-bottom: 3rem;">
+            <h2>Starting a Call</h2>
+            <p class="section-lead">Open MedicLog on your Watch to see your phone's connection status and quickly start a call from your wrist.</p>
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-watch">
+                        <img src="screenshots/watch/watch-start.png" alt="Watch start call screen">
+                    </div>
+                </div>
+                <div class="feature-description">
+                    <h3>Wrist Launch</h3>
+                    <p>The green <strong>Online</strong> indicator confirms your Watch is connected to your phone's MedicLog session. Tap <strong>Start Call</strong> to begin a new call directly from your Watch.</p>
+                    <p>Once a call is active on either device, the Watch automatically transitions to the home ring view and begins syncing entries.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="nav-loader.js"></script>
+</body>
+</html>
