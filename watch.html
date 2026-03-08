@@ -96,6 +96,9 @@
             transform-origin: bottom center;
             margin-bottom: -20px;
             z-index: 0;
+            /* Clip the top edge — implies it's scrolling out of view upward */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 45%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 45%);
         }
 
         /* Timers below home grow away in the other direction */
@@ -113,6 +116,9 @@
             transform-origin: top center;
             margin-top: -24px;
             z-index: 1;
+            /* Clip the bottom edge — implies it's scrolling out of view downward */
+            -webkit-mask-image: linear-gradient(to top, transparent 0%, black 45%);
+            mask-image: linear-gradient(to top, transparent 0%, black 45%);
         }
 
         /* Home screen — full size, full opacity */
@@ -149,6 +155,12 @@
         /* Slightly smaller watch frames for the cross layout */
         .watch-cross .device-frame-watch {
             --watch-scale: 1;
+        }
+
+        /* Log screen (right of home) — fade bottom to imply scrollable content */
+        .cross-right .device-frame-watch {
+            -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
         }
 
         /* ── Gravity stack callout box ──────────────────────────────── */
