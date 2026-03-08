@@ -72,13 +72,26 @@
         .cross-right { grid-column: 3; justify-self: start; align-self: start; }
 
         /* ── Gravity stack — fanned card deck above home ─────────────── */
-        /* All cards same size; each peeks from behind the one below it   */
+        /* All cards same size; each peeks from behind the one below it.  */
+        /* 75px peek = enough to read med name + time on each card.       */
         .timer-stack-above {
             position: relative;
             width: 180px;
-            height: 300px;        /* tall enough for 3 peeking cards */
+            height: 380px;        /* card_height ≈ 230px + 2×75px peek */
             grid-column: 2;
             align-self: end;      /* bottom of stack sits flush with home */
+            margin-bottom: -8px;  /* pull cards snug against home bezel  */
+        }
+
+        /* ── Gravity stack — fanned card deck below home ─────────────── */
+        /* Mirror of above stack; cards fall downward from home.          */
+        .timer-stack-below {
+            position: relative;
+            width: 180px;
+            height: 380px;
+            grid-column: 2;
+            align-self: start;    /* top of stack sits flush with home   */
+            margin-top: -8px;     /* pull cards snug against home bezel  */
         }
 
         .timer-card {
@@ -87,6 +100,8 @@
             width: 180px;
         }
 
+        /* ── Above stack cards ── */
+
         /* Closest to home — bottom of the fan, fully visible */
         .timer-card-close {
             bottom: 0;
@@ -94,23 +109,48 @@
             opacity: 0.90;
         }
 
-        /* Middle card — 44px peek above close */
+        /* Middle card — 75px peek above close */
         .timer-card-mid {
-            bottom: 44px;
+            bottom: 75px;
             z-index: 2;
             opacity: 0.58;
         }
 
-        /* Farthest — 88px above bottom, top-fade implies off-screen */
+        /* Farthest — 150px above bottom, top-fade implies off-screen */
         .timer-card-far {
-            bottom: 88px;
+            bottom: 150px;
             z-index: 1;
             opacity: 0.28;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 42%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 42%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 50%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 50%);
         }
 
-        /* Swipe-up label inside the stack container */
+        /* ── Below stack cards ── */
+
+        /* Closest to home — top of the below fan, fully visible */
+        .timer-card-below-close {
+            top: 0;
+            z-index: 3;
+            opacity: 0.90;
+        }
+
+        /* Middle card — 75px peek below close */
+        .timer-card-below-mid {
+            top: 75px;
+            z-index: 2;
+            opacity: 0.58;
+        }
+
+        /* Farthest — 150px below top, bottom-fade implies off-screen */
+        .timer-card-below-far {
+            top: 150px;
+            z-index: 1;
+            opacity: 0.28;
+            -webkit-mask-image: linear-gradient(to top, transparent 0%, black 50%);
+            mask-image: linear-gradient(to top, transparent 0%, black 50%);
+        }
+
+        /* Swipe label — above stack (sits below the fan, above home) */
         .stack-swipe-label {
             position: absolute;
             bottom: -22px;
@@ -125,17 +165,26 @@
             white-space: nowrap;
         }
 
-        /* Single timer below home — no scaling, slight top-overlap */
-        .timer-below-close {
-            opacity: 0.82;
-            z-index: 2;
-            margin-top: -14px;
+        /* Swipe label — below stack (sits above the fan, below home) */
+        .stack-swipe-label-below {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0.55;
+            white-space: nowrap;
         }
 
-        /* Home screen — full size, full opacity */
+        /* Home screen — full size, full opacity, top-aligned with log */
         .cross-home-cell {
             position: relative;
             z-index: 10;
+            align-self: start;
         }
 
         /* Log image — raw screenshot, no bezel, fades bottom */
@@ -303,14 +352,20 @@
                 justify-self: center !important;
             }
 
-            /* Flatten fanned deck on mobile — show cards inline */
-            .timer-stack-above {
+            /* Flatten fanned decks on mobile — show cards inline */
+            .timer-stack-above,
+            .timer-stack-below {
                 position: static;
                 width: 100%;
                 height: auto;
+                margin: 0;
                 display: flex;
-                flex-direction: column-reverse;
+                flex-direction: column;
                 gap: 0.75rem;
+            }
+
+            .timer-stack-above {
+                flex-direction: column-reverse;
             }
 
             .timer-card {
@@ -321,9 +376,13 @@
                 -webkit-mask-image: none !important;
             }
 
-            .timer-below-close {
-                opacity: 1;
-                margin: 0;
+            .stack-swipe-label,
+            .stack-swipe-label-below {
+                position: static;
+                transform: none;
+                display: block;
+                text-align: center;
+                margin-bottom: 0.25rem;
             }
 
             .log-img {
@@ -422,13 +481,32 @@
                     <span class="cell-label">Call Log<br><span class="cell-nav">swipe left</span></span>
                 </div>
 
-                <!-- ↓ Timer stack below — gravity stack fading downward -->
-                <div class="cross-cell cross-center timer-below-close">
-                    <span class="cell-label" style="opacity:0.6;">↓ swipe down</span>
-                    <div class="device-frame-watch">
+                <!-- ↓ Timer stack below — fanned deck, top card closest to home -->
+                <div class="timer-stack-below">
+                    <span class="stack-swipe-label-below">↓ swipe down</span>
+                    <!-- Close — front card, nearest home -->
+                    <div class="timer-card timer-card-below-close">
+                        <div class="device-frame-watch">
                             <div class="watch-screen">
-                                <img src="screenshots/watch/watch-timer-4.png" alt="Timer overdue — Amio −10s">
+                                <img src="screenshots/watch/watch-timer-4.png" alt="Timer overdue — Pulse Check −20s">
                             </div>
+                        </div>
+                    </div>
+                    <!-- Mid — second from front -->
+                    <div class="timer-card timer-card-below-mid">
+                        <div class="device-frame-watch">
+                            <div class="watch-screen">
+                                <img src="screenshots/watch/watch-timer-3.png" alt="Timer expired — Versed LATE">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Far — bottommost, fades out downward -->
+                    <div class="timer-card timer-card-below-far">
+                        <div class="device-frame-watch">
+                            <div class="watch-screen">
+                                <img src="screenshots/watch/watch-timer-2.png" alt="Timer expired — Albuterol OVER">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
