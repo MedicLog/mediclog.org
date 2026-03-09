@@ -67,23 +67,19 @@
         /* Center column cells */
         .cross-center { grid-column: 2; }
 
-        /* Side cells */
-        /* align-self intentionally omitted — grid's align-items:center centers these
-           against the full center-column height. Since above-stack and below-stack are
-           both 380px, the home screen sits at the exact vertical midpoint of the column,
-           so centering the side panels aligns them with the home screen. */
-        .cross-left  { grid-column: 1; justify-self: end; }
-        .cross-right { grid-column: 3; justify-self: start; }
+        /* Side cells — share grid-row:3 with the home screen so centering
+           aligns them against only the home-screen row height, not the full
+           column (which includes the 380px stacks above and below). */
+        .cross-left  { grid-column: 1; grid-row: 3; justify-self: end; }
+        .cross-right { grid-column: 3; grid-row: 3; justify-self: start; }
 
-        /* ── Center column: vertical flex spine ────────────────────────── */
-        /* above-stack → home → below-stack in natural document flow.     */
-        /* Keeps stacks flush with home independent of side panel height.  */
+        /* ── Center column: display:contents makes children direct grid items ── */
+        /* Each child gets an explicit grid-column:2 + grid-row assignment.    */
+        /* This replaces the old flex spine approach so the side panels (QA,   */
+        /* Log) can share grid-row:3 with the home screen and be centered       */
+        /* against only the home-screen row height — not the full column.       */
         .center-column {
-            grid-column: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
+            display: contents;
         }
 
         /* ── Gravity stack — fanned card deck above home ─────────────── */
@@ -93,6 +89,8 @@
             position: relative;
             width: 180px;
             height: 380px;        /* card_height ≈ 230px + 2×75px peek */
+            grid-column: 2;
+            grid-row: 1;
         }
 
         /* ── Gravity stack — fanned card deck below home ─────────────── */
@@ -101,6 +99,8 @@
             position: relative;
             width: 180px;
             height: 380px;
+            grid-column: 2;
+            grid-row: 5;
         }
 
         .timer-card {
@@ -159,8 +159,21 @@
             mask-image: linear-gradient(to top, transparent 0%, black 50%);
         }
 
-        /* Swipe labels — static flex items between stack and home */
-        .stack-swipe-label,
+        /* Swipe labels — center column, between stacks and home row */
+        .stack-swipe-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0.55;
+            white-space: nowrap;
+            text-align: center;
+            padding: 4px 0;
+            grid-column: 2;
+            grid-row: 2;
+        }
+
         .stack-swipe-label-below {
             font-size: 0.7rem;
             font-weight: 600;
@@ -171,12 +184,17 @@
             white-space: nowrap;
             text-align: center;
             padding: 4px 0;
+            grid-column: 2;
+            grid-row: 4;
         }
 
-        /* Home screen — full size, full opacity */
+        /* Home screen — row 3, col 2; label above rings matches QA/Log    */
+        /* pattern so all three screen centers land at the same row midpoint */
         .cross-home-cell {
             position: relative;
             z-index: 10;
+            grid-column: 2;
+            grid-row: 3;
         }
 
         /* Log image — extends below home screen, fades to transparent at
@@ -345,20 +363,17 @@
                 grid-template-rows: auto;
             }
 
-            /* Collapse to vertical list on mobile */
+            /* Collapse to vertical list on mobile — reset all explicit grid placement */
             .cross-left,
             .cross-right,
-            .cross-center,
-            .cross-arrow {
+            .cross-home-cell,
+            .timer-stack-above,
+            .timer-stack-below,
+            .stack-swipe-label,
+            .stack-swipe-label-below {
                 grid-column: 1 !important;
+                grid-row: auto !important;
                 justify-self: center !important;
-            }
-
-            /* Center column collapses to full-width on mobile */
-            .center-column {
-                grid-column: 1 !important;
-                width: 100%;
-                align-items: center;
             }
 
             /* Flatten fanned decks on mobile — show cards inline */
@@ -479,12 +494,12 @@
 
                     <!-- Home screen -->
                     <div class="cross-cell cross-home-cell">
+                        <span class="cell-label">Home Screen</span>
                         <div class="device-frame-watch">
                                 <div class="watch-screen">
                                     <img src="screenshots/watch/watch-home.png" alt="Home — gravity stack ring view with 3 active timers">
                                 </div>
                         </div>
-                        <span class="cell-label">Home Screen</span>
                     </div>
 
                     <span class="stack-swipe-label-below">↑ swipe up</span>
