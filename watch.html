@@ -197,12 +197,14 @@
             grid-row: 4;
         }
 
-        /* Home screen — row 3, col 2 */
+        /* Home screen — row 3, col 2; align-self:start so its top edge matches
+           the QA and Log screens which also use align-self:start in row 3. */
         .cross-home-cell {
             position: relative;
             z-index: 10;
             grid-column: 2;
             grid-row: 3;
+            align-self: start;
         }
 
         /* Log image — extends below home screen, fades to transparent at
@@ -249,7 +251,7 @@
            container (cross-left-inner). flex-shrink:0 prevents the flex
            layout from squeezing or stretching the QA frame. */
         .cross-home-cell .device-frame-watch,
-        .cross-left .device-frame-watch,
+        .cross-left-screen .device-frame-watch,
         .timer-below-close .device-frame-watch {
             box-sizing: border-box;
             width: 180px;
@@ -257,7 +259,7 @@
         }
 
         .cross-home-cell .device-frame-watch img,
-        .cross-left .device-frame-watch img,
+        .cross-left-screen .device-frame-watch img,
         .timer-below-close .device-frame-watch img {
             width: 100%;
             height: auto;
