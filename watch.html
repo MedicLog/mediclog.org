@@ -179,10 +179,15 @@
             z-index: 10;
         }
 
-        /* Log image — raw screenshot, no bezel, fades bottom */
+        /* Log image — raw screenshot, no bezel, fades bottom.
+           Height matches home device frame so grid centering aligns log top
+           with home top. object-fit:cover + object-position:top shows the
+           first N entries without scaling distortion. */
         .log-img {
             width: 180px;
-            height: auto;
+            height: 212px;
+            object-fit: cover;
+            object-position: top;
             display: block;
             border-radius: 8px;
             -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
@@ -214,10 +219,17 @@
         }
 
         /* ── Device frame sizing for cross layout ───────────────────── */
+        /* Explicit box-sizing + identical width/height on both home and QA
+           frames so they render at exactly the same size regardless of whether
+           the device-frame is a direct grid child (home) or inside a flex
+           container (cross-left-inner). flex-shrink:0 prevents the flex
+           layout from squeezing or stretching the QA frame. */
         .cross-home-cell .device-frame-watch,
         .cross-left .device-frame-watch,
         .timer-below-close .device-frame-watch {
+            box-sizing: border-box;
             width: 180px;
+            flex-shrink: 0;
         }
 
         .cross-home-cell .device-frame-watch img,
