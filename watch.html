@@ -553,12 +553,14 @@
                     <span class="stack-swipe-label-below">↑ swipe up</span>
 
                     <!-- ↓ Timer stack below — fanned deck, close card nearest home -->
+                    <!-- DOM order mirrors above-stack: far first (rendered behind), close last (rendered on top). -->
+                    <!-- z-index values (close:3, mid:2, far:1) handle visual layering. -->
                     <div class="timer-stack-below">
-                        <!-- Close — front card, nearest home -->
-                        <div class="timer-card timer-card-below-close">
+                        <!-- Far — bottommost, fades out downward -->
+                        <div class="timer-card timer-card-below-far">
                             <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-timer-pulse-overdue.png" alt="Pulse Check −25s — overdue, one swipe below home">
+                                    <img src="screenshots/watch/watch-timer-over.png" alt="Albuterol OVER — fully expired, fading at bottom">
                                 </div>
                             </div>
                         </div>
@@ -570,11 +572,11 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Far — bottommost, fades out downward -->
-                        <div class="timer-card timer-card-below-far">
+                        <!-- Close — front card, nearest home -->
+                        <div class="timer-card timer-card-below-close">
                             <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-timer-over.png" alt="Albuterol OVER — fully expired, fading at bottom">
+                                    <img src="screenshots/watch/watch-timer-pulse-overdue.png" alt="Pulse Check −25s — overdue, one swipe below home">
                                 </div>
                             </div>
                         </div>
