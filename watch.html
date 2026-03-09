@@ -162,9 +162,11 @@
             opacity: 0.90;
         }
 
-        /* Middle — peeks 75px below close's bottom, only top 75px shown */
+        /* Middle — peeks 75px below close's bottom, only top 75px shown.
+           card_height = 164px content (416×496 at width 164) + 16px padding = 211px actual.
+           tuck: 8px overlap so mid slides just behind close's bottom edge. */
         .timer-card-below-mid {
-            top: 222px;       /* card_height(230) − 8px tuck = 222 */
+            top: 203px;       /* card_height(211) − 8px tuck = 203 */
             z-index: 2;
             opacity: 0.58;
             height: 75px;
@@ -173,7 +175,7 @@
 
         /* Farthest — peeks 75px below mid's clip edge, only top 75px shown, fades out */
         .timer-card-below-far {
-            top: 289px;       /* 222 + 75 − 8px tuck = 289 */
+            top: 270px;       /* 203 + 75 − 8px tuck = 270 */
             z-index: 1;
             opacity: 0.28;
             height: 75px;
