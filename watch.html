@@ -149,28 +149,31 @@
         }
 
         /* ── Below stack cards ── */
+        /* Mirror of above-stack: bottom-anchored so peeking cards show their
+           TOPS (med name + LATE/OVER text) rather than blank screen bottoms.
+           Close is fullest/bottommost; far floats at top, fading downward. */
 
-        /* Closest to home — top of the below fan, fully visible */
+        /* Closest — fullest card, bottom of stack */
         .timer-card-below-close {
-            top: 0;
+            bottom: 0;
             z-index: 3;
             opacity: 0.90;
         }
 
-        /* Middle card — 75px peek below close */
+        /* Middle card — 75px peek above close */
         .timer-card-below-mid {
-            top: 75px;
+            bottom: 75px;
             z-index: 2;
             opacity: 0.58;
         }
 
-        /* Farthest — 150px below top, bottom-fade implies off-screen */
+        /* Farthest — 150px above bottom, top-fade implies off-screen */
         .timer-card-below-far {
-            top: 150px;
+            bottom: 150px;
             z-index: 1;
             opacity: 0.28;
-            -webkit-mask-image: linear-gradient(to top, transparent 0%, black 50%);
-            mask-image: linear-gradient(to top, transparent 0%, black 50%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 50%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 50%);
         }
 
         /* Swipe labels — center column rows 2 and 4 */
