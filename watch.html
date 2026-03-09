@@ -149,11 +149,11 @@
         }
 
         /* ── Below stack cards ── */
-        /* Mirror of above-stack, but falling downward from home.
-           Close: full card, z:3 (frontmost, nearest home).
-           Mid/Far: clipped to show only their top N px (where med name + status live).
-           Each peeking card tucks 8px under the card above it for the "deck" feel.
-           overflow:hidden on the clipped cards + container clips stray overflow. */
+        /* Exact mirror of above-stack: full-size cards, z-index overlap, no clipping.
+           Close is frontmost (z:3) and sits at top:0.
+           Mid (z:2) sits at top:75px — close covers mid's top 120px, bottom 75px peeks.
+           Far (z:1) sits at top:150px — mid covers far's top, bottom 75px peeks below mid.
+           Same step/peek math as above-stack (bottom:0/75/150 → top:0/75/150). */
 
         /* Closest — nearest home, fully visible, frontmost */
         .timer-card-below-close {
@@ -162,24 +162,18 @@
             opacity: 0.90;
         }
 
-        /* Middle — peeks 75px below close's bottom, only top 75px shown.
-           card_height = 164px content (416×496 at width 164) + 16px padding = 211px actual.
-           tuck: 8px overlap so mid slides just behind close's bottom edge. */
+        /* Middle — full card, top 120px hidden behind close, bottom 75px peeks below */
         .timer-card-below-mid {
-            top: 203px;       /* card_height(211) − 8px tuck = 203 */
+            top: 75px;
             z-index: 2;
             opacity: 0.75;
-            height: 75px;
-            overflow: hidden;
         }
 
-        /* Farthest — peeks 75px below mid's clip edge, only top 75px shown, fades out */
+        /* Farthest — full card, top hidden behind mid+close, bottom 75px peeks, fades out */
         .timer-card-below-far {
-            top: 270px;       /* 203 + 75 − 8px tuck = 270 */
+            top: 150px;
             z-index: 1;
             opacity: 0.28;
-            height: 75px;
-            overflow: hidden;
             -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
             mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
         }
