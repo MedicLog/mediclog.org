@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "apps": [
+    {
+      "name": "NMAS First Responder Protocols",
+      "bundleId": "com.nmas.firstresponder",
+      "urlScheme": "nmas://",
+      "category": "protocols",
+      "appStoreId": "6499279438"
+    },
+    {
+      "name": "Handtevy Mobile",
+      "bundleId": "com.handtevy.mobile",
+      "urlScheme": "handtevy://",
+      "category": "pediatric",
+      "appStoreId": "1038174793"
+    },
+    {
+      "name": "Pulsara",
+      "bundleId": "com.pulsara.app",
+      "urlScheme": "pulsara://",
+      "category": "communication",
+      "appStoreId": "873184192"
+    },
+    {
+      "name": "Muru",
+      "bundleId": "com.muru.app",
+      "urlScheme": "muru://",
+      "category": "protocols",
+      "appStoreId": "1409950908"
+    },
+    {
+      "name": "PediSTAT EMS",
+      "bundleId": "com.pedistat.ems",
+      "urlScheme": "pedistat://",
+      "category": "pediatric",
+      "appStoreId": "1595805495"
+    },
+    {
+      "name": "PPP Protocols",
+      "bundleId": null,
+      "urlScheme": "ppp://",
+      "category": "protocols",
+      "appStoreId": null
+    }
+  ]
+}
