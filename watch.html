@@ -113,7 +113,6 @@
             position: relative;
             width: 180px;
             height: 380px;
-            overflow: hidden;
             grid-column: 2;
             grid-row: 5;
         }
@@ -150,32 +149,37 @@
         }
 
         /* ── Below stack cards ── */
-        /* Close sits at top:0 (nearest home) at z:1 — BEHIND mid and far.
-           Mid and far sit on top (z:2, z:3), positioned so their TOP edges
-           peek below close's bottom, showing medication name + LATE/OVER text.
-           Stack uses overflow:hidden to clip any overflow below 380px. */
+        /* Mirror of above-stack, but falling downward from home.
+           Close: full card, z:3 (frontmost, nearest home).
+           Mid/Far: clipped to show only their top N px (where med name + status live).
+           Each peeking card tucks 8px under the card above it for the "deck" feel.
+           overflow:hidden on the clipped cards + container clips stray overflow. */
 
-        /* Closest — nearest home, top of stack, behind mid/far */
+        /* Closest — nearest home, fully visible, frontmost */
         .timer-card-below-close {
             top: 0;
-            z-index: 1;
+            z-index: 3;
             opacity: 0.90;
         }
 
-        /* Middle — top edge peeks 75px below close's bottom */
+        /* Middle — peeks 75px below close's bottom, only top 75px shown */
         .timer-card-below-mid {
-            top: 155px;
+            top: 222px;       /* card_height(230) − 8px tuck = 222 */
             z-index: 2;
             opacity: 0.58;
+            height: 75px;
+            overflow: hidden;
         }
 
-        /* Farthest — top edge peeks below mid, fades toward bottom */
+        /* Farthest — peeks 75px below mid's clip edge, only top 75px shown, fades out */
         .timer-card-below-far {
-            top: 230px;
-            z-index: 3;
+            top: 289px;       /* 222 + 75 − 8px tuck = 289 */
+            z-index: 1;
             opacity: 0.28;
-            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            height: 75px;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
         }
 
         /* Swipe labels — center column rows 2 and 4 */
