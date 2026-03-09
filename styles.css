@@ -826,6 +826,21 @@ footer a:hover {
     box-shadow: none;
 }
 
+/* Watch frames in feature rows and timer state strips — constrain to 180px
+   so they match the cross-layout home/QA frame size. */
+.feature-screenshot .device-frame-watch,
+.timer-state-item .device-frame-watch {
+    width: 180px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.feature-screenshot .device-frame-watch img,
+.timer-state-item .device-frame-watch img {
+    width: 100%;
+    height: auto;
+}
+
 .feature-screenshot.watch img {
     max-width: 180px;
     border-radius: 42px;

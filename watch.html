@@ -81,9 +81,14 @@
         }
 
         /* Side screens — row 3, top-aligned so the watch face / log image
-           starts exactly at the home screen's top edge. */
+           starts exactly at the home screen's top edge.
+           cross-right-screen gets a fixed height matching the home cell so
+           the log image (380px) doesn't drive row 3 tall and push the
+           below-stack far from home. overflow:visible lets the log paint
+           below the row boundary while align-items:flex-start keeps it
+           anchored at the top. */
         .cross-left-screen  { grid-column: 1; grid-row: 3; justify-self: end;   align-self: start; display: flex; align-items: center; }
-        .cross-right-screen { grid-column: 3; grid-row: 3; justify-self: start; align-self: start; display: flex; align-items: center; }
+        .cross-right-screen { grid-column: 3; grid-row: 3; justify-self: start; align-self: start; display: flex; align-items: flex-start; height: 250px; overflow: visible; }
 
         /* ── Center column: display:contents makes children direct grid items ── */
         /* Explicit grid-row on each child replaces the old flex spine.           */
@@ -451,6 +456,26 @@
             <p class="subtitle">MedicLog on your wrist — timers, quick entry, voice, and your full call log without touching your phone.</p>
         </header>
 
+        <!-- ── Starting a Call ───────────────────────────────────────── -->
+        <section class="watch-section" style="margin-bottom: 3rem;">
+            <h2>Starting a Call</h2>
+            <p class="section-lead">Open MedicLog on your Watch to see your phone's connection status and quickly start a call from your wrist.</p>
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-watch">
+                            <div class="watch-screen">
+                                <img src="screenshots/watch/watch-start.png" alt="Watch start call screen">
+                            </div>
+                    </div>
+                </div>
+                <div class="feature-description">
+                    <h3>Wrist Launch</h3>
+                    <p>The green <strong>Online</strong> indicator confirms your Watch is connected to your phone's MedicLog session. Tap <strong>Start Call</strong> to begin a new call directly from your Watch.</p>
+                    <p>Once a call is active on either device, the Watch automatically transitions to the home ring view and begins syncing entries.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- ── Spatial Navigation Cross ───────────────────────────── -->
         <section class="watch-cross-section">
             <div class="watch-cross-intro">
@@ -538,7 +563,7 @@
                         <div class="timer-card timer-card-below-far">
                             <div class="device-frame-watch">
                                 <div class="watch-screen">
-                                    <img src="screenshots/watch/watch-timer-late.png" alt="Pulse Check LATE — significantly overdue, fading at bottom">
+                                    <img src="screenshots/watch/watch-timer-over.png" alt="Albuterol OVER — fully expired, fading at bottom">
                                 </div>
                             </div>
                         </div>
@@ -679,37 +704,13 @@
             <p class="section-lead">Your full call timeline on your wrist. Swipe left from the home screen to browse everything logged this call.</p>
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
-                    <div class="device-frame-watch">
-                            <div class="watch-screen">
-                                <img src="screenshots/watch/watch-log.jpg" alt="Watch call log">
-                            </div>
-                    </div>
+                    <img class="log-img" src="screenshots/watch/watch-log.jpg" alt="Watch call log">
                 </div>
                 <div class="feature-description">
                     <h3>Full Timeline</h3>
                     <p>Every entry — vitals, medications, procedures, notes, dispatch — appears in reverse chronological order with timestamps. Icon indicators mark each entry type.</p>
                     <p>The log syncs from the phone in real time. Entries your partner logs on their device appear here immediately.</p>
                     <p>Useful for quick reference during handoff, or to verify what was given and when without unlocking your phone.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ── Starting a Call ───────────────────────────────────────── -->
-        <section class="watch-section" style="margin-bottom: 3rem;">
-            <h2>Starting a Call</h2>
-            <p class="section-lead">Open MedicLog on your Watch to see your phone's connection status and quickly start a call from your wrist.</p>
-            <div class="feature-row">
-                <div class="feature-screenshot">
-                    <div class="device-frame-watch">
-                            <div class="watch-screen">
-                                <img src="screenshots/watch/watch-start.png" alt="Watch start call screen">
-                            </div>
-                    </div>
-                </div>
-                <div class="feature-description">
-                    <h3>Wrist Launch</h3>
-                    <p>The green <strong>Online</strong> indicator confirms your Watch is connected to your phone's MedicLog session. Tap <strong>Start Call</strong> to begin a new call directly from your Watch.</p>
-                    <p>Once a call is active on either device, the Watch automatically transitions to the home ring view and begins syncing entries.</p>
                 </div>
             </div>
         </section>
