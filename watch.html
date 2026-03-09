@@ -151,9 +151,9 @@
         /* ── Below stack cards ── */
         /* Exact mirror of above-stack: full-size cards, z-index overlap, no clipping.
            Close is frontmost (z:3) and sits at top:0.
-           Mid (z:2) sits at top:75px — close covers mid's top 120px, bottom 75px peeks.
-           Far (z:1) sits at top:150px — mid covers far's top, bottom 75px peeks below mid.
-           Same step/peek math as above-stack (bottom:0/75/150 → top:0/75/150). */
+           Step=110px: close covers mid's top ~85px, bottom ~110px peeks — lands mid-screen
+           where LATE/OVER text lives (~center of the 195px rendered card height).
+           Far step doubles: top:220px peeks ~110px below mid's visible bottom. */
 
         /* Closest — nearest home, fully visible, frontmost */
         .timer-card-below-close {
@@ -162,16 +162,16 @@
             opacity: 0.90;
         }
 
-        /* Middle — full card, top 120px hidden behind close, bottom 75px peeks below */
+        /* Middle — peek starts ~mid-screen, shows LATE/OVER text area */
         .timer-card-below-mid {
-            top: 75px;
+            top: 110px;
             z-index: 2;
             opacity: 0.75;
         }
 
-        /* Farthest — full card, top hidden behind mid+close, bottom 75px peeks, fades out */
+        /* Farthest — peeks below mid, fades out toward bottom */
         .timer-card-below-far {
-            top: 150px;
+            top: 220px;
             z-index: 1;
             opacity: 0.28;
             -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
