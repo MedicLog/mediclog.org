@@ -179,19 +179,17 @@
             z-index: 10;
         }
 
-        /* Log image — raw screenshot, no bezel, fades bottom.
-           Height matches home device frame so grid centering aligns log top
-           with home top. object-fit:cover + object-position:top shows the
-           first N entries without scaling distortion. */
+        /* Log image — extends below home screen, fades to transparent at
+           bottom to imply continued scroll. Label sits above so the screen
+           starts near home-top and trails off below home-bottom. */
         .log-img {
             width: 180px;
-            height: 212px;
-            object-fit: cover;
-            object-position: top;
+            height: auto;
+            max-height: 380px;
             display: block;
             border-radius: 8px;
-            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
         }
 
         /* ── Connector arrows between cross cells ───────────────────── */
@@ -435,6 +433,7 @@
 
                 <!-- Left: QA ───────────────────────────────────────── -->
                 <div class="cross-cell cross-left">
+                    <span class="cell-label">Quick Entry<br><span class="cell-nav">swipe right</span></span>
                     <div class="cross-left-inner">
                         <div class="device-frame-watch">
                                 <div class="watch-screen">
@@ -443,7 +442,6 @@
                         </div>
                         <span class="side-arrow">→</span>
                     </div>
-                    <span class="cell-label">Quick Entry<br><span class="cell-nav">swipe right</span></span>
                 </div>
 
                 <!-- Center column: above stack → home → below stack ─── -->
@@ -523,11 +521,11 @@
 
                 <!-- Right: Log ──────────────────────────────────────── -->
                 <div class="cross-cell cross-right">
+                    <span class="cell-label">Call Log<br><span class="cell-nav">swipe left</span></span>
                     <div class="cross-right-inner">
                         <span class="side-arrow">←</span>
                         <img class="log-img" src="screenshots/watch/watch-log.jpg" alt="Call log">
                     </div>
-                    <span class="cell-label">Call Log<br><span class="cell-nav">swipe left</span></span>
                 </div>
 
             </div><!-- /.watch-cross -->
