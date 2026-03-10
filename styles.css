@@ -192,13 +192,14 @@ a:hover {
 .nav-dropdown-menu {
     display: none;
     position: absolute;
-    top: calc(100% + 0.75rem);
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     background: var(--nav-bg);
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 0.4rem;
+    padding-top: 0.85rem;
     min-width: 160px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(10px);
