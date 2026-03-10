@@ -1,0 +1,35 @@
+{
+  "type": "mlconfig",
+  "schemaVersion": 1,
+  "exportedAt": "2026-03-10T00:00:00Z",
+  "appVersion": "1.0",
+  "profile": {
+    "displayName": "Paramedic",
+    "agencyName": "",
+    "unitNumber": "",
+    "employeeName": "",
+    "employeeID": "",
+    "incidentNumberFormat": "",
+    "dispatchTemplates": [],
+    "settings": {
+      "quickEntryVitals": true,
+      "quickEntryMedication": true,
+      "quickEntryCardiac": true,
+      "quickEntryIV": true,
+      "quickEntryProcedure": true,
+      "quickEntryNote": true,
+      "showMedicationTimers": true,
+      "showCallTimer": true,
+      "useIncidentNumbers": true
+    }
+  },
+  "destinations": [],
+  "summary": {
+    "profileName": "Paramedic",
+    "agencyName": "",
+    "destinationCount": 0,
+    "hasLogo": false,
+    "dispatchTemplateCount": 0,
+    "voiceAliasCount": 0
+  }
+}

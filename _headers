@@ -6,3 +6,7 @@
 
 /*.css
   Content-Type: text/css; charset=UTF-8
+
+/assets/presets/*.mlconfig
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment
