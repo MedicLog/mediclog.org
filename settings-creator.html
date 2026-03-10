@@ -662,6 +662,15 @@
                 'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'showDemographicsReminder'] },
                 'incidentNumberFormat': { type: 'text', default: '', screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'incidentNumberFormat'] },
                 'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
+                // Voice pipeline config (T194/T195) — agency-level, included in QR export
+                'voice.silenceThreshold': { type: 'number', default: 2.0, min: 0.5, max: 10.0, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.silenceThreshold'] },
+                'voice.vadTrimEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.vadTrimEnabled'] },
+                'voice.verbosity': { type: 'select', default: 'short', options: [
+                    {value: 'short', label: 'Short'},
+                    {value: 'full', label: 'Full'},
+                    {value: 'off', label: 'Off'}
+                ], screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.verbosity'] },
+                'voice.autoPromoteThreshold': { type: 'number', default: 0.85, min: 0.0, max: 1.0, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.autoPromoteThreshold'] },
                 // LVO alert thresholds — only relevant when stroke scale is lams/fasted/race
                 'agency.lvoThreshold.lams': { type: 'number', default: 4, min: 1, max: 5, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.lams'] },
                 'agency.lvoThreshold.fasted': { type: 'number', default: 1, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.fasted'] },
@@ -685,7 +694,7 @@
                 'showPatientInfoButton': { type: 'toggle', default: false, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'showPatientInfoButton'] },
 
                 // Quick Entry
-                'quickEntry.vitals': { type: 'toggle', default: false, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'vitals'] },
+                'quickEntry.vitals': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'vitals'] },
                 'quickEntry.medication': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'medication'] },
                 'quickEntry.cardiac': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'cardiac'] },
                 'quickEntry.iv': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'iv'] },
@@ -725,9 +734,7 @@
                 'timerPageDwellSeconds': { type: 'number', default: 5, min: 0, max: 30, screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'timerPageDwellSeconds'] },
 
                 // Vitals
-                'showVitalsButton': { type: 'toggle', default: true, screens: ['vitals'], section: 'Vitals Entry', qrPath: ['vitals', 'showVitalsButton'] },
                 'radioShowFullVitals': { type: 'toggle', default: true, screens: ['radio'], section: 'Radio Report', qrPath: ['vitals', 'radioShowFullVitals'] },
-                'radioMaxInterventions': { type: 'number', default: 5, min: 1, max: 20, screens: ['radio'], section: 'Radio Report', qrPath: ['vitals', 'radioMaxInterventions'] },
                 'vitalsReminderEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Vitals Reminder', qrPath: ['vitals', 'reminderEnabled'] },
                 'vitalsReminderInterval': { type: 'select', default: 300, options: [
                     {value: 300, label: '5 minutes'},
@@ -746,7 +753,7 @@
                 'vitalsShowETCO2': { type: 'toggle', default: true, screens: ['vitals'], section: 'Vitals Entry Fields', qrPath: ['vitals', 'fieldVisibility', 'vitalsShowETCO2'] },
                 'vitalsShowGlucose': { type: 'toggle', default: true, screens: ['vitals'], section: 'Vitals Entry Fields', qrPath: ['vitals', 'fieldVisibility', 'vitalsShowGlucose'] },
                 'vitalsShowPain': { type: 'toggle', default: true, screens: ['vitals'], section: 'Vitals Entry Fields', qrPath: ['vitals', 'fieldVisibility', 'vitalsShowPain'] },
-                'vitalsShowGCS': { type: 'toggle', default: true, screens: ['vitals'], section: 'Vitals Entry Fields', qrPath: ['vitals', 'fieldVisibility', 'vitalsShowGCS'] },
+                'vitalsShowGCS': { type: 'toggle', default: false, screens: ['vitals'], section: 'Vitals Entry Fields', qrPath: ['vitals', 'fieldVisibility', 'vitalsShowGCS'] },
                 'vitalsShowStrokeScreen': { type: 'toggle', default: true, screens: ['vitals'], section: 'Vitals Entry Fields', qrPath: ['vitals', 'fieldVisibility', 'vitalsShowStrokeScreen'] },
 
                 // Vitals Collapsed Display (9 fields - no StrokeScreen here, that's a separate display.vitalsCollapsed object in QR)
@@ -1025,9 +1032,7 @@
                     'watchHapticIntensity': 'Haptic Intensity',
                     'watchShakeAction': 'Shake Gesture Action',
                     'timerPageDwellSeconds': 'Timer Page Auto-Return (sec)',
-                    'showVitalsButton': 'Show Vitals Button',
                     'radioShowFullVitals': 'Show Full Vitals',
-                    'radioMaxInterventions': 'Max Interventions',
                     'vitalsReminderEnabled': 'Enable Reminder',
                     'vitalsReminderInterval': 'Reminder Interval',
                     'vitalsShowMathHelper': 'Math Helper',
@@ -1059,6 +1064,10 @@
                     'agency.showDemographicsReminder': 'Demographics Reminder',
                     'incidentNumberFormat': 'Incident Number Format',
                     'backgroundCrashLogging.enabled': 'Background Crash Logging',
+                    'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
+                    'voice.vadTrimEnabled': 'Voice VAD Trim',
+                    'voice.verbosity': 'Voice Verbosity',
+                    'voice.autoPromoteThreshold': 'Voice Auto-Promote Threshold',
                     'agency.lvoThreshold.lams': 'LVO Threshold — LAMS',
                     'agency.lvoThreshold.fasted': 'LVO Threshold — FAST-ED',
                     'agency.lvoThreshold.race': 'LVO Threshold — RACE'
@@ -1199,7 +1208,6 @@
 
             renderRadio(preview) {
                 const showFullVitals = SettingsState.get('radioShowFullVitals');
-                const maxInterventions = SettingsState.get('radioMaxInterventions');
                 preview.innerHTML = `
                     <div class="preview-header">Radio Report</div>
                     <div class="preview-content">
@@ -1208,7 +1216,7 @@
                         ${showFullVitals ? `
                             <div class="preview-entry"><strong>Vitals:</strong> BP 140/90, HR 88, SpO2 95%</div>
                         ` : ''}
-                        <div class="preview-entry"><strong>Interventions (max ${maxInterventions}):</strong></div>
+                        <div class="preview-entry"><strong>Interventions:</strong></div>
                         <div class="preview-entry">• ASA 324mg PO</div>
                         <div class="preview-entry">• IV 18ga established</div>
                     </div>
