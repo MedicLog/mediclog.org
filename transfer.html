@@ -149,6 +149,35 @@
             margin-bottom: 1rem;
         }
 
+        .method-card.has-screenshot {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .method-card-content {
+            flex: 1;
+        }
+
+        .method-card-screenshot {
+            flex-shrink: 0;
+            width: 130px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            align-self: center;
+        }
+
+        @media (max-width: 600px) {
+            .method-card.has-screenshot {
+                flex-direction: column;
+            }
+            .method-card-screenshot {
+                width: 100%;
+                max-width: 180px;
+                align-self: flex-start;
+            }
+        }
+
         .scenario-steps {
             counter-reset: scenario-step;
             list-style: none;
@@ -273,91 +302,87 @@
                 </h3>
                 <p class="when-to-use"><strong>When to use:</strong> Quick share when AirDrop isn't available, cross-platform (iOS ↔ Android)</p>
                 <ul>
-                    <li>Receiver scans with their camera — no app needed to view</li>
+                    <li>Receiver scans from within MedicLog on iOS or Android — loads instantly</li>
                     <li>Small calls (&lt;3KB) fit in a single QR code</li>
                     <li>Physical security: you control who can see the screen</li>
                     <li>Works completely offline</li>
                 </ul>
             </div>
 
-            <div class="method-card">
-                <h3>
-                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    Email/SMS
-                    <span class="method-badge badge-secure">Encrypted</span>
-                </h3>
-                <p class="when-to-use"><strong>When to use:</strong> Remote sharing, iOS ↔ Android cross-platform, you scan flight crew's contact QR so they can get in the air</p>
-                <ul>
-                    <li>File sent via email, 6-digit code sent via SMS (or vice versa)</li>
-                    <li>AES-256 encryption — file is useless without the code</li>
-                    <li>Two-channel delivery prevents interception</li>
-                    <li>Use when you can't AirDrop (different locations, later handoff)</li>
-                </ul>
+            <div class="method-card has-screenshot">
+                <div class="method-card-content">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        Email/SMS
+                        <span class="method-badge badge-secure">Encrypted</span>
+                    </h3>
+                    <p class="when-to-use"><strong>When to use:</strong> Remote sharing, iOS ↔ Android cross-platform, you scan flight crew's contact QR so they can get in the air</p>
+                    <ul>
+                        <li>File sent via email, 6-digit code sent via SMS (or vice versa)</li>
+                        <li>AES-256 encryption — file is useless without the code</li>
+                        <li>Two-channel delivery prevents interception</li>
+                        <li>Use when you can't AirDrop (different locations, later handoff)</li>
+                    </ul>
+                </div>
+                <img src="screenshots/13-encrypted-transfer.png" alt="Encrypted Transfer screen" class="method-card-screenshot">
             </div>
 
-            <div class="method-card">
-                <h3>
-                    <svg viewBox="0 0 24 24"><path d="M12 15c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/></svg>
-                    Photo Handoff
-                    <span class="method-badge badge-hospital">Hospital</span>
-                </h3>
-                <p class="when-to-use"><strong>When to use:</strong> ER staff, hospital personnel, anyone without MedicLog</p>
-                <ul>
-                    <li>Full-screen display optimized for photography</li>
-                    <li>Black background, white monospaced text — camera-friendly</li>
-                    <li>Brightness maxed, screen stays on</li>
-                    <li>Receiving nurse/doc photographs your screen with their phone</li>
-                    <li>Page-at-a-time scrolling for long calls</li>
-                </ul>
+            <div class="method-card has-screenshot">
+                <div class="method-card-content">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M12 15c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/></svg>
+                        Photo Handoff
+                        <span class="method-badge badge-hospital">Hospital</span>
+                    </h3>
+                    <p class="when-to-use"><strong>When to use:</strong> ER staff, hospital personnel, anyone without MedicLog</p>
+                    <ul>
+                        <li>Full-screen display optimized for photography</li>
+                        <li>Black background, white monospaced text — camera-friendly</li>
+                        <li>Brightness maxed, screen stays on</li>
+                        <li>Receiving nurse/doc photographs your screen with their phone</li>
+                        <li>Page-at-a-time scrolling for long calls</li>
+                    </ul>
+                </div>
+                <img src="screenshots/11-photo-handoff.png" alt="Photo Handoff display" class="method-card-screenshot">
             </div>
 
-            <div class="method-card">
-                <h3>
-                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-                    Hospital Handoff Report
-                    <span class="method-badge badge-hospital">Bedside</span>
-                </h3>
-                <p class="when-to-use"><strong>When to use:</strong> Formal bedside transfer to ER/hospital staff</p>
-                <ul>
-                    <li>Clinical reference format (not chronological timeline)</li>
-                    <li>Vitals trend table, medications grouped by drug</li>
-                    <li>Procedures grouped by category (IV/IO, Cardiac, etc.)</li>
-                    <li>Optional dispatch times section (paste from CAD)</li>
-                    <li>Export as PDF for hospital records</li>
-                </ul>
+            <div class="method-card has-screenshot">
+                <div class="method-card-content">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        Hospital Handoff Report
+                        <span class="method-badge badge-hospital">Bedside</span>
+                    </h3>
+                    <p class="when-to-use"><strong>When to use:</strong> Formal bedside transfer to ER/hospital staff</p>
+                    <ul>
+                        <li>Clinical reference format (not chronological timeline)</li>
+                        <li>Vitals trend table, medications grouped by drug</li>
+                        <li>Procedures grouped by category (IV/IO, Cardiac, etc.)</li>
+                        <li>Optional dispatch times section (paste from CAD)</li>
+                        <li>Export as PDF for hospital records</li>
+                    </ul>
+                </div>
+                <img src="screenshots/12-hospital-handoff.png" alt="Hospital Handoff report" class="method-card-screenshot">
             </div>
 
-            <div class="method-card">
-                <h3>
-                    <svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-                    Radio Report (MIST)
-                    <span class="method-badge badge-fast">Verbal</span>
-                </h3>
-                <p class="when-to-use"><strong>When to use:</strong> Calling medical control, giving report en route, verbal handoff</p>
-                <ul>
-                    <li>MIST format: Mechanism, Injuries/Illness, Signs, Treatment</li>
-                    <li>Initial vs current vitals side-by-side</li>
-                    <li>Interventions listed chronologically with timestamps</li>
-                    <li>Concise format for quick verbal handoff</li>
-                </ul>
+            <div class="method-card has-screenshot">
+                <div class="method-card-content">
+                    <h3>
+                        <svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                        Radio Report (MIST)
+                        <span class="method-badge badge-fast">Verbal</span>
+                    </h3>
+                    <p class="when-to-use"><strong>When to use:</strong> Calling medical control, giving report en route, verbal handoff</p>
+                    <ul>
+                        <li>MIST format: Mechanism, Injuries/Illness, Signs, Treatment</li>
+                        <li>Initial vs current vitals side-by-side</li>
+                        <li>Interventions listed chronologically with timestamps</li>
+                        <li>Concise format for quick verbal handoff</li>
+                    </ul>
+                </div>
+                <img src="screenshots/16-radio-report.png" alt="Radio Report MIST format" class="method-card-screenshot">
             </div>
 
-            <!-- Screenshots of handoff methods -->
-            <div class="feature-row" style="margin-top: 1.5rem;">
-                <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/11-photo-handoff.png" alt="Photo Handoff display"></div>
-                </div>
-                <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/12-hospital-handoff.png" alt="Hospital Handoff report"></div>
-                </div>
-                <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/16-radio-report.png" alt="Radio Report MIST format"></div>
-                </div>
-                <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/13-encrypted-transfer.png" alt="Encrypted Transfer screen"></div>
-                </div>
-            </div>
-            <p class="text-muted" style="text-align: center; font-size: 0.85rem;">Photo Handoff, Hospital Handoff (clinical format), Radio Report (MIST), and Encrypted Transfer</p>
         </section>
 
         <!-- Care Provider Attribution -->
