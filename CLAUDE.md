@@ -4,6 +4,15 @@
 
 This is the mediclog.org static website — marketing site, agency tools, settings creator, documentation. It is a separate project from the MedicLog iOS/Android app.
 
+## Related App Projects
+
+| Project | Path | Language |
+|---------|------|----------|
+| MedicLog iOS + watchOS | `/Users/joel/git/MedicLog` | Swift/SwiftUI |
+| MedicLog Android | `/Users/joel/git/MedicLog-Android` | Kotlin/Compose |
+
+These projects have their own CLAUDE.md, agent pipeline (CODEWORK/Judge/Ninja), and TODO.md. If you need to verify the QR payload format matches the app's parser, read `/Users/joel/git/MedicLog/Shared/Sources/MedicLogShared/Services/ConfigImporter.swift`.
+
 ---
 
 ## Stack
