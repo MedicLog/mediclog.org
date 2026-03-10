@@ -9,30 +9,29 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="nav">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-brand">
-                <img src="icon.png" alt="MedicLog">
-                MedicLog
-            </a>
-            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
-            <div class="nav-links">
-                <a href="docs.html">Docs</a>
-                <a href="transfer.html">Transfer</a>
-                <a href="tutorial.html">Tutorial</a>
-                <a href="shortcuts.html">Shortcuts</a>
-                <a href="faq.html" class="active">FAQ</a>
-                <a href="privacy.html">Privacy</a>
-                <a href="terms.html">Terms</a>
-            </div>
-        </div>
-    </nav>
+    <nav class="nav" data-page="faq"></nav>
 
     <main class="container">
         <header class="page-header">
             <h1>Frequently Asked Questions</h1>
             <p class="subtitle">Quick answers to common questions</p>
         </header>
+
+        <section class="section" style="border: 2px solid var(--accent); border-radius: 16px; padding: 1.75rem; background: rgba(33, 150, 243, 0.06);">
+            <h2 style="margin-top: 0; color: var(--accent);">First-Time Setup — What to Expect</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.25rem;">MedicLog does real work on first launch to get everything ready. Both of these are one-time only — after that, the app opens fast every time.</p>
+
+            <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;">
+                    <p style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; font-size: 1rem;">📱 First App Launch Is Slow</p>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">iOS has to initialize the on-device speech engine, compile the voice model, and set up the local database. This takes <strong>15–30 seconds</strong> on first run. It is not frozen — just working. Every launch after that is instant.</p>
+                </div>
+                <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;">
+                    <p style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; font-size: 1rem;">⌚ Watch Voice Needs a One-Time Transfer</p>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">The offline voice model (~77 MB) can't ship inside the Watch app itself due to App Store size limits — it lives on your iPhone and transfers to the Watch when you enable Watch support. When you flip that switch, tap <strong>Send Now</strong> and leave both devices awake. Transfer status shows in the Watch settings screen on your phone. Voice logging on the Watch won't work until it's done — after that, it's permanent.</p>
+                </div>
+            </div>
+        </section>
 
         <section class="section">
             <h2>General</h2>
@@ -102,6 +101,17 @@
                 </button>
                 <div class="faq-answer">
                     <p>MedicLog data is included in your standard iPhone/iPad backup (iCloud or local iTunes backup). You can also export individual calls as PDF or JSON files to save to your preferred location. We recommend enabling iCloud backup for automatic protection.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Why does MedicLog need HealthKit access on Apple Watch?
+                </button>
+                <div class="faq-answer">
+                    <p>MedicLog uses an Apple Watch workout session to stay active during your entire call — that's what keeps your timers running and haptics firing even when your wrist is down. As a side effect, Apple Health tracks your heart rate, calories, and activity during calls. We write it, we forget it, we never look at it again.</p>
+                    <p>Your health data is yours — it never touches patient records, never leaves your Watch, and never shows up in any call export. MedicLog has no screen to view it, no database to store it, and no way to send it anywhere. Apple Health handles it from there.</p>
+                    <p>And honestly? Carrying 50 lbs of gear up three flights of stairs counts as exercise, even if nobody gives you credit for it.</p>
                 </div>
             </div>
 
@@ -423,5 +433,6 @@
         <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a>
                 <a href="terms.html">Terms</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
     </footer>
+    <script src="nav-loader.js"></script>
 </body>
 </html>

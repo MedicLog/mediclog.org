@@ -9,24 +9,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="nav">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-brand">
-                <img src="icon.png" alt="MedicLog">
-                MedicLog
-            </a>
-            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
-            <div class="nav-links">
-                <a href="docs.html" class="active">Docs</a>
-                <a href="transfer.html">Transfer</a>
-                <a href="tutorial.html">Tutorial</a>
-                <a href="shortcuts.html">Shortcuts</a>
-                <a href="faq.html">FAQ</a>
-                <a href="privacy.html">Privacy</a>
-                <a href="terms.html">Terms</a>
-            </div>
-        </div>
-    </nav>
+    <nav class="nav" data-page="docs"></nav>
 
     <main class="container">
         <header class="page-header">
@@ -93,6 +76,18 @@
 
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/05-iv-paperdoll.png" alt="IV/IO site selector body diagram"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>IV / IO Site Selector</h3>
+                    <p>Tap <strong>IV</strong> to open the body diagram. Blue zones mark IV access sites, salmon zones mark IO sites. Tap the exact anatomical location — antecubital, EJ, tibial, humeral, and more.</p>
+                    <p>Front/Back toggle covers all surface anatomy. Patient's perspective orientation keeps left/right intuitive at the bedside.</p>
+                    <p>The selected site logs with the entry. Useful for documenting difficult access attempts or multi-provider situations.</p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
                     <div class="device-frame-iphone"><img src="screenshots/03-quick-entry.png" alt="Add Entry form"></div>
                 </div>
                 <div class="feature-description">
@@ -111,7 +106,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/06-timer-detail.png" alt="Timer pill interactions"></div>
+                    <div class="device-frame-iphone"><img src="screenshots/06-timer-pills.png" alt="Timer pill interactions"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Timer Interactions</h3>
@@ -123,6 +118,18 @@
 
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/06-timer-over.png" alt="OVER timer grouping"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>OVER Timer Grouping</h3>
+                    <p>When multiple timers expire, MedicLog groups fully expired timers into a compact <strong>OVER...×3</strong> badge to keep your active timers visible.</p>
+                    <p>Oldest expired timers group first (you've already made a decision on those). Newest expired timers stay individually visible since they're more actionable.</p>
+                    <p>Tap the OVER group to expand and see all expired timers individually. The group auto-collapses after a few seconds to keep your screen clean.</p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
                     <div class="device-frame-iphone"><img src="screenshots/06-timer-detail.png" alt="Timer action menu"></div>
                 </div>
                 <div class="feature-description">
@@ -130,18 +137,6 @@
                     <p>When a timer expires, you get options: <strong>Redose</strong> (log another dose), <strong>Snooze</strong> (extend timer), <strong>Withheld</strong> (document decision not to give), or <strong>Delete</strong>.</p>
                     <p>Color-coded urgency - green when time remains, yellow approaching, red when OVER.</p>
                     <p>Haptic alerts at 30 seconds and expiration on both iPhone and Apple Watch.</p>
-                </div>
-            </div>
-
-            <div class="feature-row">
-                <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/06-timer-detail.png" alt="OVER timer grouping"></div>
-                </div>
-                <div class="feature-description">
-                    <h3>OVER Timer Grouping</h3>
-                    <p>When multiple timers expire, MedicLog groups fully expired timers into a compact <strong>OVER...×3</strong> badge to keep your active timers visible.</p>
-                    <p>Oldest expired timers group first (you've already made a decision on those). Newest expired timers stay individually visible since they're more actionable.</p>
-                    <p>Tap the OVER group to expand and see all expired timers individually. The group auto-collapses after a few seconds to keep your screen clean.</p>
                 </div>
             </div>
 
@@ -177,7 +172,7 @@
 
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/02-voice-entry.png" alt="Voice entry confirmation"></div>
+                    <div class="device-frame-iphone"><img src="screenshots/voice-recognition-settings.png" alt="Voice recognition settings"></div>
                 </div>
                 <div class="feature-description">
                     <h3>What Voice Recognition Understands</h3>
@@ -196,7 +191,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/02-voice-entry.png" alt="Custom voice aliases"></div>
+                    <div class="device-frame-iphone"><img src="screenshots/voice-train-alias.png" alt="Train voice alias"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Custom Voice Aliases</h3>
@@ -214,7 +209,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <div class="device-frame-watch"><img src="screenshots/watch-timers.png" alt="Watch timer display"></div>
+                    <div class="device-frame-watch"><img src="screenshots/watch-main.png" alt="Apple Watch quick entry buttons"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Watch Timers</h3>
@@ -268,7 +263,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="Share and export menu"></div>
+                    <div class="device-frame-iphone"><img src="screenshots/10-share-menu.png" alt="Share and export menu"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Sharing Methods</h3>
@@ -282,7 +277,7 @@
 
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="QR code sharing"></div>
+                    <div class="device-frame-iphone"><img src="screenshots/qr-share-details.png" alt="QR code sharing"></div>
                 </div>
                 <div class="feature-description">
                     <h3>QR Code Sharing Details</h3>
@@ -295,7 +290,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="QR scanning"></div>
+                    <div class="device-frame-iphone"><img src="screenshots/qr-scan-receive.png" alt="QR scanning"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Scanning &amp; Receiving</h3>
@@ -308,7 +303,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="Export formats"></div>
+                    <div class="device-frame-iphone"><img src="screenshots/13-encrypted-transfer.png" alt="Export formats"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Export Formats</h3>
@@ -322,7 +317,7 @@
 
             <div class="feature-row reverse">
                 <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="When to use each sharing method"></div>
+                    <div class="device-frame-iphone"><img src="screenshots/10-share-menu.png" alt="When to use each sharing method"></div>
                 </div>
                 <div class="feature-description">
                     <h3>When to Use Each Method</h3>
@@ -336,7 +331,7 @@
 
             <div class="feature-row">
                 <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="PHI warnings"></div>
+                    <div class="device-frame-iphone"><img src="screenshots/14-phi-warning.png" alt="PHI warnings"></div>
                 </div>
                 <div class="feature-description">
                     <h3>Patient Information Protection</h3>
@@ -356,6 +351,47 @@
                     <p>Review past calls from the History tab. See call duration, entry count, and patient info at a glance.</p>
                     <p>Tap any call to view full details, export records, or resume to add more entries.</p>
                     <p>All data stays on your device - no cloud sync, no account required.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reports Details -->
+        <section class="section" id="radio-report">
+            <h2>Radio Reports (MIST Format)</h2>
+            <p>Generate structured handoff reports for medical control or receiving facilities.</p>
+
+            <div class="feature-row">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/16-radio-report.png" alt="Radio Report MIST format"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>MIST Structure</h3>
+                    <p>MedicLog generates radio reports in the standard MIST format: <strong>Mechanism, Injuries/Illness, Signs, Treatment</strong>.</p>
+                    <p><strong>Mechanism:</strong> How the injury happened (from patient demographics and initial notes).</p>
+                    <p><strong>Injuries/Illness:</strong> Chief complaint and pertinent findings from your assessment.</p>
+                    <p><strong>Signs:</strong> Initial vital signs and any changes during transport. MedicLog shows initial vs current for easy comparison.</p>
+                    <p><strong>Treatment:</strong> Interventions performed with timestamps - medications, procedures, oxygen, fluids, etc.</p>
+                    <p>Access the radio report by tapping the green <strong>Report</strong> button in the toolbar during an active call. MedicLog also offers it when you end a call via the transfer report prompt.</p>
+                    <p>Perfect for radio traffic to medical control or for structured hospital handoff. See our <a href="transfer.html">Transfer Workflow</a> documentation for detailed handoff strategies.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Handoff -->
+        <section class="section" id="photo-handoff">
+            <h2>Photo Handoff Mode</h2>
+            <p>Bedside display for hospital crews to photograph your call documentation.</p>
+
+            <div class="feature-row reverse">
+                <div class="feature-screenshot">
+                    <div class="device-frame-iphone"><img src="screenshots/11-photo-handoff.png" alt="Photo handoff display"></div>
+                </div>
+                <div class="feature-description">
+                    <h3>Display Mode for Photography</h3>
+                    <p>Select <strong>Photo Handoff</strong> from the Share menu. Your iPhone switches to a black background with white monospaced text - optimized for clear, glare-free photos.</p>
+                    <p>Screen brightness automatically maximizes. Content is organized with clear section dividers (Vitals, Medications, Procedures, Notes). Vitals taken within 2 minutes are grouped on one line.</p>
+                    <p>Use the large chevron buttons (sized for gloved hands) to page through the report. Text snaps to line boundaries so nothing gets cut off mid-line. Controls auto-hide after 3 seconds for clean screenshots.</p>
+                    <p><strong>Why Photo Handoff?</strong> It works with any phone, any ePCR system, no app required on the receiving end. When the hospital's computers are busy or down, this is the most reliable way to get your documentation to the receiving nurse.</p>
                 </div>
             </div>
         </section>
@@ -381,25 +417,6 @@
                         <li><strong>Patient's Own Medications:</strong> Pre-existing meds reported by the patient (marked as not EMS-administered)</li>
                     </ul>
                     <p>Optional dispatch times section lets you record Dispatched, On Scene, Transporting, and At Hospital milestones.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Photo Handoff -->
-        <section class="section" id="photo-handoff">
-            <h2>Photo Handoff Mode</h2>
-            <p>Bedside display for hospital crews to photograph your call documentation.</p>
-
-            <div class="feature-row reverse">
-                <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/09-qr-share.png" alt="Photo handoff display"></div>
-                </div>
-                <div class="feature-description">
-                    <h3>Display Mode for Photography</h3>
-                    <p>Select <strong>Photo Handoff</strong> from the Share menu. Your iPhone switches to a black background with white monospaced text - optimized for clear, glare-free photos.</p>
-                    <p>Screen brightness automatically maximizes. Content is organized with clear section dividers (Vitals, Medications, Procedures, Notes). Vitals taken within 2 minutes are grouped on one line.</p>
-                    <p>Use the large chevron buttons (sized for gloved hands) to page through the report. Text snaps to line boundaries so nothing gets cut off mid-line. Controls auto-hide after 3 seconds for clean screenshots.</p>
-                    <p><strong>Why Photo Handoff?</strong> It works with any phone, any ePCR system, no app required on the receiving end. When the hospital's computers are busy or down, this is the most reliable way to get your documentation to the receiving nurse.</p>
                 </div>
             </div>
         </section>
@@ -447,28 +464,6 @@
             </div>
         </section>
 
-        <!-- Reports Details -->
-        <section class="section" id="radio-report">
-            <h2>Radio Reports (MIST Format)</h2>
-            <p>Generate structured handoff reports for medical control or receiving facilities.</p>
-
-            <div class="feature-row">
-                <div class="feature-screenshot">
-                    <div class="device-frame-iphone"><img src="screenshots/16-radio-report.png" alt="Radio Report MIST format"></div>
-                </div>
-                <div class="feature-description">
-                    <h3>MIST Structure</h3>
-                    <p>MedicLog generates radio reports in the standard MIST format: <strong>Mechanism, Injuries/Illness, Signs, Treatment</strong>.</p>
-                    <p><strong>Mechanism:</strong> How the injury happened (from patient demographics and initial notes).</p>
-                    <p><strong>Injuries/Illness:</strong> Chief complaint and pertinent findings from your assessment.</p>
-                    <p><strong>Signs:</strong> Initial vital signs and any changes during transport. MedicLog shows initial vs current for easy comparison.</p>
-                    <p><strong>Treatment:</strong> Interventions performed with timestamps - medications, procedures, oxygen, fluids, etc.</p>
-                    <p>Access the radio report by tapping the green <strong>Report</strong> button in the toolbar during an active call. MedicLog also offers it when you end a call via the transfer report prompt.</p>
-                    <p>Perfect for radio traffic to medical control or for structured hospital handoff. See our <a href="transfer.html">Transfer Workflow</a> documentation for detailed handoff strategies.</p>
-                </div>
-            </div>
-        </section>
-
         <!-- Quick Configuration -->
         <section class="section" id="quick-config">
             <h2>Quick Configuration</h2>
@@ -496,5 +491,6 @@
     <footer>
         <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
     </footer>
+    <script src="nav-loader.js"></script>
 </body>
 </html>

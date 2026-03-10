@@ -344,14 +344,32 @@ a:hover {
     margin-bottom: 0.5rem;
 }
 
+.step-content {
+    flex: 1;
+}
+
 .step-content p {
     margin: 0;
+}
+
+.step-screenshot {
+    flex-shrink: 0;
+    width: 130px;
+    border-radius: 10px;
+    align-self: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
 
 @media (max-width: 480px) {
     .tutorial-step {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .step-screenshot {
+        width: 100%;
+        max-width: 200px;
+        align-self: center;
     }
 }
 
@@ -692,6 +710,14 @@ footer a:hover {
         0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
+/* Inner screen area — clips image to the watch's rounded rectangle
+   without clipping the ::before/::after crown and button decorations */
+.device-frame-watch .watch-screen {
+    overflow: hidden;
+    border-radius: 21%;
+    line-height: 0;
+}
+
 .device-frame-watch::before {
     /* Digital Crown */
     content: '';
@@ -816,6 +842,21 @@ footer a:hover {
 .feature-screenshot .device-frame-watch img,
 .feature-screenshot .device-frame-ipad img {
     box-shadow: none;
+}
+
+/* Watch frames in feature rows and timer state strips — constrain to 180px
+   so they match the cross-layout home/QA frame size. */
+.feature-screenshot .device-frame-watch,
+.timer-state-item .device-frame-watch {
+    width: 180px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.feature-screenshot .device-frame-watch img,
+.timer-state-item .device-frame-watch img {
+    width: 100%;
+    height: auto;
 }
 
 .feature-screenshot.watch img {

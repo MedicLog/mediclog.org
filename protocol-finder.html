@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocol App Finder — MedicLog</title>
+    <meta name="description" content="Find the iOS URL scheme and Android package name for EMS protocol reference apps.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .finder-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .finder-header { text-align: center; margin-bottom: 2rem; }
+        .finder-header h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+        .finder-header .subtitle { color: var(--text-muted); font-size: 1.1rem; }
+
+        .search-bar {
+            display: flex; gap: 0.75rem; margin-bottom: 2rem;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 0.75rem 1rem; align-items: center;
+        }
+        .search-bar input {
+            flex: 1; border: none; background: none; font-size: 1rem;
+            color: var(--text-primary); outline: none;
+        }
+        .search-bar input::placeholder { color: var(--text-muted); }
+        .search-icon { color: var(--text-muted); font-size: 1.1rem; }
+        .search-spinner { display: none; width: 18px; height: 18px; border: 2px solid var(--border);
+            border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+        .search-spinner.active { display: block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .section-label {
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 1rem;
+        }
+        .apps-grid { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+
+        .app-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 1rem 1.25rem;
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .app-icon { width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
+            background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .app-icon img { width: 100%; height: 100%; object-fit: cover; }
+        .app-icon-placeholder { font-size: 1.5rem; }
+        .app-info { flex: 1; min-width: 0; }
+        .app-name { font-weight: 600; font-size: 0.95rem; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .app-schemes { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+        .scheme-row { display: flex; align-items: center; gap: 0.5rem; }
+        .scheme-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.06em; color: var(--text-muted); width: 52px; flex-shrink: 0; }
+        .scheme-value {
+            font-family: monospace; font-size: 0.85rem; color: var(--text-primary);
+            background: var(--code-bg); padding: 0.2rem 0.5rem; border-radius: 6px;
+        }
+        .scheme-value.unknown { color: var(--text-muted); font-style: italic; font-family: inherit; background: none; padding: 0; }
+        .copy-btn {
+            background: none; border: 1px solid var(--border); border-radius: 6px;
+            padding: 0.15rem 0.5rem; font-size: 0.75rem; color: var(--text-secondary);
+            cursor: pointer; transition: all 0.15s; white-space: nowrap;
+        }
+        .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .copy-btn.copied { border-color: #4caf50; color: #4caf50; }
+
+        .app-actions { display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-end; flex-shrink: 0; }
+        .store-link { font-size: 0.78rem; color: var(--accent); text-decoration: none; white-space: nowrap; }
+        .store-link:hover { text-decoration: underline; }
+        .badge {
+            font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.45rem;
+            border-radius: 4px; white-space: nowrap;
+        }
+        .badge-verified { background: rgba(76,175,80,0.12); color: #4caf50; }
+        .badge-unverified { background: rgba(255,152,0,0.12); color: #ff9800; }
+        .badge-enterprise { background: var(--bg-tertiary); color: var(--text-muted); }
+
+        .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+        .footer-note {
+            text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 2rem;
+            padding: 1.5rem; background: var(--bg-secondary); border-radius: 12px;
+        }
+        .footer-note a { color: var(--accent); }
+
+        @media (max-width: 600px) {
+            .app-card { flex-wrap: wrap; }
+            .app-actions { flex-direction: row; align-items: center; width: 100%; justify-content: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" data-page="agency"></nav>
+
+    <div class="finder-container">
+        <div class="finder-header">
+            <h1>Protocol App Finder</h1>
+            <p class="subtitle">Find the iOS URL scheme or Android package name for any EMS protocol reference app</p>
+        </div>
+
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search App Store by app name..." autocomplete="off" spellcheck="false">
+            <div class="search-spinner" id="spinner"></div>
+        </div>
+
+        <div id="searchResultsSection" style="display:none;">
+            <div class="section-label">App Store Results</div>
+            <div class="apps-grid" id="searchResults"></div>
+            <hr class="divider">
+        </div>
+
+        <div class="section-label">Verified EMS Protocol Apps</div>
+        <div class="apps-grid" id="verifiedApps"></div>
+
+        <div class="footer-note">
+            Don't see your app, or know a URL scheme we're missing?
+            <a href="mailto:support@mediclog.org?subject=Protocol App URL Scheme">Submit a scheme →</a><br>
+            <small>Data verified March 2026. iOS App Store IDs confirmed via iTunes API. Android packages from developer documentation.</small>
+        </div>
+    </div>
+
+    <script>
+    const VERIFIED_APPS = [
+        {
+            name: "NMAS First Responder Protocols",
+            iosScheme: "nmas://",
+            androidPackage: "com.acidremap.PPPNMASFirstResponderProtocols",
+            appStoreID: "6499279438",
+            androidVerified: true,
+            iosVerified: true,
+        },
+        {
+            name: "Handtevy Mobile",
+            iosScheme: "handtevy://",
+            androidPackage: "com.handtevy.mobile",
+            appStoreID: "1038174793",
+            iosVerified: true,
+            androidVerified: false,
+        },
+        {
+            name: "Pulsara",
+            iosScheme: "pulsara://",
+            androidPackage: "com.pulsara.pulsara",
+            appStoreID: "873184192",
+            iosVerified: true,
+            androidVerified: false,
+        },
+        {
+            name: "Muru",
+            iosScheme: "muru://",
+            androidPackage: "me.muru.ems",
+            appStoreID: "1409950908",
+            iosVerified: true,
+            androidVerified: false,
+        },
+        {
+            name: "PediSTAT EMS",
+            iosScheme: "pedistat://",
+            androidPackage: "com.qxmd.pedsGuide.ems",
+            appStoreID: "1595805495",
+            iosVerified: true,
+            androidVerified: true,
+        },
+        {
+            name: "PPP Protocols (Acid Remap)",
+            iosScheme: "ppp://",
+            androidPackage: "com.acidremap.ParamedicProtocolProvider",
+            appStoreID: null,
+            enterprise: true,
+            iosVerified: true,
+            androidVerified: true,
+        },
+    ];
+
+    function copyToClipboard(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = "Copied!";
+            btn.classList.add("copied");
+            setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 1500);
+        });
+    }
+
+    function schemeRow(label, value, verified) {
+        if (!value) return '';
+        const badge = verified === true
+            ? '<span class="badge badge-verified">✓ Verified</span>'
+            : verified === false
+            ? '<span class="badge badge-unverified">⚠ Unverified</span>'
+            : '';
+        return `
+            <div class="scheme-row">
+                <span class="scheme-label">${label}</span>
+                <span class="scheme-value">${value}</span>
+                <button class="copy-btn" onclick="copyToClipboard('${value}', this)">Copy</button>
+                ${badge}
+            </div>`;
+    }
+
+    function buildCard(app, iconUrl) {
+        const icon = iconUrl
+            ? `<img src="${iconUrl}" alt="${app.name} icon" loading="lazy">`
+            : `<span class="app-icon-placeholder">📋</span>`;
+
+        const storeBadge = app.enterprise
+            ? '<span class="badge badge-enterprise">Enterprise / MDM</span>'
+            : app.appStoreID
+            ? `<a class="store-link" href="https://apps.apple.com/app/id${app.appStoreID}" target="_blank" rel="noopener">View in App Store ↗</a>`
+            : '';
+
+        return `
+        <div class="app-card">
+            <div class="app-icon">${icon}</div>
+            <div class="app-info">
+                <div class="app-name">${app.name}</div>
+                <div class="app-schemes">
+                    ${schemeRow("iOS", app.iosScheme, app.iosVerified)}
+                    ${schemeRow("Android", app.androidPackage, app.androidVerified)}
+                </div>
+            </div>
+            <div class="app-actions">${storeBadge}</div>
+        </div>`;
+    }
+
+    // Render verified apps with icons from iTunes
+    async function renderVerified() {
+        const container = document.getElementById('verifiedApps');
+        // Render immediately without icons, then fill in icons async
+        const placeholders = VERIFIED_APPS.map(app => ({ app, iconUrl: null }));
+        container.innerHTML = placeholders.map(p => buildCard(p.app, null)).join('');
+
+        // Fetch icons for apps with App Store IDs
+        for (let i = 0; i < VERIFIED_APPS.length; i++) {
+            const app = VERIFIED_APPS[i];
+            if (!app.appStoreID) continue;
+            try {
+                const r = await fetch(`https://itunes.apple.com/lookup?id=${app.appStoreID}&country=us`);
+                const data = await r.json();
+                const iconUrl = data.results?.[0]?.artworkUrl60;
+                if (iconUrl) {
+                    // Re-render this card with icon
+                    const cards = container.querySelectorAll('.app-card');
+                    if (cards[i]) cards[i].querySelector('.app-icon').innerHTML = `<img src="${iconUrl}" alt="${app.name}" loading="lazy">`;
+                }
+            } catch(e) { /* icon fetch failure is non-fatal */ }
+        }
+    }
+
+    // Live search
+    let searchDebounce = null;
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const term = this.value.trim();
+        clearTimeout(searchDebounce);
+        if (!term) {
+            document.getElementById('searchResultsSection').style.display = 'none';
+            document.getElementById('searchResults').innerHTML = '';
+            document.getElementById('spinner').classList.remove('active');
+            return;
+        }
+        document.getElementById('spinner').classList.add('active');
+        searchDebounce = setTimeout(() => runSearch(term), 600);
+    });
+
+    async function runSearch(term) {
+        try {
+            const enc = encodeURIComponent(term);
+            const r = await fetch(`https://itunes.apple.com/search?term=${enc}&entity=software&country=us&limit=8`);
+            const data = await r.json();
+            const results = data.results || [];
+            const section = document.getElementById('searchResultsSection');
+            const container = document.getElementById('searchResults');
+            document.getElementById('spinner').classList.remove('active');
+
+            if (!results.length) {
+                section.style.display = 'block';
+                container.innerHTML = '<p style="color:var(--text-muted);padding:0.5rem 0">No results found.</p>';
+                return;
+            }
+
+            section.style.display = 'block';
+            container.innerHTML = results.map(r => {
+                // Check if this matches a verified app
+                const verified = VERIFIED_APPS.find(a => a.appStoreID === String(r.trackId));
+                const app = verified || {
+                    name: r.trackName,
+                    iosScheme: null,
+                    androidPackage: null,
+                    appStoreID: String(r.trackId),
+                    iosVerified: false,
+                    androidVerified: false,
+                };
+                const iconUrl = r.artworkUrl60;
+                const card = buildCard(app, iconUrl);
+
+                if (!verified) {
+                    // Scheme unknown — add note
+                    return card.replace('</div>\n        </div>',
+                        `<div class="scheme-row" style="margin-top:0.4rem">
+                            <span style="font-size:0.78rem;color:var(--text-muted)">URL scheme unknown —
+                            <a href="mailto:support@mediclog.org?subject=URL Scheme: ${encodeURIComponent(r.trackName)}" style="color:var(--accent)">submit if you know it</a></span>
+                        </div></div>\n        </div>`
+                    );
+                }
+                return card;
+            }).join('');
+        } catch(e) {
+            document.getElementById('spinner').classList.remove('active');
+        }
+    }
+
+    renderVerified();
+    </script>
+    <script src="nav-loader.js"></script>
+</body>
+</html>

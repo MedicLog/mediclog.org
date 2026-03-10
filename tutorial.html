@@ -9,24 +9,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="nav">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-brand">
-                <img src="icon.png" alt="MedicLog">
-                MedicLog
-            </a>
-            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
-            <div class="nav-links">
-                <a href="docs.html">Docs</a>
-                <a href="transfer.html">Transfer</a>
-                <a href="tutorial.html" class="active">Tutorial</a>
-                <a href="shortcuts.html">Shortcuts</a>
-                <a href="faq.html">FAQ</a>
-                <a href="privacy.html">Privacy</a>
-                <a href="terms.html">Terms</a>
-            </div>
-        </div>
-    </nav>
+    <nav class="nav" data-page="tutorial"></nav>
 
     <main class="container">
         <header class="page-header">
@@ -42,73 +25,82 @@
             <div class="tutorial-step">
                 <div class="step-number">1</div>
                 <div class="step-content">
-                    <h3>Start New Call</h3>
-                    <p>Tap the <strong>New Call</strong> button when dispatch tones you out. MedicLog automatically timestamps the call start and begins tracking elapsed time. You can add dispatch info later or use voice to capture details en route.</p>
+                    <h3>Start a Call</h3>
+                    <p>Tap <strong>Start Call</strong> when dispatch tones you out. Optionally enter a run number and patient basics — name, age, sex. All of it is optional; you can add or correct demographics later from the vitals sheet. Call start is timestamped the moment you tap.</p>
                 </div>
+                <img src="screenshots/10-start-call.png" alt="Start Call screen" class="step-screenshot">
             </div>
 
             <div class="tutorial-step">
                 <div class="step-number">2</div>
                 <div class="step-content">
-                    <h3>Patient Contact</h3>
-                    <p>On arrival, tap <strong>Patient Contact</strong> to log the exact time. Use the quick-entry grid to capture initial vitals: tap BP, enter the values, move to pulse and SpO2. Each entry auto-timestamps.</p>
+                    <h3>The Active Call Screen</h3>
+                    <p>You're now on the active call screen. The elapsed timer runs at the top. Below it, the <strong>quick entry row</strong> gives you one-tap access to Vitals, Medication, IV Access, Cardiac, Procedure, Note, Voice, Photo, and more. Your entry timeline builds below in real time as you log.</p>
                 </div>
+                <img src="screenshots/01-active-call-light.png" alt="Active call screen" class="step-screenshot">
             </div>
 
             <div class="tutorial-step">
                 <div class="step-number">3</div>
                 <div class="step-content">
-                    <h3>Log Interventions</h3>
-                    <p>Your patient is in V-fib. Tap <strong>Procedures</strong> and select <strong>Defibrillation</strong>. Log the joules and outcome. The timer for next shock consideration starts automatically.</p>
+                    <h3>Log Initial Vitals</h3>
+                    <p>Tap <strong>Vitals</strong>. Enter BP, heart rate, SpO2, and any other fields your agency has configured. There's a demographics section at the top if you haven't filled it yet. Tap Save — everything is timestamped and drops into the timeline.</p>
                 </div>
+                <img src="screenshots/04-vitals-entry.png" alt="Vitals entry form" class="step-screenshot">
             </div>
 
             <div class="tutorial-step">
                 <div class="step-number">4</div>
                 <div class="step-content">
-                    <h3>Medication Administration</h3>
-                    <p>Tap <strong>Medications</strong>, select <strong>Epinephrine</strong>, confirm dose (1mg IV). A 3-minute timer starts with haptic alerts at 30 seconds and 10 seconds remaining. Your Watch buzzes along with your phone.</p>
+                    <h3>Log a Cardiac Intervention</h3>
+                    <p>Your patient is in V-fib. Tap <strong>Cardiac</strong> and switch to the <strong>Procedure</strong> tab. Select Defibrillation, add a note if needed, and save. The entry is timestamped and appears in the timeline. Continue compressions.</p>
                 </div>
+                <img src="screenshots/17-cardiac-procedure.png" alt="Cardiac procedure picker" class="step-screenshot">
             </div>
 
             <div class="tutorial-step">
                 <div class="step-number">5</div>
                 <div class="step-content">
-                    <h3>Voice Logging</h3>
-                    <p>While performing compressions, raise your Watch and say <em>"Amiodarone 300 IV"</em>. MedicLog logs it hands-free. You hear confirmation through your Watch speaker and feel the haptic tap.</p>
+                    <h3>Administer Medications</h3>
+                    <p>Tap <strong>Medication</strong>, select <strong>Epinephrine</strong>, enter 1mg IV. Tap Save. A 3-minute redose timer appears in the timer grid — color-coded and counting down. Your Watch and/or phone buzzes at 30 seconds remaining so you stay on track without watching the screen.</p>
                 </div>
+                <img src="screenshots/17-cardiac-medication.png" alt="Medication entry" class="step-screenshot">
             </div>
 
             <div class="tutorial-step">
                 <div class="step-number">6</div>
                 <div class="step-content">
-                    <h3>Timer Alerts</h3>
-                    <p>Your Watch vibrates: 30 seconds until next Epi dose. You're ready. At the 3-minute mark, you administer the second dose. Tap to log it and the timer resets automatically.</p>
+                    <h3>Voice Logging — Watch or Phone</h3>
+                    <p>Voice entry works from both devices. While doing compressions, raise your Watch, tap the microphone, and say <em>"Amiodarone 300 IV push."</em> A placeholder entry is logged immediately with the recording start time and resolved once transcribed. Your partner with the phone can log on their end simultaneously — if both devices capture the same entry, the built-in duplicate checker flags it for quick review.</p>
                 </div>
+                <img src="screenshots/02-voice-entry.png" alt="Voice entry" class="step-screenshot">
             </div>
 
             <div class="tutorial-step">
                 <div class="step-number">7</div>
                 <div class="step-content">
-                    <h3>ROSC and Transport</h3>
-                    <p>ROSC achieved! Tap the event marker for <strong>ROSC</strong>. Continue logging vitals during transport. The call timeline shows everything in order with precise timestamps.</p>
+                    <h3>Timer Alerts and Redosing</h3>
+                    <p>Your Watch vibrates — 30 seconds to next Epi. Double-tap the timer at any point to open the action sheet — you don't have to wait for expiration. Tap <strong>Redose</strong>, confirm the pre-filled dose, save. The timer resets and the second dose is logged with its timestamp.</p>
                 </div>
+                <img src="screenshots/07-timer-redose.png" alt="Timer redose screen" class="step-screenshot">
             </div>
 
             <div class="tutorial-step">
                 <div class="step-number">8</div>
                 <div class="step-content">
-                    <h3>Hospital Handoff</h3>
-                    <p>At the hospital, tap <strong>Share</strong> to generate a QR code. The receiving nurse scans it and instantly has your complete PCR on their device: timestamps, interventions, vitals, everything.</p>
+                    <h3>ROSC, Transport, and End Call</h3>
+                    <p>ROSC achieved — tap <strong>Cardiac → Procedure → ROSC</strong> and save. Continue logging vitals en route. En route or at the hospital, tap <strong>Report</strong> to pull up the MIST radio report — all your entries compiled into one place. When ready, tap <strong>End Call → Confirm</strong>. Depending on your agency settings, the Hospital Handoff report may open automatically. Use the <strong>Share</strong> button to send your log onward, generate a photo handoff screen for the receiving team, or export in other formats.</p>
                 </div>
+                <img src="screenshots/16-radio-report.png" alt="Radio report" class="step-screenshot">
             </div>
 
             <div class="tutorial-step">
                 <div class="step-number">9</div>
                 <div class="step-content">
                     <h3>Export and Archive</h3>
-                    <p>Back at base, export the call as PDF or sync to your ePCR system. MedicLog keeps a local archive you can search later. All data stays on your device until you choose to share or delete it.</p>
+                    <p>From the post-call summary, tap <strong>Share Report</strong> to export as PDF or plain text. The call moves to your History tab where you can review, edit any entry, or reopen the call if needed. All data stays on your device until you choose to share or delete it. Direct ePCR system export is on the roadmap.</p>
                 </div>
+                <img src="screenshots/11-post-call.png" alt="Post-call summary" class="step-screenshot">
             </div>
         </section>
 
@@ -129,7 +121,7 @@
                 </div>
                 <div class="feature-card">
                     <h3>Share Securely</h3>
-                    <p>QR code sharing gives receiving facilities your complete documentation instantly.</p>
+                    <p>Transfer your log to another provider by QR code — they scan from within MedicLog on iOS or Android and it loads instantly on their device.</p>
                 </div>
             </div>
         </section>
@@ -151,26 +143,6 @@
                 </div>
             </div>
 
-            <!-- Feature screenshots grid -->
-            <h3>Feature Highlights</h3>
-            <div class="screenshot-gallery features">
-                <div class="screenshot-item phone">
-                    <img src="screenshots/02-voice-entry.png" alt="Voice entry">
-                    <p class="screenshot-caption">Voice Entry</p>
-                </div>
-                <div class="screenshot-item phone">
-                    <img src="screenshots/03-quick-entry.png" alt="Quick entry buttons">
-                    <p class="screenshot-caption">Quick Entry</p>
-                </div>
-                <div class="screenshot-item phone">
-                    <img src="screenshots/04-vitals-entry.png" alt="Vitals form">
-                    <p class="screenshot-caption">Vitals Entry</p>
-                </div>
-                <div class="screenshot-item phone">
-                    <img src="screenshots/06-timer-detail.png" alt="Medication timer">
-                    <p class="screenshot-caption">Timer Alerts</p>
-                </div>
-            </div>
         </section>
 
         <div class="text-center mt-2">
@@ -182,5 +154,6 @@
         <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a>
                 <a href="terms.html">Terms</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
     </footer>
+    <script src="nav-loader.js"></script>
 </body>
 </html>
