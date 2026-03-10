@@ -1,7 +1,7 @@
 // nav-loader.js — shared navigation for mediclog.org
 // Inlines nav HTML directly — no fetch(), works on file:// and https://.
 // Usage: <nav class="nav" data-page="pagename"></nav> + <script src="nav-loader.js"></script>
-// data-page values: home, docs, tutorial, shortcuts, watch, transfer, agency, faq, sponsor, privacy, terms
+// data-page values: home, docs, tutorial, shortcuts, watch, transfer, agency, faq, sponsor, about, privacy, terms
 
 (function () {
     const nav = document.querySelector('nav.nav[data-page]');
@@ -9,7 +9,7 @@
     const currentPage = nav.getAttribute('data-page');
 
     const docsPages = ['docs', 'tutorial', 'shortcuts'];
-    const morePages = ['privacy', 'terms'];
+    const morePages = ['about', 'privacy', 'terms'];
 
     nav.innerHTML = `
         <div class="nav-inner">
@@ -41,6 +41,7 @@
                         More <span class="nav-dropdown-chevron">▼</span>
                     </button>
                     <div class="nav-dropdown-menu">
+                        <a href="about.html"   data-nav="about">About</a>
                         <a href="privacy.html" data-nav="privacy">Privacy</a>
                         <a href="terms.html"   data-nav="terms">Terms</a>
                     </div>
