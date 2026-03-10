@@ -94,8 +94,31 @@
 
     <div class="agency-container">
         <div class="agency-header">
-            <h1>Agency Tools</h1>
-            <p class="subtitle">Configure MedicLog for your crew and agency — settings, protocols, presets, and dispatch setup.</p>
+            <h1>Configure Once.<br>Your entire crew is set up in under a minute.</h1>
+            <p class="subtitle">MedicLog's QR config system lets medical directors and agency admins push settings, formulary, and protocol preferences to every device — no IT, no MDM, no manual entry.</p>
+        </div>
+
+        <div class="divider-section">
+            <h2>How it works</h2>
+            <div class="divider-line"></div>
+        </div>
+
+        <div class="tools-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 1rem;">
+            <div class="tool-card" style="pointer-events: none;">
+                <div class="tool-icon">⚙️</div>
+                <div class="tool-title">1. Configure</div>
+                <div class="tool-desc">Use the Settings Creator to dial in your agency name, formulary, stroke scale, timers, and 70+ other settings. Live preview updates as you go.</div>
+            </div>
+            <div class="tool-card" style="pointer-events: none;">
+                <div class="tool-icon">📱</div>
+                <div class="tool-title">2. Generate QR</div>
+                <div class="tool-desc">Hit Generate. You get a QR code (or two, for large configs) that encodes your entire agency configuration. Post it at the station or share it digitally.</div>
+            </div>
+            <div class="tool-card" style="pointer-events: none;">
+                <div class="tool-icon">✅</div>
+                <div class="tool-title">3. Crew scans</div>
+                <div class="tool-desc">Each provider opens MedicLog → Settings → Import Config and scans. Their app is configured instantly. No account, no email, no IT department.</div>
+            </div>
         </div>
 
         <div class="divider-section">
@@ -141,11 +164,14 @@
         </div>
 
         <div class="info-block">
-            <strong>How agency configuration works:</strong> MedicLog uses <code>.mlconfig</code> files —
-            encrypted JSON bundles that carry your agency name, unit number, formulary, incident settings,
-            and more. Generate one with the Settings Creator, then distribute it as a QR code, email
-            attachment, or AirDrop. Medics scan once and their app is configured instantly.
-            Settings can be pushed again at any time to update the fleet.
+            <strong>What's in a config QR?</strong> Agency name, unit settings, formulary, stroke scale,
+            LVO thresholds, export format, voice pipeline parameters, medication timer labels and durations,
+            and more — 70+ configurable values. The QR does <em>not</em> include provider identity,
+            agency logo, destinations, or any patient data. Providers keep their personal settings;
+            the QR only sets agency-level defaults.<br><br>
+            <strong>Deploy today with QR.</strong> When you're ready for push updates, locked settings,
+            and compliance audit trails, the Agency Portal adds that infrastructure without changing
+            the workflow your crew already knows.
         </div>
     </div>
 
