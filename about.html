@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About MedicLog — Built by EMS, for EMS</title>
+    <meta name="description" content="MedicLog is a one-person project built by an active EMS provider and paramedic student. Here's why it exists, where it stands, and how you can help.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .about-hero {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .about-hero h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .about-hero .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .about-divider {
+            width: 48px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            margin: 2rem auto;
+        }
+
+        .status-banner {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-dot {
+            flex-shrink: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4caf50;
+            margin-top: 0.45em;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.25);
+        }
+
+        .status-banner p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .status-banner p strong {
+            color: var(--text-primary);
+        }
+
+        .support-cta {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-top: 1rem;
+        }
+
+        .support-cta h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .support-cta p {
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin: 0 auto 1.75rem;
+            line-height: 1.7;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .cta-btn-primary {
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+            color: white;
+            box-shadow: 0 4px 16px rgba(33, 150, 243, 0.4);
+        }
+
+        .cta-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(33, 150, 243, 0.5);
+            text-decoration: none;
+            color: white;
+        }
+
+        .cta-btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .cta-btn-secondary:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: var(--text-primary);
+            border-color: var(--accent);
+        }
+
+        .coming-soon-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 600px) {
+            .about-hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .cta-row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-btn {
+                width: 100%;
+                max-width: 320px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" data-page="about"></nav>
+
+    <main class="container">
+
+        <div class="about-hero">
+            <h1>Built by EMS, for EMS</h1>
+            <p class="subtitle">MedicLog started as a solution to a problem every field provider knows: by the time you're writing your PCR, you're reconstructing a call from memory, contaminated gloves, and whatever you managed to scribble on your wrist.</p>
+        </div>
+
+        <div class="about-divider"></div>
+
+        <section class="section">
+            <h2>The Problem</h2>
+            <p>Medication logging in the field is a patchwork of habit and improvisation. Timestamps get estimated. Repeat doses get missed or doubled. Radio reports get assembled from memory at the worst possible moment. Existing documentation tools are designed around hospital workflows — not a moving ambulance with a gloved crew managing a critical patient.</p>
+            <p>MedicLog is designed to be used <em>during</em> the call, not reconstructed after it. Log medications and procedures in real time, get timer-based redose alerts, and generate a radio report automatically when you're ready to transmit — without pulling your attention off the patient.</p>
+        </section>
+
+        <section class="section">
+            <h2>Who Built This</h2>
+            <p>My name is Joel. I'm an active EMT with North Memorial Ambulance Service, working rural Minnesota, and a paramedic student at Ridgewater College. I've spent 25+ years in software and IT before transitioning to EMS, which means I had both the clinical context to understand the problem and the technical background to actually do something about it.</p>
+            <p>MedicLog is a one-person project. No team, no funding, no venture backing. The iOS app is in active beta testing via TestFlight. Android is in development. Neither platform has shipped to the public yet.</p>
+        </section>
+
+        <section class="section">
+            <div class="status-banner">
+                <span class="status-dot"></span>
+                <p><strong>Current status:</strong> iOS beta via TestFlight — join at <a href="beta.html">mediclog.org/beta</a>. Android is under active development and not yet available. Both platforms are being built and tested by one developer on personal hardware.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Why No Account, No Cloud</h2>
+            <p>Patient data is patient data. MedicLog stores everything locally on your device. There's no account creation, no cloud sync, no server that can be breached. The cross-device transfer between iOS and Android uses encrypted local transfer — the data never leaves your hands.</p>
+            <p>This isn't a marketing position. It's an architectural decision made on purpose, from the start.</p>
+        </section>
+
+        <section class="section">
+            <h2>Agency Deployment</h2>
+            <p>MedicLog isn't just for individual providers. The Agency Tools let a medical director configure the entire formulary — medication names, concentrations, default doses, protocols — and distribute it to every device via a QR code. One configuration, fleet-wide deployment, no manual setup for individual crews.</p>
+            <p>See the <a href="agency.html">Agency Tools</a> page for details.</p>
+        </section>
+
+        <div class="support-cta">
+            <h2>Support This Project</h2>
+            <p>Development, TestFlight distribution, and hardware testing all come out of pocket. If MedicLog is useful to you or your service, the most direct way to help right now is the Amazon wishlist — test devices expand the hardware coverage that one developer can realistically maintain.</p>
+            <div class="cta-row">
+                <a href="https://www.amazon.com/hz/wishlist/ls/2PMEUXYXULJMN" class="cta-btn cta-btn-primary" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                    View Amazon Wishlist
+                </a>
+                <a href="sponsor.html" class="cta-btn cta-btn-secondary">
+                    <svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+                    More Ways to Support
+                </a>
+            </div>
+            <p class="coming-soon-note">GitHub Sponsors and additional contribution options coming soon.</p>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MedicLog &middot; <a href="privacy.html">Privacy</a> &middot;
+        <a href="terms.html">Terms</a> &middot; <a href="https://github.com/MedicLog/mediclog-support/issues">Support</a></p>
+    </footer>
+    <script src="nav-loader.js"></script>
+</body>
+</html>
