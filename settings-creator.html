@@ -856,6 +856,108 @@
             }
         };
 
+        // ========== QUICK ENTRY SLOTS ==========
+        // T218: slot-based quick entry config — replaces individual boolean toggles
+
+        const QE_SLOT_TYPES = {
+            vitals:       { label: 'Vitals',        canPair: true },
+            medication:   { label: 'Medications',   canPair: true },
+            cardiacMeds:  { label: 'Cardiac Meds',  canPair: true },
+            cardiacProcs: { label: 'Cardiac Procs', canPair: true },
+            iv:           { label: 'IV Access',     canPair: false },
+            procedure:    { label: 'Procedures',    canPair: true },
+            note:         { label: 'Notes',         canPair: true },
+            trauma:       { label: 'Trauma',        canPair: false },
+            photo:        { label: 'Photo',         canPair: false },
+            transfer:     { label: 'Transfer',      canPair: true },
+            address:      { label: 'Location',      canPair: false },
+            dripCalc:     { label: 'Drip Calc',     canPair: true },
+            pump:         { label: 'IV Pump',       canPair: true },
+            vent:         { label: 'Ventilator',    canPair: true },
+            patientProfile: { label: 'Patient Profile', canPair: false }
+        };
+
+        const QuickEntrySlots = {
+            slots: [],
+
+            defaultSlots() {
+                return [
+                    { primary: 'vitals' },
+                    { primary: 'medication' },
+                    { primary: 'cardiacMeds', secondary: 'cardiacProcs' },
+                    { primary: 'iv' },
+                    { primary: 'procedure' },
+                    { primary: 'note' },
+                    { primary: 'trauma' },
+                    { primary: 'photo' }
+                ];
+            },
+
+            init() {
+                this.slots = this.defaultSlots();
+            },
+
+            getAll() {
+                return this.slots;
+            },
+
+            usedTypes() {
+                const used = new Set();
+                for (const s of this.slots) {
+                    used.add(s.primary);
+                    if (s.secondary) used.add(s.secondary);
+                }
+                return used;
+            },
+
+            availableFor(excludePrimary) {
+                const used = this.usedTypes();
+                return Object.keys(QE_SLOT_TYPES).filter(t => !used.has(t) || t === excludePrimary);
+            },
+
+            add() {
+                const used = this.usedTypes();
+                const next = Object.keys(QE_SLOT_TYPES).find(t => !used.has(t));
+                if (next) {
+                    this.slots.push({ primary: next });
+                    SettingsState.onChange('quickEntrySlots', this.slots);
+                }
+            },
+
+            remove(index) {
+                this.slots.splice(index, 1);
+                SettingsState.onChange('quickEntrySlots', this.slots);
+            },
+
+            setPrimary(index, type) {
+                this.slots[index] = { primary: type };
+                SettingsState.onChange('quickEntrySlots', this.slots);
+            },
+
+            setSecondary(index, type) {
+                if (type === '') {
+                    delete this.slots[index].secondary;
+                } else {
+                    this.slots[index].secondary = type;
+                }
+                SettingsState.onChange('quickEntrySlots', this.slots);
+            },
+
+            moveUp(index) {
+                if (index > 0) {
+                    [this.slots[index], this.slots[index - 1]] = [this.slots[index - 1], this.slots[index]];
+                    SettingsState.onChange('quickEntrySlots', this.slots);
+                }
+            },
+
+            moveDown(index) {
+                if (index < this.slots.length - 1) {
+                    [this.slots[index], this.slots[index + 1]] = [this.slots[index + 1], this.slots[index]];
+                    SettingsState.onChange('quickEntrySlots', this.slots);
+                }
+            }
+        };
+
         // ========== SETTINGS REGISTRY ==========
         // Single source of truth for all settings
 
@@ -897,6 +999,7 @@
                 // Agency feature flags
                 'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'agencyGpsEnabled'] },
                 'aiParsingEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'aiParsingEnabled'] },
+                'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
                 'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'crewAnnounceEnabled'] },
                 // Voice pipeline config (T194/T195) — agency-level, included in QR export
                 'voice.silenceThreshold': { type: 'number', default: 2.0, min: 0.5, max: 10.0, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.silenceThreshold'] },
@@ -927,19 +1030,9 @@
                 'keepScreenAwake': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'keepScreenAwake'] },
                 'showCallTimer': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'showCallTimer'] },
                 'showMedicationTimers': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'showMedicationTimers'] },
-                'showPatientInfoButton': { type: 'toggle', default: false, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'showPatientInfoButton'] },
+                'showPatientInfoButton': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'showPatientInfoButton'] },
 
-                // Quick Entry
-                'quickEntry.vitals': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'vitals'] },
-                'quickEntry.medication': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'medication'] },
-                'quickEntry.cardiac': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'cardiac'] },
-                'quickEntry.iv': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'iv'] },
-                'quickEntry.procedure': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'procedure'] },
-                'quickEntry.note': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'note'] },
-                'quickEntry.photo': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'photo'] },
-                'quickEntry.trauma': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'trauma'] },
-                'quickEntry.transfer': { type: 'toggle', default: false, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'transfer'] },
-                'quickEntry.address': { type: 'toggle', default: false, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'address'] },
+                // Quick Entry — slot config managed by QuickEntrySlots (not registry toggles)
                 'defaultIVGauge': { type: 'select', default: '18g', options: [
                     {value: '14g', label: '14ga'},
                     {value: '16g', label: '16ga'},
@@ -1033,6 +1126,7 @@
                         if (state.values) Object.assign(this.values, state.values);
                         if (state.timers) MedicationTimers.timers = state.timers;
                         if (state.fieldOrder) VitalsFieldOrder.order = state.fieldOrder;
+                        if (state.quickEntrySlots) QuickEntrySlots.slots = state.quickEntrySlots;
                     }
                 } catch (e) { /* ignore corrupt storage */ }
             },
@@ -1042,7 +1136,8 @@
                     localStorage.setItem(STORAGE_KEY, JSON.stringify({
                         values: this.values,
                         timers: MedicationTimers.timers,
-                        fieldOrder: VitalsFieldOrder.order
+                        fieldOrder: VitalsFieldOrder.order,
+                        quickEntrySlots: QuickEntrySlots.slots
                     }));
                 } catch (e) { /* ignore storage errors */ }
             },
@@ -1053,6 +1148,7 @@
                 }
                 MedicationTimers.init();
                 VitalsFieldOrder.order = ['BP', 'HR', 'SpO2', 'RR', 'Temp', 'ETCO2', 'Glucose', 'Pain', 'GCS', 'StrokeScreen'];
+                QuickEntrySlots.slots = QuickEntrySlots.defaultSlots();
                 localStorage.removeItem(STORAGE_KEY);
                 document.getElementById('agency-name-input').value = '';
                 ScreenFilter.filterSettings();
@@ -1119,8 +1215,14 @@
                     }
                 }
 
-                // Add medication timer configuration section for active-call screen
+                // Add quick entry slot editor and timer config for active-call screen
                 if (this.currentScreen === 'active-call') {
+                    const slotSection = document.createElement('div');
+                    slotSection.className = 'settings-section';
+                    slotSection.innerHTML = '<h3>Quick Entry Slots</h3>';
+                    slotSection.appendChild(this.createSlotEditor());
+                    panel.appendChild(slotSection);
+
                     const timerSection = document.createElement('div');
                     timerSection.className = 'settings-section';
                     timerSection.innerHTML = '<h3>Medication Timer Configuration</h3>';
@@ -1150,6 +1252,95 @@
 
                     panel.appendChild(section);
                 }
+            },
+
+            createSlotEditor() {
+                const container = document.createElement('div');
+                container.className = 'timer-list';
+
+                const makeSelect = (options, selected, onchange) => {
+                    const sel = document.createElement('select');
+                    sel.style.cssText = 'flex:1;padding:0.3rem 0.4rem;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);font-size:0.8rem;';
+                    options.forEach(([val, label]) => {
+                        const opt = document.createElement('option');
+                        opt.value = val;
+                        opt.textContent = label;
+                        if (val === selected) opt.selected = true;
+                        sel.appendChild(opt);
+                    });
+                    sel.onchange = () => onchange(sel.value);
+                    return sel;
+                };
+
+                const render = () => {
+                    container.innerHTML = '';
+                    const slots = QuickEntrySlots.getAll();
+
+                    slots.forEach((slot, index) => {
+                        const row = document.createElement('div');
+                        row.className = 'timer-entry';
+                        row.style.cssText = 'display:flex;align-items:center;gap:0.5rem;padding:0.5rem;';
+
+                        // Up/down
+                        const arrows = document.createElement('div');
+                        arrows.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+                        const up = document.createElement('button');
+                        up.textContent = '▲'; up.disabled = index === 0;
+                        up.style.cssText = 'font-size:0.6rem;padding:1px 4px;';
+                        up.onclick = () => { QuickEntrySlots.moveUp(index); ScreenFilter.filterSettings(); };
+                        const dn = document.createElement('button');
+                        dn.textContent = '▼'; dn.disabled = index === slots.length - 1;
+                        dn.style.cssText = 'font-size:0.6rem;padding:1px 4px;';
+                        dn.onclick = () => { QuickEntrySlots.moveDown(index); ScreenFilter.filterSettings(); };
+                        arrows.appendChild(up); arrows.appendChild(dn);
+                        row.appendChild(arrows);
+
+                        // Primary select
+                        const primaryOpts = Object.entries(QE_SLOT_TYPES)
+                            .filter(([t]) => !QuickEntrySlots.usedTypes().has(t) || t === slot.primary)
+                            .map(([t, m]) => [t, m.label]);
+                        row.appendChild(makeSelect(primaryOpts, slot.primary, val => {
+                            QuickEntrySlots.setPrimary(index, val);
+                            ScreenFilter.filterSettings();
+                        }));
+
+                        // Secondary select (only if primary canPair)
+                        if (QE_SLOT_TYPES[slot.primary]?.canPair) {
+                            const secOpts = [['', '— no pair —'], ...Object.entries(QE_SLOT_TYPES)
+                                .filter(([t]) => (!QuickEntrySlots.usedTypes().has(t) || t === slot.secondary) && t !== slot.primary)
+                                .map(([t, m]) => [t, m.label])];
+                            row.appendChild(makeSelect(secOpts, slot.secondary || '', val => {
+                                QuickEntrySlots.setSecondary(index, val);
+                                ScreenFilter.filterSettings();
+                            }));
+                        } else {
+                            const placeholder = document.createElement('span');
+                            placeholder.style.cssText = 'flex:1;font-size:0.75rem;color:var(--text-muted);';
+                            placeholder.textContent = 'solo only';
+                            row.appendChild(placeholder);
+                        }
+
+                        // Remove
+                        const rm = document.createElement('button');
+                        rm.className = 'remove-timer-btn';
+                        rm.textContent = 'Remove';
+                        rm.onclick = () => { QuickEntrySlots.remove(index); ScreenFilter.filterSettings(); };
+                        row.appendChild(rm);
+
+                        container.appendChild(row);
+                    });
+
+                    const addBtn = document.createElement('button');
+                    addBtn.className = 'add-timer-btn';
+                    addBtn.textContent = '+ Add Slot';
+                    const allUsed = QuickEntrySlots.usedTypes().size >= Object.keys(QE_SLOT_TYPES).length;
+                    addBtn.disabled = allUsed;
+                    addBtn.onclick = () => { QuickEntrySlots.add(); ScreenFilter.filterSettings(); };
+                    container.appendChild(addBtn);
+                };
+
+                render();
+                return container;
             },
 
             createTimerEditor() {
@@ -1312,16 +1503,6 @@
                     'showCallTimer': 'Call Timer',
                     'showMedicationTimers': 'Medication Timers',
                     'showPatientInfoButton': 'Patient Info Button',
-                    'quickEntry.vitals': 'Vitals',
-                    'quickEntry.medication': 'Medication',
-                    'quickEntry.cardiac': 'Cardiac',
-                    'quickEntry.iv': 'IV',
-                    'quickEntry.procedure': 'Procedure',
-                    'quickEntry.note': 'Note',
-                    'quickEntry.photo': 'Photo',
-                    'quickEntry.trauma': 'Trauma',
-                    'quickEntry.transfer': 'Transfer',
-                    'quickEntry.address': 'Address',
                     'defaultIVGauge': 'Default IV Gauge',
                     'showWatchConnectivity': 'Watch Connectivity',
                     'watchVoiceMode': 'Watch Voice Mode',
@@ -1363,6 +1544,7 @@
                     'backgroundCrashLogging.enabled': 'Background Crash Logging',
                     'agencyGpsEnabled': 'GPS Features',
                     'aiParsingEnabled': 'AI Voice Parsing',
+                    'medOCRIncludeDoseFreq': 'OCR Include Dose & Frequency',
                     'crewAnnounceEnabled': 'Crew Announce',
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
@@ -1507,10 +1689,15 @@
                 const showMedTimers = SettingsState.get('showMedicationTimers');
                 const groupEntries = SettingsState.get('groupActiveCallEntries');
                 const use24h = SettingsState.get('use24HourTime');
-                const qeMap = { vitals: '❤️ Vitals', medication: '💉 Meds', cardiac: '⚡ Cardiac',
-                    iv: '🩸 IV', procedure: '🔬 Procedure', note: '📝 Note',
-                    photo: '📷 Photo', trauma: '🩹 Trauma', transfer: '🚑 Transfer', address: '📍 Address' };
-                const qeButtons = Object.entries(qeMap).filter(([k]) => SettingsState.get(`quickEntry.${k}`));
+                const qeMap = { vitals: '❤️', medication: '💉', cardiacMeds: '⚡', cardiacProcs: '🫀',
+                    iv: '🩸', procedure: '🔬', note: '📝', photo: '📷',
+                    trauma: '🩹', transfer: '🚑', address: '📍', dripCalc: '🧮',
+                    pump: '⏱️', vent: '💨', patientProfile: '👤' };
+                const qeButtons = QuickEntrySlots.getAll().map(s => {
+                    const icon = qeMap[s.primary] || '•';
+                    const label = QE_SLOT_TYPES[s.primary]?.label || s.primary;
+                    return [s.primary, `${icon} ${label}`];
+                });
                 const timers = MedicationTimers.getAll().filter(t => t.timerEnabled);
                 const timeStr = use24h ? '15:47' : '3:47 PM';
 
@@ -1791,6 +1978,10 @@
                 current[path[path.length - 1]] = value;
             }
 
+            // Add quick entry slots (T218 — always include, replaces individual booleans)
+            if (!payload.quickEntry) payload.quickEntry = {};
+            payload.quickEntry.slots = QuickEntrySlots.getAll();
+
             // Add vitals field order
             if (!payload.vitals) payload.vitals = {};
             payload.vitals.fieldOrder = VitalsFieldOrder.getAll();
@@ -1841,6 +2032,7 @@
 
         // ========== INITIALIZATION ==========
         MedicationTimers.init();
+        QuickEntrySlots.init();
         SettingsState.init();
         document.getElementById('agency-name-input').value = SettingsState.get('agencyName') || '';
         ScreenFilter.init();
