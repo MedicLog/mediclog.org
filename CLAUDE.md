@@ -56,6 +56,7 @@ This project uses a **lightweight workflow** — no agent pipeline, no worktrees
 | `nav-loader.js` | Shared nav — loaded by every page |
 | `styles.css` | Global styles and CSS variables |
 | `screenshots/` | App screenshots (see README.md inside) |
+| `assets/presets/*.mlconfig` | Static preset config files for presets.html QR codes (one per cert level) |
 
 ---
 
@@ -78,6 +79,7 @@ This project uses a **lightweight workflow** — no agent pipeline, no worktrees
 - **T2085 (Agency Config Package):** The settings-creator IS the web side of T2085. The `.mlagency` format and profile templates are blocked on a planning decision — the settings taxonomy (global vs. profile-level vs. agency-lockable) and the profiles dimension (users have Work, First Responder, personal profiles) must be defined before the settings-creator can be restructured. See MedicLog `TODO.md` T2085 for full planning notes.
 - **T95 (Screenshots):** Website screenshot mapping is tracked here. See `screenshots/README.md` for required filenames. The AT## series in `screenshots/android/` and `screenshots/ios-raw/` are the current source material.
 - **QR format changes:** Any change to the QR payload structure must be coordinated with the iOS app's `ConfigImporter.swift` and Android equivalent. Never change unilaterally.
+- **Presets page (.mlconfig):** `presets.html` QR codes point to `https://mediclog.org/assets/presets/<role>.mlconfig`. The app downloads and imports these as `.mlconfig` files — iOS handles the import natively, no URL scheme needed. `_headers` serves them as `application/octet-stream` with `Content-Disposition: attachment`. Do not change the hosting path without updating both the QR URLs and the `_headers` entries.
 
 ---
 

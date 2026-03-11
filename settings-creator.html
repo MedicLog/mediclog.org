@@ -312,6 +312,15 @@
             cursor: grabbing;
         }
 
+        .field-order-item.dragging {
+            opacity: 0.4;
+        }
+
+        .field-order-item.drag-over {
+            border-color: var(--accent);
+            background: var(--highlight-bg);
+        }
+
         .field-order-name {
             flex: 1;
             font-size: 0.9rem;
@@ -457,6 +466,146 @@
             text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
+        }
+
+        /* iOS-style preview components */
+        .preview-screen.light .preview-card-group {
+            background: #fff;
+        }
+        .preview-screen.dark .preview-card-group {
+            background: #2c2c2e;
+        }
+        .preview-card-group {
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0.5rem 0.75rem;
+        }
+        .preview-list-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.45rem 0.75rem;
+            font-size: 0.75rem;
+            border-bottom: 0.5px solid rgba(128,128,128,0.2);
+        }
+        .preview-list-row:last-child { border-bottom: none; }
+        .preview-list-row-label { flex: 1; }
+        .preview-screen.light .preview-list-row-value { color: #6e6e73; }
+        .preview-screen.dark .preview-list-row-value { color: #98989d; }
+        .preview-list-row-value {
+            font-variant-numeric: tabular-nums;
+        }
+        .preview-section-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 0.75rem 0.2rem;
+        }
+        .preview-screen.light .preview-section-label { color: #6e6e73; }
+        .preview-screen.dark .preview-section-label { color: #98989d; }
+
+        /* Timer pills */
+        .preview-timer-row {
+            display: flex;
+            gap: 0.4rem;
+            padding: 0.5rem 0.75rem;
+            overflow-x: auto;
+        }
+        .preview-timer-pill {
+            flex-shrink: 0;
+            border-radius: 10px;
+            border: 1.5px solid rgba(0,122,255,0.5);
+            background: rgba(0,122,255,0.1);
+            padding: 0.3rem 0.6rem;
+            text-align: center;
+            min-width: 56px;
+        }
+        .preview-timer-pill .ptimer-name {
+            font-size: 0.6rem;
+            font-weight: 600;
+            opacity: 0.7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 64px;
+        }
+        .preview-timer-pill .ptimer-val {
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+        .preview-timer-pill.overdue {
+            border-color: rgba(255,59,48,0.5);
+            background: rgba(255,59,48,0.1);
+        }
+        .preview-timer-pill.overdue .ptimer-val { color: #ff3b30; }
+
+        /* Quick Entry grid */
+        .preview-qe-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.3rem;
+            padding: 0 0.75rem 0.5rem;
+        }
+        .preview-qe-btn {
+            background: #007AFF;
+            color: white;
+            border-radius: 8px;
+            padding: 0.35rem 0.2rem;
+            text-align: center;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        /* Timeline */
+        .preview-timeline-row {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border-bottom: 0.5px solid rgba(128,128,128,0.15);
+            font-size: 0.72rem;
+        }
+        .preview-timeline-time {
+            flex-shrink: 0;
+            font-variant-numeric: tabular-nums;
+            opacity: 0.55;
+            width: 32px;
+        }
+        .preview-screen.light .preview-timeline-accent { background: #007AFF; }
+        .preview-screen.dark .preview-timeline-accent { background: #0a84ff; }
+        .preview-timeline-accent {
+            width: 2px;
+            border-radius: 1px;
+            flex-shrink: 0;
+            align-self: stretch;
+        }
+
+        /* Vitals entry rows */
+        .preview-vitals-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.73rem;
+            border-bottom: 0.5px solid rgba(128,128,128,0.2);
+        }
+        .preview-vitals-row:last-child { border-bottom: none; }
+        .preview-vitals-field {
+            font-variant-numeric: tabular-nums;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            min-width: 48px;
+            text-align: right;
+        }
+        .preview-screen.light .preview-vitals-field {
+            background: #f2f2f7;
+            color: #3c3c43;
+        }
+        .preview-screen.dark .preview-vitals-field {
+            background: #3a3a3c;
+            color: #ebebf0;
         }
 
         /* QR output section */
@@ -623,7 +772,10 @@
                         </div>
                     </div>
                     <div class="qr-output">
-                        <button class="generate-btn" onclick="generateQR()">Generate QR Code</button>
+                        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
+                            <button class="generate-btn" onclick="generateQR()">Generate QR Code</button>
+                            <button class="generate-btn" style="background:var(--bg-secondary);color:var(--text-secondary);border:1px solid var(--border);box-shadow:none;" onclick="if(confirm('Reset all settings to defaults?')) SettingsState.reset();">Reset to Defaults</button>
+                        </div>
                         <p class="qr-privacy-note">Includes settings only — not your name, ID, logo, destinations, or call history.</p>
                         <div class="qr-pages" id="qr-pages"></div>
                     </div>
@@ -693,6 +845,12 @@
                 }
             },
 
+            moveTo(from, to) {
+                const [item] = this.order.splice(from, 1);
+                this.order.splice(to, 0, item);
+                SettingsState.onChange('fieldOrder', this.order);
+            },
+
             getAll() {
                 return this.order;
             }
@@ -736,6 +894,10 @@
                 'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'showDemographicsReminder'] },
                 'incidentNumberFormat': { type: 'text', default: '', screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'incidentNumberFormat'] },
                 'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
+                // Agency feature flags
+                'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'agencyGpsEnabled'] },
+                'aiParsingEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'aiParsingEnabled'] },
+                'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'crewAnnounceEnabled'] },
                 // Voice pipeline config (T194/T195) — agency-level, included in QR export
                 'voice.silenceThreshold': { type: 'number', default: 2.0, min: 0.5, max: 10.0, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.silenceThreshold'] },
                 'voice.vadTrimEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.vadTrimEnabled'] },
@@ -853,6 +1015,8 @@
         // ========== SETTINGS STATE ==========
         // Current values of all settings
 
+        const STORAGE_KEY = 'mediclog-settings-creator';
+
         const SettingsState = {
             values: {},
 
@@ -861,6 +1025,38 @@
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
                     this.values[key] = meta.default;
                 }
+                // Restore from localStorage if available
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    if (saved) {
+                        const state = JSON.parse(saved);
+                        if (state.values) Object.assign(this.values, state.values);
+                        if (state.timers) MedicationTimers.timers = state.timers;
+                        if (state.fieldOrder) VitalsFieldOrder.order = state.fieldOrder;
+                    }
+                } catch (e) { /* ignore corrupt storage */ }
+            },
+
+            save() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                        values: this.values,
+                        timers: MedicationTimers.timers,
+                        fieldOrder: VitalsFieldOrder.order
+                    }));
+                } catch (e) { /* ignore storage errors */ }
+            },
+
+            reset() {
+                for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
+                    this.values[key] = meta.default;
+                }
+                MedicationTimers.init();
+                VitalsFieldOrder.order = ['BP', 'HR', 'SpO2', 'RR', 'Temp', 'ETCO2', 'Glucose', 'Pain', 'GCS', 'StrokeScreen'];
+                localStorage.removeItem(STORAGE_KEY);
+                document.getElementById('agency-name-input').value = '';
+                ScreenFilter.filterSettings();
+                PreviewRenderer.update();
             },
 
             get(key) {
@@ -873,8 +1069,8 @@
             },
 
             onChange(key, value) {
-                // Update preview when settings change
                 PreviewRenderer.update();
+                this.save();
             }
         };
 
@@ -1023,6 +1219,7 @@
             createFieldOrderEditor() {
                 const container = document.createElement('div');
                 container.className = 'field-order-list';
+                let dragSrcIndex = null;
 
                 const renderFields = () => {
                     container.innerHTML = '';
@@ -1041,6 +1238,32 @@
                                 <button ${index === fields.length - 1 ? 'disabled' : ''} onclick="VitalsFieldOrder.moveDown(${index}); ScreenFilter.filterSettings();">▼</button>
                             </div>
                         `;
+
+                        item.addEventListener('dragstart', (e) => {
+                            dragSrcIndex = index;
+                            e.dataTransfer.effectAllowed = 'move';
+                            item.classList.add('dragging');
+                        });
+                        item.addEventListener('dragend', () => {
+                            item.classList.remove('dragging');
+                            container.querySelectorAll('.field-order-item').forEach(el => el.classList.remove('drag-over'));
+                        });
+                        item.addEventListener('dragover', (e) => {
+                            e.preventDefault();
+                            e.dataTransfer.dropEffect = 'move';
+                            container.querySelectorAll('.field-order-item').forEach(el => el.classList.remove('drag-over'));
+                            item.classList.add('drag-over');
+                        });
+                        item.addEventListener('dragleave', () => {
+                            item.classList.remove('drag-over');
+                        });
+                        item.addEventListener('drop', (e) => {
+                            e.preventDefault();
+                            if (dragSrcIndex !== null && dragSrcIndex !== index) {
+                                VitalsFieldOrder.moveTo(dragSrcIndex, index);
+                                ScreenFilter.filterSettings();
+                            }
+                        });
 
                         container.appendChild(item);
                     });
@@ -1138,6 +1361,9 @@
                     'agency.showDemographicsReminder': 'Demographics Reminder',
                     'incidentNumberFormat': 'Incident Number Format',
                     'backgroundCrashLogging.enabled': 'Background Crash Logging',
+                    'agencyGpsEnabled': 'GPS Features',
+                    'aiParsingEnabled': 'AI Voice Parsing',
+                    'crewAnnounceEnabled': 'Crew Announce',
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
                     'voice.verbosity': 'Voice Verbosity',
@@ -1185,13 +1411,47 @@
                 }
 
                 if (meta.type === 'number') {
+                    const wrapper = document.createElement('div');
+                    wrapper.style.display = 'flex';
+                    wrapper.style.flexDirection = 'column';
+                    wrapper.style.alignItems = 'flex-end';
+                    wrapper.style.gap = '0.2rem';
+
                     const input = document.createElement('input');
                     input.type = 'number';
                     input.value = value;
-                    input.min = meta.min || 0;
-                    input.max = meta.max || 999;
-                    input.onchange = () => SettingsState.set(key, parseInt(input.value));
-                    return input;
+                    input.min = meta.min !== undefined ? meta.min : 0;
+                    input.max = meta.max !== undefined ? meta.max : 999;
+                    input.dataset.key = key;
+
+                    const errorMsg = document.createElement('span');
+                    errorMsg.style.cssText = 'font-size:0.75rem;color:#f44336;display:none;';
+
+                    const validate = () => {
+                        const v = parseFloat(input.value);
+                        const min = meta.min !== undefined ? meta.min : 0;
+                        const max = meta.max !== undefined ? meta.max : 999;
+                        if (isNaN(v) || v < min || v > max) {
+                            input.style.borderColor = '#f44336';
+                            errorMsg.textContent = `Must be ${min}–${max}`;
+                            errorMsg.style.display = 'block';
+                            SettingsState.errors = SettingsState.errors || {};
+                            SettingsState.errors[key] = true;
+                        } else {
+                            input.style.borderColor = '';
+                            errorMsg.style.display = 'none';
+                            if (SettingsState.errors) delete SettingsState.errors[key];
+                            const isFloat = (meta.min !== undefined && !Number.isInteger(meta.min)) ||
+                                            (meta.max !== undefined && !Number.isInteger(meta.max));
+                            SettingsState.set(key, isFloat ? v : Math.round(v));
+                        }
+                    };
+                    input.oninput = validate;
+                    input.onchange = validate;
+
+                    wrapper.appendChild(input);
+                    wrapper.appendChild(errorMsg);
+                    return wrapper;
                 }
 
                 if (meta.type === 'text') {
@@ -1245,100 +1505,190 @@
             renderActiveCall(preview) {
                 const showCallTimer = SettingsState.get('showCallTimer');
                 const showMedTimers = SettingsState.get('showMedicationTimers');
-                const qeButtons = ['vitals', 'medication', 'cardiac', 'iv', 'procedure', 'note', 'photo', 'trauma', 'transfer', 'address']
-                    .filter(btn => SettingsState.get(`quickEntry.${btn}`));
+                const groupEntries = SettingsState.get('groupActiveCallEntries');
+                const use24h = SettingsState.get('use24HourTime');
+                const qeMap = { vitals: '❤️ Vitals', medication: '💉 Meds', cardiac: '⚡ Cardiac',
+                    iv: '🩸 IV', procedure: '🔬 Procedure', note: '📝 Note',
+                    photo: '📷 Photo', trauma: '🩹 Trauma', transfer: '🚑 Transfer', address: '📍 Address' };
+                const qeButtons = Object.entries(qeMap).filter(([k]) => SettingsState.get(`quickEntry.${k}`));
+                const timers = MedicationTimers.getAll().filter(t => t.timerEnabled);
+                const timeStr = use24h ? '15:47' : '3:47 PM';
+
+                const timerPills = (() => {
+                    let html = '';
+                    if (showCallTimer) html += `<div class="preview-timer-pill"><div class="ptimer-name">Call</div><div class="ptimer-val">12:34</div></div>`;
+                    if (showMedTimers) {
+                        timers.slice(0, 3).forEach((t, i) => {
+                            const overdue = i === 1;
+                            html += `<div class="preview-timer-pill${overdue ? ' overdue' : ''}" style="border-color:${t.timerColor}40;background:${t.timerColor}18;">
+                                <div class="ptimer-name" style="color:${t.timerColor}">${t.name}</div>
+                                <div class="ptimer-val" style="${overdue ? '' : `color:${t.timerColor}`}">${overdue ? 'OVER' : '04:20'}</div>
+                            </div>`;
+                        });
+                    }
+                    return html;
+                })();
+
+                const timelineRows = (() => {
+                    const entries = [
+                        { time: use24h ? '15:47' : '3:47 PM', text: 'Fentanyl 100mcg IV push' },
+                        { time: use24h ? '15:45' : '3:45 PM', text: 'Vitals: BP 120/80, HR 95, SpO₂ 98%' },
+                        { time: use24h ? '15:41' : '3:41 PM', text: 'IV — 18ga R AC established' },
+                    ];
+                    if (groupEntries) {
+                        return `<div class="preview-section-label">Now</div>` +
+                            entries.map(e => `<div class="preview-timeline-row">
+                                <div class="preview-timeline-time">${e.time}</div>
+                                <div class="preview-timeline-accent"></div>
+                                <div style="font-size:0.72rem">${e.text}</div>
+                            </div>`).join('');
+                    }
+                    return entries.map(e => `<div class="preview-timeline-row">
+                        <div class="preview-timeline-time">${e.time}</div>
+                        <div class="preview-timeline-accent"></div>
+                        <div style="font-size:0.72rem">${e.text}</div>
+                    </div>`).join('');
+                })();
 
                 preview.innerHTML = `
-                    <div class="preview-header">Active Call</div>
-                    <div class="preview-content">
-                        ${showCallTimer || showMedTimers ? `
-                        <div class="preview-timer-grid">
-                            ${showCallTimer ? '<div class="preview-timer"><strong>Call</strong><div>12:34</div></div>' : ''}
-                            ${showMedTimers ? '<div class="preview-timer"><strong>Fentanyl</strong><div>4:20</div></div>' : ''}
+                    <div class="preview-header">Active Call — ${timeStr}</div>
+                    <div class="preview-content" style="padding:0">
+                        ${(showCallTimer || (showMedTimers && timers.length)) ? `<div class="preview-timer-row">${timerPills}</div>` : ''}
+                        <div class="preview-section-label">Quick Entry</div>
+                        <div class="preview-qe-grid">
+                            ${qeButtons.map(([, label]) => `<div class="preview-qe-btn">${label}</div>`).join('')}
+                            ${qeButtons.length === 0 ? '<div style="font-size:0.7rem;color:#888;padding:0.5rem;grid-column:1/-1">No quick entry enabled</div>' : ''}
                         </div>
-                        ` : ''}
-                        <div style="margin-bottom: 0.5rem; font-weight: 600;">Quick Entry</div>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem;">
-                            ${qeButtons.map(btn => `<button class="preview-button">${btn}</button>`).join('')}
-                        </div>
-                        <div style="margin-top: 0.75rem; font-weight: 600;">Timeline</div>
-                        <div class="preview-entry">15:47 - Fentanyl 100mcg IV</div>
-                        <div class="preview-entry">15:45 - Vitals: BP 120/80, HR 95</div>
+                        <div class="preview-section-label">Timeline</div>
+                        ${timelineRows}
                     </div>
                 `;
             },
 
             renderVitals(preview) {
+                const fieldLabels = { BP: 'Blood Pressure', HR: 'Heart Rate', SpO2: 'SpO₂', RR: 'Resp Rate',
+                    Temp: 'Temperature', ETCO2: 'EtCO₂', Glucose: 'Glucose', Pain: 'Pain (0–10)', GCS: 'GCS', StrokeScreen: 'Stroke Screen' };
+                const fieldPlaceholders = { BP: '120/80', HR: '88', SpO2: '98%', RR: '16',
+                    Temp: '98.6°', ETCO2: '38', Glucose: '110', Pain: '7', GCS: '15', StrokeScreen: 'Neg' };
+                const collapsed = SettingsState.get('vitalsCollapsed');
                 const fields = VitalsFieldOrder.getAll().filter(f => SettingsState.get(`vitalsShow${f}`));
+
+                const rows = fields.map(f => `
+                    <div class="preview-vitals-row">
+                        <span class="preview-list-row-label">${fieldLabels[f] || f}</span>
+                        <span class="preview-vitals-field">${fieldPlaceholders[f] || '—'}</span>
+                    </div>`).join('');
+
+                const showMathHelper = SettingsState.get('vitalsShowMathHelper');
+
                 preview.innerHTML = `
                     <div class="preview-header">Vitals Entry</div>
-                    <div class="preview-content">
-                        ${fields.map(field => `
-                            <div class="preview-entry">${field}: <input type="text" style="width: 60px; background: rgba(255,255,255,0.1); border: 1px solid #444; color: inherit; padding: 0.25rem;"></div>
-                        `).join('')}
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Vitals</div>
+                        <div class="preview-card-group">${rows || '<div style="padding:0.5rem 0.75rem;font-size:0.72rem;opacity:0.5">No vitals fields enabled</div>'}</div>
+                        ${showMathHelper ? `<div class="preview-section-label">Math Helper</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span>Weight</span><span class="preview-vitals-field">80 kg</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Fentanyl 1mcg/kg</span><span class="preview-list-row-value">80mcg</span></div>
+                        </div>` : ''}
                     </div>
                 `;
             },
 
             renderRadio(preview) {
                 const showFullVitals = SettingsState.get('radioShowFullVitals');
+                const use24h = SettingsState.get('use24HourTime');
                 preview.innerHTML = `
                     <div class="preview-header">Radio Report</div>
-                    <div class="preview-content">
-                        <div class="preview-entry"><strong>Patient:</strong> 65yo M</div>
-                        <div class="preview-entry"><strong>Chief Complaint:</strong> Chest pain</div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Patient</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Age/Sex</span><span class="preview-list-row-value">65yo M</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Chief Complaint</span><span class="preview-list-row-value">Chest pain</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">ETA</span><span class="preview-list-row-value">8 min</span></div>
+                        </div>
                         ${showFullVitals ? `
-                            <div class="preview-entry"><strong>Vitals:</strong> BP 140/90, HR 88, SpO2 95%</div>
-                        ` : ''}
-                        <div class="preview-entry"><strong>Interventions:</strong></div>
-                        <div class="preview-entry">• ASA 324mg PO</div>
-                        <div class="preview-entry">• IV 18ga established</div>
+                        <div class="preview-section-label">Vitals</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">BP</span><span class="preview-list-row-value">140/90</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">HR</span><span class="preview-list-row-value">88</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">SpO₂</span><span class="preview-list-row-value">95%</span></div>
+                        </div>` : ''}
+                        <div class="preview-section-label">Interventions</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span>ASA 324mg PO</span></div>
+                            <div class="preview-list-row"><span>IV 18ga R AC established</span></div>
+                            <div class="preview-list-row"><span>Fentanyl 100mcg IVP</span></div>
+                        </div>
                     </div>
                 `;
             },
 
             renderHandoff(preview) {
-                const formats = ['pdf', 'text', 'csv'].filter(f => SettingsState.get(`exportFormat.${f}`));
                 const showAtEndCall = SettingsState.get('hospitalHandoff.showAtEndCall');
+                const showInShare = SettingsState.get('hospitalHandoff.showInShareMenu');
                 preview.innerHTML = `
                     <div class="preview-header">Hospital Handoff</div>
-                    <div class="preview-content">
-                        <div style="margin-bottom: 0.75rem; font-weight: 600;">${showAtEndCall ? 'Shown at End of Call' : 'Manual Handoff'}</div>
-                        <div class="preview-entry"><strong>Export Formats:</strong></div>
-                        ${formats.map(f => `<div class="preview-entry">• ${f.toUpperCase()}</div>`).join('')}
-                        <button class="preview-button" style="width: 100%; margin-top: 0.5rem;">Generate Handoff Report</button>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Patient Summary</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Patient</span><span class="preview-list-row-value">65yo M</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">CC</span><span class="preview-list-row-value">Chest pain, 8/10</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Meds Given</span><span class="preview-list-row-value">2</span></div>
+                        </div>
+                        <div class="preview-section-label">Availability</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">At End of Call</span><span class="preview-list-row-value">${showAtEndCall ? '✓ On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">In Share Menu</span><span class="preview-list-row-value">${showInShare ? '✓ On' : 'Off'}</span></div>
+                        </div>
                     </div>
                 `;
             },
 
             renderHistory(preview) {
                 const groupEntries = SettingsState.get('groupHistoryEntries');
+                const use24h = SettingsState.get('use24HourTime');
+                const calls = [
+                    { date: 'Today', time: use24h ? '15:47' : '3:47 PM', cc: 'Chest Pain Transport' },
+                    { date: 'Today', time: use24h ? '12:30' : '12:30 PM', cc: 'Trauma — MVC' },
+                    { date: 'Yesterday', time: use24h ? '18:20' : '6:20 PM', cc: 'Respiratory Distress' },
+                ];
+                const rows = groupEntries
+                    ? [['Today', calls.slice(0,2)], ['Yesterday', calls.slice(2)]]
+                        .map(([group, items]) => `
+                            <div class="preview-section-label">${group}</div>
+                            <div class="preview-card-group">
+                                ${items.map(c => `<div class="preview-list-row"><span class="preview-list-row-label">${c.cc}</span><span class="preview-list-row-value">${c.time}</span></div>`).join('')}
+                            </div>`).join('')
+                    : `<div class="preview-card-group">${calls.map(c => `
+                            <div class="preview-list-row"><span class="preview-list-row-label">${c.cc}</span><span class="preview-list-row-value">${c.time}</span></div>`).join('')}</div>`;
+
                 preview.innerHTML = `
                     <div class="preview-header">Call History</div>
-                    <div class="preview-content">
-                        ${groupEntries ? `
-                            <div class="preview-entry"><strong>Today</strong></div>
-                            <div class="preview-entry">15:47 - Chest Pain Transport</div>
-                            <div class="preview-entry">12:30 - Trauma Call</div>
-                            <div class="preview-entry"><strong>Yesterday</strong></div>
-                            <div class="preview-entry">18:20 - Respiratory Distress</div>
-                        ` : `
-                            <div class="preview-entry">2026-02-16 15:47 - Chest Pain</div>
-                            <div class="preview-entry">2026-02-16 12:30 - Trauma</div>
-                            <div class="preview-entry">2026-02-15 18:20 - Respiratory</div>
-                        `}
-                    </div>
+                    <div class="preview-content" style="padding:0">${rows}</div>
                 `;
             },
 
             renderExport(preview) {
-                const formats = ['pdf', 'text', 'csv'].filter(f => SettingsState.get(`exportFormat.${f}`));
+                const formats = [
+                    { key: 'pdf', label: 'PDF Report' },
+                    { key: 'text', label: 'Plain Text' },
+                    { key: 'csv', label: 'CSV Spreadsheet' }
+                ].filter(f => SettingsState.get(`exportFormat.${f.key}`));
+                const includePhotos = SettingsState.get('export.includePhotos');
                 preview.innerHTML = `
-                    <div class="preview-header">Share/Export</div>
-                    <div class="preview-content">
-                        <div class="preview-entry"><strong>Export Formats:</strong></div>
-                        ${formats.map(f => `<div class="preview-entry">✓ ${f.toUpperCase()}</div>`).join('')}
-                        <button class="preview-button" style="width: 100%; margin-top: 0.5rem;">Export Call Data</button>
+                    <div class="preview-header">Share / Export</div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Export Formats</div>
+                        <div class="preview-card-group">
+                            ${formats.length ? formats.map(f => `
+                                <div class="preview-list-row"><span class="preview-list-row-label">${f.label}</span><span style="color:#34c759">✓</span></div>`).join('')
+                            : '<div class="preview-list-row" style="opacity:0.5">No formats enabled</div>'}
+                        </div>
+                        <div class="preview-section-label">Options</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Include Photos</span><span class="preview-list-row-value">${includePhotos ? 'On' : 'Off'}</span></div>
+                        </div>
                     </div>
                 `;
             },
@@ -1346,14 +1696,21 @@
             renderGlobal(preview) {
                 const theme = SettingsState.get('appearanceMode');
                 const use24h = SettingsState.get('use24HourTime');
+                const useUTC = SettingsState.get('useUTCTime');
                 const agencyName = SettingsState.get('agencyName') || 'Not Set';
+                const timeExample = use24h ? (useUTC ? '21:47 UTC' : '15:47') : (useUTC ? '9:47 PM UTC' : '3:47 PM');
                 preview.innerHTML = `
                     <div class="preview-header">Settings</div>
-                    <div class="preview-content">
-                        <div class="preview-entry"><strong>Theme:</strong> ${theme === 0 ? 'System' : theme === 1 ? 'Light' : 'Dark'}</div>
-                        <div class="preview-entry"><strong>Time:</strong> ${use24h ? '24-Hour' : '12-Hour'}</div>
-                        <div class="preview-entry"><strong>Agency:</strong> ${agencyName}</div>
-                        <div class="preview-entry"><strong>Current Time:</strong> ${use24h ? '15:47' : '3:47 PM'}</div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Agency</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Agency Name</span><span class="preview-list-row-value">${agencyName}</span></div>
+                        </div>
+                        <div class="preview-section-label">Display</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Theme</span><span class="preview-list-row-value">${theme === 0 ? 'System' : theme === 1 ? 'Light' : 'Dark'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Time Format</span><span class="preview-list-row-value">${timeExample}</span></div>
+                        </div>
                     </div>
                 `;
             }
@@ -1363,6 +1720,12 @@
         // Generates QuickConfigManager-compatible QR codes
 
         function generateQR() {
+            if (SettingsState.errors && Object.keys(SettingsState.errors).length > 0) {
+                const container = document.getElementById('qr-pages');
+                container.innerHTML = '<p style="color:#f44336;text-align:center;padding:1rem;">Fix validation errors before generating QR.</p>';
+                return;
+            }
+
             const payload = buildPayload();
             const pages = splitPayload(payload);
 
