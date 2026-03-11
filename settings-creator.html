@@ -1242,7 +1242,7 @@
                 'incidentNumberFormat': { type: 'text', default: '', screens: ['agency'], section: 'Incident Tracking & Dispatch', qrPath: ['agency', 'incidentNumberFormat'] },
                 'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Support & Diagnostics', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
                 // Agency feature flags
-                'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Features', qrPath: ['agency', 'agencyGpsEnabled'] },
+                'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'agencyGpsEnabled'] },
                 'aiParsingEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsingEnabled'] },
                 'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
                 'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Crew Announce', qrPath: ['agency', 'crewAnnounceEnabled'] },
@@ -2251,6 +2251,7 @@
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Destinations Tab</span><span class="preview-list-row-value preview-toggle-val ${dest ? 'on' : ''}">${dest ? 'On' : 'Off'}</span></div>
                             <div class="preview-list-row"><span class="preview-list-row-label">Navigation App</span><span class="preview-list-row-value">${mapsLabel}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">GPS Tracking</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('agencyGpsEnabled') ? 'on' : ''}">${SettingsState.get('agencyGpsEnabled') ? 'On' : 'Off'}</span></div>
                         </div>
                         <div class="preview-section-label">Crew Announce</div>
                         <div class="preview-card-group">
