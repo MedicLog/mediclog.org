@@ -1,7 +1,7 @@
 // nav-loader.js — shared navigation for mediclog.org
 // Inlines nav HTML directly — no fetch(), works on file:// and https://.
 // Usage: <nav class="nav" data-page="pagename"></nav> + <script src="nav-loader.js"></script>
-// data-page values: home, docs, tutorial, shortcuts, watch, transfer, agency, faq, sponsor, about, privacy, terms
+// data-page values: home, docs, tutorial, shortcuts, watch, transfer, agency, settings-creator, pricing, faq, sponsor, about, privacy, terms
 
 (function () {
     const nav = document.querySelector('nav.nav[data-page]');
@@ -9,6 +9,7 @@
     const currentPage = nav.getAttribute('data-page');
 
     const docsPages = ['docs', 'tutorial', 'shortcuts'];
+    const agencyPages = ['agency', 'settings-creator'];
     const morePages = ['about', 'privacy', 'terms'];
 
     nav.innerHTML = `
@@ -32,7 +33,18 @@
 
                 <a href="watch.html"    data-nav="watch">Watch</a>
                 <a href="transfer.html" data-nav="transfer">Handoff</a>
-                <a href="agency.html"   data-nav="agency">Agency</a>
+
+                <div class="nav-dropdown" id="nav-dropdown-agency">
+                    <button class="nav-dropdown-trigger" id="nav-agency-trigger">
+                        Agency <span class="nav-dropdown-chevron">▼</span>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a href="agency.html"            data-nav="agency">Agency Tools</a>
+                        <a href="settings-creator.html"  data-nav="settings-creator">Settings Creator</a>
+                    </div>
+                </div>
+
+                <a href="pricing.html"  data-nav="pricing">Pricing</a>
                 <a href="faq.html"      data-nav="faq">FAQ</a>
                 <a href="sponsor.html"  data-nav="sponsor">Sponsor</a>
 
@@ -59,6 +71,11 @@
         nav.querySelector('#nav-docs-trigger').classList.add('active');
     }
 
+    // Active state on Agency trigger when on an agency sub-page
+    if (agencyPages.includes(currentPage)) {
+        nav.querySelector('#nav-agency-trigger').classList.add('active');
+    }
+
     // Active state on More trigger when on a more sub-page
     if (morePages.includes(currentPage)) {
         nav.querySelector('#nav-more-trigger').classList.add('active');
@@ -70,7 +87,7 @@
     });
 
     // Dropdown click toggle — mobile only (desktop uses CSS :hover)
-    ['nav-dropdown-docs', 'nav-dropdown-more'].forEach(function (id) {
+    ['nav-dropdown-docs', 'nav-dropdown-agency', 'nav-dropdown-more'].forEach(function (id) {
         const dropdown = document.getElementById(id);
         if (!dropdown) return;
         dropdown.querySelector('.nav-dropdown-trigger').addEventListener('click', function (e) {

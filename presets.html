@@ -295,7 +295,7 @@
                 <canvas id="qr-canvas"></canvas>
             </div>
 
-            <p class="scan-instruction">Point your iPhone camera at this QR code to configure MedicLog</p>
+            <p class="scan-instruction">Scan with iPhone camera → tap the link → iOS will offer to open it in MedicLog</p>
 
             <div class="details-section">
                 <div class="details-grid" id="details-grid">
@@ -324,7 +324,7 @@
                 name: 'EMR',
                 fullName: 'Emergency Medical Responder',
                 description: 'Entry-level certification focused on vital signs assessment and basic life support. No medication administration.',
-                url: 'mediclog://config?preset=emr',
+                url: 'https://mediclog.org/assets/presets/emr.mlconfig',
                 details: {
                     'Vitals': ['included:All vital signs monitoring'],
                     'Airways': ['included:OPA / NPA', 'excluded:No advanced airways'],
@@ -338,7 +338,7 @@
                 name: 'EMT-Basic',
                 fullName: 'Emergency Medical Technician',
                 description: 'Standard EMT certification with fixed-dose medications and BLS interventions.',
-                url: 'mediclog://config?preset=emt-basic',
+                url: 'https://mediclog.org/assets/presets/emt-basic.mlconfig',
                 details: {
                     'Vitals': ['included:All vital signs monitoring'],
                     'Airways': ['included:OPA / NPA', 'included:BVM', 'excluded:No supraglottic / ETT'],
@@ -352,7 +352,7 @@
                 name: 'AEMT',
                 fullName: 'Advanced Emergency Medical Technician',
                 description: 'NREMT Advanced EMT with IV access and limited ALS medications. Bridge between EMT and Paramedic scope.',
-                url: 'mediclog://config?preset=aemt',
+                url: 'https://mediclog.org/assets/presets/aemt.mlconfig',
                 details: {
                     'Vitals': ['included:All vital signs monitoring'],
                     'Airways': ['included:OPA / NPA', 'included:BVM', 'included:Supraglottic (iGel, King)', 'excluded:No ETT'],
@@ -366,7 +366,7 @@
                 name: 'EMT-Varianced',
                 fullName: 'EMT-IV / Expanded Scope',
                 description: 'State variance or expanded scope EMT with IV/IO access and fixed-dose medications only. No weight-based dosing.',
-                url: 'mediclog://config?preset=emt-varianced',
+                url: 'https://mediclog.org/assets/presets/emt-varianced.mlconfig',
                 details: {
                     'Vitals': ['included:All vital signs monitoring'],
                     'Airways': ['included:OPA / NPA', 'included:BVM', 'included:Supraglottic (iGel, King)', 'excluded:No ETT / surgical'],
@@ -380,7 +380,7 @@
                 name: 'Paramedic',
                 fullName: 'NRP / Licensed Paramedic',
                 description: 'Full ALS scope with complete formulary, advanced airways, and comprehensive cardiac interventions.',
-                url: 'mediclog://config?preset=paramedic',
+                url: 'https://mediclog.org/assets/presets/paramedic.mlconfig',
                 details: {
                     'Vitals': ['included:All vital signs monitoring'],
                     'Airways': ['included:OPA / NPA / BVM', 'included:Supraglottic', 'included:ETT / intubation', 'included:Surgical cric'],
@@ -394,7 +394,7 @@
                 name: 'Critical Care / Flight',
                 fullName: 'CCP / FP-C / CFRN',
                 description: 'Extended scope for critical care transport. Includes pressors, sedation, paralytics, blood products, and vent management.',
-                url: 'mediclog://config?preset=critical-care',
+                url: 'https://mediclog.org/assets/presets/critical-care.mlconfig',
                 details: {
                     'Vitals': ['included:All vital signs', 'included:Invasive monitoring (art lines)'],
                     'Airways': ['included:All paramedic airways', 'included:Ventilator management', 'included:RSI / DSI'],

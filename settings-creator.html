@@ -312,6 +312,15 @@
             cursor: grabbing;
         }
 
+        .field-order-item.dragging {
+            opacity: 0.4;
+        }
+
+        .field-order-item.drag-over {
+            border-color: var(--accent);
+            background: var(--highlight-bg);
+        }
+
         .field-order-name {
             flex: 1;
             font-size: 0.9rem;
@@ -459,6 +468,245 @@
             font-size: 0.9rem;
         }
 
+        /* iOS-style preview components */
+        .preview-screen.light .preview-card-group {
+            background: #fff;
+        }
+        .preview-screen.dark .preview-card-group {
+            background: #2c2c2e;
+        }
+        .preview-card-group {
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0.5rem 0.75rem;
+        }
+        .preview-list-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.45rem 0.75rem;
+            font-size: 0.75rem;
+            border-bottom: 0.5px solid rgba(128,128,128,0.2);
+        }
+        .preview-list-row:last-child { border-bottom: none; }
+        .preview-list-row-label { flex: 1; }
+        .preview-list-row-chevron { color: #c7c7cc; font-size: 0.85rem; margin-left: 4px; }
+        .preview-list-row-nav { cursor: default; }
+        .preview-screen.light .preview-list-row-value { color: #6e6e73; }
+        .preview-screen.dark .preview-list-row-value { color: #98989d; }
+        .preview-list-row-value {
+            font-variant-numeric: tabular-nums;
+        }
+        .preview-section-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 0.75rem 0.2rem;
+        }
+        .preview-screen.light .preview-section-label { color: #6e6e73; }
+        .preview-screen.dark .preview-section-label { color: #98989d; }
+        .preview-toggle-val { font-size: 0.7rem; }
+        .preview-screen.light .preview-toggle-val.on { color: #34C759; }
+        .preview-screen.dark .preview-toggle-val.on { color: #30d158; }
+        .preview-screen.light .preview-toggle-val:not(.on) { color: #6e6e73; }
+        .preview-screen.dark .preview-toggle-val:not(.on) { color: #98989d; }
+
+        /* iOS Status Bar */
+        .preview-statusbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 14px 1px;
+            font-size: 9px;
+            font-weight: 700;
+            flex-shrink: 0;
+            height: 20px;
+            letter-spacing: 0.01em;
+        }
+        .preview-screen.light .preview-statusbar { color: #1c1c1e; }
+        .preview-screen.dark .preview-statusbar { color: #f2f2f7; }
+
+        /* iOS Nav Bar */
+        .preview-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3px 10px 6px;
+            flex-shrink: 0;
+            border-bottom: 0.5px solid rgba(128,128,128,0.22);
+        }
+        .preview-screen.light .preview-navbar { background: rgba(242,242,247,0.94); }
+        .preview-screen.dark .preview-navbar { background: rgba(28,28,30,0.94); }
+        .preview-navbar-title { font-size: 14px; font-weight: 700; flex: 1; text-align: center; }
+        .preview-navbar-btn { font-size: 11px; font-weight: 500; color: #007AFF; min-width: 36px; }
+        .preview-screen.dark .preview-navbar-btn { color: #0a84ff; }
+        .preview-navbar-back { font-size: 11px; font-weight: 400; color: #007AFF; min-width: 36px; }
+        .preview-screen.dark .preview-navbar-back { color: #0a84ff; }
+
+        /* Quick Entry Bottom Bar */
+        .preview-qe-bar {
+            display: flex;
+            gap: 3px;
+            padding: 5px 6px 7px;
+            overflow-x: auto;
+            flex-shrink: 0;
+            border-top: 0.5px solid rgba(128,128,128,0.25);
+            scrollbar-width: none;
+        }
+        .preview-qe-bar::-webkit-scrollbar { display: none; }
+        .preview-screen.light .preview-qe-bar { background: rgba(249,249,249,0.96); }
+        .preview-screen.dark .preview-qe-bar { background: rgba(28,28,30,0.96); }
+        .preview-qe-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            padding: 5px 5px 3px;
+            border-radius: 9px;
+            min-width: 42px;
+            flex-shrink: 0;
+        }
+        .preview-screen.light .preview-qe-item { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .preview-screen.dark .preview-qe-item { background: #2c2c2e; }
+        .preview-qe-icon { font-size: 13px; line-height: 1.2; }
+        .preview-qe-label { font-size: 7px; font-weight: 500; text-align: center; opacity: 0.72; white-space: nowrap; }
+
+        /* Timer pills */
+        .preview-timer-row {
+            display: flex;
+            gap: 0.4rem;
+            padding: 0.5rem 0.75rem;
+            overflow-x: auto;
+        }
+        .preview-timer-pill {
+            flex-shrink: 0;
+            border-radius: 10px;
+            border: 1.5px solid rgba(0,122,255,0.5);
+            background: rgba(0,122,255,0.1);
+            padding: 0.3rem 0.6rem;
+            text-align: center;
+            min-width: 56px;
+        }
+        .preview-timer-pill .ptimer-name {
+            font-size: 0.6rem;
+            font-weight: 600;
+            opacity: 0.7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 64px;
+        }
+        .preview-timer-pill .ptimer-val {
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+        .preview-timer-pill.overdue {
+            border-color: rgba(255,59,48,0.5);
+            background: rgba(255,59,48,0.1);
+        }
+        .preview-timer-pill.overdue .ptimer-val { color: #ff3b30; }
+
+        /* Quick Entry grid */
+        .preview-qe-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.3rem;
+            padding: 0 0.75rem 0.5rem;
+        }
+        .preview-qe-btn {
+            background: #007AFF;
+            color: white;
+            border-radius: 8px;
+            padding: 0.35rem 0.2rem;
+            text-align: center;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        /* Timeline */
+        .preview-timeline-row {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border-bottom: 0.5px solid rgba(128,128,128,0.15);
+            font-size: 0.72rem;
+        }
+        .preview-timeline-time {
+            flex-shrink: 0;
+            font-variant-numeric: tabular-nums;
+            opacity: 0.55;
+            width: 32px;
+        }
+        .preview-screen.light .preview-timeline-accent { background: #007AFF; }
+        .preview-screen.dark .preview-timeline-accent { background: #0a84ff; }
+        .preview-timeline-accent {
+            width: 2px;
+            border-radius: 1px;
+            flex-shrink: 0;
+            align-self: stretch;
+        }
+
+        /* Vitals collapsed card row (in Active Call timeline) */
+        .preview-vitals-card-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 4px 8px 2px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: rgba(255,149,0,0.1);
+            border: 1px solid rgba(255,149,0,0.28);
+            font-size: 0.68rem;
+        }
+        .preview-vitals-card-time {
+            flex-shrink: 0;
+            font-variant-numeric: tabular-nums;
+            opacity: 0.55;
+            font-size: 0.65rem;
+        }
+        .preview-vitals-card-icon {
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        .preview-vitals-card-text {
+            flex: 1;
+            color: #FF9500;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .preview-vitals-card-chevron { opacity: 0.45; flex-shrink: 0; font-size: 0.6rem; }
+
+        /* Vitals entry rows */
+        .preview-vitals-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.73rem;
+            border-bottom: 0.5px solid rgba(128,128,128,0.2);
+        }
+        .preview-vitals-row:last-child { border-bottom: none; }
+        .preview-vitals-field {
+            font-variant-numeric: tabular-nums;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            min-width: 48px;
+            text-align: right;
+        }
+        .preview-screen.light .preview-vitals-field {
+            background: #f2f2f7;
+            color: #3c3c43;
+        }
+        .preview-screen.dark .preview-vitals-field {
+            background: #3a3a3c;
+            color: #ebebf0;
+        }
+
         /* QR output section */
         .qr-output {
             display: flex;
@@ -508,39 +756,6 @@
             background: var(--accent-hover);
         }
 
-        .agency-name-bar {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: var(--highlight-bg);
-            border: 1px solid var(--highlight-border);
-            border-radius: 10px;
-            padding: 0.75rem 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .agency-name-bar label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        .agency-name-bar input {
-            flex: 1;
-            background: none;
-            border: none;
-            outline: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-family: inherit;
-        }
-
-        .agency-name-bar input::placeholder {
-            color: var(--text-muted);
-            font-weight: 400;
-        }
 
         .qr-privacy-note {
             font-size: 0.75rem;
@@ -574,6 +789,151 @@
         .qr-download-btn:hover {
             text-decoration: underline;
         }
+
+        /* ── Active Call preview components ── */
+        .preview-navbar-ac {
+            display: flex;
+            align-items: center;
+            padding: 4px 10px 6px;
+            gap: 8px;
+            flex-shrink: 0;
+            border-bottom: 0.5px solid rgba(128,128,128,0.2);
+        }
+        .preview-screen.light .preview-navbar-ac { background: rgba(242,242,247,0.94); }
+        .preview-screen.dark .preview-navbar-ac { background: rgba(28,28,30,0.94); }
+        .preview-endcall-btn {
+            background: #FF3B30;
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .preview-report-btn {
+            color: #34C759;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .preview-navbar-ac-spacer { flex: 1; }
+        .preview-navbar-ac-icons { font-size: 12px; opacity: 0.65; display: flex; gap: 6px; }
+
+        /* Timer cards grid */
+        .preview-timer-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            padding: 8px 10px;
+            flex-shrink: 0;
+        }
+        .preview-timer-card {
+            border-radius: 10px;
+            border: 1.5px solid;
+            padding: 5px 7px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 52px;
+        }
+        .ptc-label {
+            font-size: 7.5px;
+            font-weight: 500;
+            opacity: 0.6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .ptc-val {
+            font-size: 15px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            line-height: 1.1;
+        }
+
+        /* QE button grid (v2 — matches app) */
+        .preview-qe-grid-v2 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+            padding: 7px 10px;
+            flex-shrink: 0;
+        }
+        .preview-qe-btn-v2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .pqb-icon {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .pqb-icon-split {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+        }
+        .pqb-icon-split-half {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            font-size: 11px;
+        }
+        .pqb-label {
+            font-size: 7px;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .preview-screen.light .pqb-label { color: #1c1c1e; opacity: 0.8; }
+        .preview-screen.dark .pqb-label { color: #f2f2f7; opacity: 0.8; }
+
+        /* Bottom action bar */
+        .preview-bottom-bar {
+            display: flex;
+            gap: 8px;
+            padding: 7px 10px;
+            flex-shrink: 0;
+            border-top: 0.5px solid rgba(128,128,128,0.2);
+        }
+        .preview-bottom-btn {
+            flex: 1;
+            border-radius: 10px;
+            padding: 7px 4px;
+            text-align: center;
+            font-size: 9px;
+            font-weight: 600;
+            color: white;
+        }
+        .preview-bottom-btn.voice { background: #007AFF; }
+        .preview-bottom-btn.add { background: #34C759; }
+
+        /* Tab bar */
+        .preview-tabbar {
+            display: flex;
+            flex-shrink: 0;
+            padding: 4px 0 5px;
+            border-top: 0.5px solid rgba(128,128,128,0.25);
+        }
+        .preview-screen.light .preview-tabbar { background: rgba(249,249,249,0.96); }
+        .preview-screen.dark .preview-tabbar { background: rgba(28,28,30,0.96); }
+        .ptab {
+            flex: 1;
+            text-align: center;
+            font-size: 6.5px;
+            font-weight: 500;
+            opacity: 0.4;
+        }
+        .ptab.active { opacity: 1; color: #007AFF; }
+        .preview-screen.dark .ptab.active { color: #0a84ff; }
     </style>
 </head>
 <body>
@@ -594,13 +954,8 @@
             <button class="screen-tab" data-screen="handoff">Hospital Handoff</button>
             <button class="screen-tab" data-screen="history">History</button>
             <button class="screen-tab" data-screen="export">Share/Export</button>
+            <button class="screen-tab" data-screen="agency">Agency</button>
             <button class="screen-tab" data-screen="global">Global</button>
-        </div>
-
-        <div class="agency-name-bar">
-            <label for="agency-name-input">Agency Name</label>
-            <input type="text" id="agency-name-input" placeholder="e.g. North Memorial Ambulance Service"
-                   oninput="SettingsState.set('agencyName', this.value); PreviewRenderer.update();">
         </div>
 
         <div class="creator-layout">
@@ -623,7 +978,11 @@
                         </div>
                     </div>
                     <div class="qr-output">
-                        <button class="generate-btn" onclick="generateQR()">Generate QR Code</button>
+                        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
+                            <button class="generate-btn" onclick="generateQR(ScreenFilter.currentScreen)" title="Generate QR for settings on this tab only">Generate QR — This Tab</button>
+                            <button class="generate-btn" onclick="generateQR()" title="Generate QR for all settings across every tab">Generate QR — Everything</button>
+                            <button class="generate-btn" style="background:var(--bg-secondary);color:var(--text-secondary);border:1px solid var(--border);box-shadow:none;" onclick="if(confirm('Reset all settings to defaults?')) SettingsState.reset();">Reset to Defaults</button>
+                        </div>
                         <p class="qr-privacy-note">Includes settings only — not your name, ID, logo, destinations, or call history.</p>
                         <div class="qr-pages" id="qr-pages"></div>
                     </div>
@@ -693,8 +1052,116 @@
                 }
             },
 
+            moveTo(from, to) {
+                const [item] = this.order.splice(from, 1);
+                this.order.splice(to, 0, item);
+                SettingsState.onChange('fieldOrder', this.order);
+            },
+
             getAll() {
                 return this.order;
+            }
+        };
+
+        // ========== QUICK ENTRY SLOTS ==========
+        // T218: slot-based quick entry config — replaces individual boolean toggles
+
+        const QE_SLOT_TYPES = {
+            vitals:       { label: 'Vitals',        canPair: true },
+            medication:   { label: 'Medications',   canPair: true },
+            cardiacMeds:  { label: 'Cardiac Meds',  canPair: true },
+            cardiacProcs: { label: 'Cardiac Procs', canPair: true },
+            iv:           { label: 'IV Access',     canPair: false },
+            procedure:    { label: 'Procedures',    canPair: true },
+            note:         { label: 'Notes',         canPair: true },
+            trauma:       { label: 'Trauma',        canPair: false },
+            photo:        { label: 'Photo',         canPair: false },
+            transfer:     { label: 'Transfer',      canPair: true },
+            address:      { label: 'Location',      canPair: false },
+            dripCalc:     { label: 'Drip Calc',     canPair: true },
+            pump:         { label: 'IV Pump',       canPair: true },
+            vent:         { label: 'Ventilator',    canPair: true },
+            patientProfile: { label: 'Patient Profile', canPair: false }
+        };
+
+        const QuickEntrySlots = {
+            slots: [],
+
+            defaultSlots() {
+                return [
+                    { primary: 'vitals' },
+                    { primary: 'medication' },
+                    { primary: 'cardiacMeds', secondary: 'cardiacProcs' },
+                    { primary: 'iv' },
+                    { primary: 'procedure' },
+                    { primary: 'note' },
+                    { primary: 'trauma' },
+                    { primary: 'photo' }
+                ];
+            },
+
+            init() {
+                this.slots = this.defaultSlots();
+            },
+
+            getAll() {
+                return this.slots;
+            },
+
+            usedTypes() {
+                const used = new Set();
+                for (const s of this.slots) {
+                    used.add(s.primary);
+                    if (s.secondary) used.add(s.secondary);
+                }
+                return used;
+            },
+
+            availableFor(excludePrimary) {
+                const used = this.usedTypes();
+                return Object.keys(QE_SLOT_TYPES).filter(t => !used.has(t) || t === excludePrimary);
+            },
+
+            add() {
+                const used = this.usedTypes();
+                const next = Object.keys(QE_SLOT_TYPES).find(t => !used.has(t));
+                if (next) {
+                    this.slots.push({ primary: next });
+                    SettingsState.onChange('quickEntrySlots', this.slots);
+                }
+            },
+
+            remove(index) {
+                this.slots.splice(index, 1);
+                SettingsState.onChange('quickEntrySlots', this.slots);
+            },
+
+            setPrimary(index, type) {
+                this.slots[index] = { primary: type };
+                SettingsState.onChange('quickEntrySlots', this.slots);
+            },
+
+            setSecondary(index, type) {
+                if (type === '') {
+                    delete this.slots[index].secondary;
+                } else {
+                    this.slots[index].secondary = type;
+                }
+                SettingsState.onChange('quickEntrySlots', this.slots);
+            },
+
+            moveUp(index) {
+                if (index > 0) {
+                    [this.slots[index], this.slots[index - 1]] = [this.slots[index - 1], this.slots[index]];
+                    SettingsState.onChange('quickEntrySlots', this.slots);
+                }
+            },
+
+            moveDown(index) {
+                if (index < this.slots.length - 1) {
+                    [this.slots[index], this.slots[index + 1]] = [this.slots[index + 1], this.slots[index]];
+                    SettingsState.onChange('quickEntrySlots', this.slots);
+                }
             }
         };
 
@@ -705,12 +1172,13 @@
             // Key: setting key, Value: metadata
             settings: {
                 // Agency
-                'agencyName': { type: 'text', default: '', screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'name'] },
-                'useIncidentNumbers': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'useIncidentNumbers'] },
-                'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'global'], section: 'PHI Warnings', qrPath: ['agency', 'showPHIWarnings'] },
-                'showTestDataTools': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'showTestDataTools'] },
-                'cardiac.showVectorChange': { type: 'toggle', default: true, screens: ['active-call'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showVectorChange'] },
-                'cardiac.showDualSequential': { type: 'toggle', default: true, screens: ['active-call'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showDualSequential'] },
+                'agencyName': { type: 'text', default: '', screens: ['agency'], section: 'Agency Information', qrPath: ['agency', 'name'] },
+                'agencyLogoURL': { type: 'url', default: '', screens: ['agency'], section: 'Agency Information', description: 'Publicly accessible URL to your agency logo. App will download and cache on import.', qrPath: ['agency', 'logoURL'] },
+                'useIncidentNumbers': { type: 'toggle', default: true, screens: ['agency'], section: 'Incident Tracking & Dispatch', qrPath: ['agency', 'useIncidentNumbers'] },
+                'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'showPHIWarnings'] },
+                'showTestDataTools': { type: 'toggle', default: true, screens: ['agency'], section: 'Training & Testing', qrPath: ['agency', 'showTestDataTools'] },
+                'cardiac.showVectorChange': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showVectorChange'] },
+                'cardiac.showDualSequential': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showDualSequential'] },
                 'endOfCallAction': { type: 'select', default: 'hospital', options: [
                     {value: 'hospital', label: 'Hospital Handoff'},
                     {value: 'mist', label: 'MIST Radio Report'},
@@ -727,24 +1195,29 @@
                 ], screens: ['vitals'], section: 'Stroke Scale', qrPath: ['agency', 'strokeScale'] },
 
                 // Agency — features and clinical thresholds (T143 gap settings)
-                'agency.destinationsEnabled': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'destinationsEnabled'] },
+                'agency.destinationsEnabled': { type: 'toggle', default: true, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'destinationsEnabled'] },
                 'agency.preferredMapsApp': { type: 'select', default: 'apple', options: [
                     {value: 'apple', label: 'Apple Maps'},
                     {value: 'google', label: 'Google Maps'},
                     {value: 'waze', label: 'Waze'}
-                ], screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'preferredMapsApp'] },
-                'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'showDemographicsReminder'] },
-                'incidentNumberFormat': { type: 'text', default: '', screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'incidentNumberFormat'] },
-                'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
+                ], screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'preferredMapsApp'] },
+                'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['handoff', 'agency'], section: 'Hospital Handoff Report', qrPath: ['agency', 'showDemographicsReminder'] },
+                'incidentNumberFormat': { type: 'text', default: '', placeholder: 'E##########', screens: ['agency'], section: 'Incident Tracking & Dispatch', description: 'Use # for digits, any other character stays literal. Examples: E########## → E2601100255 · R####-###-## → R2026-001-42 · INC-###### → INC-123456', qrPath: ['agency', 'incidentNumberFormat'] },
+                'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Support & Diagnostics', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
+                // Agency feature flags
+                'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'agencyGpsEnabled'] },
+                'aiParsingEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsingEnabled'] },
+                'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
+                'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Crew Announce', qrPath: ['agency', 'crewAnnounceEnabled'] },
                 // Voice pipeline config (T194/T195) — agency-level, included in QR export
-                'voice.silenceThreshold': { type: 'number', default: 2.0, min: 0.5, max: 10.0, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.silenceThreshold'] },
-                'voice.vadTrimEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.vadTrimEnabled'] },
+                'voice.silenceThreshold': { type: 'number', default: 2.0, min: 0.5, max: 10.0, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.silenceThreshold'] },
+                'voice.vadTrimEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.vadTrimEnabled'] },
                 'voice.verbosity': { type: 'select', default: 'short', options: [
                     {value: 'short', label: 'Short'},
                     {value: 'full', label: 'Full'},
                     {value: 'off', label: 'Off'}
-                ], screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.verbosity'] },
-                'voice.autoPromoteThreshold': { type: 'number', default: 0.85, min: 0.0, max: 1.0, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.autoPromoteThreshold'] },
+                ], screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.verbosity'] },
+                'voice.autoPromoteThreshold': { type: 'number', default: 0.85, min: 0.0, max: 1.0, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.autoPromoteThreshold'] },
                 // LVO alert thresholds — only relevant when stroke scale is lams/fasted/race
                 'agency.lvoThreshold.lams': { type: 'number', default: 4, min: 1, max: 5, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.lams'] },
                 'agency.lvoThreshold.fasted': { type: 'number', default: 1, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.fasted'] },
@@ -756,28 +1229,18 @@
                     {value: 1, label: 'Light'},
                     {value: 2, label: 'Dark'}
                 ], screens: ['global'], section: 'Appearance', qrPath: ['display', 'appearanceMode'] },
-                'use24HourTime': { type: 'toggle', default: true, screens: ['radio', 'history', 'global'], section: 'Time & Date Format', qrPath: ['display', 'use24HourTime'] },
-                'useUTCTime': { type: 'toggle', default: false, screens: ['radio', 'history', 'global'], section: 'Time & Date Format', qrPath: ['display', 'useUTCTime'] },
-                'useMilitaryDate': { type: 'toggle', default: false, screens: ['radio', 'history', 'global'], section: 'Time & Date Format', qrPath: ['display', 'useMilitaryDate'] },
+                'use24HourTime': { type: 'toggle', default: true, screens: ['global'], section: 'Time & Date Format', qrPath: ['display', 'use24HourTime'] },
+                'useUTCTime': { type: 'toggle', default: false, screens: ['global'], section: 'Time & Date Format', qrPath: ['display', 'useUTCTime'] },
+                'useMilitaryDate': { type: 'toggle', default: false, screens: ['global'], section: 'Time & Date Format', qrPath: ['display', 'useMilitaryDate'] },
                 'groupActiveCallEntries': { type: 'toggle', default: false, screens: ['active-call'], section: 'Timeline Display', qrPath: ['display', 'groupActiveCallEntries'] },
                 'groupHistoryEntries': { type: 'toggle', default: false, screens: ['history'], section: 'History Display', qrPath: ['display', 'groupHistoryEntries'] },
                 'groupMedicationsByType': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timeline Display', qrPath: ['display', 'groupMedicationsByType'] },
                 'keepScreenAwake': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'keepScreenAwake'] },
                 'showCallTimer': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'showCallTimer'] },
                 'showMedicationTimers': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'showMedicationTimers'] },
-                'showPatientInfoButton': { type: 'toggle', default: false, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'showPatientInfoButton'] },
+                'showPatientInfoButton': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'showPatientInfoButton'] },
 
-                // Quick Entry
-                'quickEntry.vitals': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'vitals'] },
-                'quickEntry.medication': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'medication'] },
-                'quickEntry.cardiac': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'cardiac'] },
-                'quickEntry.iv': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'iv'] },
-                'quickEntry.procedure': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'procedure'] },
-                'quickEntry.note': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'note'] },
-                'quickEntry.photo': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'photo'] },
-                'quickEntry.trauma': { type: 'toggle', default: true, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'trauma'] },
-                'quickEntry.transfer': { type: 'toggle', default: false, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'transfer'] },
-                'quickEntry.address': { type: 'toggle', default: false, screens: ['active-call'], section: 'Quick Entry Buttons', qrPath: ['quickEntry', 'address'] },
+                // Quick Entry — slot config managed by QuickEntrySlots (not registry toggles)
                 'defaultIVGauge': { type: 'select', default: '18g', options: [
                     {value: '14g', label: '14ga'},
                     {value: '16g', label: '16ga'},
@@ -808,7 +1271,7 @@
                 'timerPageDwellSeconds': { type: 'number', default: 5, min: 0, max: 30, screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'timerPageDwellSeconds'] },
 
                 // Vitals
-                'radioShowFullVitals': { type: 'toggle', default: true, screens: ['radio'], section: 'Radio Report', qrPath: ['vitals', 'radioShowFullVitals'] },
+                'radioShowFullVitals': { type: 'toggle', default: true, screens: ['radio'], section: 'Radio Report', description: 'Show all recorded vitals in the radio report, not just the most recent set', qrPath: ['vitals', 'radioShowFullVitals'] },
                 'vitalsReminderEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Vitals Reminder', qrPath: ['vitals', 'reminderEnabled'] },
                 'vitalsReminderInterval': { type: 'select', default: 300, options: [
                     {value: 300, label: '5 minutes'},
@@ -816,7 +1279,7 @@
                     {value: 900, label: '15 minutes'},
                     {value: 1800, label: '30 minutes'}
                 ], screens: ['vitals'], section: 'Vitals Reminder', qrPath: ['vitals', 'reminderInterval'] },
-                'vitalsShowMathHelper': { type: 'toggle', default: true, screens: ['vitals'], section: 'Math Helpers', qrPath: ['vitals', 'showMathHelper'] },
+                'vitalsShowMathHelper': { type: 'toggle', default: true, screens: ['vitals'], section: 'Calculation Hints', description: 'Display calculation hints under relevant fields to help with quick reference math', qrPath: ['vitals', 'showMathHelper'] },
 
                 // Vitals Field Visibility (10 fields)
                 'vitalsShowBP': { type: 'toggle', default: true, screens: ['vitals'], section: 'Vitals Entry Fields', qrPath: ['vitals', 'fieldVisibility', 'vitalsShowBP'] },
@@ -842,16 +1305,18 @@
                 'vitalsCollapsed.showGCS': { type: 'toggle', default: false, screens: ['active-call'], section: 'Vitals Collapsed Display', qrPath: ['display', 'vitalsCollapsed', 'showGCS'] },
 
                 // Export
-                'exportFormat.pdf': { type: 'toggle', default: true, screens: ['handoff', 'export'], section: 'Export Settings', qrPath: ['export', 'pdf'] },
-                'exportFormat.text': { type: 'toggle', default: false, screens: ['handoff', 'export'], section: 'Export Settings', qrPath: ['export', 'text'] },
-                'exportFormat.csv': { type: 'toggle', default: false, screens: ['handoff', 'export'], section: 'Export Settings', qrPath: ['export', 'csv'] },
+                'exportFormat.pdf': { type: 'toggle', default: true, screens: ['export'], section: 'Export Settings', qrPath: ['export', 'pdf'] },
+                'exportFormat.text': { type: 'toggle', default: false, screens: ['export'], section: 'Export Settings', qrPath: ['export', 'text'] },
+                'exportFormat.csv': { type: 'toggle', default: false, screens: ['export'], section: 'Export Settings', qrPath: ['export', 'csv'] },
                 // T143 gap setting
-                'export.includePhotos': { type: 'toggle', default: true, screens: ['handoff', 'export'], section: 'Export Settings', qrPath: ['export', 'includePhotos'] }
+                'export.includePhotos': { type: 'toggle', default: true, screens: ['export'], section: 'Export Settings', qrPath: ['export', 'includePhotos'] }
             }
         };
 
         // ========== SETTINGS STATE ==========
         // Current values of all settings
+
+        const STORAGE_KEY = 'mediclog-settings-creator';
 
         const SettingsState = {
             values: {},
@@ -861,6 +1326,39 @@
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
                     this.values[key] = meta.default;
                 }
+                // Restore from localStorage if available
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    if (saved) {
+                        const state = JSON.parse(saved);
+                        if (state.values) Object.assign(this.values, state.values);
+                        if (state.fieldOrder) VitalsFieldOrder.order = state.fieldOrder;
+                        if (state.quickEntrySlots) QuickEntrySlots.slots = state.quickEntrySlots;
+                    }
+                } catch (e) { /* ignore corrupt storage */ }
+            },
+
+            save() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                        values: this.values,
+                        fieldOrder: VitalsFieldOrder.order,
+                        quickEntrySlots: QuickEntrySlots.slots
+                    }));
+                } catch (e) { /* ignore storage errors */ }
+            },
+
+            reset() {
+                for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
+                    this.values[key] = meta.default;
+                }
+                MedicationTimers.init();
+                VitalsFieldOrder.order = ['BP', 'HR', 'SpO2', 'RR', 'Temp', 'ETCO2', 'Glucose', 'Pain', 'GCS', 'StrokeScreen'];
+                QuickEntrySlots.slots = QuickEntrySlots.defaultSlots();
+                localStorage.removeItem(STORAGE_KEY);
+                document.getElementById('agency-name-input').value = '';
+                ScreenFilter.filterSettings();
+                PreviewRenderer.update();
             },
 
             get(key) {
@@ -873,8 +1371,8 @@
             },
 
             onChange(key, value) {
-                // Update preview when settings change
                 PreviewRenderer.update();
+                this.save();
             }
         };
 
@@ -915,7 +1413,7 @@
                 // Group settings by section for current screen
                 const sections = {};
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
-                    if (meta.screens.includes(this.currentScreen) || meta.screens.includes('global')) {
+                    if (meta.screens.includes(this.currentScreen)) {
                         if (!sections[meta.section]) {
                             sections[meta.section] = [];
                         }
@@ -923,13 +1421,14 @@
                     }
                 }
 
-                // Add medication timer configuration section for active-call screen
+                // Add quick entry slot editor and timer config for active-call screen
                 if (this.currentScreen === 'active-call') {
-                    const timerSection = document.createElement('div');
-                    timerSection.className = 'settings-section';
-                    timerSection.innerHTML = '<h3>Medication Timer Configuration</h3>';
-                    timerSection.appendChild(this.createTimerEditor());
-                    panel.appendChild(timerSection);
+                    const slotSection = document.createElement('div');
+                    slotSection.className = 'settings-section';
+                    slotSection.innerHTML = '<h3>Quick Entry Slots</h3>';
+                    slotSection.appendChild(this.createSlotEditor());
+                    panel.appendChild(slotSection);
+
                 }
 
                 // Add vitals field order section for vitals screen
@@ -954,6 +1453,95 @@
 
                     panel.appendChild(section);
                 }
+            },
+
+            createSlotEditor() {
+                const container = document.createElement('div');
+                container.className = 'timer-list';
+
+                const makeSelect = (options, selected, onchange) => {
+                    const sel = document.createElement('select');
+                    sel.style.cssText = 'flex:1;padding:0.3rem 0.4rem;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);font-size:0.8rem;';
+                    options.forEach(([val, label]) => {
+                        const opt = document.createElement('option');
+                        opt.value = val;
+                        opt.textContent = label;
+                        if (val === selected) opt.selected = true;
+                        sel.appendChild(opt);
+                    });
+                    sel.onchange = () => onchange(sel.value);
+                    return sel;
+                };
+
+                const render = () => {
+                    container.innerHTML = '';
+                    const slots = QuickEntrySlots.getAll();
+
+                    slots.forEach((slot, index) => {
+                        const row = document.createElement('div');
+                        row.className = 'timer-entry';
+                        row.style.cssText = 'display:flex;align-items:center;gap:0.5rem;padding:0.5rem;';
+
+                        // Up/down
+                        const arrows = document.createElement('div');
+                        arrows.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+                        const up = document.createElement('button');
+                        up.textContent = '▲'; up.disabled = index === 0;
+                        up.style.cssText = 'font-size:0.6rem;padding:1px 4px;';
+                        up.onclick = () => { QuickEntrySlots.moveUp(index); ScreenFilter.filterSettings(); };
+                        const dn = document.createElement('button');
+                        dn.textContent = '▼'; dn.disabled = index === slots.length - 1;
+                        dn.style.cssText = 'font-size:0.6rem;padding:1px 4px;';
+                        dn.onclick = () => { QuickEntrySlots.moveDown(index); ScreenFilter.filterSettings(); };
+                        arrows.appendChild(up); arrows.appendChild(dn);
+                        row.appendChild(arrows);
+
+                        // Primary select
+                        const primaryOpts = Object.entries(QE_SLOT_TYPES)
+                            .filter(([t]) => !QuickEntrySlots.usedTypes().has(t) || t === slot.primary)
+                            .map(([t, m]) => [t, m.label]);
+                        row.appendChild(makeSelect(primaryOpts, slot.primary, val => {
+                            QuickEntrySlots.setPrimary(index, val);
+                            ScreenFilter.filterSettings();
+                        }));
+
+                        // Secondary select (only if primary canPair)
+                        if (QE_SLOT_TYPES[slot.primary]?.canPair) {
+                            const secOpts = [['', '— no pair —'], ...Object.entries(QE_SLOT_TYPES)
+                                .filter(([t]) => (!QuickEntrySlots.usedTypes().has(t) || t === slot.secondary) && t !== slot.primary)
+                                .map(([t, m]) => [t, m.label])];
+                            row.appendChild(makeSelect(secOpts, slot.secondary || '', val => {
+                                QuickEntrySlots.setSecondary(index, val);
+                                ScreenFilter.filterSettings();
+                            }));
+                        } else {
+                            const placeholder = document.createElement('span');
+                            placeholder.style.cssText = 'flex:1;font-size:0.75rem;color:var(--text-muted);';
+                            placeholder.textContent = 'solo only';
+                            row.appendChild(placeholder);
+                        }
+
+                        // Remove
+                        const rm = document.createElement('button');
+                        rm.className = 'remove-timer-btn';
+                        rm.textContent = 'Remove';
+                        rm.onclick = () => { QuickEntrySlots.remove(index); ScreenFilter.filterSettings(); };
+                        row.appendChild(rm);
+
+                        container.appendChild(row);
+                    });
+
+                    const addBtn = document.createElement('button');
+                    addBtn.className = 'add-timer-btn';
+                    addBtn.textContent = '+ Add Slot';
+                    const allUsed = QuickEntrySlots.usedTypes().size >= Object.keys(QE_SLOT_TYPES).length;
+                    addBtn.disabled = allUsed;
+                    addBtn.onclick = () => { QuickEntrySlots.add(); ScreenFilter.filterSettings(); };
+                    container.appendChild(addBtn);
+                };
+
+                render();
+                return container;
             },
 
             createTimerEditor() {
@@ -1023,6 +1611,7 @@
             createFieldOrderEditor() {
                 const container = document.createElement('div');
                 container.className = 'field-order-list';
+                let dragSrcIndex = null;
 
                 const renderFields = () => {
                     container.innerHTML = '';
@@ -1042,6 +1631,32 @@
                             </div>
                         `;
 
+                        item.addEventListener('dragstart', (e) => {
+                            dragSrcIndex = index;
+                            e.dataTransfer.effectAllowed = 'move';
+                            item.classList.add('dragging');
+                        });
+                        item.addEventListener('dragend', () => {
+                            item.classList.remove('dragging');
+                            container.querySelectorAll('.field-order-item').forEach(el => el.classList.remove('drag-over'));
+                        });
+                        item.addEventListener('dragover', (e) => {
+                            e.preventDefault();
+                            e.dataTransfer.dropEffect = 'move';
+                            container.querySelectorAll('.field-order-item').forEach(el => el.classList.remove('drag-over'));
+                            item.classList.add('drag-over');
+                        });
+                        item.addEventListener('dragleave', () => {
+                            item.classList.remove('drag-over');
+                        });
+                        item.addEventListener('drop', (e) => {
+                            e.preventDefault();
+                            if (dragSrcIndex !== null && dragSrcIndex !== index) {
+                                VitalsFieldOrder.moveTo(dragSrcIndex, index);
+                                ScreenFilter.filterSettings();
+                            }
+                        });
+
                         container.appendChild(item);
                     });
                 };
@@ -1056,7 +1671,7 @@
 
                 const label = document.createElement('div');
                 label.className = 'setting-label';
-                label.innerHTML = `<span>${this.getLabelText(key)}</span>`;
+                label.innerHTML = `<span>${this.getLabelText(key)}</span>${meta.description ? `<small>${meta.description}</small>` : ''}`;
 
                 const control = this.createControl(key, meta);
 
@@ -1089,16 +1704,6 @@
                     'showCallTimer': 'Call Timer',
                     'showMedicationTimers': 'Medication Timers',
                     'showPatientInfoButton': 'Patient Info Button',
-                    'quickEntry.vitals': 'Vitals',
-                    'quickEntry.medication': 'Medication',
-                    'quickEntry.cardiac': 'Cardiac',
-                    'quickEntry.iv': 'IV',
-                    'quickEntry.procedure': 'Procedure',
-                    'quickEntry.note': 'Note',
-                    'quickEntry.photo': 'Photo',
-                    'quickEntry.trauma': 'Trauma',
-                    'quickEntry.transfer': 'Transfer',
-                    'quickEntry.address': 'Address',
                     'defaultIVGauge': 'Default IV Gauge',
                     'showWatchConnectivity': 'Watch Connectivity',
                     'watchVoiceMode': 'Watch Voice Mode',
@@ -1106,10 +1711,10 @@
                     'watchHapticIntensity': 'Haptic Intensity',
                     'watchShakeAction': 'Shake Gesture Action',
                     'timerPageDwellSeconds': 'Timer Page Auto-Return (sec)',
-                    'radioShowFullVitals': 'Show Full Vitals',
+                    'radioShowFullVitals': 'Radio Report: Full Vitals',
                     'vitalsReminderEnabled': 'Enable Reminder',
                     'vitalsReminderInterval': 'Reminder Interval',
-                    'vitalsShowMathHelper': 'Math Helper',
+                    'vitalsShowMathHelper': 'Show Math Helpers',
                     'vitalsShowBP': 'Blood Pressure',
                     'vitalsShowHR': 'Heart Rate',
                     'vitalsShowSpO2': 'SpO₂',
@@ -1133,11 +1738,16 @@
                     'exportFormat.text': 'Text',
                     'exportFormat.csv': 'CSV',
                     'export.includePhotos': 'Include Photos',
-                    'agency.destinationsEnabled': 'Destinations Enabled',
-                    'agency.preferredMapsApp': 'Preferred Maps App',
+                    'agencyLogoURL': 'Logo URL',
+                    'agency.destinationsEnabled': 'Destinations Tab',
+                    'agency.preferredMapsApp': 'Preferred Navigation App',
                     'agency.showDemographicsReminder': 'Demographics Reminder',
                     'incidentNumberFormat': 'Incident Number Format',
                     'backgroundCrashLogging.enabled': 'Background Crash Logging',
+                    'agencyGpsEnabled': 'GPS Tracking',
+                    'aiParsingEnabled': 'Claude Vision OCR',
+                    'medOCRIncludeDoseFreq': 'Include Dose & Frequency',
+                    'crewAnnounceEnabled': 'Crew Announce',
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
                     'voice.verbosity': 'Voice Verbosity',
@@ -1185,19 +1795,54 @@
                 }
 
                 if (meta.type === 'number') {
+                    const wrapper = document.createElement('div');
+                    wrapper.style.display = 'flex';
+                    wrapper.style.flexDirection = 'column';
+                    wrapper.style.alignItems = 'flex-end';
+                    wrapper.style.gap = '0.2rem';
+
                     const input = document.createElement('input');
                     input.type = 'number';
                     input.value = value;
-                    input.min = meta.min || 0;
-                    input.max = meta.max || 999;
-                    input.onchange = () => SettingsState.set(key, parseInt(input.value));
-                    return input;
+                    input.min = meta.min !== undefined ? meta.min : 0;
+                    input.max = meta.max !== undefined ? meta.max : 999;
+                    input.dataset.key = key;
+
+                    const errorMsg = document.createElement('span');
+                    errorMsg.style.cssText = 'font-size:0.75rem;color:#f44336;display:none;';
+
+                    const validate = () => {
+                        const v = parseFloat(input.value);
+                        const min = meta.min !== undefined ? meta.min : 0;
+                        const max = meta.max !== undefined ? meta.max : 999;
+                        if (isNaN(v) || v < min || v > max) {
+                            input.style.borderColor = '#f44336';
+                            errorMsg.textContent = `Must be ${min}–${max}`;
+                            errorMsg.style.display = 'block';
+                            SettingsState.errors = SettingsState.errors || {};
+                            SettingsState.errors[key] = true;
+                        } else {
+                            input.style.borderColor = '';
+                            errorMsg.style.display = 'none';
+                            if (SettingsState.errors) delete SettingsState.errors[key];
+                            const isFloat = (meta.min !== undefined && !Number.isInteger(meta.min)) ||
+                                            (meta.max !== undefined && !Number.isInteger(meta.max));
+                            SettingsState.set(key, isFloat ? v : Math.round(v));
+                        }
+                    };
+                    input.oninput = validate;
+                    input.onchange = validate;
+
+                    wrapper.appendChild(input);
+                    wrapper.appendChild(errorMsg);
+                    return wrapper;
                 }
 
-                if (meta.type === 'text') {
+                if (meta.type === 'text' || meta.type === 'url') {
                     const input = document.createElement('input');
-                    input.type = 'text';
+                    input.type = meta.type === 'url' ? 'url' : 'text';
                     input.value = value;
+                    input.placeholder = meta.placeholder || (meta.type === 'url' ? 'https://...' : '');
                     input.style.width = '200px';
                     input.style.padding = '0.4rem 0.5rem';
                     input.style.border = '1px solid var(--border)';
@@ -1237,6 +1882,8 @@
                     this.renderHistory(preview);
                 } else if (screen === 'export') {
                     this.renderExport(preview);
+                } else if (screen === 'agency') {
+                    this.renderAgency(preview);
                 } else {
                     this.renderGlobal(preview);
                 }
@@ -1245,100 +1892,352 @@
             renderActiveCall(preview) {
                 const showCallTimer = SettingsState.get('showCallTimer');
                 const showMedTimers = SettingsState.get('showMedicationTimers');
-                const qeButtons = ['vitals', 'medication', 'cardiac', 'iv', 'procedure', 'note', 'photo', 'trauma', 'transfer', 'address']
-                    .filter(btn => SettingsState.get(`quickEntry.${btn}`));
+                const groupEntries = SettingsState.get('groupActiveCallEntries');
+                const use24h = SettingsState.get('use24HourTime');
+                const timeStr = use24h ? '13:02' : '1:02 PM';
+
+                // Entry type colors from ColorTheme.json
+                const slotColors = { vitals:'#FF9500', medication:'#007AFF', cardiacMeds:'#FF3B30',
+                    cardiacProcs:'#FF3B30', iv:'#34C759', procedure:'#AF52DE', note:'#8E8E93',
+                    trauma:'#FF6B35', photo:'#17A2B8', transfer:'#FF9500', address:'#FF9500',
+                    dripCalc:'#00BCD4', pump:'#5856D6', vent:'#64B5F6', patientProfile:'#5856D6' };
+                const slotEmoji = { vitals:'❤️', medication:'💊', cardiacMeds:'⚡', cardiacProcs:'💛',
+                    iv:'💧', procedure:'✚', note:'📋', photo:'📷', trauma:'🔶',
+                    transfer:'🚑', address:'📍', dripCalc:'🧮', pump:'⏱', vent:'💨', patientProfile:'👤' };
+                const shortLabels = { medication:'Med', procedure:'Proc', cardiacMeds:'C-Med',
+                    cardiacProcs:'C-Proc', patientProfile:'Patient', dripCalc:'Drip' };
+
+                // Timer cards — use placeholder timers (per-timer config not in QR)
+                const timerCards = (() => {
+                    const cards = [];
+                    if (showCallTimer) {
+                        cards.push(`<div class="preview-timer-card" style="background:rgba(52,199,89,0.12);border-color:rgba(52,199,89,0.35)">
+                            <div class="ptc-label">Call</div>
+                            <div class="ptc-val" style="color:#34C759">12:34</div>
+                        </div>`);
+                    }
+                    if (showMedTimers) {
+                        cards.push(`<div class="preview-timer-card" style="background:#FF3B3015;border-color:#FF3B3040">
+                            <div class="ptc-label">Fentanyl</div>
+                            <div class="ptc-val" style="color:#FF3B30">OVER</div>
+                        </div>`);
+                        cards.push(`<div class="preview-timer-card" style="background:#007AFF15;border-color:#007AFF40">
+                            <div class="ptc-label">Morphine</div>
+                            <div class="ptc-val" style="color:#007AFF">4:20</div>
+                        </div>`);
+                    }
+                    return cards.length
+                        ? `<div class="preview-timer-cards">${cards.join('')}</div>`
+                        : '';
+                })();
+
+                // QE grid — 4-column, 2-row grid of colored square buttons
+                const slots = QuickEntrySlots.getAll();
+                const qeGrid = slots.length ? `<div class="preview-qe-grid-v2">${slots.map(s => {
+                    const color = slotColors[s.primary] || '#8E8E93';
+                    const emoji = slotEmoji[s.primary] || '•';
+                    const label = shortLabels[s.primary] || QE_SLOT_TYPES[s.primary]?.label || s.primary;
+                    if (s.secondary) {
+                        const color2 = slotColors[s.secondary] || '#8E8E93';
+                        const emoji2 = slotEmoji[s.secondary] || '•';
+                        return `<div class="preview-qe-btn-v2">
+                            <div class="pqb-icon-split">
+                                <div class="pqb-icon-split-half" style="background:${color};justify-content:flex-start">${emoji}</div>
+                                <div class="pqb-icon-split-half" style="background:${color2};justify-content:flex-end">${emoji2}</div>
+                            </div>
+                            <div class="pqb-label">${label}</div>
+                        </div>`;
+                    }
+                    return `<div class="preview-qe-btn-v2">
+                        <div class="pqb-icon" style="background:${color}">${emoji}</div>
+                        <div class="pqb-label">${label}</div>
+                    </div>`;
+                }).join('')}</div>` : '<div style="font-size:0.65rem;padding:6px 10px;opacity:0.5">No quick entry slots</div>';
+
+                // Collapsed vitals card — live preview of vitalsCollapsed settings
+                const vitalsTime = use24h ? '19:38' : '7:38 PM';
+                const vcParts = [];
+                if (SettingsState.get('vitalsCollapsed.showBP'))      vcParts.push('BP: 120/80');
+                if (SettingsState.get('vitalsCollapsed.showHR'))      vcParts.push('HR: 88');
+                if (SettingsState.get('vitalsCollapsed.showRR'))      vcParts.push('RR: 16');
+                if (SettingsState.get('vitalsCollapsed.showSpO2'))    vcParts.push('SpO₂: 98%');
+                if (SettingsState.get('vitalsCollapsed.showTemp'))    vcParts.push('T: 98.6°');
+                if (SettingsState.get('vitalsCollapsed.showETCO2'))   vcParts.push('CO₂: 38');
+                if (SettingsState.get('vitalsCollapsed.showGlucose')) vcParts.push('BGL: 110');
+                if (SettingsState.get('vitalsCollapsed.showPain'))    vcParts.push('Pain: 4');
+                if (SettingsState.get('vitalsCollapsed.showGCS'))     vcParts.push('GCS: 15');
+                const vcText = vcParts.length ? vcParts.join(' • ') : 'No vitals selected';
+                const vitalsCardRow = `<div class="preview-vitals-card-row">
+                    <span class="preview-vitals-card-time">${vitalsTime}</span>
+                    <span class="preview-vitals-card-icon">🟠</span>
+                    <span class="preview-vitals-card-text">${vcText}</span>
+                    <span class="preview-vitals-card-chevron">⌄</span>
+                </div>`;
+
+                // Timeline
+                const entries = [
+                    { time: use24h ? '19:33' : '7:33 PM', text: 'Epi 1:10,000 1.0mg IV', color: '#FF3B30' },
+                    { time: use24h ? '19:29' : '7:29 PM', text: 'Nitroglycerin 0.4mg SL', color: '#FF3B30' },
+                    { time: use24h ? '19:23' : '7:23 PM', text: 'Fentanyl 50.0mcg IV', color: '#007AFF' },
+                ];
+                const row = e => `<div class="preview-timeline-row">
+                    <div class="preview-timeline-time">${e.time}</div>
+                    <div class="preview-timeline-accent" style="background:${e.color}"></div>
+                    <div style="font-size:0.68rem">${e.text}</div>
+                </div>`;
+                const timelineHtml = (groupEntries ? '<div class="preview-section-label">Now</div>' : '')
+                    + vitalsCardRow + entries.map(row).join('');
 
                 preview.innerHTML = `
-                    <div class="preview-header">Active Call</div>
-                    <div class="preview-content">
-                        ${showCallTimer || showMedTimers ? `
-                        <div class="preview-timer-grid">
-                            ${showCallTimer ? '<div class="preview-timer"><strong>Call</strong><div>12:34</div></div>' : ''}
-                            ${showMedTimers ? '<div class="preview-timer"><strong>Fentanyl</strong><div>4:20</div></div>' : ''}
-                        </div>
-                        ` : ''}
-                        <div style="margin-bottom: 0.5rem; font-weight: 600;">Quick Entry</div>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem;">
-                            ${qeButtons.map(btn => `<button class="preview-button">${btn}</button>`).join('')}
-                        </div>
-                        <div style="margin-top: 0.75rem; font-weight: 600;">Timeline</div>
-                        <div class="preview-entry">15:47 - Fentanyl 100mcg IV</div>
-                        <div class="preview-entry">15:45 - Vitals: BP 120/80, HR 95</div>
+                    <div class="preview-statusbar"><span>${timeStr}</span><span style="margin-left:auto">▌▌ ☁ 97%</span></div>
+                    <div class="preview-navbar-ac">
+                        <span class="preview-endcall-btn">End Call</span>
+                        <span class="preview-report-btn">Report</span>
+                        <span class="preview-navbar-ac-spacer"></span>
+                        <span class="preview-navbar-ac-icons">⊞ ↑</span>
+                    </div>
+                    ${timerCards}
+                    <div style="height:0.5px;background:rgba(128,128,128,0.2);margin:0 12px"></div>
+                    ${qeGrid}
+                    <div style="height:0.5px;background:rgba(128,128,128,0.2);margin:0 12px"></div>
+                    <div class="preview-content" style="padding:0;flex:1;overflow-y:auto">
+                        ${timelineHtml}
+                    </div>
+                    <div class="preview-bottom-bar">
+                        <div class="preview-bottom-btn voice">🎤 Voice Log</div>
+                        <div class="preview-bottom-btn add">+ Add Entry</div>
+                    </div>
+                    <div class="preview-tabbar">
+                        <div class="ptab active">Active</div>
+                        <div class="ptab">History</div>
+                        <div class="ptab">Destinations</div>
+                        <div class="ptab">Settings</div>
                     </div>
                 `;
             },
 
             renderVitals(preview) {
+                const use24h = SettingsState.get('use24HourTime');
+                const fieldLabels = { BP: 'Blood Pressure', HR: 'Heart Rate', SpO2: 'SpO₂', RR: 'Resp Rate',
+                    Temp: 'Temperature', ETCO2: 'EtCO₂', Glucose: 'Glucose', Pain: 'Pain (0–10)', GCS: 'GCS', StrokeScreen: 'Stroke Screen' };
+                const fieldPlaceholders = { BP: '120/80', HR: '88', SpO2: '98%', RR: '16',
+                    Temp: '98.6°', ETCO2: '38', Glucose: '110', Pain: '7', GCS: '15', StrokeScreen: 'Neg' };
                 const fields = VitalsFieldOrder.getAll().filter(f => SettingsState.get(`vitalsShow${f}`));
+
+                const rows = fields.map(f => `
+                    <div class="preview-vitals-row">
+                        <span class="preview-list-row-label">${fieldLabels[f] || f}</span>
+                        <span class="preview-vitals-field">${fieldPlaceholders[f] || '—'}</span>
+                    </div>`).join('');
+
+                const showMathHelper = SettingsState.get('vitalsShowMathHelper');
+
                 preview.innerHTML = `
-                    <div class="preview-header">Vitals Entry</div>
-                    <div class="preview-content">
-                        ${fields.map(field => `
-                            <div class="preview-entry">${field}: <input type="text" style="width: 60px; background: rgba(255,255,255,0.1); border: 1px solid #444; color: inherit; padding: 0.25rem;"></div>
-                        `).join('')}
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${use24h ? '15:47' : '3:47 PM'}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Back</span>
+                        <span class="preview-navbar-title">Vitals Entry</span>
+                        <span class="preview-navbar-btn" style="text-align:right">Save</span>
+                    </div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Vitals</div>
+                        <div class="preview-card-group">${rows || '<div style="padding:0.5rem 0.75rem;font-size:0.72rem;opacity:0.5">No vitals fields enabled</div>'}</div>
+                        ${showMathHelper ? `<div class="preview-section-label">Math Helper</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span>Weight</span><span class="preview-vitals-field">80 kg</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Fentanyl 1mcg/kg</span><span class="preview-list-row-value">80mcg</span></div>
+                        </div>` : ''}
                     </div>
                 `;
             },
 
             renderRadio(preview) {
                 const showFullVitals = SettingsState.get('radioShowFullVitals');
+                const use24h = SettingsState.get('use24HourTime');
+                const timeStr = use24h ? '15:47' : '3:47 PM';
                 preview.innerHTML = `
-                    <div class="preview-header">Radio Report</div>
-                    <div class="preview-content">
-                        <div class="preview-entry"><strong>Patient:</strong> 65yo M</div>
-                        <div class="preview-entry"><strong>Chief Complaint:</strong> Chest pain</div>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Back</span>
+                        <span class="preview-navbar-title">Radio Report</span>
+                        <span class="preview-navbar-btn" style="text-align:right">Share</span>
+                    </div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Patient</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Age/Sex</span><span class="preview-list-row-value">65yo M</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Chief Complaint</span><span class="preview-list-row-value">Chest pain</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">ETA</span><span class="preview-list-row-value">8 min</span></div>
+                        </div>
                         ${showFullVitals ? `
-                            <div class="preview-entry"><strong>Vitals:</strong> BP 140/90, HR 88, SpO2 95%</div>
-                        ` : ''}
-                        <div class="preview-entry"><strong>Interventions:</strong></div>
-                        <div class="preview-entry">• ASA 324mg PO</div>
-                        <div class="preview-entry">• IV 18ga established</div>
+                        <div class="preview-section-label">Vitals</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">BP</span><span class="preview-list-row-value">140/90</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">HR</span><span class="preview-list-row-value">88</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">SpO₂</span><span class="preview-list-row-value">95%</span></div>
+                        </div>` : ''}
+                        <div class="preview-section-label">Interventions</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span>ASA 324mg PO</span></div>
+                            <div class="preview-list-row"><span>IV 18ga R AC established</span></div>
+                            <div class="preview-list-row"><span>Fentanyl 100mcg IVP</span></div>
+                        </div>
                     </div>
                 `;
             },
 
             renderHandoff(preview) {
-                const formats = ['pdf', 'text', 'csv'].filter(f => SettingsState.get(`exportFormat.${f}`));
                 const showAtEndCall = SettingsState.get('hospitalHandoff.showAtEndCall');
+                const showInShare = SettingsState.get('hospitalHandoff.showInShareMenu');
+                const use24h = SettingsState.get('use24HourTime');
+                const timeStr = use24h ? '15:47' : '3:47 PM';
                 preview.innerHTML = `
-                    <div class="preview-header">Hospital Handoff</div>
-                    <div class="preview-content">
-                        <div style="margin-bottom: 0.75rem; font-weight: 600;">${showAtEndCall ? 'Shown at End of Call' : 'Manual Handoff'}</div>
-                        <div class="preview-entry"><strong>Export Formats:</strong></div>
-                        ${formats.map(f => `<div class="preview-entry">• ${f.toUpperCase()}</div>`).join('')}
-                        <button class="preview-button" style="width: 100%; margin-top: 0.5rem;">Generate Handoff Report</button>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Back</span>
+                        <span class="preview-navbar-title">Hospital Handoff</span>
+                        <span class="preview-navbar-btn" style="text-align:right">Share</span>
+                    </div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Patient Summary</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Patient</span><span class="preview-list-row-value">65yo M</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">CC</span><span class="preview-list-row-value">Chest pain, 8/10</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Meds Given</span><span class="preview-list-row-value">2</span></div>
+                        </div>
+                        <div class="preview-section-label">Availability</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">At End of Call</span><span class="preview-list-row-value preview-toggle-val ${showAtEndCall ? 'on' : ''}">${showAtEndCall ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">In Share Menu</span><span class="preview-list-row-value preview-toggle-val ${showInShare ? 'on' : ''}">${showInShare ? 'On' : 'Off'}</span></div>
+                        </div>
                     </div>
                 `;
             },
 
             renderHistory(preview) {
                 const groupEntries = SettingsState.get('groupHistoryEntries');
+                const use24h = SettingsState.get('use24HourTime');
+                const timeStr = use24h ? '15:47' : '3:47 PM';
+                const calls = [
+                    { time: use24h ? '15:47' : '3:47 PM', cc: 'Chest Pain Transport' },
+                    { time: use24h ? '12:30' : '12:30 PM', cc: 'Trauma — MVC' },
+                    { time: use24h ? '18:20' : '6:20 PM', cc: 'Respiratory Distress' },
+                ];
+                const rows = groupEntries
+                    ? [['Today', calls.slice(0,2)], ['Yesterday', calls.slice(2)]]
+                        .map(([group, items]) => `
+                            <div class="preview-section-label">${group}</div>
+                            <div class="preview-card-group">
+                                ${items.map(c => `<div class="preview-list-row"><span class="preview-list-row-label">${c.cc}</span><span class="preview-list-row-value">${c.time}</span></div>`).join('')}
+                            </div>`).join('')
+                    : `<div class="preview-card-group">${calls.map(c => `
+                            <div class="preview-list-row"><span class="preview-list-row-label">${c.cc}</span><span class="preview-list-row-value">${c.time}</span></div>`).join('')}</div>`;
+
                 preview.innerHTML = `
-                    <div class="preview-header">Call History</div>
-                    <div class="preview-content">
-                        ${groupEntries ? `
-                            <div class="preview-entry"><strong>Today</strong></div>
-                            <div class="preview-entry">15:47 - Chest Pain Transport</div>
-                            <div class="preview-entry">12:30 - Trauma Call</div>
-                            <div class="preview-entry"><strong>Yesterday</strong></div>
-                            <div class="preview-entry">18:20 - Respiratory Distress</div>
-                        ` : `
-                            <div class="preview-entry">2026-02-16 15:47 - Chest Pain</div>
-                            <div class="preview-entry">2026-02-16 12:30 - Trauma</div>
-                            <div class="preview-entry">2026-02-15 18:20 - Respiratory</div>
-                        `}
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span></span>
+                        <span class="preview-navbar-title">Call History</span>
+                        <span class="preview-navbar-btn" style="text-align:right">+</span>
                     </div>
+                    <div class="preview-content" style="padding:0">${rows}</div>
                 `;
             },
 
             renderExport(preview) {
-                const formats = ['pdf', 'text', 'csv'].filter(f => SettingsState.get(`exportFormat.${f}`));
+                const formats = [
+                    { key: 'pdf', label: 'PDF Report' },
+                    { key: 'text', label: 'Plain Text' },
+                    { key: 'csv', label: 'CSV Spreadsheet' }
+                ].filter(f => SettingsState.get(`exportFormat.${f.key}`));
+                const includePhotos = SettingsState.get('export.includePhotos');
+                const use24h = SettingsState.get('use24HourTime');
+                const timeStr = use24h ? '15:47' : '3:47 PM';
                 preview.innerHTML = `
-                    <div class="preview-header">Share/Export</div>
-                    <div class="preview-content">
-                        <div class="preview-entry"><strong>Export Formats:</strong></div>
-                        ${formats.map(f => `<div class="preview-entry">✓ ${f.toUpperCase()}</div>`).join('')}
-                        <button class="preview-button" style="width: 100%; margin-top: 0.5rem;">Export Call Data</button>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Back</span>
+                        <span class="preview-navbar-title">Share / Export</span>
+                        <span></span>
+                    </div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Export Formats</div>
+                        <div class="preview-card-group">
+                            ${formats.length ? formats.map(f => `
+                                <div class="preview-list-row"><span class="preview-list-row-label">${f.label}</span><span style="color:#34c759">✓</span></div>`).join('')
+                            : '<div class="preview-list-row" style="opacity:0.5">No formats enabled</div>'}
+                        </div>
+                        <div class="preview-section-label">Options</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Include Photos</span><span class="preview-list-row-value preview-toggle-val ${includePhotos ? 'on' : ''}">${includePhotos ? 'On' : 'Off'}</span></div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            renderAgency(preview) {
+                const agencyName = SettingsState.get('agencyName') || 'My Agency';
+                const useInc = SettingsState.get('useIncidentNumbers');
+                const incFmt = SettingsState.get('incidentNumberFormat') || '—';
+                const ai = SettingsState.get('aiParsingEnabled');
+                const dest = SettingsState.get('agency.destinationsEnabled');
+                const mapsApp = SettingsState.get('agency.preferredMapsApp');
+                const mapsLabel = mapsApp === 'google' ? 'Google Maps' : mapsApp === 'waze' ? 'Waze' : 'Apple Maps';
+                const strokeScale = SettingsState.get('strokeScale');
+                const strokeLabel = {cincinnati:'Cincinnati (CPSS)', lams:'LAMS', race:'RACE', fasted:'FAST-ED', none:'Generic Score'}[strokeScale] || strokeScale;
+                const endAction = SettingsState.get('endOfCallAction');
+                const endLabel = endAction === 'hospital' ? 'Hospital Handoff' : endAction === 'mist' ? 'MIST Radio Report' : 'None';
+                const phi = SettingsState.get('showPHIWarnings');
+                const crew = SettingsState.get('crewAnnounceEnabled');
+                const testTools = SettingsState.get('showTestDataTools');
+                preview.innerHTML = `
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>3:47 PM</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Settings</span>
+                        <span class="preview-navbar-title">Agency Configuration</span>
+                        <span></span>
+                    </div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Agency Information</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Agency Name</span><span class="preview-list-row-value">${agencyName}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Logo URL</span><span class="preview-list-row-value" style="font-size:0.65rem;word-break:break-all;max-width:120px;text-align:right">${SettingsState.get('agencyLogoURL') || '—'}</span></div>
+                        </div>
+                        <div class="preview-section-label">Incident Tracking &amp; Dispatch</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Incident Numbers</span><span class="preview-list-row-value preview-toggle-val ${useInc ? 'on' : ''}" style="margin-right:4px">${useInc ? 'Enabled' : 'Disabled'}</span><span class="preview-list-row-chevron">›</span></div>
+                            <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Set Up Dispatch Messages</span><span class="preview-list-row-chevron">›</span></div>
+                        </div>
+                        <div class="preview-section-label">Enhanced OCR</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Claude Vision OCR</span><span class="preview-list-row-value preview-toggle-val ${ai ? 'on' : ''}" style="margin-right:4px">${ai ? 'On' : 'Not Configured'}</span><span class="preview-list-row-chevron">›</span></div>
+                        </div>
+                        <div class="preview-section-label">Destinations</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Destinations Tab</span><span class="preview-list-row-value preview-toggle-val ${dest ? 'on' : ''}">${dest ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Navigation App</span><span class="preview-list-row-value">${mapsLabel}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">GPS Tracking</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('agencyGpsEnabled') ? 'on' : ''}">${SettingsState.get('agencyGpsEnabled') ? 'On' : 'Off'}</span></div>
+                        </div>
+                        <div class="preview-section-label">Crew Announce</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Crew Announce</span><span class="preview-list-row-value preview-toggle-val ${crew ? 'on' : ''}">${crew ? 'On' : 'Off'}</span></div>
+                        </div>
+                        <div class="preview-section-label">Clinical Protocols</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Stroke Scale</span><span class="preview-list-row-value">${strokeLabel}</span></div>
+                        </div>
+                        <div class="preview-section-label">Hospital Handoff Report</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">End of Call Report</span><span class="preview-list-row-value">${endLabel}</span></div>
+                        </div>
+                        <div class="preview-section-label">Privacy &amp; PHI Safety</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Show PHI Warnings</span><span class="preview-list-row-value preview-toggle-val ${phi ? 'on' : ''}">${phi ? 'On' : 'Off'}</span></div>
+                        </div>
+                        <div class="preview-section-label">Training &amp; Testing</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Show Test Data Tools</span><span class="preview-list-row-value preview-toggle-val ${testTools ? 'on' : ''}">${testTools ? 'On' : 'Off'}</span></div>
+                        </div>
                     </div>
                 `;
             },
@@ -1346,14 +2245,26 @@
             renderGlobal(preview) {
                 const theme = SettingsState.get('appearanceMode');
                 const use24h = SettingsState.get('use24HourTime');
-                const agencyName = SettingsState.get('agencyName') || 'Not Set';
+                const useUTC = SettingsState.get('useUTCTime');
+                const timeStr = use24h ? '15:47' : '3:47 PM';
+                const timeExample = use24h ? (useUTC ? '21:47 UTC' : '15:47') : (useUTC ? '9:47 PM UTC' : '3:47 PM');
                 preview.innerHTML = `
-                    <div class="preview-header">Settings</div>
-                    <div class="preview-content">
-                        <div class="preview-entry"><strong>Theme:</strong> ${theme === 0 ? 'System' : theme === 1 ? 'Light' : 'Dark'}</div>
-                        <div class="preview-entry"><strong>Time:</strong> ${use24h ? '24-Hour' : '12-Hour'}</div>
-                        <div class="preview-entry"><strong>Agency:</strong> ${agencyName}</div>
-                        <div class="preview-entry"><strong>Current Time:</strong> ${use24h ? '15:47' : '3:47 PM'}</div>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span></span>
+                        <span class="preview-navbar-title">Settings</span>
+                        <span></span>
+                    </div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Display</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Theme</span><span class="preview-list-row-value">${theme === 0 ? 'System' : theme === 1 ? 'Light' : 'Dark'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Time Format</span><span class="preview-list-row-value">${timeExample}</span></div>
+                        </div>
+                        <div class="preview-section-label">Apple Watch</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Watch Connectivity</span><span class="preview-list-row-value preview-toggle-val on">On</span></div>
+                        </div>
                     </div>
                 `;
             }
@@ -1362,12 +2273,20 @@
         // ========== QR GENERATOR ==========
         // Generates QuickConfigManager-compatible QR codes
 
-        function generateQR() {
-            const payload = buildPayload();
+        function generateQR(screen) {
+            if (SettingsState.errors && Object.keys(SettingsState.errors).length > 0) {
+                const container = document.getElementById('qr-pages');
+                container.innerHTML = '<p style="color:#f44336;text-align:center;padding:1rem;">Fix validation errors before generating QR.</p>';
+                return;
+            }
+
+            const payload = buildPayload(screen);
             const pages = splitPayload(payload);
 
             const container = document.getElementById('qr-pages');
-            container.innerHTML = '';
+            const tabLabels = { 'active-call':'Active Call', vitals:'Vitals', radio:'Radio Report', handoff:'Hospital Handoff', history:'History', export:'Share & Export', agency:'Agency', global:'Global' };
+            const scopeLabel = screen ? `${tabLabels[screen] || screen} tab only` : 'all tabs';
+            container.innerHTML = `<p style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;">Generating QR for: <strong>${scopeLabel}</strong></p>`;
 
             if (pages.length > 1) {
                 const notice = document.createElement('div');
@@ -1392,7 +2311,8 @@
                 const downloadLink = document.createElement('a');
                 downloadLink.className = 'qr-download-btn';
                 downloadLink.textContent = pages.length > 1 ? `Download QR ${index + 1}` : 'Download QR';
-                downloadLink.download = pages.length > 1 ? `mediclog-config-qr${index + 1}.png` : 'mediclog-config.png';
+                const fileSlug = screen ? `mediclog-${screen}` : 'mediclog-config';
+                downloadLink.download = pages.length > 1 ? `${fileSlug}-qr${index + 1}.png` : `${fileSlug}.png`;
                 pageDiv.appendChild(downloadLink);
 
                 container.appendChild(pageDiv);
@@ -1407,7 +2327,7 @@
             });
         }
 
-        function buildPayload() {
+        function buildPayload(screen) {
             const payload = {
                 type: 'quick_config',
                 configVersion: 1,
@@ -1415,7 +2335,9 @@
             };
 
             // Build nested structure using qrPath from registry
+            // If screen is specified, only include settings belonging to that tab
             for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
+                if (screen && !meta.screens.includes(screen)) continue;
                 const value = SettingsState.get(key);
                 if (value === meta.default) continue; // Skip defaults
 
@@ -1428,20 +2350,14 @@
                 current[path[path.length - 1]] = value;
             }
 
-            // Add vitals field order
-            if (!payload.vitals) payload.vitals = {};
-            payload.vitals.fieldOrder = VitalsFieldOrder.getAll();
-
-            // Add medication timers
-            const timers = MedicationTimers.getAll().filter(t => t.timerEnabled);
-            if (timers.length > 0) {
-                payload.timers = timers.map(t => ({
-                    name: t.name,
-                    timerEnabled: t.timerEnabled,
-                    timerDuration: t.timerDuration,
-                    timerLabel: t.timerLabel,
-                    timerColor: t.timerColor
-                }));
+            // Quick entry slots and vitals field order: only include when relevant tab or full export
+            if (!screen || screen === 'active-call') {
+                if (!payload.quickEntry) payload.quickEntry = {};
+                payload.quickEntry.slots = QuickEntrySlots.getAll();
+            }
+            if (!screen || screen === 'vitals') {
+                if (!payload.vitals) payload.vitals = {};
+                payload.vitals.fieldOrder = VitalsFieldOrder.getAll();
             }
 
             return payload;
@@ -1478,8 +2394,8 @@
 
         // ========== INITIALIZATION ==========
         MedicationTimers.init();
+        QuickEntrySlots.init();
         SettingsState.init();
-        document.getElementById('agency-name-input').value = SettingsState.get('agencyName') || '';
         ScreenFilter.init();
         ScreenFilter.filterSettings();
         PreviewRenderer.update();
