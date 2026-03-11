@@ -1206,8 +1206,8 @@
                 // T200: Protocol App quick-launch (Active Call middle button)
                 'protocolApp.scheme': { type: 'text', default: '', placeholder: 'e.g. lexipol://', screens: ['agency'], section: 'Protocol Apps', description: 'URL scheme for the primary protocol/reference app shown as a quick-launch button during active calls. Find schemes at mediclog.org/protocol-finder.', qrPath: ['agency', 'protocolApp', 'scheme'] },
                 'protocolApp.name': { type: 'text', default: '', placeholder: 'e.g. Lexipol', screens: ['agency'], section: 'Protocol Apps', description: 'Display name shown in the picker when both apps are configured.', qrPath: ['agency', 'protocolApp', 'name'] },
-                'referenceApp.scheme': { type: 'text', default: '', placeholder: 'e.g. protocomm://', screens: ['agency'], section: 'Protocol Apps', description: 'Optional second app (Slot 2). Only used if Primary App is also configured.', qrPath: ['agency', 'referenceApp', 'scheme'] },
-                'referenceApp.name': { type: 'text', default: '', placeholder: 'e.g. Protocomm', screens: ['agency'], section: 'Protocol Apps', qrPath: ['agency', 'referenceApp', 'name'] },
+                'referenceApp.scheme': { type: 'text', default: '', placeholder: 'e.g. handtevy://', screens: ['agency'], section: 'Protocol Apps', description: 'Optional second app (Slot 2). Only used if Primary App is also configured.', qrPath: ['agency', 'referenceApp', 'scheme'] },
+                'referenceApp.name': { type: 'text', default: '', placeholder: 'e.g. Handtevy', screens: ['agency'], section: 'Protocol Apps', qrPath: ['agency', 'referenceApp', 'name'] },
                 'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Support & Diagnostics', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
                 // Agency feature flags
                 'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'agencyGpsEnabled'] },
