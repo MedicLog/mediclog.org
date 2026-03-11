@@ -192,16 +192,70 @@
         }
 
         /* ---- Agency seat notes ---- */
-        .agency-seat-note {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 600;
+        /* ---- Agency features + table ---- */
+        .agency-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+        }
+
+        .agency-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        .agency-feature-item::before {
+            content: '✓';
+            color: #34c759;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .agency-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .agency-table th {
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             color: var(--text-muted);
-            background: var(--bg-tertiary);
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .agency-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .agency-table tr:last-child td { border-bottom: none; }
+
+        .agency-table td:first-child {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .agency-table tr.highlighted td {
+            background: rgba(0,122,255,0.06);
+        }
+
+        .agency-table-wrap {
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 0.15rem 0.5rem;
-            margin-bottom: 0.6rem;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 2rem;
         }
 
         /* ---- QR note ---- */
@@ -310,70 +364,56 @@
                 <p>Direct billing via Stripe — bypasses App Store for full invoicing control. Adds push config, locked settings, and agency branding on top of the individual tier.</p>
             </div>
 
-            <div class="pricing-grid">
+            <div class="agency-features-grid">
+                <div class="agency-feature-item">Full Individual feature set for all providers</div>
+                <div class="agency-feature-item">Agency branding &amp; logo</div>
+                <div class="agency-feature-item">QR config deployment</div>
+                <div class="agency-feature-item">Push config updates — no re-scan required</div>
+                <div class="agency-feature-item">Locked settings for protocol compliance</div>
+                <div class="agency-feature-item">Cardiac procedures configuration</div>
+                <div class="agency-feature-item">Stroke scale &amp; protocol selection</div>
+                <div class="agency-feature-item">Seat provisioning &amp; deprovisioning</div>
+                <div class="agency-feature-item">Agency-wide audit trail</div>
+                <div class="agency-feature-item">Claude Vision OCR</div>
+            </div>
 
-                <div class="pricing-card">
-                    <div class="pricing-card-name">Small Agency</div>
-                    <span class="agency-seat-note">Up to 15 providers</span>
-                    <div class="pricing-card-price"><span class="currency">$</span>299</div>
-                    <div class="pricing-card-renewal">per year</div>
-                    <div class="pricing-card-desc">Volunteer squads and small rural services.</div>
-                    <ul class="pricing-card-features">
-                        <li>Everything in Individual for all providers</li>
-                        <li>QR config deployment</li>
-                        <li>Agency branding &amp; logo</li>
-                        <li>Cardiac procedures configuration</li>
-                        <li>Stroke scale &amp; protocol selection</li>
-                    </ul>
-                    <span class="pricing-card-cta">Coming Soon</span>
-                </div>
-
-                <div class="pricing-card featured">
-                    <div class="pricing-card-badge">Most Popular</div>
-                    <div class="pricing-card-name">Standard Agency</div>
-                    <span class="agency-seat-note">Up to 35 providers</span>
-                    <div class="pricing-card-price"><span class="currency">$</span>599</div>
-                    <div class="pricing-card-renewal">per year</div>
-                    <div class="pricing-card-desc">Mid-size county and regional services.</div>
-                    <ul class="pricing-card-features">
-                        <li class="inherited">Everything in Small Agency</li>
-                        <li>Push config updates (no re-scan required)</li>
-                        <li>Locked settings for protocol compliance</li>
-                        <li>Seat provisioning &amp; deprovisioning</li>
-                    </ul>
-                    <span class="pricing-card-cta">Coming Soon</span>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="pricing-card-name">Large Agency</div>
-                    <span class="agency-seat-note">Up to 75 providers</span>
-                    <div class="pricing-card-price"><span class="currency">$</span>999</div>
-                    <div class="pricing-card-renewal">per year</div>
-                    <div class="pricing-card-desc">Large county or multi-unit services.</div>
-                    <ul class="pricing-card-features">
-                        <li class="inherited">Everything in Standard Agency</li>
-                        <li>Agency-wide audit trail</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <span class="pricing-card-cta">Coming Soon</span>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="pricing-card-name">Enterprise</div>
-                    <span class="agency-seat-note">100+ providers</span>
-                    <div class="pricing-card-price" style="font-size:1.5rem;padding-top:0.4rem;">Contact us</div>
-                    <div class="pricing-card-renewal">&nbsp;</div>
-                    <div class="pricing-card-desc">Multi-county, hospital-based, or statewide EMS systems needing custom integration or volume pricing.</div>
-                    <ul class="pricing-card-features">
-                        <li class="inherited">Everything in Large Agency</li>
-                        <li>RMS / ePCR integration</li>
-                        <li>Custom dispatch pipeline</li>
-                        <li>Volume pricing</li>
-                        <li>HIPAA BAA</li>
-                    </ul>
-                    <span class="pricing-card-cta">Coming Soon</span>
-                </div>
-
+            <div class="agency-table-wrap">
+                <table class="agency-table">
+                    <thead>
+                        <tr>
+                            <th>Plan</th>
+                            <th>Providers</th>
+                            <th>Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Small</td>
+                            <td>Up to 15</td>
+                            <td>$299 / yr</td>
+                            <td style="color:var(--text-muted);font-size:0.82rem">Volunteer squads &amp; small rural services</td>
+                        </tr>
+                        <tr class="highlighted">
+                            <td>Standard</td>
+                            <td>Up to 50</td>
+                            <td>$599 / yr</td>
+                            <td style="color:var(--text-muted);font-size:0.82rem">Mid-size county &amp; regional services</td>
+                        </tr>
+                        <tr>
+                            <td>Large</td>
+                            <td>Up to 100</td>
+                            <td>$999 / yr</td>
+                            <td style="color:var(--text-muted);font-size:0.82rem">Large county or multi-unit services</td>
+                        </tr>
+                        <tr>
+                            <td>Enterprise</td>
+                            <td>100+</td>
+                            <td>Contact us</td>
+                            <td style="color:var(--text-muted);font-size:0.82rem">Multi-county, hospital-based, or statewide systems</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div class="qr-today-note">
