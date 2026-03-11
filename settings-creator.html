@@ -756,39 +756,6 @@
             background: var(--accent-hover);
         }
 
-        .agency-name-bar {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: var(--highlight-bg);
-            border: 1px solid var(--highlight-border);
-            border-radius: 10px;
-            padding: 0.75rem 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .agency-name-bar label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        .agency-name-bar input {
-            flex: 1;
-            background: none;
-            border: none;
-            outline: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-family: inherit;
-        }
-
-        .agency-name-bar input::placeholder {
-            color: var(--text-muted);
-            font-weight: 400;
-        }
 
         .qr-privacy-note {
             font-size: 0.75rem;
@@ -989,12 +956,6 @@
             <button class="screen-tab" data-screen="export">Share/Export</button>
             <button class="screen-tab" data-screen="agency">Agency</button>
             <button class="screen-tab" data-screen="global">Global</button>
-        </div>
-
-        <div class="agency-name-bar">
-            <label for="agency-name-input">Agency Name</label>
-            <input type="text" id="agency-name-input" placeholder="e.g. North Memorial Ambulance Service"
-                   oninput="SettingsState.set('agencyName', this.value); PreviewRenderer.update();">
         </div>
 
         <div class="creator-layout">
