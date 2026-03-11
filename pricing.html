@@ -258,6 +258,64 @@
             margin-bottom: 2rem;
         }
 
+        /* ---- Individual shared features ---- */
+        .individual-features {
+            margin-bottom: 2rem;
+        }
+
+        .individual-features-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .individual-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .individual-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.87rem;
+            color: var(--text-secondary);
+        }
+
+        .individual-feature-item::before {
+            content: '✓';
+            color: #34c759;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ---- Future badge ---- */
+        .agency-feature-item.future {
+            opacity: 0.65;
+        }
+
+        .agency-feature-item.future::before {
+            content: '◷';
+            color: var(--text-muted);
+        }
+
+        .future-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.05rem 0.35rem;
+            flex-shrink: 0;
+            align-self: center;
+        }
+
         /* ---- QR note ---- */
         .qr-today-note {
             background: var(--bg-secondary);
@@ -309,6 +367,20 @@
                 <p>Available on the App Store and Google Play. One upfront purchase, low annual renewal.</p>
             </div>
 
+            <div class="individual-features">
+                <div class="individual-features-label">All tiers include</div>
+                <div class="individual-features-grid">
+                    <div class="individual-feature-item">Active call logging &amp; timers</div>
+                    <div class="individual-feature-item">Voice-first entry</div>
+                    <div class="individual-feature-item">Apple Watch companion with haptic alerts</div>
+                    <div class="individual-feature-item">Per-medication redose timers</div>
+                    <div class="individual-feature-item">MIST radio report</div>
+                    <div class="individual-feature-item">Hospital handoff report</div>
+                    <div class="individual-feature-item">Call history &amp; export (PDF, text, CSV)</div>
+                    <div class="individual-feature-item">QR config import from your agency</div>
+                </div>
+            </div>
+
             <div class="pricing-grid">
 
                 <div class="pricing-card featured">
@@ -317,16 +389,6 @@
                     <div class="pricing-card-price"><span class="currency">$</span>9.99</div>
                     <div class="pricing-card-renewal">+ $4.99 / yr to keep updates</div>
                     <div class="pricing-card-desc">Full feature set for working EMTs, paramedics, and ALS providers.</div>
-                    <ul class="pricing-card-features">
-                        <li>Active call logging &amp; timers</li>
-                        <li>Voice-first entry</li>
-                        <li>Apple Watch companion with haptic alerts</li>
-                        <li>Per-medication redose timers</li>
-                        <li>MIST radio report</li>
-                        <li>Hospital handoff report</li>
-                        <li>Call history &amp; export (PDF, text, CSV)</li>
-                        <li>QR config import from your agency</li>
-                    </ul>
                     <span class="pricing-card-cta">Coming Soon</span>
                 </div>
 
@@ -334,11 +396,7 @@
                     <div class="pricing-card-name">Student</div>
                     <div class="pricing-card-price"><span class="currency">$</span>4.99</div>
                     <div class="pricing-card-renewal">+ $2.99 / yr to keep updates</div>
-                    <div class="pricing-card-desc">For paramedic and EMT students. Everything in Individual at a reduced rate.</div>
-                    <ul class="pricing-card-features">
-                        <li>Full Individual feature set</li>
-                        <li>Self-attestation or program verification</li>
-                    </ul>
+                    <div class="pricing-card-desc">For paramedic and EMT students. Everything in Individual at a reduced rate. Self-attestation or program verification.</div>
                     <span class="pricing-card-cta">Coming Soon</span>
                 </div>
 
@@ -347,10 +405,6 @@
                     <div class="pricing-card-price"><span class="currency">$</span>2.99</div>
                     <div class="pricing-card-renewal">+ $1.99 / yr to keep updates</div>
                     <div class="pricing-card-desc">For volunteer EMRs and first responder organizations. Honor-system coupon distributed through volunteer EMS networks.</div>
-                    <ul class="pricing-card-features">
-                        <li>Full Individual feature set</li>
-                        <li>Coupon code distributed via volunteer EMS networks</li>
-                    </ul>
                     <span class="pricing-card-cta">Coming Soon</span>
                 </div>
 
@@ -361,20 +415,19 @@
             <!-- B2B -->
             <div class="pricing-section-heading">
                 <h2>Agency Plans</h2>
-                <p>Direct billing via Stripe — bypasses App Store for full invoicing control. Adds push config, locked settings, and agency branding on top of the individual tier.</p>
+                <p>Direct billing via Stripe — bypasses App Store for full invoicing control. Adds agency branding, push config deployment, and protocol app configuration on top of the individual tier.</p>
             </div>
 
             <div class="agency-features-grid">
-                <div class="agency-feature-item">Full Individual feature set for all providers</div>
                 <div class="agency-feature-item">Agency branding &amp; logo</div>
                 <div class="agency-feature-item">QR config deployment</div>
                 <div class="agency-feature-item">Push config updates — no re-scan required</div>
-                <div class="agency-feature-item">Locked settings for protocol compliance</div>
-                <div class="agency-feature-item">Cardiac procedures configuration</div>
-                <div class="agency-feature-item">Stroke scale &amp; protocol selection</div>
-                <div class="agency-feature-item">Seat provisioning &amp; deprovisioning</div>
-                <div class="agency-feature-item">Agency-wide audit trail</div>
+                <div class="agency-feature-item">Protocol app quick-launch (Primary &amp; Secondary)</div>
+                <div class="agency-feature-item">LVO threshold configuration (LAMS, FASTED, RACE)</div>
                 <div class="agency-feature-item">Claude Vision OCR</div>
+                <div class="agency-feature-item future">Locked settings for protocol compliance <span class="future-badge">Future</span></div>
+                <div class="agency-feature-item future">Seat provisioning &amp; deprovisioning <span class="future-badge">Future</span></div>
+                <div class="agency-feature-item future">Agency-wide audit trail <span class="future-badge">Future</span></div>
             </div>
 
             <div class="agency-table-wrap">
