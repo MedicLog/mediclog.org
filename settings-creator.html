@@ -788,6 +788,151 @@
         .qr-download-btn:hover {
             text-decoration: underline;
         }
+
+        /* ── Active Call preview components ── */
+        .preview-navbar-ac {
+            display: flex;
+            align-items: center;
+            padding: 4px 10px 6px;
+            gap: 8px;
+            flex-shrink: 0;
+            border-bottom: 0.5px solid rgba(128,128,128,0.2);
+        }
+        .preview-screen.light .preview-navbar-ac { background: rgba(242,242,247,0.94); }
+        .preview-screen.dark .preview-navbar-ac { background: rgba(28,28,30,0.94); }
+        .preview-endcall-btn {
+            background: #FF3B30;
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .preview-report-btn {
+            color: #34C759;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .preview-navbar-ac-spacer { flex: 1; }
+        .preview-navbar-ac-icons { font-size: 12px; opacity: 0.65; display: flex; gap: 6px; }
+
+        /* Timer cards grid */
+        .preview-timer-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            padding: 8px 10px;
+            flex-shrink: 0;
+        }
+        .preview-timer-card {
+            border-radius: 10px;
+            border: 1.5px solid;
+            padding: 5px 7px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 52px;
+        }
+        .ptc-label {
+            font-size: 7.5px;
+            font-weight: 500;
+            opacity: 0.6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .ptc-val {
+            font-size: 15px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            line-height: 1.1;
+        }
+
+        /* QE button grid (v2 — matches app) */
+        .preview-qe-grid-v2 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+            padding: 7px 10px;
+            flex-shrink: 0;
+        }
+        .preview-qe-btn-v2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .pqb-icon {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .pqb-icon-split {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+        }
+        .pqb-icon-split-half {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            font-size: 11px;
+        }
+        .pqb-label {
+            font-size: 7px;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .preview-screen.light .pqb-label { color: #1c1c1e; opacity: 0.8; }
+        .preview-screen.dark .pqb-label { color: #f2f2f7; opacity: 0.8; }
+
+        /* Bottom action bar */
+        .preview-bottom-bar {
+            display: flex;
+            gap: 8px;
+            padding: 7px 10px;
+            flex-shrink: 0;
+            border-top: 0.5px solid rgba(128,128,128,0.2);
+        }
+        .preview-bottom-btn {
+            flex: 1;
+            border-radius: 10px;
+            padding: 7px 4px;
+            text-align: center;
+            font-size: 9px;
+            font-weight: 600;
+            color: white;
+        }
+        .preview-bottom-btn.voice { background: #007AFF; }
+        .preview-bottom-btn.add { background: #34C759; }
+
+        /* Tab bar */
+        .preview-tabbar {
+            display: flex;
+            flex-shrink: 0;
+            padding: 4px 0 5px;
+            border-top: 0.5px solid rgba(128,128,128,0.25);
+        }
+        .preview-screen.light .preview-tabbar { background: rgba(249,249,249,0.96); }
+        .preview-screen.dark .preview-tabbar { background: rgba(28,28,30,0.96); }
+        .ptab {
+            flex: 1;
+            text-align: center;
+            font-size: 6.5px;
+            font-weight: 500;
+            opacity: 0.4;
+        }
+        .ptab.active { opacity: 1; color: #007AFF; }
+        .preview-screen.dark .ptab.active { color: #0a84ff; }
     </style>
 </head>
 <body>
@@ -1757,65 +1902,108 @@
                 const showMedTimers = SettingsState.get('showMedicationTimers');
                 const groupEntries = SettingsState.get('groupActiveCallEntries');
                 const use24h = SettingsState.get('use24HourTime');
-                const qeMap = { vitals: '❤️', medication: '💉', cardiacMeds: '⚡', cardiacProcs: '🫀',
-                    iv: '🩸', procedure: '🔬', note: '📝', photo: '📷',
-                    trauma: '🩹', transfer: '🚑', address: '📍', dripCalc: '🧮',
-                    pump: '⏱️', vent: '💨', patientProfile: '👤' };
-                const timers = MedicationTimers.getAll().filter(t => t.timerEnabled);
-                const timeStr = use24h ? '15:47' : '3:47 PM';
+                const timeStr = use24h ? '13:02' : '1:02 PM';
 
-                const timerPills = (() => {
-                    let html = '';
-                    if (showCallTimer) html += `<div class="preview-timer-pill"><div class="ptimer-name">Call</div><div class="ptimer-val">12:34</div></div>`;
+                // Entry type colors from ColorTheme.json
+                const slotColors = { vitals:'#FF9500', medication:'#007AFF', cardiacMeds:'#FF3B30',
+                    cardiacProcs:'#FF3B30', iv:'#34C759', procedure:'#AF52DE', note:'#8E8E93',
+                    trauma:'#FF6B35', photo:'#17A2B8', transfer:'#FF9500', address:'#FF9500',
+                    dripCalc:'#00BCD4', pump:'#5856D6', vent:'#64B5F6', patientProfile:'#5856D6' };
+                const slotEmoji = { vitals:'❤️', medication:'💊', cardiacMeds:'⚡', cardiacProcs:'💛',
+                    iv:'💧', procedure:'✚', note:'📋', photo:'📷', trauma:'🔶',
+                    transfer:'🚑', address:'📍', dripCalc:'🧮', pump:'⏱', vent:'💨', patientProfile:'👤' };
+                const shortLabels = { medication:'Med', procedure:'Proc', cardiacMeds:'C-Med',
+                    cardiacProcs:'C-Proc', patientProfile:'Patient', dripCalc:'Drip' };
+
+                // Timer cards
+                const timers = MedicationTimers.getAll().filter(t => t.timerEnabled);
+                const timerCards = (() => {
+                    const cards = [];
+                    if (showCallTimer) {
+                        cards.push(`<div class="preview-timer-card" style="background:rgba(52,199,89,0.12);border-color:rgba(52,199,89,0.35)">
+                            <div class="ptc-label">Call</div>
+                            <div class="ptc-val" style="color:#34C759">12:34</div>
+                        </div>`);
+                    }
                     if (showMedTimers) {
-                        timers.slice(0, 3).forEach((t, i) => {
-                            const overdue = i === 1;
-                            html += `<div class="preview-timer-pill${overdue ? ' overdue' : ''}" style="border-color:${t.timerColor}40;background:${t.timerColor}18;">
-                                <div class="ptimer-name" style="color:${t.timerColor}">${t.name}</div>
-                                <div class="ptimer-val" style="${overdue ? '' : `color:${t.timerColor}`}">${overdue ? 'OVER' : '04:20'}</div>
-                            </div>`;
+                        timers.slice(0, 2).forEach((t, i) => {
+                            const overdue = i === 0;
+                            const val = overdue ? 'OVER' : '4:20';
+                            const valColor = overdue ? '#FF3B30' : t.timerColor;
+                            cards.push(`<div class="preview-timer-card" style="background:${t.timerColor}15;border-color:${t.timerColor}40">
+                                <div class="ptc-label">${t.name}</div>
+                                <div class="ptc-val" style="color:${valColor}">${val}</div>
+                            </div>`);
                         });
                     }
-                    return html;
+                    return cards.length
+                        ? `<div class="preview-timer-cards">${cards.join('')}</div>`
+                        : '';
                 })();
 
-                const timelineRows = (() => {
-                    const entries = [
-                        { time: use24h ? '15:47' : '3:47 PM', text: 'Fentanyl 100mcg IV push', color: '#30d158' },
-                        { time: use24h ? '15:45' : '3:45 PM', text: 'BP 120/80  HR 95  SpO₂ 98%', color: '#ff6b6b' },
-                        { time: use24h ? '15:41' : '3:41 PM', text: '18ga R AC established', color: '#007AFF' },
-                        { time: use24h ? '15:32' : '3:32 PM', text: 'ASA 324mg PO given', color: '#30d158' },
-                    ];
-                    const row = e => `<div class="preview-timeline-row">
-                        <div class="preview-timeline-time">${e.time}</div>
-                        <div class="preview-timeline-accent" style="background:${e.color}"></div>
-                        <div style="font-size:0.7rem">${e.text}</div>
-                    </div>`;
-                    if (groupEntries) {
-                        return `<div class="preview-section-label">Now</div>` + entries.map(row).join('');
+                // QE grid — 4-column, 2-row grid of colored square buttons
+                const slots = QuickEntrySlots.getAll();
+                const qeGrid = slots.length ? `<div class="preview-qe-grid-v2">${slots.map(s => {
+                    const color = slotColors[s.primary] || '#8E8E93';
+                    const emoji = slotEmoji[s.primary] || '•';
+                    const label = shortLabels[s.primary] || QE_SLOT_TYPES[s.primary]?.label || s.primary;
+                    if (s.secondary) {
+                        const color2 = slotColors[s.secondary] || '#8E8E93';
+                        const emoji2 = slotEmoji[s.secondary] || '•';
+                        return `<div class="preview-qe-btn-v2">
+                            <div class="pqb-icon-split">
+                                <div class="pqb-icon-split-half" style="background:${color};justify-content:flex-start">${emoji}</div>
+                                <div class="pqb-icon-split-half" style="background:${color2};justify-content:flex-end">${emoji2}</div>
+                            </div>
+                            <div class="pqb-label">${label}</div>
+                        </div>`;
                     }
-                    return entries.map(row).join('');
-                })();
+                    return `<div class="preview-qe-btn-v2">
+                        <div class="pqb-icon" style="background:${color}">${emoji}</div>
+                        <div class="pqb-label">${label}</div>
+                    </div>`;
+                }).join('')}</div>` : '<div style="font-size:0.65rem;padding:6px 10px;opacity:0.5">No quick entry slots</div>';
 
-                const qeBarItems = QuickEntrySlots.getAll().map(s => {
-                    const icon = qeMap[s.primary] || '•';
-                    const label = QE_SLOT_TYPES[s.primary]?.label || s.primary;
-                    const hasSec = !!s.secondary;
-                    return `<div class="preview-qe-item"><div class="preview-qe-icon">${icon}</div><div class="preview-qe-label">${label}${hasSec ? ' ▾' : ''}</div></div>`;
-                }).join('') || '<div style="font-size:0.65rem;padding:0.5rem;opacity:0.5">No slots</div>';
+                // Timeline
+                const entries = [
+                    { time: use24h ? '19:33' : '7:33 PM', text: 'Epi 1:10,000 1.0mg IV', color: '#FF3B30' },
+                    { time: use24h ? '19:29' : '7:29 PM', text: 'Nitroglycerin 0.4mg SL', color: '#FF3B30' },
+                    { time: use24h ? '19:23' : '7:23 PM', text: 'Fentanyl 50.0mcg IV', color: '#007AFF' },
+                    { time: use24h ? '19:19' : '7:19 PM', text: 'Blood Pressure: 102/68', color: '#FF9500' },
+                ];
+                const row = e => `<div class="preview-timeline-row">
+                    <div class="preview-timeline-time">${e.time}</div>
+                    <div class="preview-timeline-accent" style="background:${e.color}"></div>
+                    <div style="font-size:0.68rem">${e.text}</div>
+                </div>`;
+                const timelineHtml = (groupEntries ? '<div class="preview-section-label">Now</div>' : '')
+                    + entries.map(row).join('');
 
                 preview.innerHTML = `
-                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
-                    <div class="preview-navbar">
-                        <span class="preview-navbar-back">‹ Calls</span>
-                        <span class="preview-navbar-title">Active Call</span>
-                        <span class="preview-navbar-btn" style="text-align:right">···</span>
+                    <div class="preview-statusbar"><span>${timeStr}</span><span style="margin-left:auto">▌▌ ☁ 97%</span></div>
+                    <div class="preview-navbar-ac">
+                        <span class="preview-endcall-btn">End Call</span>
+                        <span class="preview-report-btn">Report</span>
+                        <span class="preview-navbar-ac-spacer"></span>
+                        <span class="preview-navbar-ac-icons">⊞ ↑</span>
                     </div>
-                    ${(showCallTimer || (showMedTimers && timers.length)) ? `<div class="preview-timer-row">${timerPills}</div>` : ''}
+                    ${timerCards}
+                    <div style="height:0.5px;background:rgba(128,128,128,0.2);margin:0 12px"></div>
+                    ${qeGrid}
+                    <div style="height:0.5px;background:rgba(128,128,128,0.2);margin:0 12px"></div>
                     <div class="preview-content" style="padding:0;flex:1;overflow-y:auto">
-                        ${timelineRows}
+                        ${timelineHtml}
                     </div>
-                    <div class="preview-qe-bar">${qeBarItems}</div>
+                    <div class="preview-bottom-bar">
+                        <div class="preview-bottom-btn voice">🎤 Voice Log</div>
+                        <div class="preview-bottom-btn add">+ Add Entry</div>
+                    </div>
+                    <div class="preview-tabbar">
+                        <div class="ptab active">Active</div>
+                        <div class="ptab">History</div>
+                        <div class="ptab">Destinations</div>
+                        <div class="ptab">Settings</div>
+                    </div>
                 `;
             },
 
