@@ -1204,7 +1204,8 @@
                 'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['handoff', 'agency'], section: 'Hospital Handoff Report', qrPath: ['agency', 'showDemographicsReminder'] },
                 'incidentNumberFormat': { type: 'text', default: '', placeholder: 'E##########', screens: ['agency'], section: 'Incident Tracking & Dispatch', description: 'Use # for digits, any other character stays literal. Examples: E########## → E2601100255 · R####-###-## → R2026-001-42 · INC-###### → INC-123456', qrPath: ['agency', 'incidentNumberFormat'] },
                 // T200: Protocol App quick-launch (Active Call middle button)
-                'protocolApp.scheme': { type: 'text', default: '', placeholder: 'e.g. lexipol://', screens: ['agency'], section: 'Protocol Apps', description: 'URL scheme for the primary protocol/reference app shown as a quick-launch button during active calls. Find schemes at mediclog.org/protocol-finder.', qrPath: ['agency', 'protocolApp', 'scheme'] },
+                'protocolApp.finder': { type: 'link', href: 'protocol-finder.html', linkLabel: '🔍 Protocol Link Finder — look up URL schemes', screens: ['agency'], section: 'Protocol Apps' },
+                'protocolApp.scheme': { type: 'text', default: '', placeholder: 'e.g. lexipol://', screens: ['agency'], section: 'Protocol Apps', description: 'URL scheme for the primary protocol/reference app shown as a quick-launch button during active calls.', qrPath: ['agency', 'protocolApp', 'scheme'] },
                 'protocolApp.name': { type: 'text', default: '', placeholder: 'e.g. Lexipol', screens: ['agency'], section: 'Protocol Apps', description: 'Display name shown in the picker when both apps are configured.', qrPath: ['agency', 'protocolApp', 'name'] },
                 'referenceApp.scheme': { type: 'text', default: '', placeholder: 'e.g. handtevy://', screens: ['agency'], section: 'Protocol Apps', description: 'Optional second app (Slot 2). Only used if Primary App is also configured.', qrPath: ['agency', 'referenceApp', 'scheme'] },
                 'referenceApp.name': { type: 'text', default: '', placeholder: 'e.g. Handtevy', screens: ['agency'], section: 'Protocol Apps', qrPath: ['agency', 'referenceApp', 'name'] },
@@ -1674,6 +1675,12 @@
                 const row = document.createElement('div');
                 row.className = 'setting-row';
 
+                if (meta.type === 'link') {
+                    const control = this.createControl(key, meta);
+                    row.appendChild(control);
+                    return row;
+                }
+
                 const label = document.createElement('div');
                 label.className = 'setting-label';
                 label.innerHTML = `<span>${this.getLabelText(key)}</span>${meta.description ? `<small>${meta.description}</small>` : ''}`;
@@ -1860,6 +1867,18 @@
                     input.style.color = 'var(--text-primary)';
                     input.onchange = () => SettingsState.set(key, input.value);
                     return input;
+                }
+
+                if (meta.type === 'link') {
+                    const a = document.createElement('a');
+                    a.href = meta.href;
+                    a.target = '_blank';
+                    a.rel = 'noopener';
+                    a.textContent = meta.linkLabel || meta.href;
+                    a.style.cssText = 'font-size:0.82rem;color:var(--accent);text-decoration:none;white-space:nowrap;';
+                    a.onmouseover = () => a.style.textDecoration = 'underline';
+                    a.onmouseout  = () => a.style.textDecoration = 'none';
+                    return a;
                 }
 
                 return document.createElement('span');
@@ -2355,6 +2374,7 @@
             // Build nested structure using qrPath from registry
             // If screen is specified, only include settings belonging to that tab
             for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
+                if (!meta.qrPath) continue; // Skip non-setting entries (links, info rows)
                 if (screen && !meta.screens.includes(screen)) continue;
                 const value = SettingsState.get(key);
                 if (value === meta.default) continue; // Skip defaults
