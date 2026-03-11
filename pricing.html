@@ -4,137 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing — MedicLog</title>
-    <meta name="description" content="MedicLog pricing plans for individual providers and agencies. Currently free during TestFlight beta.">
+    <meta name="description" content="MedicLog pricing for individual EMS providers and agencies. Upfront purchase with low annual renewal. Agency plans for fleet deployment.">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="stylesheet" href="styles.css">
     <style>
+        .pricing-wrap {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
         .pricing-hero {
             text-align: center;
-            padding: 3rem 1rem 2rem;
-            max-width: 720px;
-            margin: 0 auto;
+            margin-bottom: 2rem;
         }
 
         .pricing-hero h1 {
             font-size: 2.25rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.75rem;
         }
 
         .pricing-hero p {
             font-size: 1.05rem;
             color: var(--text-secondary);
             line-height: 1.7;
+            max-width: 560px;
+            margin: 0 auto;
         }
 
         .planned-banner {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.75rem;
-            background: rgba(52, 199, 89, 0.1);
-            border: 1px solid rgba(52, 199, 89, 0.35);
+            background: rgba(52,199,89,0.1);
+            border: 1px solid rgba(52,199,89,0.35);
             border-radius: 12px;
             padding: 1rem 1.25rem;
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-            font-size: 0.95rem;
+            margin-bottom: 3rem;
+            font-size: 0.9rem;
             color: var(--text-primary);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
-        .planned-banner-icon {
+        .planned-banner-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+        /* ---- Section headings ---- */
+        .pricing-section-heading {
+            text-align: center;
+            margin-bottom: 1.75rem;
+        }
+
+        .pricing-section-heading h2 {
             font-size: 1.5rem;
-            flex-shrink: 0;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
         }
 
+        .pricing-section-heading p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+
+        .pricing-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 3.5rem 0;
+        }
+
+        /* ---- Cards ---- */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            max-width: 900px;
-            margin: 0 auto 3rem;
-            padding: 0 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1rem;
         }
 
         .pricing-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 2rem 1.5rem;
-            text-align: center;
+            padding: 1.75rem 1.5rem;
+            display: flex;
+            flex-direction: column;
             position: relative;
         }
 
         .pricing-card.featured {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 1px var(--accent);
+            border-color: #007aff;
+            box-shadow: 0 0 0 1px #007aff;
         }
 
         .pricing-card-badge {
             position: absolute;
-            top: -12px;
+            top: -11px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--accent);
+            background: #007aff;
             color: #fff;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 700;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            padding: 0.25rem 0.75rem;
+            padding: 0.22rem 0.8rem;
             border-radius: 99px;
             white-space: nowrap;
         }
 
         .pricing-card-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-muted);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.6rem;
         }
 
         .pricing-card-price {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
             letter-spacing: -0.03em;
-            margin-bottom: 0.25rem;
+            line-height: 1.1;
+            margin-bottom: 0.2rem;
         }
 
-        .pricing-card-price span {
-            font-size: 1rem;
-            font-weight: 500;
+        .pricing-card-price .currency {
+            font-size: 1.1rem;
+            font-weight: 600;
+            vertical-align: super;
+        }
+
+        .pricing-card-renewal {
+            font-size: 0.82rem;
             color: var(--text-muted);
+            margin-bottom: 1rem;
         }
 
         .pricing-card-desc {
-            font-size: 0.88rem;
+            font-size: 0.87rem;
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
+            line-height: 1.55;
+            margin-bottom: 1.25rem;
+            flex: 1;
         }
 
         .pricing-card-features {
             list-style: none;
             padding: 0;
-            margin: 0 0 1.75rem;
-            text-align: left;
+            margin: 0 0 1.5rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
         }
 
         .pricing-card-features li {
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            padding: 0.35rem 0;
-            border-bottom: 1px solid var(--border);
+            padding: 0.3rem 0;
             display: flex;
             align-items: flex-start;
             gap: 0.5rem;
-        }
-
-        .pricing-card-features li:last-child {
-            border-bottom: none;
         }
 
         .pricing-card-features li::before {
@@ -142,31 +171,63 @@
             color: #34c759;
             font-weight: 700;
             flex-shrink: 0;
-            margin-top: 0.05rem;
+        }
+
+        .pricing-card-features li.inherited::before {
+            content: '+';
+            color: #007aff;
         }
 
         .pricing-card-cta {
             display: block;
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 600;
             text-align: center;
-            cursor: default;
+            padding: 0.65rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
             background: var(--bg-tertiary);
             color: var(--text-muted);
             border: 1px solid var(--border);
+            margin-top: auto;
         }
 
-        .pricing-note {
-            text-align: center;
-            max-width: 560px;
-            margin: 0 auto 3rem;
-            padding: 0 1rem;
-            font-size: 0.88rem;
+        /* ---- Agency seat notes ---- */
+        .agency-seat-note {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
             color: var(--text-muted);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.15rem 0.5rem;
+            margin-bottom: 0.6rem;
+        }
+
+        /* ---- QR note ---- */
+        .qr-today-note {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
             line-height: 1.6;
+        }
+
+        .qr-today-note strong { color: var(--text-primary); }
+
+        /* ---- Bottom note ---- */
+        .pricing-footer-note {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
@@ -174,72 +235,156 @@
     <nav class="nav" data-page="pricing"></nav>
 
     <main>
-        <div class="pricing-hero">
-            <h1>Pricing</h1>
-            <p>Simple, fair pricing for individual providers and agencies. No surprise fees, no data selling.</p>
+        <div class="pricing-wrap">
+
+            <div class="pricing-hero">
+                <h1>Pricing</h1>
+                <p>Simple, honest pricing for individual providers and the agencies that deploy them. No subscription fatigue — just an upfront purchase and a low annual renewal.</p>
+            </div>
+
+            <div class="planned-banner">
+                <span class="planned-banner-icon">📋</span>
+                <div>
+                    <strong>Planned for release</strong> — MedicLog is currently free during TestFlight beta. Pricing below reflects the intended launch model and is subject to change before public release. Early beta users will be grandfathered or given early-adopter pricing at launch.
+                </div>
+            </div>
+
+            <!-- B2C -->
+            <div class="pricing-section-heading">
+                <h2>Individual Providers</h2>
+                <p>Available on the App Store and Google Play. One upfront purchase, low annual renewal.</p>
+            </div>
+
+            <div class="pricing-grid">
+
+                <div class="pricing-card featured">
+                    <div class="pricing-card-badge">Standard</div>
+                    <div class="pricing-card-name">Individual</div>
+                    <div class="pricing-card-price"><span class="currency">$</span>9.99</div>
+                    <div class="pricing-card-renewal">+ $4.99 / yr to keep updates</div>
+                    <div class="pricing-card-desc">Full feature set for working EMTs, paramedics, and ALS providers.</div>
+                    <ul class="pricing-card-features">
+                        <li>Active call logging &amp; timers</li>
+                        <li>Voice-first entry</li>
+                        <li>Apple Watch companion with haptic alerts</li>
+                        <li>Per-medication redose timers</li>
+                        <li>MIST radio report</li>
+                        <li>Hospital handoff report</li>
+                        <li>Call history &amp; export (PDF, text, CSV)</li>
+                        <li>QR config import from your agency</li>
+                    </ul>
+                    <span class="pricing-card-cta">Coming Soon</span>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-card-name">Student</div>
+                    <div class="pricing-card-price"><span class="currency">$</span>4.99</div>
+                    <div class="pricing-card-renewal">+ $2.99 / yr to keep updates</div>
+                    <div class="pricing-card-desc">For paramedic and EMT students. Everything in Individual at a reduced rate.</div>
+                    <ul class="pricing-card-features">
+                        <li>Full Individual feature set</li>
+                        <li>Self-attestation or program verification</li>
+                    </ul>
+                    <span class="pricing-card-cta">Coming Soon</span>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-card-name">Community</div>
+                    <div class="pricing-card-price"><span class="currency">$</span>2.99</div>
+                    <div class="pricing-card-renewal">+ $1.99 / yr to keep updates</div>
+                    <div class="pricing-card-desc">For volunteer EMRs and first responder organizations. Honor-system coupon distributed through volunteer EMS networks.</div>
+                    <ul class="pricing-card-features">
+                        <li>Full Individual feature set</li>
+                        <li>Coupon code distributed via volunteer EMS networks</li>
+                    </ul>
+                    <span class="pricing-card-cta">Coming Soon</span>
+                </div>
+
+            </div>
+
+            <hr class="pricing-divider">
+
+            <!-- B2B -->
+            <div class="pricing-section-heading">
+                <h2>Agency Plans</h2>
+                <p>Direct billing via Stripe — bypasses App Store for full invoicing control. Adds push config, locked settings, and agency branding on top of the individual tier.</p>
+            </div>
+
+            <div class="pricing-grid">
+
+                <div class="pricing-card">
+                    <div class="pricing-card-name">Small Agency</div>
+                    <span class="agency-seat-note">Up to 15 providers</span>
+                    <div class="pricing-card-price"><span class="currency">$</span>299</div>
+                    <div class="pricing-card-renewal">per year</div>
+                    <div class="pricing-card-desc">Volunteer squads and small rural services.</div>
+                    <ul class="pricing-card-features">
+                        <li>Everything in Individual for all providers</li>
+                        <li>QR config deployment</li>
+                        <li>Agency branding &amp; logo</li>
+                        <li>Cardiac procedures configuration</li>
+                        <li>Stroke scale &amp; protocol selection</li>
+                    </ul>
+                    <span class="pricing-card-cta">Coming Soon</span>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-card-badge">Most Popular</div>
+                    <div class="pricing-card-name">Standard Agency</div>
+                    <span class="agency-seat-note">Up to 35 providers</span>
+                    <div class="pricing-card-price"><span class="currency">$</span>599</div>
+                    <div class="pricing-card-renewal">per year</div>
+                    <div class="pricing-card-desc">Mid-size county and regional services.</div>
+                    <ul class="pricing-card-features">
+                        <li class="inherited">Everything in Small Agency</li>
+                        <li>Push config updates (no re-scan required)</li>
+                        <li>Locked settings for protocol compliance</li>
+                        <li>Seat provisioning &amp; deprovisioning</li>
+                    </ul>
+                    <span class="pricing-card-cta">Coming Soon</span>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-card-name">Large Agency</div>
+                    <span class="agency-seat-note">Up to 75 providers</span>
+                    <div class="pricing-card-price"><span class="currency">$</span>999</div>
+                    <div class="pricing-card-renewal">per year</div>
+                    <div class="pricing-card-desc">Large county or multi-unit services.</div>
+                    <ul class="pricing-card-features">
+                        <li class="inherited">Everything in Standard Agency</li>
+                        <li>Agency-wide audit trail</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <span class="pricing-card-cta">Coming Soon</span>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-card-name">Enterprise</div>
+                    <span class="agency-seat-note">100+ providers</span>
+                    <div class="pricing-card-price" style="font-size:1.5rem;padding-top:0.4rem;">Contact us</div>
+                    <div class="pricing-card-renewal">&nbsp;</div>
+                    <div class="pricing-card-desc">Multi-county, hospital-based, or statewide EMS systems needing custom integration or volume pricing.</div>
+                    <ul class="pricing-card-features">
+                        <li class="inherited">Everything in Large Agency</li>
+                        <li>RMS / ePCR integration</li>
+                        <li>Custom dispatch pipeline</li>
+                        <li>Volume pricing</li>
+                        <li>HIPAA BAA</li>
+                    </ul>
+                    <span class="pricing-card-cta">Coming Soon</span>
+                </div>
+
+            </div>
+
+            <div class="qr-today-note">
+                <strong>QR config deployment is available today — for free.</strong> Medical directors and agency admins can use the <a href="settings-creator.html">Settings Creator</a> to configure MedicLog for their entire crew right now. Generate a QR code, post it at the station or send it via group text, and each provider scans to import the config in seconds. The paid agency portal adds push updates, locked settings, and audit trail on top of the QR flow.
+            </div>
+
+            <p class="pricing-footer-note">
+                MedicLog will always have a free tier for individual providers during beta. Pricing is designed to be fair to the audience — EMS providers solve real problems under pressure, and the tools they rely on should be priced accordingly. Questions? Reach out via the <a href="about.html">About</a> page.
+            </p>
+
         </div>
-
-        <div class="planned-banner">
-            <span class="planned-banner-icon">📋</span>
-            <div>
-                <strong>Planned for release</strong> — Pricing is not yet finalized. MedicLog is currently free during the TestFlight beta. This page reflects the intended model, subject to change before public launch.
-            </div>
-        </div>
-
-        <div class="pricing-grid">
-            <div class="pricing-card">
-                <div class="pricing-card-name">Solo</div>
-                <div class="pricing-card-price">Free</div>
-                <div class="pricing-card-desc">For individual providers. Full core feature set, no agency management.</div>
-                <ul class="pricing-card-features">
-                    <li>Active call logging &amp; timers</li>
-                    <li>Voice entry</li>
-                    <li>Apple Watch companion</li>
-                    <li>MIST radio report</li>
-                    <li>Hospital handoff report</li>
-                    <li>Call history &amp; export</li>
-                    <li>Vitals tracking</li>
-                </ul>
-                <div class="pricing-card-cta">Coming Soon</div>
-            </div>
-
-            <div class="pricing-card featured">
-                <div class="pricing-card-badge">Most Popular</div>
-                <div class="pricing-card-name">Agency</div>
-                <div class="pricing-card-price">TBD <span>/ provider / mo</span></div>
-                <div class="pricing-card-desc">For agencies deploying MedicLog across a crew. Centralized config and branding.</div>
-                <ul class="pricing-card-features">
-                    <li>Everything in Solo</li>
-                    <li>Agency branding &amp; logo</li>
-                    <li>QR config deployment</li>
-                    <li>Locked agency settings</li>
-                    <li>Cardiac procedures config</li>
-                    <li>Stroke scale selection</li>
-                    <li>Crew announce</li>
-                    <li>Claude Vision OCR</li>
-                </ul>
-                <div class="pricing-card-cta">Coming Soon</div>
-            </div>
-
-            <div class="pricing-card">
-                <div class="pricing-card-name">Enterprise</div>
-                <div class="pricing-card-price">Contact us</div>
-                <div class="pricing-card-desc">For large agencies or health systems needing custom integration or volume pricing.</div>
-                <ul class="pricing-card-features">
-                    <li>Everything in Agency</li>
-                    <li>Volume pricing</li>
-                    <li>RMS / ePCR integration</li>
-                    <li>Custom dispatch pipeline</li>
-                    <li>Dedicated support</li>
-                    <li>HIPAA BAA</li>
-                </ul>
-                <div class="pricing-card-cta">Coming Soon</div>
-            </div>
-        </div>
-
-        <p class="pricing-note">
-            MedicLog will always have a free tier for individual providers. Pricing for agency and enterprise tiers will be announced closer to public launch. If you're an agency interested in early access, <a href="agency.html">see the Agency tools</a> or reach out directly.
-        </p>
     </main>
 
     <script src="nav-loader.js"></script>
