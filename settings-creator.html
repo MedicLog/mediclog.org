@@ -979,7 +979,8 @@
                     </div>
                     <div class="qr-output">
                         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
-                            <button class="generate-btn" onclick="generateQR()">Generate QR Code</button>
+                            <button class="generate-btn" onclick="generateQR(ScreenFilter.currentScreen)" title="Generate QR for settings on this tab only">Generate QR — This Tab</button>
+                            <button class="generate-btn" onclick="generateQR()" title="Generate QR for all settings across every tab">Generate QR — Everything</button>
                             <button class="generate-btn" style="background:var(--bg-secondary);color:var(--text-secondary);border:1px solid var(--border);box-shadow:none;" onclick="if(confirm('Reset all settings to defaults?')) SettingsState.reset();">Reset to Defaults</button>
                         </div>
                         <p class="qr-privacy-note">Includes settings only — not your name, ID, logo, destinations, or call history.</p>
@@ -2272,18 +2273,20 @@
         // ========== QR GENERATOR ==========
         // Generates QuickConfigManager-compatible QR codes
 
-        function generateQR() {
+        function generateQR(screen) {
             if (SettingsState.errors && Object.keys(SettingsState.errors).length > 0) {
                 const container = document.getElementById('qr-pages');
                 container.innerHTML = '<p style="color:#f44336;text-align:center;padding:1rem;">Fix validation errors before generating QR.</p>';
                 return;
             }
 
-            const payload = buildPayload();
+            const payload = buildPayload(screen);
             const pages = splitPayload(payload);
 
             const container = document.getElementById('qr-pages');
-            container.innerHTML = '';
+            const tabLabels = { 'active-call':'Active Call', vitals:'Vitals', radio:'Radio Report', handoff:'Hospital Handoff', history:'History', export:'Share & Export', agency:'Agency', global:'Global' };
+            const scopeLabel = screen ? `${tabLabels[screen] || screen} tab only` : 'all tabs';
+            container.innerHTML = `<p style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;">Generating QR for: <strong>${scopeLabel}</strong></p>`;
 
             if (pages.length > 1) {
                 const notice = document.createElement('div');
@@ -2308,7 +2311,8 @@
                 const downloadLink = document.createElement('a');
                 downloadLink.className = 'qr-download-btn';
                 downloadLink.textContent = pages.length > 1 ? `Download QR ${index + 1}` : 'Download QR';
-                downloadLink.download = pages.length > 1 ? `mediclog-config-qr${index + 1}.png` : 'mediclog-config.png';
+                const fileSlug = screen ? `mediclog-${screen}` : 'mediclog-config';
+                downloadLink.download = pages.length > 1 ? `${fileSlug}-qr${index + 1}.png` : `${fileSlug}.png`;
                 pageDiv.appendChild(downloadLink);
 
                 container.appendChild(pageDiv);
@@ -2323,7 +2327,7 @@
             });
         }
 
-        function buildPayload() {
+        function buildPayload(screen) {
             const payload = {
                 type: 'quick_config',
                 configVersion: 1,
@@ -2331,7 +2335,9 @@
             };
 
             // Build nested structure using qrPath from registry
+            // If screen is specified, only include settings belonging to that tab
             for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
+                if (screen && !meta.screens.includes(screen)) continue;
                 const value = SettingsState.get(key);
                 if (value === meta.default) continue; // Skip defaults
 
@@ -2344,13 +2350,15 @@
                 current[path[path.length - 1]] = value;
             }
 
-            // Add quick entry slots (T218 — always include, replaces individual booleans)
-            if (!payload.quickEntry) payload.quickEntry = {};
-            payload.quickEntry.slots = QuickEntrySlots.getAll();
-
-            // Add vitals field order
-            if (!payload.vitals) payload.vitals = {};
-            payload.vitals.fieldOrder = VitalsFieldOrder.getAll();
+            // Quick entry slots and vitals field order: only include when relevant tab or full export
+            if (!screen || screen === 'active-call') {
+                if (!payload.quickEntry) payload.quickEntry = {};
+                payload.quickEntry.slots = QuickEntrySlots.getAll();
+            }
+            if (!screen || screen === 'vitals') {
+                if (!payload.vitals) payload.vitals = {};
+                payload.vitals.fieldOrder = VitalsFieldOrder.getAll();
+            }
 
             return payload;
         }
