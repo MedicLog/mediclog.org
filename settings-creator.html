@@ -646,6 +646,38 @@
             align-self: stretch;
         }
 
+        /* Vitals collapsed card row (in Active Call timeline) */
+        .preview-vitals-card-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 4px 8px 2px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: rgba(255,149,0,0.1);
+            border: 1px solid rgba(255,149,0,0.28);
+            font-size: 0.68rem;
+        }
+        .preview-vitals-card-time {
+            flex-shrink: 0;
+            font-variant-numeric: tabular-nums;
+            opacity: 0.55;
+            font-size: 0.65rem;
+        }
+        .preview-vitals-card-icon {
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        .preview-vitals-card-text {
+            flex: 1;
+            color: #FF9500;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .preview-vitals-card-chevron { opacity: 0.45; flex-shrink: 0; font-size: 0.6rem; }
+
         /* Vitals entry rows */
         .preview-vitals-row {
             display: flex;
@@ -1955,12 +1987,31 @@
                     </div>`;
                 }).join('')}</div>` : '<div style="font-size:0.65rem;padding:6px 10px;opacity:0.5">No quick entry slots</div>';
 
+                // Collapsed vitals card — live preview of vitalsCollapsed settings
+                const vitalsTime = use24h ? '19:38' : '7:38 PM';
+                const vcParts = [];
+                if (SettingsState.get('vitalsCollapsed.showBP'))      vcParts.push('BP: 120/80');
+                if (SettingsState.get('vitalsCollapsed.showHR'))      vcParts.push('HR: 88');
+                if (SettingsState.get('vitalsCollapsed.showRR'))      vcParts.push('RR: 16');
+                if (SettingsState.get('vitalsCollapsed.showSpO2'))    vcParts.push('SpO₂: 98%');
+                if (SettingsState.get('vitalsCollapsed.showTemp'))    vcParts.push('T: 98.6°');
+                if (SettingsState.get('vitalsCollapsed.showETCO2'))   vcParts.push('CO₂: 38');
+                if (SettingsState.get('vitalsCollapsed.showGlucose')) vcParts.push('BGL: 110');
+                if (SettingsState.get('vitalsCollapsed.showPain'))    vcParts.push('Pain: 4');
+                if (SettingsState.get('vitalsCollapsed.showGCS'))     vcParts.push('GCS: 15');
+                const vcText = vcParts.length ? vcParts.join(' • ') : 'No vitals selected';
+                const vitalsCardRow = `<div class="preview-vitals-card-row">
+                    <span class="preview-vitals-card-time">${vitalsTime}</span>
+                    <span class="preview-vitals-card-icon">🟠</span>
+                    <span class="preview-vitals-card-text">${vcText}</span>
+                    <span class="preview-vitals-card-chevron">⌄</span>
+                </div>`;
+
                 // Timeline
                 const entries = [
                     { time: use24h ? '19:33' : '7:33 PM', text: 'Epi 1:10,000 1.0mg IV', color: '#FF3B30' },
                     { time: use24h ? '19:29' : '7:29 PM', text: 'Nitroglycerin 0.4mg SL', color: '#FF3B30' },
                     { time: use24h ? '19:23' : '7:23 PM', text: 'Fentanyl 50.0mcg IV', color: '#007AFF' },
-                    { time: use24h ? '19:19' : '7:19 PM', text: 'Blood Pressure: 102/68', color: '#FF9500' },
                 ];
                 const row = e => `<div class="preview-timeline-row">
                     <div class="preview-timeline-time">${e.time}</div>
@@ -1968,7 +2019,7 @@
                     <div style="font-size:0.68rem">${e.text}</div>
                 </div>`;
                 const timelineHtml = (groupEntries ? '<div class="preview-section-label">Now</div>' : '')
-                    + entries.map(row).join('');
+                    + vitalsCardRow + entries.map(row).join('');
 
                 preview.innerHTML = `
                     <div class="preview-statusbar"><span>${timeStr}</span><span style="margin-left:auto">▌▌ ☁ 97%</span></div>
