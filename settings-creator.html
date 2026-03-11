@@ -1211,6 +1211,7 @@
             settings: {
                 // Agency
                 'agencyName': { type: 'text', default: '', screens: ['agency'], section: 'Agency Information', qrPath: ['agency', 'name'] },
+                'agencyLogoURL': { type: 'url', default: '', screens: ['agency'], section: 'Agency Information', description: 'Publicly accessible URL to your agency logo. App will download and cache on import.', qrPath: ['agency', 'logoURL'] },
                 'useIncidentNumbers': { type: 'toggle', default: true, screens: ['agency'], section: 'Incident Tracking & Dispatch', qrPath: ['agency', 'useIncidentNumbers'] },
                 'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'showPHIWarnings'] },
                 'showTestDataTools': { type: 'toggle', default: true, screens: ['agency'], section: 'Training & Testing', qrPath: ['agency', 'showTestDataTools'] },
@@ -1775,6 +1776,7 @@
                     'exportFormat.text': 'Text',
                     'exportFormat.csv': 'CSV',
                     'export.includePhotos': 'Include Photos',
+                    'agencyLogoURL': 'Logo URL',
                     'agency.destinationsEnabled': 'Destinations Tab',
                     'agency.preferredMapsApp': 'Preferred Navigation App',
                     'agency.showDemographicsReminder': 'Demographics Reminder',
@@ -1874,10 +1876,11 @@
                     return wrapper;
                 }
 
-                if (meta.type === 'text') {
+                if (meta.type === 'text' || meta.type === 'url') {
                     const input = document.createElement('input');
-                    input.type = 'text';
+                    input.type = meta.type === 'url' ? 'url' : 'text';
                     input.value = value;
+                    input.placeholder = meta.type === 'url' ? 'https://...' : '';
                     input.style.width = '200px';
                     input.style.padding = '0.4rem 0.5rem';
                     input.style.border = '1px solid var(--border)';
@@ -2236,7 +2239,7 @@
                         <div class="preview-section-label">Agency Information</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Agency Name</span><span class="preview-list-row-value">${agencyName}</span></div>
-                            <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Agency Logo</span><span class="preview-list-row-chevron">›</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Logo URL</span><span class="preview-list-row-value" style="font-size:0.65rem;word-break:break-all;max-width:120px;text-align:right">${SettingsState.get('agencyLogoURL') || '—'}</span></div>
                         </div>
                         <div class="preview-section-label">Incident Tracking &amp; Dispatch</div>
                         <div class="preview-card-group">
