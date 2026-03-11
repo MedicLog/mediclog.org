@@ -1240,7 +1240,7 @@
                     {value: 'waze', label: 'Waze'}
                 ], screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'preferredMapsApp'] },
                 'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['handoff', 'agency'], section: 'Hospital Handoff Report', qrPath: ['agency', 'showDemographicsReminder'] },
-                'incidentNumberFormat': { type: 'text', default: '', screens: ['agency'], section: 'Incident Tracking & Dispatch', qrPath: ['agency', 'incidentNumberFormat'] },
+                'incidentNumberFormat': { type: 'text', default: '', placeholder: 'E##########', screens: ['agency'], section: 'Incident Tracking & Dispatch', description: 'Use # for digits, any other character stays literal. Examples: E########## → E2601100255 · R####-###-## → R2026-001-42 · INC-###### → INC-123456', qrPath: ['agency', 'incidentNumberFormat'] },
                 'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Support & Diagnostics', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
                 // Agency feature flags
                 'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'agencyGpsEnabled'] },
@@ -1880,7 +1880,7 @@
                     const input = document.createElement('input');
                     input.type = meta.type === 'url' ? 'url' : 'text';
                     input.value = value;
-                    input.placeholder = meta.type === 'url' ? 'https://...' : '';
+                    input.placeholder = meta.placeholder || (meta.type === 'url' ? 'https://...' : '');
                     input.style.width = '200px';
                     input.style.padding = '0.4rem 0.5rem';
                     input.style.border = '1px solid var(--border)';
