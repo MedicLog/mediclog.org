@@ -504,6 +504,71 @@
         }
         .preview-screen.light .preview-section-label { color: #6e6e73; }
         .preview-screen.dark .preview-section-label { color: #98989d; }
+        .preview-toggle-val { font-size: 0.7rem; }
+        .preview-screen.light .preview-toggle-val.on { color: #34C759; }
+        .preview-screen.dark .preview-toggle-val.on { color: #30d158; }
+        .preview-screen.light .preview-toggle-val:not(.on) { color: #6e6e73; }
+        .preview-screen.dark .preview-toggle-val:not(.on) { color: #98989d; }
+
+        /* iOS Status Bar */
+        .preview-statusbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 14px 1px;
+            font-size: 9px;
+            font-weight: 700;
+            flex-shrink: 0;
+            height: 20px;
+            letter-spacing: 0.01em;
+        }
+        .preview-screen.light .preview-statusbar { color: #1c1c1e; }
+        .preview-screen.dark .preview-statusbar { color: #f2f2f7; }
+
+        /* iOS Nav Bar */
+        .preview-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3px 10px 6px;
+            flex-shrink: 0;
+            border-bottom: 0.5px solid rgba(128,128,128,0.22);
+        }
+        .preview-screen.light .preview-navbar { background: rgba(242,242,247,0.94); }
+        .preview-screen.dark .preview-navbar { background: rgba(28,28,30,0.94); }
+        .preview-navbar-title { font-size: 14px; font-weight: 700; flex: 1; text-align: center; }
+        .preview-navbar-btn { font-size: 11px; font-weight: 500; color: #007AFF; min-width: 36px; }
+        .preview-screen.dark .preview-navbar-btn { color: #0a84ff; }
+        .preview-navbar-back { font-size: 11px; font-weight: 400; color: #007AFF; min-width: 36px; }
+        .preview-screen.dark .preview-navbar-back { color: #0a84ff; }
+
+        /* Quick Entry Bottom Bar */
+        .preview-qe-bar {
+            display: flex;
+            gap: 3px;
+            padding: 5px 6px 7px;
+            overflow-x: auto;
+            flex-shrink: 0;
+            border-top: 0.5px solid rgba(128,128,128,0.25);
+            scrollbar-width: none;
+        }
+        .preview-qe-bar::-webkit-scrollbar { display: none; }
+        .preview-screen.light .preview-qe-bar { background: rgba(249,249,249,0.96); }
+        .preview-screen.dark .preview-qe-bar { background: rgba(28,28,30,0.96); }
+        .preview-qe-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            padding: 5px 5px 3px;
+            border-radius: 9px;
+            min-width: 42px;
+            flex-shrink: 0;
+        }
+        .preview-screen.light .preview-qe-item { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .preview-screen.dark .preview-qe-item { background: #2c2c2e; }
+        .preview-qe-icon { font-size: 13px; line-height: 1.2; }
+        .preview-qe-label { font-size: 7px; font-weight: 500; text-align: center; opacity: 0.72; white-space: nowrap; }
 
         /* Timer pills */
         .preview-timer-row {
@@ -743,6 +808,7 @@
             <button class="screen-tab" data-screen="handoff">Hospital Handoff</button>
             <button class="screen-tab" data-screen="history">History</button>
             <button class="screen-tab" data-screen="export">Share/Export</button>
+            <button class="screen-tab" data-screen="agency">Agency</button>
             <button class="screen-tab" data-screen="global">Global</button>
         </div>
 
@@ -965,10 +1031,10 @@
             // Key: setting key, Value: metadata
             settings: {
                 // Agency
-                'agencyName': { type: 'text', default: '', screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'name'] },
-                'useIncidentNumbers': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'useIncidentNumbers'] },
-                'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'global'], section: 'PHI Warnings', qrPath: ['agency', 'showPHIWarnings'] },
-                'showTestDataTools': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'showTestDataTools'] },
+                'agencyName': { type: 'text', default: '', screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'name'] },
+                'useIncidentNumbers': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'useIncidentNumbers'] },
+                'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'PHI Warnings', qrPath: ['agency', 'showPHIWarnings'] },
+                'showTestDataTools': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'showTestDataTools'] },
                 'cardiac.showVectorChange': { type: 'toggle', default: true, screens: ['active-call'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showVectorChange'] },
                 'cardiac.showDualSequential': { type: 'toggle', default: true, screens: ['active-call'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showDualSequential'] },
                 'endOfCallAction': { type: 'select', default: 'hospital', options: [
@@ -987,29 +1053,29 @@
                 ], screens: ['vitals'], section: 'Stroke Scale', qrPath: ['agency', 'strokeScale'] },
 
                 // Agency — features and clinical thresholds (T143 gap settings)
-                'agency.destinationsEnabled': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'destinationsEnabled'] },
+                'agency.destinationsEnabled': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'destinationsEnabled'] },
                 'agency.preferredMapsApp': { type: 'select', default: 'apple', options: [
                     {value: 'apple', label: 'Apple Maps'},
                     {value: 'google', label: 'Google Maps'},
                     {value: 'waze', label: 'Waze'}
-                ], screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'preferredMapsApp'] },
-                'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'showDemographicsReminder'] },
-                'incidentNumberFormat': { type: 'text', default: '', screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'incidentNumberFormat'] },
-                'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
+                ], screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'preferredMapsApp'] },
+                'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'showDemographicsReminder'] },
+                'incidentNumberFormat': { type: 'text', default: '', screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'incidentNumberFormat'] },
+                'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
                 // Agency feature flags
-                'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'agencyGpsEnabled'] },
-                'aiParsingEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'aiParsingEnabled'] },
-                'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
-                'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Agency Configuration', qrPath: ['agency', 'crewAnnounceEnabled'] },
+                'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'agencyGpsEnabled'] },
+                'aiParsingEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'aiParsingEnabled'] },
+                'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
+                'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'crewAnnounceEnabled'] },
                 // Voice pipeline config (T194/T195) — agency-level, included in QR export
-                'voice.silenceThreshold': { type: 'number', default: 2.0, min: 0.5, max: 10.0, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.silenceThreshold'] },
-                'voice.vadTrimEnabled': { type: 'toggle', default: false, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.vadTrimEnabled'] },
+                'voice.silenceThreshold': { type: 'number', default: 2.0, min: 0.5, max: 10.0, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.silenceThreshold'] },
+                'voice.vadTrimEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.vadTrimEnabled'] },
                 'voice.verbosity': { type: 'select', default: 'short', options: [
                     {value: 'short', label: 'Short'},
                     {value: 'full', label: 'Full'},
                     {value: 'off', label: 'Off'}
-                ], screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.verbosity'] },
-                'voice.autoPromoteThreshold': { type: 'number', default: 0.85, min: 0.0, max: 1.0, screens: ['global'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.autoPromoteThreshold'] },
+                ], screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.verbosity'] },
+                'voice.autoPromoteThreshold': { type: 'number', default: 0.85, min: 0.0, max: 1.0, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.autoPromoteThreshold'] },
                 // LVO alert thresholds — only relevant when stroke scale is lams/fasted/race
                 'agency.lvoThreshold.lams': { type: 'number', default: 4, min: 1, max: 5, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.lams'] },
                 'agency.lvoThreshold.fasted': { type: 'number', default: 1, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.fasted'] },
@@ -1679,6 +1745,8 @@
                     this.renderHistory(preview);
                 } else if (screen === 'export') {
                     this.renderExport(preview);
+                } else if (screen === 'agency') {
+                    this.renderAgency(preview);
                 } else {
                     this.renderGlobal(preview);
                 }
@@ -1693,11 +1761,6 @@
                     iv: '🩸', procedure: '🔬', note: '📝', photo: '📷',
                     trauma: '🩹', transfer: '🚑', address: '📍', dripCalc: '🧮',
                     pump: '⏱️', vent: '💨', patientProfile: '👤' };
-                const qeButtons = QuickEntrySlots.getAll().map(s => {
-                    const icon = qeMap[s.primary] || '•';
-                    const label = QE_SLOT_TYPES[s.primary]?.label || s.primary;
-                    return [s.primary, `${icon} ${label}`];
-                });
                 const timers = MedicationTimers.getAll().filter(t => t.timerEnabled);
                 const timeStr = use24h ? '15:47' : '3:47 PM';
 
@@ -1718,46 +1781,50 @@
 
                 const timelineRows = (() => {
                     const entries = [
-                        { time: use24h ? '15:47' : '3:47 PM', text: 'Fentanyl 100mcg IV push' },
-                        { time: use24h ? '15:45' : '3:45 PM', text: 'Vitals: BP 120/80, HR 95, SpO₂ 98%' },
-                        { time: use24h ? '15:41' : '3:41 PM', text: 'IV — 18ga R AC established' },
+                        { time: use24h ? '15:47' : '3:47 PM', text: 'Fentanyl 100mcg IV push', color: '#30d158' },
+                        { time: use24h ? '15:45' : '3:45 PM', text: 'BP 120/80  HR 95  SpO₂ 98%', color: '#ff6b6b' },
+                        { time: use24h ? '15:41' : '3:41 PM', text: '18ga R AC established', color: '#007AFF' },
+                        { time: use24h ? '15:32' : '3:32 PM', text: 'ASA 324mg PO given', color: '#30d158' },
                     ];
-                    if (groupEntries) {
-                        return `<div class="preview-section-label">Now</div>` +
-                            entries.map(e => `<div class="preview-timeline-row">
-                                <div class="preview-timeline-time">${e.time}</div>
-                                <div class="preview-timeline-accent"></div>
-                                <div style="font-size:0.72rem">${e.text}</div>
-                            </div>`).join('');
-                    }
-                    return entries.map(e => `<div class="preview-timeline-row">
+                    const row = e => `<div class="preview-timeline-row">
                         <div class="preview-timeline-time">${e.time}</div>
-                        <div class="preview-timeline-accent"></div>
-                        <div style="font-size:0.72rem">${e.text}</div>
-                    </div>`).join('');
+                        <div class="preview-timeline-accent" style="background:${e.color}"></div>
+                        <div style="font-size:0.7rem">${e.text}</div>
+                    </div>`;
+                    if (groupEntries) {
+                        return `<div class="preview-section-label">Now</div>` + entries.map(row).join('');
+                    }
+                    return entries.map(row).join('');
                 })();
 
+                const qeBarItems = QuickEntrySlots.getAll().map(s => {
+                    const icon = qeMap[s.primary] || '•';
+                    const label = QE_SLOT_TYPES[s.primary]?.label || s.primary;
+                    const hasSec = !!s.secondary;
+                    return `<div class="preview-qe-item"><div class="preview-qe-icon">${icon}</div><div class="preview-qe-label">${label}${hasSec ? ' ▾' : ''}</div></div>`;
+                }).join('') || '<div style="font-size:0.65rem;padding:0.5rem;opacity:0.5">No slots</div>';
+
                 preview.innerHTML = `
-                    <div class="preview-header">Active Call — ${timeStr}</div>
-                    <div class="preview-content" style="padding:0">
-                        ${(showCallTimer || (showMedTimers && timers.length)) ? `<div class="preview-timer-row">${timerPills}</div>` : ''}
-                        <div class="preview-section-label">Quick Entry</div>
-                        <div class="preview-qe-grid">
-                            ${qeButtons.map(([, label]) => `<div class="preview-qe-btn">${label}</div>`).join('')}
-                            ${qeButtons.length === 0 ? '<div style="font-size:0.7rem;color:#888;padding:0.5rem;grid-column:1/-1">No quick entry enabled</div>' : ''}
-                        </div>
-                        <div class="preview-section-label">Timeline</div>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Calls</span>
+                        <span class="preview-navbar-title">Active Call</span>
+                        <span class="preview-navbar-btn" style="text-align:right">···</span>
+                    </div>
+                    ${(showCallTimer || (showMedTimers && timers.length)) ? `<div class="preview-timer-row">${timerPills}</div>` : ''}
+                    <div class="preview-content" style="padding:0;flex:1;overflow-y:auto">
                         ${timelineRows}
                     </div>
+                    <div class="preview-qe-bar">${qeBarItems}</div>
                 `;
             },
 
             renderVitals(preview) {
+                const use24h = SettingsState.get('use24HourTime');
                 const fieldLabels = { BP: 'Blood Pressure', HR: 'Heart Rate', SpO2: 'SpO₂', RR: 'Resp Rate',
                     Temp: 'Temperature', ETCO2: 'EtCO₂', Glucose: 'Glucose', Pain: 'Pain (0–10)', GCS: 'GCS', StrokeScreen: 'Stroke Screen' };
                 const fieldPlaceholders = { BP: '120/80', HR: '88', SpO2: '98%', RR: '16',
                     Temp: '98.6°', ETCO2: '38', Glucose: '110', Pain: '7', GCS: '15', StrokeScreen: 'Neg' };
-                const collapsed = SettingsState.get('vitalsCollapsed');
                 const fields = VitalsFieldOrder.getAll().filter(f => SettingsState.get(`vitalsShow${f}`));
 
                 const rows = fields.map(f => `
@@ -1769,7 +1836,12 @@
                 const showMathHelper = SettingsState.get('vitalsShowMathHelper');
 
                 preview.innerHTML = `
-                    <div class="preview-header">Vitals Entry</div>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${use24h ? '15:47' : '3:47 PM'}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Back</span>
+                        <span class="preview-navbar-title">Vitals Entry</span>
+                        <span class="preview-navbar-btn" style="text-align:right">Save</span>
+                    </div>
                     <div class="preview-content" style="padding:0">
                         <div class="preview-section-label">Vitals</div>
                         <div class="preview-card-group">${rows || '<div style="padding:0.5rem 0.75rem;font-size:0.72rem;opacity:0.5">No vitals fields enabled</div>'}</div>
@@ -1785,8 +1857,14 @@
             renderRadio(preview) {
                 const showFullVitals = SettingsState.get('radioShowFullVitals');
                 const use24h = SettingsState.get('use24HourTime');
+                const timeStr = use24h ? '15:47' : '3:47 PM';
                 preview.innerHTML = `
-                    <div class="preview-header">Radio Report</div>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Back</span>
+                        <span class="preview-navbar-title">Radio Report</span>
+                        <span class="preview-navbar-btn" style="text-align:right">Share</span>
+                    </div>
                     <div class="preview-content" style="padding:0">
                         <div class="preview-section-label">Patient</div>
                         <div class="preview-card-group">
@@ -1814,8 +1892,15 @@
             renderHandoff(preview) {
                 const showAtEndCall = SettingsState.get('hospitalHandoff.showAtEndCall');
                 const showInShare = SettingsState.get('hospitalHandoff.showInShareMenu');
+                const use24h = SettingsState.get('use24HourTime');
+                const timeStr = use24h ? '15:47' : '3:47 PM';
                 preview.innerHTML = `
-                    <div class="preview-header">Hospital Handoff</div>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Back</span>
+                        <span class="preview-navbar-title">Hospital Handoff</span>
+                        <span class="preview-navbar-btn" style="text-align:right">Share</span>
+                    </div>
                     <div class="preview-content" style="padding:0">
                         <div class="preview-section-label">Patient Summary</div>
                         <div class="preview-card-group">
@@ -1825,8 +1910,8 @@
                         </div>
                         <div class="preview-section-label">Availability</div>
                         <div class="preview-card-group">
-                            <div class="preview-list-row"><span class="preview-list-row-label">At End of Call</span><span class="preview-list-row-value">${showAtEndCall ? '✓ On' : 'Off'}</span></div>
-                            <div class="preview-list-row"><span class="preview-list-row-label">In Share Menu</span><span class="preview-list-row-value">${showInShare ? '✓ On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">At End of Call</span><span class="preview-list-row-value preview-toggle-val ${showAtEndCall ? 'on' : ''}">${showAtEndCall ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">In Share Menu</span><span class="preview-list-row-value preview-toggle-val ${showInShare ? 'on' : ''}">${showInShare ? 'On' : 'Off'}</span></div>
                         </div>
                     </div>
                 `;
@@ -1835,10 +1920,11 @@
             renderHistory(preview) {
                 const groupEntries = SettingsState.get('groupHistoryEntries');
                 const use24h = SettingsState.get('use24HourTime');
+                const timeStr = use24h ? '15:47' : '3:47 PM';
                 const calls = [
-                    { date: 'Today', time: use24h ? '15:47' : '3:47 PM', cc: 'Chest Pain Transport' },
-                    { date: 'Today', time: use24h ? '12:30' : '12:30 PM', cc: 'Trauma — MVC' },
-                    { date: 'Yesterday', time: use24h ? '18:20' : '6:20 PM', cc: 'Respiratory Distress' },
+                    { time: use24h ? '15:47' : '3:47 PM', cc: 'Chest Pain Transport' },
+                    { time: use24h ? '12:30' : '12:30 PM', cc: 'Trauma — MVC' },
+                    { time: use24h ? '18:20' : '6:20 PM', cc: 'Respiratory Distress' },
                 ];
                 const rows = groupEntries
                     ? [['Today', calls.slice(0,2)], ['Yesterday', calls.slice(2)]]
@@ -1851,7 +1937,12 @@
                             <div class="preview-list-row"><span class="preview-list-row-label">${c.cc}</span><span class="preview-list-row-value">${c.time}</span></div>`).join('')}</div>`;
 
                 preview.innerHTML = `
-                    <div class="preview-header">Call History</div>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span></span>
+                        <span class="preview-navbar-title">Call History</span>
+                        <span class="preview-navbar-btn" style="text-align:right">+</span>
+                    </div>
                     <div class="preview-content" style="padding:0">${rows}</div>
                 `;
             },
@@ -1863,8 +1954,15 @@
                     { key: 'csv', label: 'CSV Spreadsheet' }
                 ].filter(f => SettingsState.get(`exportFormat.${f.key}`));
                 const includePhotos = SettingsState.get('export.includePhotos');
+                const use24h = SettingsState.get('use24HourTime');
+                const timeStr = use24h ? '15:47' : '3:47 PM';
                 preview.innerHTML = `
-                    <div class="preview-header">Share / Export</div>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Back</span>
+                        <span class="preview-navbar-title">Share / Export</span>
+                        <span></span>
+                    </div>
                     <div class="preview-content" style="padding:0">
                         <div class="preview-section-label">Export Formats</div>
                         <div class="preview-card-group">
@@ -1874,7 +1972,36 @@
                         </div>
                         <div class="preview-section-label">Options</div>
                         <div class="preview-card-group">
-                            <div class="preview-list-row"><span class="preview-list-row-label">Include Photos</span><span class="preview-list-row-value">${includePhotos ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Include Photos</span><span class="preview-list-row-value preview-toggle-val ${includePhotos ? 'on' : ''}">${includePhotos ? 'On' : 'Off'}</span></div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            renderAgency(preview) {
+                const agencyName = SettingsState.get('agencyName') || 'Not Set';
+                const gps = SettingsState.get('agencyGpsEnabled');
+                const ai = SettingsState.get('aiParsingEnabled');
+                const crew = SettingsState.get('crewAnnounceEnabled');
+                const incFmt = SettingsState.get('incidentNumberFormat') || 'None';
+                preview.innerHTML = `
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>3:47 PM</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span class="preview-navbar-back">‹ Settings</span>
+                        <span class="preview-navbar-title">Agency</span>
+                        <span></span>
+                    </div>
+                    <div class="preview-content" style="padding:0">
+                        <div class="preview-section-label">Agency</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Agency Name</span><span class="preview-list-row-value">${agencyName}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Incident # Format</span><span class="preview-list-row-value">${incFmt || '—'}</span></div>
+                        </div>
+                        <div class="preview-section-label">Features</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">GPS Tracking</span><span class="preview-list-row-value preview-toggle-val ${gps ? 'on' : ''}">${gps ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">AI Parsing</span><span class="preview-list-row-value preview-toggle-val ${ai ? 'on' : ''}">${ai ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Crew Announce</span><span class="preview-list-row-value preview-toggle-val ${crew ? 'on' : ''}">${crew ? 'On' : 'Off'}</span></div>
                         </div>
                     </div>
                 `;
@@ -1884,19 +2011,24 @@
                 const theme = SettingsState.get('appearanceMode');
                 const use24h = SettingsState.get('use24HourTime');
                 const useUTC = SettingsState.get('useUTCTime');
-                const agencyName = SettingsState.get('agencyName') || 'Not Set';
+                const timeStr = use24h ? '15:47' : '3:47 PM';
                 const timeExample = use24h ? (useUTC ? '21:47 UTC' : '15:47') : (useUTC ? '9:47 PM UTC' : '3:47 PM');
                 preview.innerHTML = `
-                    <div class="preview-header">Settings</div>
+                    <div class="preview-statusbar"><span>●●●● ▼</span><span>${timeStr}</span><span>89%</span></div>
+                    <div class="preview-navbar">
+                        <span></span>
+                        <span class="preview-navbar-title">Settings</span>
+                        <span></span>
+                    </div>
                     <div class="preview-content" style="padding:0">
-                        <div class="preview-section-label">Agency</div>
-                        <div class="preview-card-group">
-                            <div class="preview-list-row"><span class="preview-list-row-label">Agency Name</span><span class="preview-list-row-value">${agencyName}</span></div>
-                        </div>
                         <div class="preview-section-label">Display</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Theme</span><span class="preview-list-row-value">${theme === 0 ? 'System' : theme === 1 ? 'Light' : 'Dark'}</span></div>
                             <div class="preview-list-row"><span class="preview-list-row-label">Time Format</span><span class="preview-list-row-value">${timeExample}</span></div>
+                        </div>
+                        <div class="preview-section-label">Apple Watch</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Watch Connectivity</span><span class="preview-list-row-value preview-toggle-val on">On</span></div>
                         </div>
                     </div>
                 `;
