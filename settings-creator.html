@@ -490,6 +490,8 @@
         }
         .preview-list-row:last-child { border-bottom: none; }
         .preview-list-row-label { flex: 1; }
+        .preview-list-row-chevron { color: #c7c7cc; font-size: 0.85rem; margin-left: 4px; }
+        .preview-list-row-nav { cursor: default; }
         .preview-screen.light .preview-list-row-value { color: #6e6e73; }
         .preview-screen.dark .preview-list-row-value { color: #98989d; }
         .preview-list-row-value {
@@ -1208,10 +1210,10 @@
             // Key: setting key, Value: metadata
             settings: {
                 // Agency
-                'agencyName': { type: 'text', default: '', screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'name'] },
-                'useIncidentNumbers': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'useIncidentNumbers'] },
-                'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'PHI Warnings', qrPath: ['agency', 'showPHIWarnings'] },
-                'showTestDataTools': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'showTestDataTools'] },
+                'agencyName': { type: 'text', default: '', screens: ['agency'], section: 'Agency Information', qrPath: ['agency', 'name'] },
+                'useIncidentNumbers': { type: 'toggle', default: true, screens: ['agency'], section: 'Incident Tracking & Dispatch', qrPath: ['agency', 'useIncidentNumbers'] },
+                'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'showPHIWarnings'] },
+                'showTestDataTools': { type: 'toggle', default: true, screens: ['agency'], section: 'Training & Testing', qrPath: ['agency', 'showTestDataTools'] },
                 'cardiac.showVectorChange': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showVectorChange'] },
                 'cardiac.showDualSequential': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showDualSequential'] },
                 'endOfCallAction': { type: 'select', default: 'hospital', options: [
@@ -1230,20 +1232,20 @@
                 ], screens: ['vitals'], section: 'Stroke Scale', qrPath: ['agency', 'strokeScale'] },
 
                 // Agency — features and clinical thresholds (T143 gap settings)
-                'agency.destinationsEnabled': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'destinationsEnabled'] },
+                'agency.destinationsEnabled': { type: 'toggle', default: true, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'destinationsEnabled'] },
                 'agency.preferredMapsApp': { type: 'select', default: 'apple', options: [
                     {value: 'apple', label: 'Apple Maps'},
                     {value: 'google', label: 'Google Maps'},
                     {value: 'waze', label: 'Waze'}
-                ], screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'preferredMapsApp'] },
-                'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'showDemographicsReminder'] },
-                'incidentNumberFormat': { type: 'text', default: '', screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'incidentNumberFormat'] },
-                'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
+                ], screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'preferredMapsApp'] },
+                'agency.showDemographicsReminder': { type: 'toggle', default: true, screens: ['handoff', 'agency'], section: 'Hospital Handoff Report', qrPath: ['agency', 'showDemographicsReminder'] },
+                'incidentNumberFormat': { type: 'text', default: '', screens: ['agency'], section: 'Incident Tracking & Dispatch', qrPath: ['agency', 'incidentNumberFormat'] },
+                'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Support & Diagnostics', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
                 // Agency feature flags
-                'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'agencyGpsEnabled'] },
-                'aiParsingEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'aiParsingEnabled'] },
-                'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
-                'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'crewAnnounceEnabled'] },
+                'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Features', qrPath: ['agency', 'agencyGpsEnabled'] },
+                'aiParsingEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsingEnabled'] },
+                'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
+                'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Crew Announce', qrPath: ['agency', 'crewAnnounceEnabled'] },
                 // Voice pipeline config (T194/T195) — agency-level, included in QR export
                 'voice.silenceThreshold': { type: 'number', default: 2.0, min: 0.5, max: 10.0, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.silenceThreshold'] },
                 'voice.vadTrimEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.vadTrimEnabled'] },
@@ -1306,7 +1308,7 @@
                 'timerPageDwellSeconds': { type: 'number', default: 5, min: 0, max: 30, screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'timerPageDwellSeconds'] },
 
                 // Vitals
-                'radioShowFullVitals': { type: 'toggle', default: true, screens: ['radio'], section: 'Radio Report', qrPath: ['vitals', 'radioShowFullVitals'] },
+                'radioShowFullVitals': { type: 'toggle', default: true, screens: ['radio'], section: 'Radio Report', description: 'Show all recorded vitals in the radio report, not just the most recent set', qrPath: ['vitals', 'radioShowFullVitals'] },
                 'vitalsReminderEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Vitals Reminder', qrPath: ['vitals', 'reminderEnabled'] },
                 'vitalsReminderInterval': { type: 'select', default: 300, options: [
                     {value: 300, label: '5 minutes'},
@@ -1314,7 +1316,7 @@
                     {value: 900, label: '15 minutes'},
                     {value: 1800, label: '30 minutes'}
                 ], screens: ['vitals'], section: 'Vitals Reminder', qrPath: ['vitals', 'reminderInterval'] },
-                'vitalsShowMathHelper': { type: 'toggle', default: true, screens: ['vitals'], section: 'Math Helpers', qrPath: ['vitals', 'showMathHelper'] },
+                'vitalsShowMathHelper': { type: 'toggle', default: true, screens: ['vitals'], section: 'Calculation Hints', description: 'Display calculation hints under relevant fields to help with quick reference math', qrPath: ['vitals', 'showMathHelper'] },
 
                 // Vitals Field Visibility (10 fields)
                 'vitalsShowBP': { type: 'toggle', default: true, screens: ['vitals'], section: 'Vitals Entry Fields', qrPath: ['vitals', 'fieldVisibility', 'vitalsShowBP'] },
@@ -1340,11 +1342,11 @@
                 'vitalsCollapsed.showGCS': { type: 'toggle', default: false, screens: ['active-call'], section: 'Vitals Collapsed Display', qrPath: ['display', 'vitalsCollapsed', 'showGCS'] },
 
                 // Export
-                'exportFormat.pdf': { type: 'toggle', default: true, screens: ['handoff', 'export'], section: 'Export Settings', qrPath: ['export', 'pdf'] },
-                'exportFormat.text': { type: 'toggle', default: false, screens: ['handoff', 'export'], section: 'Export Settings', qrPath: ['export', 'text'] },
-                'exportFormat.csv': { type: 'toggle', default: false, screens: ['handoff', 'export'], section: 'Export Settings', qrPath: ['export', 'csv'] },
+                'exportFormat.pdf': { type: 'toggle', default: true, screens: ['export'], section: 'Export Settings', qrPath: ['export', 'pdf'] },
+                'exportFormat.text': { type: 'toggle', default: false, screens: ['export'], section: 'Export Settings', qrPath: ['export', 'text'] },
+                'exportFormat.csv': { type: 'toggle', default: false, screens: ['export'], section: 'Export Settings', qrPath: ['export', 'csv'] },
                 // T143 gap setting
-                'export.includePhotos': { type: 'toggle', default: true, screens: ['handoff', 'export'], section: 'Export Settings', qrPath: ['export', 'includePhotos'] }
+                'export.includePhotos': { type: 'toggle', default: true, screens: ['export'], section: 'Export Settings', qrPath: ['export', 'includePhotos'] }
             }
         };
 
@@ -1706,7 +1708,7 @@
 
                 const label = document.createElement('div');
                 label.className = 'setting-label';
-                label.innerHTML = `<span>${this.getLabelText(key)}</span>`;
+                label.innerHTML = `<span>${this.getLabelText(key)}</span>${meta.description ? `<small>${meta.description}</small>` : ''}`;
 
                 const control = this.createControl(key, meta);
 
@@ -1746,10 +1748,10 @@
                     'watchHapticIntensity': 'Haptic Intensity',
                     'watchShakeAction': 'Shake Gesture Action',
                     'timerPageDwellSeconds': 'Timer Page Auto-Return (sec)',
-                    'radioShowFullVitals': 'Show Full Vitals',
+                    'radioShowFullVitals': 'Radio Report: Full Vitals',
                     'vitalsReminderEnabled': 'Enable Reminder',
                     'vitalsReminderInterval': 'Reminder Interval',
-                    'vitalsShowMathHelper': 'Math Helper',
+                    'vitalsShowMathHelper': 'Show Math Helpers',
                     'vitalsShowBP': 'Blood Pressure',
                     'vitalsShowHR': 'Heart Rate',
                     'vitalsShowSpO2': 'SpO₂',
@@ -1773,14 +1775,14 @@
                     'exportFormat.text': 'Text',
                     'exportFormat.csv': 'CSV',
                     'export.includePhotos': 'Include Photos',
-                    'agency.destinationsEnabled': 'Destinations Enabled',
-                    'agency.preferredMapsApp': 'Preferred Maps App',
+                    'agency.destinationsEnabled': 'Destinations Tab',
+                    'agency.preferredMapsApp': 'Preferred Navigation App',
                     'agency.showDemographicsReminder': 'Demographics Reminder',
                     'incidentNumberFormat': 'Incident Number Format',
                     'backgroundCrashLogging.enabled': 'Background Crash Logging',
-                    'agencyGpsEnabled': 'GPS Features',
-                    'aiParsingEnabled': 'AI Voice Parsing',
-                    'medOCRIncludeDoseFreq': 'OCR Include Dose & Frequency',
+                    'agencyGpsEnabled': 'GPS Tracking',
+                    'aiParsingEnabled': 'Claude Vision OCR',
+                    'medOCRIncludeDoseFreq': 'Include Dose & Frequency',
                     'crewAnnounceEnabled': 'Crew Announce',
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
@@ -2209,29 +2211,66 @@
             },
 
             renderAgency(preview) {
-                const agencyName = SettingsState.get('agencyName') || 'Not Set';
-                const gps = SettingsState.get('agencyGpsEnabled');
+                const agencyName = SettingsState.get('agencyName') || 'My Agency';
+                const useInc = SettingsState.get('useIncidentNumbers');
+                const incFmt = SettingsState.get('incidentNumberFormat') || '—';
                 const ai = SettingsState.get('aiParsingEnabled');
+                const dest = SettingsState.get('agency.destinationsEnabled');
+                const mapsApp = SettingsState.get('agency.preferredMapsApp');
+                const mapsLabel = mapsApp === 'google' ? 'Google Maps' : mapsApp === 'waze' ? 'Waze' : 'Apple Maps';
+                const strokeScale = SettingsState.get('strokeScale');
+                const strokeLabel = {cincinnati:'Cincinnati (CPSS)', lams:'LAMS', race:'RACE', fasted:'FAST-ED', none:'Generic Score'}[strokeScale] || strokeScale;
+                const endAction = SettingsState.get('endOfCallAction');
+                const endLabel = endAction === 'hospital' ? 'Hospital Handoff' : endAction === 'mist' ? 'MIST Radio Report' : 'None';
+                const phi = SettingsState.get('showPHIWarnings');
                 const crew = SettingsState.get('crewAnnounceEnabled');
-                const incFmt = SettingsState.get('incidentNumberFormat') || 'None';
+                const testTools = SettingsState.get('showTestDataTools');
                 preview.innerHTML = `
                     <div class="preview-statusbar"><span>●●●● ▼</span><span>3:47 PM</span><span>89%</span></div>
                     <div class="preview-navbar">
                         <span class="preview-navbar-back">‹ Settings</span>
-                        <span class="preview-navbar-title">Agency</span>
+                        <span class="preview-navbar-title">Agency Configuration</span>
                         <span></span>
                     </div>
                     <div class="preview-content" style="padding:0">
-                        <div class="preview-section-label">Agency</div>
+                        <div class="preview-section-label">Agency Information</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Agency Name</span><span class="preview-list-row-value">${agencyName}</span></div>
-                            <div class="preview-list-row"><span class="preview-list-row-label">Incident # Format</span><span class="preview-list-row-value">${incFmt || '—'}</span></div>
+                            <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Agency Logo</span><span class="preview-list-row-chevron">›</span></div>
                         </div>
-                        <div class="preview-section-label">Features</div>
+                        <div class="preview-section-label">Incident Tracking &amp; Dispatch</div>
                         <div class="preview-card-group">
-                            <div class="preview-list-row"><span class="preview-list-row-label">GPS Tracking</span><span class="preview-list-row-value preview-toggle-val ${gps ? 'on' : ''}">${gps ? 'On' : 'Off'}</span></div>
-                            <div class="preview-list-row"><span class="preview-list-row-label">AI Parsing</span><span class="preview-list-row-value preview-toggle-val ${ai ? 'on' : ''}">${ai ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Incident Numbers</span><span class="preview-list-row-value preview-toggle-val ${useInc ? 'on' : ''}" style="margin-right:4px">${useInc ? 'Enabled' : 'Disabled'}</span><span class="preview-list-row-chevron">›</span></div>
+                            <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Set Up Dispatch Messages</span><span class="preview-list-row-chevron">›</span></div>
+                        </div>
+                        <div class="preview-section-label">Enhanced OCR</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Claude Vision OCR</span><span class="preview-list-row-value preview-toggle-val ${ai ? 'on' : ''}" style="margin-right:4px">${ai ? 'On' : 'Not Configured'}</span><span class="preview-list-row-chevron">›</span></div>
+                        </div>
+                        <div class="preview-section-label">Destinations</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Destinations Tab</span><span class="preview-list-row-value preview-toggle-val ${dest ? 'on' : ''}">${dest ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Navigation App</span><span class="preview-list-row-value">${mapsLabel}</span></div>
+                        </div>
+                        <div class="preview-section-label">Crew Announce</div>
+                        <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Crew Announce</span><span class="preview-list-row-value preview-toggle-val ${crew ? 'on' : ''}">${crew ? 'On' : 'Off'}</span></div>
+                        </div>
+                        <div class="preview-section-label">Clinical Protocols</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Stroke Scale</span><span class="preview-list-row-value">${strokeLabel}</span></div>
+                        </div>
+                        <div class="preview-section-label">Hospital Handoff Report</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">End of Call Report</span><span class="preview-list-row-value">${endLabel}</span></div>
+                        </div>
+                        <div class="preview-section-label">Privacy &amp; PHI Safety</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Show PHI Warnings</span><span class="preview-list-row-value preview-toggle-val ${phi ? 'on' : ''}">${phi ? 'On' : 'Off'}</span></div>
+                        </div>
+                        <div class="preview-section-label">Training &amp; Testing</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Show Test Data Tools</span><span class="preview-list-row-value preview-toggle-val ${testTools ? 'on' : ''}">${testTools ? 'On' : 'Off'}</span></div>
                         </div>
                     </div>
                 `;
