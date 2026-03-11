@@ -1448,7 +1448,7 @@
                 // Group settings by section for current screen
                 const sections = {};
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
-                    if (meta.screens.includes(this.currentScreen) || meta.screens.includes('global')) {
+                    if (meta.screens.includes(this.currentScreen)) {
                         if (!sections[meta.section]) {
                             sections[meta.section] = [];
                         }
