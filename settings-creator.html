@@ -1180,8 +1180,8 @@
                 'useIncidentNumbers': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'useIncidentNumbers'] },
                 'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'PHI Warnings', qrPath: ['agency', 'showPHIWarnings'] },
                 'showTestDataTools': { type: 'toggle', default: true, screens: ['agency'], section: 'Agency Configuration', qrPath: ['agency', 'showTestDataTools'] },
-                'cardiac.showVectorChange': { type: 'toggle', default: true, screens: ['active-call'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showVectorChange'] },
-                'cardiac.showDualSequential': { type: 'toggle', default: true, screens: ['active-call'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showDualSequential'] },
+                'cardiac.showVectorChange': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showVectorChange'] },
+                'cardiac.showDualSequential': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showDualSequential'] },
                 'endOfCallAction': { type: 'select', default: 'hospital', options: [
                     {value: 'hospital', label: 'Hospital Handoff'},
                     {value: 'mist', label: 'MIST Radio Report'},
@@ -1335,7 +1335,6 @@
                     if (saved) {
                         const state = JSON.parse(saved);
                         if (state.values) Object.assign(this.values, state.values);
-                        if (state.timers) MedicationTimers.timers = state.timers;
                         if (state.fieldOrder) VitalsFieldOrder.order = state.fieldOrder;
                         if (state.quickEntrySlots) QuickEntrySlots.slots = state.quickEntrySlots;
                     }
@@ -1346,7 +1345,6 @@
                 try {
                     localStorage.setItem(STORAGE_KEY, JSON.stringify({
                         values: this.values,
-                        timers: MedicationTimers.timers,
                         fieldOrder: VitalsFieldOrder.order,
                         quickEntrySlots: QuickEntrySlots.slots
                     }));
@@ -1434,11 +1432,6 @@
                     slotSection.appendChild(this.createSlotEditor());
                     panel.appendChild(slotSection);
 
-                    const timerSection = document.createElement('div');
-                    timerSection.className = 'settings-section';
-                    timerSection.innerHTML = '<h3>Medication Timer Configuration</h3>';
-                    timerSection.appendChild(this.createTimerEditor());
-                    panel.appendChild(timerSection);
                 }
 
                 // Add vitals field order section for vitals screen
@@ -1915,8 +1908,7 @@
                 const shortLabels = { medication:'Med', procedure:'Proc', cardiacMeds:'C-Med',
                     cardiacProcs:'C-Proc', patientProfile:'Patient', dripCalc:'Drip' };
 
-                // Timer cards
-                const timers = MedicationTimers.getAll().filter(t => t.timerEnabled);
+                // Timer cards — use placeholder timers (per-timer config not in QR)
                 const timerCards = (() => {
                     const cards = [];
                     if (showCallTimer) {
@@ -1926,15 +1918,14 @@
                         </div>`);
                     }
                     if (showMedTimers) {
-                        timers.slice(0, 2).forEach((t, i) => {
-                            const overdue = i === 0;
-                            const val = overdue ? 'OVER' : '4:20';
-                            const valColor = overdue ? '#FF3B30' : t.timerColor;
-                            cards.push(`<div class="preview-timer-card" style="background:${t.timerColor}15;border-color:${t.timerColor}40">
-                                <div class="ptc-label">${t.name}</div>
-                                <div class="ptc-val" style="color:${valColor}">${val}</div>
-                            </div>`);
-                        });
+                        cards.push(`<div class="preview-timer-card" style="background:#FF3B3015;border-color:#FF3B3040">
+                            <div class="ptc-label">Fentanyl</div>
+                            <div class="ptc-val" style="color:#FF3B30">OVER</div>
+                        </div>`);
+                        cards.push(`<div class="preview-timer-card" style="background:#007AFF15;border-color:#007AFF40">
+                            <div class="ptc-label">Morphine</div>
+                            <div class="ptc-val" style="color:#007AFF">4:20</div>
+                        </div>`);
                     }
                     return cards.length
                         ? `<div class="preview-timer-cards">${cards.join('')}</div>`
@@ -2305,18 +2296,6 @@
             // Add vitals field order
             if (!payload.vitals) payload.vitals = {};
             payload.vitals.fieldOrder = VitalsFieldOrder.getAll();
-
-            // Add medication timers
-            const timers = MedicationTimers.getAll().filter(t => t.timerEnabled);
-            if (timers.length > 0) {
-                payload.timers = timers.map(t => ({
-                    name: t.name,
-                    timerEnabled: t.timerEnabled,
-                    timerDuration: t.timerDuration,
-                    timerLabel: t.timerLabel,
-                    timerColor: t.timerColor
-                }));
-            }
 
             return payload;
         }
