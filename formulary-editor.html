@@ -177,6 +177,12 @@
 
         .med-row.disabled .med-row-name { color: var(--text-muted); text-decoration: line-through; }
 
+        .med-row-timer-icon {
+            font-size: 0.78rem;
+            flex-shrink: 0;
+            opacity: 0.55;
+        }
+
         .med-row-toggle {
             position: relative;
             width: 32px;
@@ -823,6 +829,11 @@
         name.className = "med-row-name";
         name.textContent = item.name;
 
+        const timerIcon = document.createElement("span");
+        timerIcon.className = "med-row-timer-icon";
+        timerIcon.textContent = "⌚";
+        timerIcon.style.display = item.timerEnabled ? "" : "none";
+
         const toggleWrap = document.createElement("label");
         toggleWrap.className = "med-row-toggle";
         toggleWrap.onclick = e => e.stopPropagation();
@@ -846,6 +857,7 @@
 
         row.appendChild(dot);
         row.appendChild(name);
+        row.appendChild(timerIcon);
         row.appendChild(toggleWrap);
 
         row.addEventListener("click", () => {
@@ -953,6 +965,9 @@
 
         const timerEnabledRow = makeToggleRow("Enable Timer", item.timerEnabled, val => {
             item.timerEnabled = val;
+            // Update watch icon in list row
+            const icon = document.querySelector(`.med-row[data-id="${id}"] .med-row-timer-icon`);
+            if (icon) icon.style.display = val ? "" : "none";
             renderEditForm(id); // Rebuild to show/hide timer fields
         });
         timerSection.content.appendChild(timerEnabledRow);
