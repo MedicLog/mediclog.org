@@ -934,6 +934,60 @@
         }
         .ptab.active { opacity: 1; color: #007AFF; }
         .preview-screen.dark .ptab.active { color: #0a84ff; }
+
+        /* ── Role preset strip ── */
+        .role-preset-strip {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .role-preset-strip-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .role-preset-btns {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .role-preset-btn {
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            border: 1.5px solid var(--border);
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            line-height: 1;
+        }
+
+        .role-preset-btn:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+        }
+
+        .role-preset-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -944,6 +998,19 @@
         <div class="creator-header">
             <h1>Settings Creator</h1>
             <p class="subtitle">Customize MedicLog for yourself or configure your entire agency — generate a QR code anyone can scan to import settings instantly.</p>
+        </div>
+
+        <!-- Role preset strip -->
+        <div class="role-preset-strip">
+            <span class="role-preset-strip-label">Start from a preset</span>
+            <div class="role-preset-btns">
+                <button class="role-preset-btn" data-role="emr"           onclick="RolePresets.load('emr')">EMR</button>
+                <button class="role-preset-btn" data-role="emt-basic"     onclick="RolePresets.load('emt-basic')">EMT-Basic</button>
+                <button class="role-preset-btn" data-role="aemt"          onclick="RolePresets.load('aemt')">AEMT</button>
+                <button class="role-preset-btn" data-role="emt-varianced" onclick="RolePresets.load('emt-varianced')">EMT-Varianced</button>
+                <button class="role-preset-btn" data-role="paramedic"     onclick="RolePresets.load('paramedic')">Paramedic</button>
+                <button class="role-preset-btn" data-role="critical-care" onclick="RolePresets.load('critical-care')">Critical Care</button>
+            </div>
         </div>
 
         <!-- Screen selector tabs -->
@@ -1379,6 +1446,36 @@
             onChange(key, value) {
                 PreviewRenderer.update();
                 this.save();
+            }
+        };
+
+        // ========== ROLE PRESETS ==========
+
+        const RolePresets = {
+            presets: {
+                'emr':           { showMedicationTimers: false },
+                'emt-basic':     { showMedicationTimers: true  },
+                'aemt':          { showMedicationTimers: true  },
+                'emt-varianced': { showMedicationTimers: true  },
+                'paramedic':     { showMedicationTimers: true  },
+                'critical-care': { showMedicationTimers: true  }
+            },
+
+            load(role) {
+                const overrides = this.presets[role];
+                if (!overrides) return;
+                SettingsState.reset();
+                // Apply role-specific overrides directly then re-render panel once
+                for (const [key, value] of Object.entries(overrides)) {
+                    SettingsState.values[key] = value;
+                }
+                ScreenFilter.filterSettings();
+                PreviewRenderer.update();
+                SettingsState.save();
+                // Mark active button
+                document.querySelectorAll('.role-preset-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.role === role);
+                });
             }
         };
 

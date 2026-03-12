@@ -18,7 +18,7 @@
       "quickEntryIV": false,
       "quickEntryProcedure": true,
       "quickEntryNote": true,
-      "showMedicationTimers": false,
+      "showMedicationTimers": true,
       "showCallTimer": true,
       "useIncidentNumbers": true
     }
