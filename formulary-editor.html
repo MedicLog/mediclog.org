@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulary Editor — MedicLog</title>
+    <meta name="description" content="Configure your agency medication formulary — enable/disable meds, set default doses, configure timers. Download as .mlformulary for import into MedicLog.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ---- Layout ---- */
+        .tool-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        .tool-hero {
+            margin-bottom: 1.75rem;
+        }
+
+        .tool-hero h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.4rem;
+        }
+
+        .tool-hero p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 680px;
+        }
+
+        .tool-header-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 1rem;
+            border-radius: 9px;
+            font-size: 0.87rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+
+        .btn:hover { background: var(--bg-tertiary); }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover { opacity: 0.9; background: var(--accent); }
+
+        /* ---- Editor layout ---- */
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1.25rem;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .editor-layout { grid-template-columns: 1fr; }
+        }
+
+        /* ---- Med list panel ---- */
+        .med-list-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            position: sticky;
+            top: 1rem;
+        }
+
+        .med-panel-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .med-panel-tab {
+            flex: 1;
+            padding: 0.65rem 0;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: color 0.15s;
+        }
+
+        .med-panel-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .med-panel-search {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .med-panel-search input {
+            width: 100%;
+            padding: 0.35rem 0.6rem;
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.82rem;
+            box-sizing: border-box;
+        }
+
+        .med-group-header {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+        }
+
+        .med-group-header:first-child { border-top: none; }
+
+        .med-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.55rem 0.75rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.1s;
+        }
+
+        .med-row:last-child { border-bottom: none; }
+        .med-row:hover { background: var(--bg-tertiary); }
+        .med-row.selected { background: rgba(0,122,255,0.08); }
+
+        .med-row-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .med-row-name {
+            flex: 1;
+            font-size: 0.87rem;
+            color: var(--text-primary);
+        }
+
+        .med-row.disabled .med-row-name { color: var(--text-muted); text-decoration: line-through; }
+
+        .med-row-timer-icon {
+            font-size: 0.78rem;
+            flex-shrink: 0;
+            opacity: 0.55;
+        }
+
+        .med-row-toggle {
+            position: relative;
+            width: 32px;
+            height: 19px;
+            flex-shrink: 0;
+        }
+
+        .med-row-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+
+        .med-row-toggle-slider {
+            position: absolute;
+            inset: 0;
+            border-radius: 99px;
+            background: #6c6c70 !important;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .med-row-toggle-slider::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .med-row-toggle input:checked + .med-row-toggle-slider { background: #34c759 !important; }
+        .med-row-toggle input:checked + .med-row-toggle-slider::after { transform: translateX(13px); }
+
+        .med-list-scroll {
+            max-height: calc(100vh - 280px);
+            overflow-y: auto;
+        }
+
+        /* ---- Edit panel ---- */
+        .edit-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            min-height: 300px;
+        }
+
+        .edit-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 260px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .edit-form-header {
+            padding: 1rem 1.25rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .edit-form-header-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .edit-form-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        #saved-indicator {
+            flex: 1;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #34c759;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .controlled-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            background: rgba(255,59,48,0.12);
+            color: #ff3b30;
+            border: 1px solid rgba(255,59,48,0.25);
+            border-radius: 5px;
+            padding: 0.15rem 0.45rem;
+        }
+
+        .edit-form-body {
+            padding: 1rem 1.25rem;
+        }
+
+        /* ---- Form sections ---- */
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-section-header {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.65rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .form-row:last-child { margin-bottom: 0; }
+
+        .form-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            min-width: 120px;
+            flex-shrink: 0;
+        }
+
+        .form-control {
+            flex: 1;
+        }
+
+        .form-control input[type="text"],
+        .form-control input[type="number"],
+        .form-control select {
+            width: 100%;
+            padding: 0.4rem 0.65rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.87rem;
+            box-sizing: border-box;
+        }
+
+        .form-control select { cursor: pointer; }
+
+        .form-control-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .form-control-row input,
+        .form-control-row select {
+            flex: 1;
+            padding: 0.4rem 0.65rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.87rem;
+        }
+
+        /* Toggle switch (form) */
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .toggle {
+            display: inline-block;
+            position: relative;
+            width: 40px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            border-radius: 99px;
+            background: #6c6c70 !important;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .toggle-slider::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .toggle input:checked + .toggle-slider { background: #34c759 !important; }
+        .toggle input:checked + .toggle-slider::after { transform: translateX(16px); }
+
+
+        .toggle-label { font-size: 0.87rem; color: var(--text-secondary); }
+
+        /* Timer color swatches */
+        .color-swatches {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .color-swatch {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.1s;
+        }
+
+        .color-swatch:hover { transform: scale(1.15); }
+        .color-swatch.selected { border-color: var(--text-primary); }
+
+        /* Dose sequence */
+        .dose-step {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dose-step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .dose-step-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .dose-step-delete {
+            font-size: 0.78rem;
+            color: #ff3b30;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .dose-step-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.4rem;
+        }
+
+        .dose-step-fields input,
+        .dose-step-fields select {
+            padding: 0.35rem 0.5rem;
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.82rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dose-step-fields .field-label {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .btn-add-step {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
+            color: var(--accent);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0.4rem 0;
+            font-weight: 600;
+        }
+
+        /* Export section */
+        .export-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .export-section h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .export-instructions {
+            font-size: 0.87rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .export-instructions ol {
+            margin: 0.5rem 0 0 1.2rem;
+            padding: 0;
+        }
+
+        .export-instructions li { margin-bottom: 0.2rem; }
+
+        .export-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .stat strong { color: var(--text-primary); }
+
+        /* Equipment edit — simpler form */
+        .equip-note {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding: 0.6rem 0.75rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" data-page="agency"></nav>
+
+    <main>
+        <div class="tool-wrap">
+
+            <div class="tool-header-row">
+                <div class="tool-hero">
+                    <h1>Formulary Editor</h1>
+                    <p>Enable or disable medications, set default doses, configure redose timers and dose sequences for your agency formulary. Download the result as a <code>.mlformulary</code> file and share it to your device to import.</p>
+                </div>
+                <div class="header-actions">
+                    <label class="btn" id="btn-import-label" title="Load an existing .mlformulary file">
+                        <span>&#8593; Load Formulary</span>
+                        <input type="file" id="input-import" accept=".mlformulary" style="display:none">
+                    </label>
+                    <button class="btn" id="btn-reset" title="Reset to MedicLog defaults">Reset Defaults</button>
+                    <button class="btn btn-primary" id="btn-export">&#8595; Download .mlformulary</button>
+                </div>
+            </div>
+
+            <div class="editor-layout">
+
+                <!-- Left: medication list -->
+                <div class="med-list-panel">
+                    <div class="med-panel-tabs">
+                        <div class="med-panel-tab active" data-tab="medications">Medications</div>
+                        <div class="med-panel-tab" data-tab="equipment">Equipment</div>
+                    </div>
+                    <div class="med-panel-search">
+                        <input type="text" id="med-search" placeholder="Search..." autocomplete="off">
+                    </div>
+                    <div style="padding:0.4rem 0.75rem;border-bottom:1px solid var(--border);">
+                        <button class="btn" id="btn-add-item" style="width:100%;justify-content:center;font-size:0.82rem;padding:0.4rem;">&#43; Add Medication</button>
+                    </div>
+                    <div class="med-list-scroll" id="med-list-scroll">
+                        <div id="med-list"></div>
+                    </div>
+                </div>
+
+                <!-- Right: edit panel -->
+                <div class="edit-panel" id="edit-panel">
+                    <div class="edit-empty" id="edit-empty">Select a medication to edit its settings</div>
+                    <div id="edit-form" style="display:none"></div>
+                </div>
+
+            </div>
+
+            <!-- Export instructions -->
+            <div class="export-section">
+                <h3>Getting your formulary onto the device</h3>
+                <div class="export-instructions">
+                    Click <strong>Download .mlformulary</strong> above, then transfer the file to any iPhone or iPad running MedicLog:
+                    <ol>
+                        <li><strong>AirDrop</strong> — fastest. AirDrop the file from your Mac directly to the device.</li>
+                        <li><strong>Email or Messages</strong> — attach the file, open it on the device, tap to import.</li>
+                        <li><strong>Files app</strong> — save to iCloud Drive or a shared folder, open on device, tap to import.</li>
+                    </ol>
+                    MedicLog will open an import dialog showing a summary of the formulary. Choose <strong>Replace</strong> to overwrite or <strong>Merge</strong> to update existing and add new.
+                </div>
+                <div class="stat-row" id="stat-row">
+                    <div class="stat"><strong id="stat-total">0</strong> medications</div>
+                    <div class="stat"><strong id="stat-enabled">0</strong> enabled</div>
+                    <div class="stat"><strong id="stat-timers">0</strong> with timers</div>
+                    <div class="stat"><strong id="stat-controlled">0</strong> controlled</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="nav-loader.js"></script>
+    <script>
+    // ============================================================
+    // Default formulary data (converted from DefaultFormulary.json)
+    // snake_case source → camelCase internal state
+    // ============================================================
+
+    const DEFAULT_MEDICATIONS = [
+        { id:"adenosine", name:"Adenosine", displayGroup:"cardiac", displayColor:"cardiac", isVisible:true, controlledSubstance:false, timerEnabled:true, timerLabel:"Adenosine", timerDuration:120, timerColorString:"red", defaultDose:12.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:"medication", quickActionCategories:["cardiac"], usesDoseSequence:true, doseSequence:[{amount:6.0,unit:"mg",intervalMinutes:0},{amount:12.0,unit:"mg",intervalMinutes:2},{amount:12.0,unit:"mg",intervalMinutes:2}], sortOrder:10 },
+        { id:"albuterol", name:"Albuterol", displayGroup:"respiratory", displayColor:"respiratory", isVisible:true, controlledSubstance:false, timerEnabled:true, timerLabel:"Albuterol", timerDuration:300, timerColorString:"cyan", defaultDose:2.5, defaultDoseUnit:"mg", defaultRoute:"Nebulized", alternativeRoutes:["IN"], hapticPattern:null, quickActionCategories:["respiratory"], usesDoseSequence:false, doseSequence:[], sortOrder:20 },
+        { id:"amiodarone", name:"Amiodarone", displayGroup:"cardiac", displayColor:"cardiac", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:300.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:"amiodarone", quickActionCategories:["cardiac"], usesDoseSequence:true, doseSequence:[{amount:300.0,unit:"mg",intervalMinutes:0},{amount:150.0,unit:"mg",intervalMinutes:3}], sortOrder:30 },
+        { id:"aspirin", name:"Aspirin", displayGroup:"cardiac", displayColor:"cardiac", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:324.0, defaultDoseUnit:"mg", defaultRoute:"PO", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["cardiac"], usesDoseSequence:false, doseSequence:[], sortOrder:40 },
+        { id:"atropine", name:"Atropine", displayGroup:"cardiac", displayColor:"cardiac", isVisible:true, controlledSubstance:false, timerEnabled:true, timerLabel:"Atropine", timerDuration:240, timerColorString:"red", defaultDose:0.5, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO","IM"], hapticPattern:"medication", quickActionCategories:["cardiac"], usesDoseSequence:true, doseSequence:[{amount:0.5,unit:"mg",intervalMinutes:0},{amount:0.5,unit:"mg",intervalMinutes:4},{amount:0.5,unit:"mg",intervalMinutes:4}], sortOrder:50 },
+        { id:"atrovent", name:"Atrovent", displayGroup:"respiratory", displayColor:"respiratory", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:0.5, defaultDoseUnit:"mg", defaultRoute:"Nebulized", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["respiratory"], usesDoseSequence:false, doseSequence:[], sortOrder:60 },
+        { id:"duoneb", name:"DuoNeb", displayGroup:"respiratory", displayColor:"respiratory", isVisible:true, controlledSubstance:false, timerEnabled:true, timerLabel:"DuoNeb", timerDuration:300, timerColorString:"cyan", defaultDose:3.0, defaultDoseUnit:"mL", defaultRoute:"Nebulized", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["respiratory"], usesDoseSequence:false, doseSequence:[], sortOrder:65 },
+        { id:"benadryl", name:"Benadryl", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:25.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IM","PO"], hapticPattern:"medication", quickActionCategories:["allergic"], usesDoseSequence:false, doseSequence:[], sortOrder:70 },
+        { id:"calcium_chloride", name:"Calcium Chloride", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:1.0, defaultDoseUnit:"g", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["cardiac"], usesDoseSequence:false, doseSequence:[], sortOrder:80 },
+        { id:"d10", name:"D10", displayGroup:"diabetic", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:250.0, defaultDoseUnit:"mL", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["diabetic"], usesDoseSequence:false, doseSequence:[], sortOrder:90 },
+        { id:"dilaudid", name:"Dilaudid", displayGroup:"controlled_high_acuity", displayColor:"controlled_high_acuity", isVisible:true, controlledSubstance:true, timerEnabled:true, timerLabel:"Dilaudid", timerDuration:900, timerColorString:"pink", defaultDose:0.5, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IM","IO"], hapticPattern:"medication", quickActionCategories:["pain"], usesDoseSequence:false, doseSequence:[], sortOrder:500 },
+        { id:"epi_1_10000", name:"Epi 1:10,000", displayGroup:"cardiac", displayColor:"cardiac", isVisible:true, controlledSubstance:false, timerEnabled:true, timerLabel:"Epi 1:10,000", timerDuration:240, timerColorString:"red", defaultDose:1.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO","ET"], hapticPattern:"epinephrine", quickActionCategories:["cardiac"], usesDoseSequence:false, doseSequence:[], sortOrder:100 },
+        { id:"epi_1_1000", name:"Epi 1:1000", displayGroup:"respiratory", displayColor:"respiratory", isVisible:true, controlledSubstance:false, timerEnabled:true, timerLabel:"Epi 1:1000", timerDuration:600, timerColorString:"cyan", defaultDose:0.3, defaultDoseUnit:"mg", defaultRoute:"IM", alternativeRoutes:["SQ"], hapticPattern:"epinephrine", quickActionCategories:["respiratory","allergic"], usesDoseSequence:false, doseSequence:[], sortOrder:101 },
+        { id:"etomidate", name:"Etomidate", displayGroup:"controlled_high_acuity", displayColor:"controlled_high_acuity", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:20.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["airway"], usesDoseSequence:false, doseSequence:[], sortOrder:510 },
+        { id:"fentanyl", name:"Fentanyl", displayGroup:"controlled_high_acuity", displayColor:"controlled_high_acuity", isVisible:true, controlledSubstance:true, timerEnabled:true, timerLabel:"Fentanyl", timerDuration:600, timerColorString:"pink", defaultDose:50.0, defaultDoseUnit:"mcg", defaultRoute:"IV", alternativeRoutes:["IM","IN","IO"], hapticPattern:"medication", quickActionCategories:["pain","trauma"], usesDoseSequence:false, doseSequence:[], sortOrder:520 },
+        { id:"glucagon", name:"Glucagon", displayGroup:"diabetic", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:1.0, defaultDoseUnit:"mg", defaultRoute:"IM", alternativeRoutes:["IV","IO"], hapticPattern:null, quickActionCategories:["diabetic"], usesDoseSequence:false, doseSequence:[], sortOrder:110 },
+        { id:"glutose", name:"Glutose", displayGroup:"diabetic", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:15.0, defaultDoseUnit:"g", defaultRoute:"PO", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["diabetic"], usesDoseSequence:false, doseSequence:[], sortOrder:120 },
+        { id:"haldol", name:"Haldol", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:5.0, defaultDoseUnit:"mg", defaultRoute:"IM", alternativeRoutes:["IV","IO"], hapticPattern:null, quickActionCategories:["behavioral"], usesDoseSequence:false, doseSequence:[], sortOrder:130 },
+        { id:"hydralazine", name:"Hydralazine", displayGroup:"ob_maternal", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:true, timerLabel:"Hydralazine", timerDuration:1200, timerColorString:"blue", defaultDose:10.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO","IM"], hapticPattern:null, quickActionCategories:["ob"], usesDoseSequence:false, doseSequence:[], sortOrder:135 },
+        { id:"ketamine", name:"Ketamine", displayGroup:"controlled_high_acuity", displayColor:"controlled_high_acuity", isVisible:true, controlledSubstance:true, timerEnabled:true, timerLabel:"Ketamine", timerDuration:600, timerColorString:"pink", defaultDose:1.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IM","IN","IO"], hapticPattern:"medication", quickActionCategories:["pain","trauma","airway"], usesDoseSequence:false, doseSequence:[], sortOrder:530 },
+        { id:"ketorolac", name:"Ketorolac", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:30.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IM","IO"], hapticPattern:null, quickActionCategories:["pain"], usesDoseSequence:false, doseSequence:[], sortOrder:140 },
+        { id:"labetalol", name:"Labetalol", displayGroup:"cardiac", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:10.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["cardiac"], usesDoseSequence:false, doseSequence:[], sortOrder:150 },
+        { id:"levophed", name:"Levophed", displayGroup:"other", displayColor:"cardiac", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:4.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["cardiac"], usesDoseSequence:false, doseSequence:[], sortOrder:160 },
+        { id:"lidocaine", name:"Lidocaine", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:100.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO","ET"], hapticPattern:null, quickActionCategories:["cardiac","airway"], usesDoseSequence:false, doseSequence:[], sortOrder:170 },
+        { id:"mag_sulfate", name:"Mag Sulfate", displayGroup:"ob_maternal", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:2.0, defaultDoseUnit:"g", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["ob","seizure"], usesDoseSequence:false, doseSequence:[], sortOrder:180 },
+        { id:"morphine", name:"Morphine", displayGroup:"controlled_high_acuity", displayColor:"controlled_high_acuity", isVisible:true, controlledSubstance:true, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:4.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IM","IO"], hapticPattern:"medication", quickActionCategories:["pain"], usesDoseSequence:false, doseSequence:[], sortOrder:540 },
+        { id:"narcan", name:"Narcan (Naloxone)", displayGroup:"respiratory", displayColor:"respiratory", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:0.4, defaultDoseUnit:"mg", defaultRoute:"IN", alternativeRoutes:["IV","IM","IO"], hapticPattern:"medication", quickActionCategories:["respiratory"], usesDoseSequence:false, doseSequence:[], sortOrder:190 },
+        { id:"oxygen", name:"Oxygen", displayGroup:"respiratory", displayColor:"respiratory", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:4.0, defaultDoseUnit:"lpm", defaultRoute:"Lungs", alternativeRoutes:["NC","NRB","CPAP","BiPAP"], hapticPattern:null, quickActionCategories:["respiratory"], usesDoseSequence:false, doseSequence:[], sortOrder:195 },
+        { id:"nifedipine", name:"Nifedipine", displayGroup:"ob_maternal", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:10.0, defaultDoseUnit:"mg", defaultRoute:"PO", alternativeRoutes:["SL"], hapticPattern:null, quickActionCategories:["ob"], usesDoseSequence:false, doseSequence:[], sortOrder:200 },
+        { id:"nitro_drip", name:"Nitro Drip", displayGroup:"cardiac", displayColor:"cardiac", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:50.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["cardiac"], usesDoseSequence:false, doseSequence:[], sortOrder:210 },
+        { id:"ntg_spray", name:"NTG Spray", displayGroup:"cardiac", displayColor:"cardiac", isVisible:true, controlledSubstance:false, timerEnabled:true, timerLabel:"Nitroglycerin", timerDuration:240, timerColorString:"red", defaultDose:0.4, defaultDoseUnit:"mg", defaultRoute:"SL", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["cardiac"], usesDoseSequence:true, doseSequence:[{amount:0.4,unit:"mg",intervalMinutes:0},{amount:0.4,unit:"mg",intervalMinutes:5},{amount:0.4,unit:"mg",intervalMinutes:5}], sortOrder:220 },
+        { id:"olanzapine", name:"Olanzapine", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:10.0, defaultDoseUnit:"mg", defaultRoute:"IM", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["behavioral"], usesDoseSequence:false, doseSequence:[], sortOrder:230 },
+        { id:"po_benadryl", name:"PO Benadryl", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:25.0, defaultDoseUnit:"mg", defaultRoute:"PO", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["allergic"], usesDoseSequence:false, doseSequence:[], sortOrder:240 },
+        { id:"propofol", name:"Propofol", displayGroup:"controlled_high_acuity", displayColor:"controlled_high_acuity", isVisible:true, controlledSubstance:true, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:20.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["airway"], usesDoseSequence:false, doseSequence:[], sortOrder:550 },
+        { id:"racemic_epi", name:"Racemic Epi", displayGroup:"respiratory", displayColor:"respiratory", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:0.5, defaultDoseUnit:"mL", defaultRoute:"Nebulized", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["respiratory","pediatric"], usesDoseSequence:false, doseSequence:[], sortOrder:250 },
+        { id:"rocuronium", name:"Rocuronium", displayGroup:"controlled_high_acuity", displayColor:"controlled_high_acuity", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:50.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["airway"], usesDoseSequence:false, doseSequence:[], sortOrder:260 },
+        { id:"sodium_bicarb", name:"Sodium Bicarb", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:50.0, defaultDoseUnit:"mEq", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["cardiac"], usesDoseSequence:false, doseSequence:[], sortOrder:270 },
+        { id:"tetracaine", name:"Tetracaine", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:2.0, defaultDoseUnit:"mL", defaultRoute:"IN", alternativeRoutes:[], hapticPattern:null, quickActionCategories:["pain","trauma"], usesDoseSequence:false, doseSequence:[], sortOrder:280 },
+        { id:"txa", name:"TXA", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:1.0, defaultDoseUnit:"g", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["trauma"], usesDoseSequence:false, doseSequence:[], sortOrder:290 },
+        { id:"versed", name:"Versed (Midazolam)", displayGroup:"controlled_high_acuity", displayColor:"controlled_high_acuity", isVisible:true, controlledSubstance:true, timerEnabled:true, timerLabel:"Versed (Midazolam)", timerDuration:600, timerColorString:"pink", defaultDose:2.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IM","IN","IO"], hapticPattern:"medication", quickActionCategories:["seizure","airway"], usesDoseSequence:false, doseSequence:[], sortOrder:560 },
+        { id:"zofran", name:"Zofran", displayGroup:"other", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:4.0, defaultDoseUnit:"mg", defaultRoute:"IV", alternativeRoutes:["IM","IO"], hapticPattern:"medication", quickActionCategories:["pain","trauma"], usesDoseSequence:false, doseSequence:[], sortOrder:300 },
+        { id:"normal_saline", name:"Normal Saline", displayGroup:"fluids", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:500.0, defaultDoseUnit:"mL", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["trauma","cardiac","diabetic","ob"], usesDoseSequence:false, doseSequence:[], sortOrder:570 },
+        { id:"lactated_ringers", name:"Lactated Ringers", displayGroup:"fluids", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:500.0, defaultDoseUnit:"mL", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["trauma","cardiac"], usesDoseSequence:false, doseSequence:[], sortOrder:580 },
+        { id:"hypertonic_saline", name:"Hypertonic Saline (3%)", displayGroup:"fluids", displayColor:"other", isVisible:true, controlledSubstance:false, timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"blue", defaultDose:250.0, defaultDoseUnit:"mL", defaultRoute:"IV", alternativeRoutes:["IO"], hapticPattern:null, quickActionCategories:["trauma"], usesDoseSequence:false, doseSequence:[], sortOrder:590 },
+    ];
+
+    const DEFAULT_EQUIPMENT = [
+        { id:"io_15mm", name:"15mm I.O. Needle", isVisible:true, displayColor:"io_access", timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"gray", sortOrder:1000 },
+        { id:"io_25mm", name:"25mm I.O. Needle", isVisible:true, displayColor:"io_access", timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"gray", sortOrder:1010 },
+        { id:"io_45mm", name:"45mm I.O. Needle", isVisible:true, displayColor:"io_access", timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"gray", sortOrder:1020 },
+        { id:"iv_16ga", name:"16ga IV Catheter", isVisible:true, displayColor:"iv_access", timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"gray", sortOrder:1030 },
+        { id:"iv_18ga", name:"18ga IV Catheter", isVisible:true, displayColor:"iv_access", timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"gray", sortOrder:1040 },
+        { id:"iv_20ga", name:"20ga IV Catheter", isVisible:true, displayColor:"iv_access", timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"gray", sortOrder:1050 },
+        { id:"iv_22ga", name:"22ga IV Catheter", isVisible:true, displayColor:"iv_access", timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"gray", sortOrder:1060 },
+        { id:"iv_24ga", name:"24ga IV Catheter", isVisible:true, displayColor:"iv_access", timerEnabled:false, timerLabel:"", timerDuration:0, timerColorString:"gray", sortOrder:1070 },
+    ];
+
+    // ============================================================
+    // Constants
+    // ============================================================
+
+    const GROUPS = [
+        { key:"cardiac",                label:"Cardiac" },
+        { key:"respiratory",            label:"Respiratory" },
+        { key:"diabetic",               label:"Diabetic" },
+        { key:"controlled_high_acuity", label:"Controlled / High-Acuity" },
+        { key:"ob_maternal",            label:"OB / Maternal" },
+        { key:"fluids",                 label:"Fluids" },
+        { key:"other",                  label:"Other" },
+    ];
+
+    const GROUP_COLORS = {
+        cardiac:                "#ff3b30",
+        respiratory:            "#30b0c7",
+        diabetic:               "#ff9500",
+        controlled_high_acuity: "#bf5af2",
+        ob_maternal:            "#ff2d55",
+        fluids:                 "#007aff",
+        other:                  "#8e8e93",
+        io_access:              "#ff9500",
+        iv_access:              "#34c759",
+    };
+
+    const TIMER_COLORS = [
+        { name:"red",    hex:"#ff3b30" },
+        { name:"pink",   hex:"#ff2d55" },
+        { name:"orange", hex:"#ff9500" },
+        { name:"yellow", hex:"#ffd60a" },
+        { name:"green",  hex:"#34c759" },
+        { name:"blue",   hex:"#007aff" },
+        { name:"purple", hex:"#bf5af2" },
+        { name:"cyan",   hex:"#30b0c7" },
+    ];
+
+    const ROUTES = ["IV","IO","IM","SQ","IN","PO","SL","Nebulized","ET","Lungs","NC","NRB","CPAP","BiPAP","PR","Topical"];
+    const UNITS  = ["mg","mcg","g","mL","mEq","lpm","units","mg/kg","mcg/kg","mcg/min","mg/min"];
+
+    // ============================================================
+    // State
+    // ============================================================
+
+    let medications = JSON.parse(JSON.stringify(DEFAULT_MEDICATIONS));
+    let equipment   = JSON.parse(JSON.stringify(DEFAULT_EQUIPMENT));
+    let activeTab   = "medications";
+
+    const LS_MEDS = "mediclog_formulary_meds";
+    const LS_EQUIP = "mediclog_formulary_equip";
+
+    function persistState() {
+        try {
+            localStorage.setItem(LS_MEDS,  JSON.stringify(medications));
+            localStorage.setItem(LS_EQUIP, JSON.stringify(equipment));
+        } catch(e) {}
+    }
+
+    function loadPersistedState() {
+        try {
+            const m = localStorage.getItem(LS_MEDS);
+            const e = localStorage.getItem(LS_EQUIP);
+            if (m) medications = JSON.parse(m);
+            if (e) equipment   = JSON.parse(e);
+        } catch(e) {}
+    }
+
+    let _savedDebounce = null;
+    let _savedTimeout  = null;
+    function showSaved() {
+        persistState(); // always save immediately
+        clearTimeout(_savedDebounce);
+        clearTimeout(_savedTimeout);
+        _savedDebounce = setTimeout(() => {
+            const el = document.getElementById("saved-indicator");
+            if (!el) return;
+            el.style.opacity = "1";
+            _savedTimeout = setTimeout(() => { el.style.opacity = "0"; }, 1500);
+        }, 700);
+    }
+    let selectedId  = null;
+    let searchQuery = "";
+
+    // ============================================================
+    // Helpers
+    // ============================================================
+
+    function getMed(id) {
+        return activeTab === "medications"
+            ? medications.find(m => m.id === id)
+            : equipment.find(e => e.id === id);
+    }
+
+    function groupColor(key) {
+        return GROUP_COLORS[key] || "#8e8e93";
+    }
+
+    function generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            const r = Math.random() * 16 | 0;
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+    }
+
+    function timerDisplay(seconds) {
+        if (!seconds) return "";
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return s > 0 ? `${m}m ${s}s` : `${m}m`;
+    }
+
+    // ============================================================
+    // Rendering — medication list
+    // ============================================================
+
+    function renderList() {
+        const container = document.getElementById("med-list");
+        container.innerHTML = "";
+
+        const q = searchQuery.toLowerCase();
+
+        if (activeTab === "medications") {
+            // Group by displayGroup, filter by search
+            GROUPS.forEach(group => {
+                const meds = medications.filter(m =>
+                    m.displayGroup === group.key &&
+                    m.name.toLowerCase().includes(q)
+                );
+                if (!meds.length) return;
+
+                const header = document.createElement("div");
+                header.className = "med-group-header";
+                header.textContent = group.label;
+                container.appendChild(header);
+
+                meds.forEach(med => {
+                    container.appendChild(makeMedRow(med, false));
+                });
+            });
+        } else {
+            // Equipment — flat list, two groups
+            const ioItems  = equipment.filter(e => e.displayColor === "io_access" && e.name.toLowerCase().includes(q));
+            const ivItems  = equipment.filter(e => e.displayColor === "iv_access" && e.name.toLowerCase().includes(q));
+            const otherItems = equipment.filter(e => !["io_access","iv_access"].includes(e.displayColor) && e.name.toLowerCase().includes(q));
+
+            if (ioItems.length) {
+                const h = document.createElement("div");
+                h.className = "med-group-header";
+                h.textContent = "Intraosseous";
+                container.appendChild(h);
+                ioItems.forEach(eq => container.appendChild(makeMedRow(eq, true)));
+            }
+            if (ivItems.length) {
+                const h = document.createElement("div");
+                h.className = "med-group-header";
+                h.textContent = "IV Access";
+                container.appendChild(h);
+                ivItems.forEach(eq => container.appendChild(makeMedRow(eq, true)));
+            }
+            if (otherItems.length) {
+                const h = document.createElement("div");
+                h.className = "med-group-header";
+                h.textContent = "Other";
+                container.appendChild(h);
+                otherItems.forEach(eq => container.appendChild(makeMedRow(eq, true)));
+            }
+        }
+
+        updateStats();
+    }
+
+    function makeMedRow(item, isEquip) {
+        const row = document.createElement("div");
+        row.className = "med-row" + (!item.isVisible ? " disabled" : "") + (item.id === selectedId ? " selected" : "");
+        row.dataset.id = item.id;
+
+        const dot = document.createElement("div");
+        dot.className = "med-row-dot";
+        dot.style.background = groupColor(item.displayColor || item.displayGroup);
+
+        const name = document.createElement("div");
+        name.className = "med-row-name";
+        name.textContent = item.name;
+
+        const timerIcon = document.createElement("span");
+        timerIcon.className = "med-row-timer-icon";
+        timerIcon.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+        timerIcon.style.display = item.timerEnabled ? "" : "none";
+
+        const toggleWrap = document.createElement("label");
+        toggleWrap.className = "med-row-toggle";
+        toggleWrap.onclick = e => e.stopPropagation();
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = item.isVisible;
+        input.addEventListener("change", () => {
+            item.isVisible = input.checked;
+            row.classList.toggle("disabled", !item.isVisible);
+            // If this is the selected item, refresh the form
+            if (item.id === selectedId) renderEditForm(item.id);
+            updateStats();
+        });
+
+        const slider = document.createElement("div");
+        slider.className = "med-row-toggle-slider";
+
+        toggleWrap.appendChild(input);
+        toggleWrap.appendChild(slider);
+
+        row.appendChild(dot);
+        row.appendChild(name);
+        row.appendChild(timerIcon);
+        row.appendChild(toggleWrap);
+
+        row.addEventListener("click", () => {
+            selectedId = item.id;
+            document.querySelectorAll(".med-row").forEach(r => r.classList.remove("selected"));
+            row.classList.add("selected");
+            renderEditForm(item.id);
+        });
+
+        return row;
+    }
+
+    // ============================================================
+    // Rendering — edit form
+    // ============================================================
+
+    function renderEditForm(id) {
+        const empty = document.getElementById("edit-empty");
+        const form  = document.getElementById("edit-form");
+        const item  = getMed(id);
+        if (!item) { empty.style.display = ""; form.style.display = "none"; return; }
+
+        empty.style.display = "none";
+        form.style.display  = "";
+        form.innerHTML = "";
+
+        const isEquip = activeTab === "equipment";
+
+        // Header
+        const header = document.createElement("div");
+        header.className = "edit-form-header";
+        const dot = document.createElement("div");
+        dot.className = "edit-form-header-dot";
+        dot.style.background = groupColor(item.displayColor || item.displayGroup);
+        const title = document.createElement("h2");
+        title.textContent = item.name;
+        const savedEl = document.createElement("span");
+        savedEl.id = "saved-indicator";
+        savedEl.textContent = "Saved";
+
+        header.appendChild(dot);
+        header.appendChild(title);
+        header.appendChild(savedEl);
+        if (!isEquip && item.controlledSubstance) {
+            const badge = document.createElement("span");
+            badge.className = "controlled-badge";
+            badge.textContent = "Controlled";
+            header.appendChild(badge);
+        }
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.style.cssText = "font-size:0.8rem;color:#ff3b30;background:none;border:1px solid rgba(255,59,48,0.3);border-radius:7px;padding:0.25rem 0.65rem;cursor:pointer;flex-shrink:0;";
+        delBtn.addEventListener("click", () => {
+            if (!confirm(`Delete "${item.name}"? This cannot be undone.`)) return;
+            if (activeTab === "medications") {
+                medications = medications.filter(m => m.id !== id);
+            } else {
+                equipment = equipment.filter(e => e.id !== id);
+            }
+            selectedId = null;
+            document.getElementById("edit-empty").style.display = "";
+            document.getElementById("edit-form").style.display = "none";
+            renderList();
+        });
+        header.appendChild(delBtn);
+        form.appendChild(header);
+
+        const body = document.createElement("div");
+        body.className = "edit-form-body";
+        form.appendChild(body);
+
+        // ---- Section 1: Basic ----
+        const basicSection = makeSection("Basic");
+        body.appendChild(basicSection.wrap);
+
+        // Name
+        basicSection.content.appendChild(makeTextRow("Medication Name", item.name, val => {
+            item.name = val;
+            title.textContent = val;
+            // Update list row
+            const rows = document.querySelectorAll(`.med-row[data-id="${id}"] .med-row-name`);
+            rows.forEach(r => r.textContent = val);
+        }));
+
+        if (!isEquip) {
+            // Group
+            basicSection.content.appendChild(makeSelectRow("Formulary Group", GROUPS.map(g => ({value: g.key, label: g.label})), item.displayGroup, val => {
+                item.displayGroup = val;
+                item.displayColor = val;
+                dot.style.background = groupColor(val);
+                document.querySelectorAll(`.med-row[data-id="${id}"] .med-row-dot`).forEach(d => d.style.background = groupColor(val));
+                // Re-render list since group changed
+                renderList();
+                // Re-select
+                selectedId = id;
+            }));
+        }
+
+        // Visible toggle
+        basicSection.content.appendChild(makeToggleRow("Show in Quick Entry", item.isVisible, val => {
+            item.isVisible = val;
+            renderList();
+            selectedId = id;
+            updateStats();
+        }));
+
+        // ---- Section 2: Timer ----
+        const timerSection = makeSection("Timer");
+        body.appendChild(timerSection.wrap);
+
+        const timerEnabledRow = makeToggleRow("Enable Timer", item.timerEnabled, val => {
+            item.timerEnabled = val;
+            // Update watch icon in list row
+            const icon = document.querySelector(`.med-row[data-id="${id}"] .med-row-timer-icon`);
+            if (icon) icon.style.display = val ? "" : "none";
+            renderEditForm(id);
+            showSaved();
+        });
+        timerSection.content.appendChild(timerEnabledRow);
+
+        if (item.timerEnabled) {
+            timerSection.content.appendChild(makeTextRow("Timer Label", item.timerLabel, val => {
+                item.timerLabel = val;
+            }));
+
+            // Duration: minutes + seconds
+            const durWrap = document.createElement("div");
+            durWrap.className = "form-row";
+            const durLabel = document.createElement("div");
+            durLabel.className = "form-label";
+            durLabel.textContent = "Duration";
+            const durControls = document.createElement("div");
+            durControls.className = "form-control";
+            const durRow = document.createElement("div");
+            durRow.className = "form-control-row";
+
+            const minInput = document.createElement("input");
+            minInput.type = "number";
+            minInput.min = 0;
+            minInput.max = 99;
+            minInput.value = Math.floor(item.timerDuration / 60);
+            minInput.style.flex = "1";
+            const minLabel = document.createElement("span");
+            minLabel.textContent = "min";
+            minLabel.style.cssText = "font-size:0.85rem;color:var(--text-muted);align-self:center;";
+
+            const secInput = document.createElement("input");
+            secInput.type = "number";
+            secInput.min = 0;
+            secInput.max = 59;
+            secInput.value = item.timerDuration % 60;
+            secInput.style.flex = "1";
+            const secLabel = document.createElement("span");
+            secLabel.textContent = "sec";
+            secLabel.style.cssText = "font-size:0.85rem;color:var(--text-muted);align-self:center;";
+
+            const updateDuration = () => {
+                item.timerDuration = (parseInt(minInput.value) || 0) * 60 + (parseInt(secInput.value) || 0);
+            };
+            minInput.addEventListener("input", updateDuration);
+            secInput.addEventListener("input", updateDuration);
+
+            durRow.appendChild(minInput);
+            durRow.appendChild(minLabel);
+            durRow.appendChild(secInput);
+            durRow.appendChild(secLabel);
+            durControls.appendChild(durRow);
+            durWrap.appendChild(durLabel);
+            durWrap.appendChild(durControls);
+            timerSection.content.appendChild(durWrap);
+
+            // Timer color swatches
+            const colorRow = document.createElement("div");
+            colorRow.className = "form-row";
+            const colorLabel = document.createElement("div");
+            colorLabel.className = "form-label";
+            colorLabel.textContent = "Timer Color";
+            const colorControls = document.createElement("div");
+            colorControls.className = "form-control";
+            const swatches = document.createElement("div");
+            swatches.className = "color-swatches";
+            TIMER_COLORS.forEach(c => {
+                const sw = document.createElement("div");
+                sw.className = "color-swatch" + (item.timerColorString === c.name ? " selected" : "");
+                sw.style.background = c.hex;
+                sw.title = c.name;
+                sw.addEventListener("click", () => {
+                    item.timerColorString = c.name;
+                    swatches.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
+                    sw.classList.add("selected");
+                });
+                swatches.appendChild(sw);
+            });
+            colorControls.appendChild(swatches);
+            colorRow.appendChild(colorLabel);
+            colorRow.appendChild(colorControls);
+            timerSection.content.appendChild(colorRow);
+        }
+
+        if (!isEquip) {
+            // ---- Section 3: Dosing ----
+            const doseSection = makeSection("Dosing Defaults");
+            body.appendChild(doseSection.wrap);
+
+            // Default dose + unit on one row
+            const doseRow = document.createElement("div");
+            doseRow.className = "form-row";
+            const doseLabel = document.createElement("div");
+            doseLabel.className = "form-label";
+            doseLabel.textContent = "Default Dose";
+            const doseControls = document.createElement("div");
+            doseControls.className = "form-control";
+            const doseInner = document.createElement("div");
+            doseInner.className = "form-control-row";
+
+            const doseInput = document.createElement("input");
+            doseInput.type = "number";
+            doseInput.step = "any";
+            doseInput.value = item.defaultDose;
+            doseInput.style.flex = "2";
+            doseInput.addEventListener("input", () => { item.defaultDose = parseFloat(doseInput.value) || 0; });
+
+            const unitSelect = document.createElement("select");
+            unitSelect.style.flex = "1";
+            UNITS.forEach(u => {
+                const opt = document.createElement("option");
+                opt.value = u;
+                opt.textContent = u;
+                if (u === item.defaultDoseUnit) opt.selected = true;
+                unitSelect.appendChild(opt);
+            });
+            unitSelect.addEventListener("change", () => { item.defaultDoseUnit = unitSelect.value; });
+
+            doseInner.appendChild(doseInput);
+            doseInner.appendChild(unitSelect);
+            doseControls.appendChild(doseInner);
+            doseRow.appendChild(doseLabel);
+            doseRow.appendChild(doseControls);
+            doseSection.content.appendChild(doseRow);
+
+            // Default route
+            doseSection.content.appendChild(makeSelectRow("Default Route", ROUTES.map(r => ({value: r, label: r})), item.defaultRoute, val => {
+                item.defaultRoute = val;
+            }));
+
+            // ---- Section 4: Dose Sequence ----
+            const seqSection = makeSection("Dose Sequence");
+            body.appendChild(seqSection.wrap);
+
+            seqSection.content.appendChild(makeToggleRow("Enable Dose Sequence", item.usesDoseSequence, val => {
+                item.usesDoseSequence = val;
+                if (val && item.doseSequence.length === 0) {
+                    item.doseSequence = [{amount: item.defaultDose, unit: item.defaultDoseUnit, intervalMinutes: 0}];
+                }
+                renderEditForm(id);
+                showSaved();
+            }));
+
+            if (item.usesDoseSequence) {
+                const note = document.createElement("div");
+                note.style.cssText = "font-size:0.82rem;color:var(--text-muted);margin-bottom:0.75rem;line-height:1.5;";
+                note.textContent = "Pre-fills dose amounts in order across repeated administrations. Step 1 is the first dose, Step 2 the second, and so on.";
+                seqSection.content.appendChild(note);
+
+                const stepsWrap = document.createElement("div");
+                seqSection.content.appendChild(stepsWrap);
+
+                function renderSteps() {
+                    stepsWrap.innerHTML = "";
+                    item.doseSequence.forEach((step, i) => {
+                        const stepDiv = document.createElement("div");
+                        stepDiv.className = "dose-step";
+
+                        const stepHeader = document.createElement("div");
+                        stepHeader.className = "dose-step-header";
+                        const stepLabel = document.createElement("div");
+                        stepLabel.className = "dose-step-label";
+                        stepLabel.textContent = `Dose ${i + 1}`;
+                        stepHeader.appendChild(stepLabel);
+                        if (i > 0) {
+                            const del = document.createElement("button");
+                            del.className = "dose-step-delete";
+                            del.textContent = "Remove";
+                            del.addEventListener("click", () => {
+                                item.doseSequence.splice(i, 1);
+                                renderSteps();
+                            });
+                            stepHeader.appendChild(del);
+                        }
+
+                        const fields = document.createElement("div");
+                        fields.className = "dose-step-fields";
+
+                        // Amount
+                        const amtWrap = document.createElement("div");
+                        const amtLbl = document.createElement("div");
+                        amtLbl.className = "field-label";
+                        amtLbl.textContent = "Amount";
+                        const amtInput = document.createElement("input");
+                        amtInput.type = "number";
+                        amtInput.step = "any";
+                        amtInput.value = step.amount;
+                        amtInput.addEventListener("input", () => { step.amount = parseFloat(amtInput.value) || 0; });
+                        amtWrap.appendChild(amtLbl);
+                        amtWrap.appendChild(amtInput);
+
+                        // Unit
+                        const unitWrap = document.createElement("div");
+                        const unitLbl = document.createElement("div");
+                        unitLbl.className = "field-label";
+                        unitLbl.textContent = "Unit";
+                        const stepUnitSelect = document.createElement("select");
+                        UNITS.forEach(u => {
+                            const opt = document.createElement("option");
+                            opt.value = u;
+                            opt.textContent = u;
+                            if (u === step.unit) opt.selected = true;
+                            stepUnitSelect.appendChild(opt);
+                        });
+                        stepUnitSelect.addEventListener("change", () => { step.unit = stepUnitSelect.value; });
+                        unitWrap.appendChild(unitLbl);
+                        unitWrap.appendChild(stepUnitSelect);
+
+                        // Interval
+                        const intWrap = document.createElement("div");
+                        const intLbl = document.createElement("div");
+                        intLbl.className = "field-label";
+                        intLbl.textContent = "Min. Wait";
+                        if (i === 0) {
+                            const intStatic = document.createElement("div");
+                            intStatic.style.cssText = "font-size:0.78rem;color:var(--text-muted);padding:0.35rem 0;";
+                            intStatic.textContent = "First dose";
+                            intWrap.appendChild(intLbl);
+                            intWrap.appendChild(intStatic);
+                        } else {
+                            const intInput = document.createElement("input");
+                            intInput.type = "number";
+                            intInput.min = 1;
+                            intInput.max = 120;
+                            intInput.value = step.intervalMinutes;
+                            intInput.addEventListener("input", () => { step.intervalMinutes = parseInt(intInput.value) || 1; });
+                            intWrap.appendChild(intLbl);
+                            intWrap.appendChild(intInput);
+                        }
+
+                        fields.appendChild(amtWrap);
+                        fields.appendChild(unitWrap);
+                        fields.appendChild(intWrap);
+
+                        stepDiv.appendChild(stepHeader);
+                        stepDiv.appendChild(fields);
+                        stepsWrap.appendChild(stepDiv);
+                    });
+
+                    // Add step button
+                    const addBtn = document.createElement("button");
+                    addBtn.className = "btn-add-step";
+                    addBtn.innerHTML = "&#43; Add Step";
+                    addBtn.addEventListener("click", () => {
+                        const last = item.doseSequence[item.doseSequence.length - 1];
+                        item.doseSequence.push({
+                            amount: last ? last.amount : item.defaultDose,
+                            unit:   last ? last.unit   : item.defaultDoseUnit,
+                            intervalMinutes: 5
+                        });
+                        renderSteps();
+                    });
+                    stepsWrap.appendChild(addBtn);
+                }
+
+                renderSteps();
+            }
+        }
+    }
+
+    // ---- Form helpers ----
+
+    function makeSection(title) {
+        const wrap = document.createElement("div");
+        wrap.className = "form-section";
+        const header = document.createElement("div");
+        header.className = "form-section-header";
+        header.textContent = title;
+        const content = document.createElement("div");
+        wrap.appendChild(header);
+        wrap.appendChild(content);
+        return { wrap, content };
+    }
+
+    function makeTextRow(label, value, onChange) {
+        const row = document.createElement("div");
+        row.className = "form-row";
+        const lbl = document.createElement("div");
+        lbl.className = "form-label";
+        lbl.textContent = label;
+        const ctrl = document.createElement("div");
+        ctrl.className = "form-control";
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = value;
+        input.addEventListener("input", () => { onChange(input.value); showSaved(); });
+        ctrl.appendChild(input);
+        row.appendChild(lbl);
+        row.appendChild(ctrl);
+        return row;
+    }
+
+    function makeSelectRow(label, options, selectedValue, onChange) {
+        const row = document.createElement("div");
+        row.className = "form-row";
+        const lbl = document.createElement("div");
+        lbl.className = "form-label";
+        lbl.textContent = label;
+        const ctrl = document.createElement("div");
+        ctrl.className = "form-control";
+        const select = document.createElement("select");
+        options.forEach(o => {
+            const opt = document.createElement("option");
+            opt.value = o.value;
+            opt.textContent = o.label;
+            if (o.value === selectedValue) opt.selected = true;
+            select.appendChild(opt);
+        });
+        select.addEventListener("change", () => { onChange(select.value); showSaved(); });
+        ctrl.appendChild(select);
+        row.appendChild(lbl);
+        row.appendChild(ctrl);
+        return row;
+    }
+
+    function makeToggleRow(label, checked, onChange) {
+        const row = document.createElement("div");
+        row.className = "form-row";
+        const lbl = document.createElement("div");
+        lbl.className = "form-label";
+        lbl.textContent = label;
+        const ctrl = document.createElement("div");
+        ctrl.className = "form-control";
+        const toggleLabel = document.createElement("label");
+        toggleLabel.className = "toggle";
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = checked;
+        input.addEventListener("change", () => { onChange(input.checked); showSaved(); });
+        const slider = document.createElement("div");
+        slider.className = "toggle-slider";
+        toggleLabel.appendChild(input);
+        toggleLabel.appendChild(slider);
+        ctrl.appendChild(toggleLabel);
+        row.appendChild(lbl);
+        row.appendChild(ctrl);
+        return row;
+    }
+
+    // ============================================================
+    // Stats
+    // ============================================================
+
+    function updateStats() {
+        const total      = medications.length;
+        const enabled    = medications.filter(m => m.isVisible).length;
+        const timers     = medications.filter(m => m.timerEnabled).length;
+        const controlled = medications.filter(m => m.controlledSubstance).length;
+        document.getElementById("stat-total").textContent      = total;
+        document.getElementById("stat-enabled").textContent    = enabled;
+        document.getElementById("stat-timers").textContent     = timers;
+        document.getElementById("stat-controlled").textContent = controlled;
+    }
+
+    // ============================================================
+    // Export
+    // ============================================================
+
+    function buildExport() {
+        const now = new Date().toISOString();
+        const medDicts = medications.map(m => {
+            const d = {
+                id:                  generateUUID(),
+                name:                m.name,
+                displayColor:        m.displayColor,
+                displayGroup:        m.displayGroup || null,
+                timerEnabled:        m.timerEnabled,
+                timerDuration:       m.timerDuration,
+                timerLabel:          m.timerLabel,
+                timerColorString:    m.timerColorString,
+                isVisible:           m.isVisible,
+                sortOrder:           m.sortOrder,
+                defaultDose:         m.defaultDose,
+                defaultDoseUnit:     m.defaultDoseUnit,
+                defaultRoute:        m.defaultRoute,
+                alternativeRoutes:   m.alternativeRoutes,
+                controlledSubstance: m.controlledSubstance,
+                quickActionCategories: m.quickActionCategories,
+                usesDoseSequence:    m.usesDoseSequence,
+                doseSequence:        m.doseSequence.map(s => ({
+                    amount: s.amount,
+                    unit: s.unit,
+                    intervalMinutes: s.intervalMinutes
+                }))
+            };
+            if (m.hapticPattern) d.hapticPattern = m.hapticPattern;
+            return d;
+        });
+
+        const equipDicts = equipment.map(e => ({
+            id:             generateUUID(),
+            name:           e.name,
+            displayColor:   e.displayColor,
+            timerEnabled:   e.timerEnabled,
+            timerDuration:  e.timerDuration,
+            timerLabel:     e.timerLabel,
+            timerColorString: e.timerColorString,
+            isVisible:      e.isVisible,
+            sortOrder:      e.sortOrder
+        }));
+
+        return {
+            type:             "mlformulary",
+            schemaVersion:    1,
+            exportedAt:       now,
+            appVersion:       "web-editor",
+            formularyVersion: "1.2",
+            medications:      medDicts,
+            equipment:        equipDicts,
+            summary: {
+                totalMedications:      medications.length,
+                totalEquipment:        equipment.length,
+                visibleMedications:    medications.filter(m => m.isVisible).length,
+                customMedications:     0,
+                medicationsWithTimers: medications.filter(m => m.timerEnabled).length,
+                speechAliasesIncluded: false
+            }
+        };
+    }
+
+    function downloadExport() {
+        const data = buildExport();
+        const json = JSON.stringify(data, null, 2);
+        const blob = new Blob([json], { type: "application/octet-stream" });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement("a");
+        a.href = url;
+        a.download = "agency-formulary.mlformulary";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // ============================================================
+    // Import
+    // ============================================================
+
+    function handleImport(file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (data.type !== "mlformulary") {
+                    alert("This doesn't look like a .mlformulary file (type field mismatch).");
+                    return;
+                }
+                if (data.medications && Array.isArray(data.medications)) {
+                    medications = data.medications.map(m => ({
+                        id:                  m.id || m.name.toLowerCase().replace(/\s+/g,'_'),
+                        name:                m.name,
+                        displayGroup:        m.displayGroup || "other",
+                        displayColor:        m.displayColor || "other",
+                        isVisible:           m.isVisible !== undefined ? m.isVisible : true,
+                        controlledSubstance: m.controlledSubstance || false,
+                        timerEnabled:        m.timerEnabled || false,
+                        timerLabel:          m.timerLabel || "",
+                        timerDuration:       m.timerDuration || 0,
+                        timerColorString:    m.timerColorString || "blue",
+                        defaultDose:         m.defaultDose || 0,
+                        defaultDoseUnit:     m.defaultDoseUnit || "mg",
+                        defaultRoute:        m.defaultRoute || "IV",
+                        alternativeRoutes:   m.alternativeRoutes || [],
+                        hapticPattern:       m.hapticPattern || null,
+                        quickActionCategories: m.quickActionCategories || [],
+                        usesDoseSequence:    m.usesDoseSequence || false,
+                        doseSequence:        (m.doseSequence || []).map(s => ({
+                            amount: s.amount,
+                            unit: s.unit,
+                            intervalMinutes: s.intervalMinutes || 0
+                        })),
+                        sortOrder:           m.sortOrder || 999
+                    }));
+                }
+                if (data.equipment && Array.isArray(data.equipment)) {
+                    equipment = data.equipment.map(e => ({
+                        id:              e.id || e.name.toLowerCase().replace(/\s+/g,'_'),
+                        name:            e.name,
+                        displayColor:    e.displayColor || "iv_access",
+                        isVisible:       e.isVisible !== undefined ? e.isVisible : true,
+                        timerEnabled:    e.timerEnabled || false,
+                        timerLabel:      e.timerLabel || "",
+                        timerDuration:   e.timerDuration || 0,
+                        timerColorString: e.timerColorString || "gray",
+                        sortOrder:       e.sortOrder || 999
+                    }));
+                }
+                selectedId = null;
+                document.getElementById("edit-empty").style.display = "";
+                document.getElementById("edit-form").style.display = "none";
+                persistState();
+                renderList();
+            } catch (err) {
+                alert("Could not parse file: " + err.message);
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    // ============================================================
+    // Event wiring
+    // ============================================================
+
+    document.getElementById("btn-export").addEventListener("click", downloadExport);
+
+    document.getElementById("input-import").addEventListener("change", e => {
+        if (e.target.files.length) handleImport(e.target.files[0]);
+        e.target.value = "";
+    });
+
+    document.querySelectorAll(".med-panel-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            activeTab = tab.dataset.tab;
+            document.querySelectorAll(".med-panel-tab").forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+            selectedId = null;
+            document.getElementById("edit-empty").style.display = "";
+            document.getElementById("edit-form").style.display = "none";
+            document.getElementById("btn-add-item").textContent =
+                "+ Add " + (activeTab === "medications" ? "Medication" : "Equipment");
+            renderList();
+        });
+    });
+
+    document.getElementById("btn-add-item").addEventListener("click", () => {
+        const newId = "custom_" + Date.now();
+        if (activeTab === "medications") {
+            const newMed = {
+                id: newId,
+                name: "New Medication",
+                displayGroup: "other",
+                displayColor: "other",
+                isVisible: true,
+                controlledSubstance: false,
+                timerEnabled: false,
+                timerLabel: "",
+                timerDuration: 0,
+                timerColorString: "blue",
+                defaultDose: 0,
+                defaultDoseUnit: "mg",
+                defaultRoute: "IV",
+                alternativeRoutes: [],
+                hapticPattern: null,
+                quickActionCategories: [],
+                usesDoseSequence: false,
+                doseSequence: [],
+                sortOrder: 999
+            };
+            medications.push(newMed);
+        } else {
+            const newEq = {
+                id: newId,
+                name: "New Equipment",
+                displayColor: "iv_access",
+                isVisible: true,
+                timerEnabled: false,
+                timerLabel: "",
+                timerDuration: 0,
+                timerColorString: "gray",
+                sortOrder: 999
+            };
+            equipment.push(newEq);
+        }
+        selectedId = newId;
+        renderList();
+        renderEditForm(newId);
+        // Scroll to bottom of list to show new item
+        const scroll = document.getElementById("med-list-scroll");
+        scroll.scrollTop = scroll.scrollHeight;
+    });
+
+    document.getElementById("med-search").addEventListener("input", e => {
+        searchQuery = e.target.value;
+        renderList();
+    });
+
+    document.getElementById("btn-reset").addEventListener("click", () => {
+        if (!confirm("Reset to MedicLog defaults? All your changes will be lost.")) return;
+        localStorage.removeItem(LS_MEDS);
+        localStorage.removeItem(LS_EQUIP);
+        medications = JSON.parse(JSON.stringify(DEFAULT_MEDICATIONS));
+        equipment   = JSON.parse(JSON.stringify(DEFAULT_EQUIPMENT));
+        selectedId  = null;
+        document.getElementById("edit-empty").style.display = "";
+        document.getElementById("edit-form").style.display  = "none";
+        renderList();
+    });
+
+    // ============================================================
+    // Init
+    // ============================================================
+
+    loadPersistedState();
+    renderList();
+    </script>
+</body>
+</html>
