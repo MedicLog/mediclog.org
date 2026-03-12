@@ -161,6 +161,9 @@
         .med-row:last-child { border-bottom: none; }
         .med-row:hover { background: var(--bg-tertiary); }
         .med-row.selected { background: rgba(0,122,255,0.08); }
+        .med-row.enabled { background: rgba(52,199,89,0.08); }
+        .med-row.enabled:hover { background: rgba(52,199,89,0.14); }
+        .med-row.enabled.selected { background: rgba(0,122,255,0.08); }
 
         .med-row-dot {
             width: 8px;
@@ -195,7 +198,7 @@
             position: absolute;
             inset: 0;
             border-radius: 99px;
-            background: #b0b0b8;
+            background: #6c6c70;
             cursor: pointer;
             transition: background 0.2s;
         }
@@ -363,7 +366,7 @@
             position: absolute;
             inset: 0;
             border-radius: 99px;
-            background: #b0b0b8;
+            background: #6c6c70;
             cursor: pointer;
             transition: background 0.2s;
         }
@@ -819,7 +822,7 @@
 
     function makeMedRow(item, isEquip) {
         const row = document.createElement("div");
-        row.className = "med-row" + (!item.isVisible ? " disabled" : "") + (item.id === selectedId ? " selected" : "");
+        row.className = "med-row" + (!item.isVisible ? " disabled" : " enabled") + (item.id === selectedId ? " selected" : "");
         row.dataset.id = item.id;
 
         const dot = document.createElement("div");
