@@ -263,7 +263,17 @@
         .edit-form-header h2 {
             font-size: 1.1rem;
             font-weight: 700;
+        }
+
+        #saved-indicator {
             flex: 1;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #34c759;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
         .controlled-badge {
@@ -726,6 +736,15 @@
     let medications = JSON.parse(JSON.stringify(DEFAULT_MEDICATIONS));
     let equipment   = JSON.parse(JSON.stringify(DEFAULT_EQUIPMENT));
     let activeTab   = "medications";
+
+    let _savedTimeout = null;
+    function showSaved() {
+        const el = document.getElementById("saved-indicator");
+        if (!el) return;
+        el.style.opacity = "1";
+        clearTimeout(_savedTimeout);
+        _savedTimeout = setTimeout(() => { el.style.opacity = "0"; }, 1200);
+    }
     let selectedId  = null;
     let searchQuery = "";
 
@@ -895,8 +914,13 @@
         dot.style.background = groupColor(item.displayColor || item.displayGroup);
         const title = document.createElement("h2");
         title.textContent = item.name;
+        const savedEl = document.createElement("span");
+        savedEl.id = "saved-indicator";
+        savedEl.textContent = "Saved";
+
         header.appendChild(dot);
         header.appendChild(title);
+        header.appendChild(savedEl);
         if (!isEquip && item.controlledSubstance) {
             const badge = document.createElement("span");
             badge.className = "controlled-badge";
@@ -969,7 +993,8 @@
             // Update watch icon in list row
             const icon = document.querySelector(`.med-row[data-id="${id}"] .med-row-timer-icon`);
             if (icon) icon.style.display = val ? "" : "none";
-            renderEditForm(id); // Rebuild to show/hide timer fields
+            renderEditForm(id);
+            showSaved();
         });
         timerSection.content.appendChild(timerEnabledRow);
 
@@ -1108,6 +1133,7 @@
                     item.doseSequence = [{amount: item.defaultDose, unit: item.defaultDoseUnit, intervalMinutes: 0}];
                 }
                 renderEditForm(id);
+                showSaved();
             }));
 
             if (item.usesDoseSequence) {
@@ -1252,7 +1278,7 @@
         const input = document.createElement("input");
         input.type = "text";
         input.value = value;
-        input.addEventListener("input", () => onChange(input.value));
+        input.addEventListener("input", () => { onChange(input.value); showSaved(); });
         ctrl.appendChild(input);
         row.appendChild(lbl);
         row.appendChild(ctrl);
@@ -1275,7 +1301,7 @@
             if (o.value === selectedValue) opt.selected = true;
             select.appendChild(opt);
         });
-        select.addEventListener("change", () => onChange(select.value));
+        select.addEventListener("change", () => { onChange(select.value); showSaved(); });
         ctrl.appendChild(select);
         row.appendChild(lbl);
         row.appendChild(ctrl);
@@ -1295,7 +1321,7 @@
         const input = document.createElement("input");
         input.type = "checkbox";
         input.checked = checked;
-        input.addEventListener("change", () => onChange(input.checked));
+        input.addEventListener("change", () => { onChange(input.checked); showSaved(); });
         const slider = document.createElement("div");
         slider.className = "toggle-slider";
         toggleLabel.appendChild(input);
