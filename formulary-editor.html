@@ -195,7 +195,7 @@
             position: absolute;
             inset: 0;
             border-radius: 99px;
-            background: var(--border);
+            background: #b0b0b8;
             cursor: pointer;
             transition: background 0.2s;
         }
@@ -363,7 +363,7 @@
             position: absolute;
             inset: 0;
             border-radius: 99px;
-            background: var(--border);
+            background: #b0b0b8;
             cursor: pointer;
             transition: background 0.2s;
         }
@@ -383,6 +383,15 @@
 
         .toggle input:checked + .toggle-slider { background: #34c759; }
         .toggle input:checked + .toggle-slider::after { transform: translateX(16px); }
+
+        /* Green background on form row when a "visible" toggle is on */
+        .form-row.toggle-on {
+            background: rgba(52,199,89,0.1);
+            border-radius: 8px;
+            padding: 0.3rem 0.5rem;
+            margin-left: -0.5rem;
+            margin-right: -0.5rem;
+        }
         .toggle-label { font-size: 0.87rem; color: var(--text-secondary); }
 
         /* Timer color swatches */
@@ -565,6 +574,9 @@
                     </div>
                     <div class="med-panel-search">
                         <input type="text" id="med-search" placeholder="Search..." autocomplete="off">
+                    </div>
+                    <div style="padding:0.4rem 0.75rem;border-bottom:1px solid var(--border);">
+                        <button class="btn" id="btn-add-item" style="width:100%;justify-content:center;font-size:0.82rem;padding:0.4rem;">&#43; Add Medication</button>
                     </div>
                     <div class="med-list-scroll" id="med-list-scroll">
                         <div id="med-list"></div>
@@ -885,6 +897,22 @@
             badge.textContent = "Controlled";
             header.appendChild(badge);
         }
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.style.cssText = "font-size:0.8rem;color:#ff3b30;background:none;border:1px solid rgba(255,59,48,0.3);border-radius:7px;padding:0.25rem 0.65rem;cursor:pointer;flex-shrink:0;";
+        delBtn.addEventListener("click", () => {
+            if (!confirm(`Delete "${item.name}"? This cannot be undone.`)) return;
+            if (activeTab === "medications") {
+                medications = medications.filter(m => m.id !== id);
+            } else {
+                equipment = equipment.filter(e => e.id !== id);
+            }
+            selectedId = null;
+            document.getElementById("edit-empty").style.display = "";
+            document.getElementById("edit-form").style.display = "none";
+            renderList();
+        });
+        header.appendChild(delBtn);
         form.appendChild(header);
 
         const body = document.createElement("div");
@@ -924,7 +952,7 @@
             renderList();
             selectedId = id;
             updateStats();
-        }));
+        }, true));
 
         // ---- Section 2: Timer ----
         const timerSection = makeSection("Timer");
@@ -1071,7 +1099,7 @@
                     item.doseSequence = [{amount: item.defaultDose, unit: item.defaultDoseUnit, intervalMinutes: 0}];
                 }
                 renderEditForm(id);
-            }));
+            }, true));
 
             if (item.usesDoseSequence) {
                 const note = document.createElement("div");
@@ -1245,9 +1273,9 @@
         return row;
     }
 
-    function makeToggleRow(label, checked, onChange) {
+    function makeToggleRow(label, checked, onChange, highlightWhenOn = false) {
         const row = document.createElement("div");
-        row.className = "form-row";
+        row.className = "form-row" + (highlightWhenOn && checked ? " toggle-on" : "");
         const lbl = document.createElement("div");
         lbl.className = "form-label";
         lbl.textContent = label;
@@ -1258,7 +1286,10 @@
         const input = document.createElement("input");
         input.type = "checkbox";
         input.checked = checked;
-        input.addEventListener("change", () => onChange(input.checked));
+        input.addEventListener("change", () => {
+            if (highlightWhenOn) row.classList.toggle("toggle-on", input.checked);
+            onChange(input.checked);
+        });
         const slider = document.createElement("div");
         slider.className = "toggle-slider";
         toggleLabel.appendChild(input);
@@ -1447,8 +1478,57 @@
             selectedId = null;
             document.getElementById("edit-empty").style.display = "";
             document.getElementById("edit-form").style.display = "none";
+            document.getElementById("btn-add-item").textContent =
+                "+ Add " + (activeTab === "medications" ? "Medication" : "Equipment");
             renderList();
         });
+    });
+
+    document.getElementById("btn-add-item").addEventListener("click", () => {
+        const newId = "custom_" + Date.now();
+        if (activeTab === "medications") {
+            const newMed = {
+                id: newId,
+                name: "New Medication",
+                displayGroup: "other",
+                displayColor: "other",
+                isVisible: true,
+                controlledSubstance: false,
+                timerEnabled: false,
+                timerLabel: "",
+                timerDuration: 0,
+                timerColorString: "blue",
+                defaultDose: 0,
+                defaultDoseUnit: "mg",
+                defaultRoute: "IV",
+                alternativeRoutes: [],
+                hapticPattern: null,
+                quickActionCategories: [],
+                usesDoseSequence: false,
+                doseSequence: [],
+                sortOrder: 999
+            };
+            medications.push(newMed);
+        } else {
+            const newEq = {
+                id: newId,
+                name: "New Equipment",
+                displayColor: "iv_access",
+                isVisible: true,
+                timerEnabled: false,
+                timerLabel: "",
+                timerDuration: 0,
+                timerColorString: "gray",
+                sortOrder: 999
+            };
+            equipment.push(newEq);
+        }
+        selectedId = newId;
+        renderList();
+        renderEditForm(newId);
+        // Scroll to bottom of list to show new item
+        const scroll = document.getElementById("med-list-scroll");
+        scroll.scrollTop = scroll.scrollHeight;
     });
 
     document.getElementById("med-search").addEventListener("input", e => {
