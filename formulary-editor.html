@@ -566,10 +566,11 @@
                     <p>Enable or disable medications, set default doses, configure redose timers and dose sequences for your agency formulary. Download the result as a <code>.mlformulary</code> file and share it to your device to import.</p>
                 </div>
                 <div class="header-actions">
-                    <label class="btn" id="btn-import-label" title="Load an existing .mlformulary file to continue editing">
-                        <span>&#8593; Load File</span>
+                    <label class="btn" id="btn-import-label" title="Load an existing .mlformulary file">
+                        <span>&#8593; Load Formulary</span>
                         <input type="file" id="input-import" accept=".mlformulary" style="display:none">
                     </label>
+                    <button class="btn" id="btn-reset" title="Reset to MedicLog defaults">Reset Defaults</button>
                     <button class="btn btn-primary" id="btn-export">&#8595; Download .mlformulary</button>
                 </div>
             </div>
@@ -737,8 +738,28 @@
     let equipment   = JSON.parse(JSON.stringify(DEFAULT_EQUIPMENT));
     let activeTab   = "medications";
 
+    const LS_MEDS = "mediclog_formulary_meds";
+    const LS_EQUIP = "mediclog_formulary_equip";
+
+    function persistState() {
+        try {
+            localStorage.setItem(LS_MEDS,  JSON.stringify(medications));
+            localStorage.setItem(LS_EQUIP, JSON.stringify(equipment));
+        } catch(e) {}
+    }
+
+    function loadPersistedState() {
+        try {
+            const m = localStorage.getItem(LS_MEDS);
+            const e = localStorage.getItem(LS_EQUIP);
+            if (m) medications = JSON.parse(m);
+            if (e) equipment   = JSON.parse(e);
+        } catch(e) {}
+    }
+
     let _savedTimeout = null;
     function showSaved() {
+        persistState();
         const el = document.getElementById("saved-indicator");
         if (!el) return;
         el.style.opacity = "1";
@@ -1483,6 +1504,7 @@
                 selectedId = null;
                 document.getElementById("edit-empty").style.display = "";
                 document.getElementById("edit-form").style.display = "none";
+                persistState();
                 renderList();
             } catch (err) {
                 alert("Could not parse file: " + err.message);
@@ -1568,10 +1590,23 @@
         renderList();
     });
 
+    document.getElementById("btn-reset").addEventListener("click", () => {
+        if (!confirm("Reset to MedicLog defaults? All your changes will be lost.")) return;
+        localStorage.removeItem(LS_MEDS);
+        localStorage.removeItem(LS_EQUIP);
+        medications = JSON.parse(JSON.stringify(DEFAULT_MEDICATIONS));
+        equipment   = JSON.parse(JSON.stringify(DEFAULT_EQUIPMENT));
+        selectedId  = null;
+        document.getElementById("edit-empty").style.display = "";
+        document.getElementById("edit-form").style.display  = "none";
+        renderList();
+    });
+
     // ============================================================
     // Init
     // ============================================================
 
+    loadPersistedState();
     renderList();
     </script>
 </body>
