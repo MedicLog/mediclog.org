@@ -161,9 +161,6 @@
         .med-row:last-child { border-bottom: none; }
         .med-row:hover { background: var(--bg-tertiary); }
         .med-row.selected { background: rgba(0,122,255,0.08); }
-        .med-row.enabled { background: rgba(52,199,89,0.08); }
-        .med-row.enabled:hover { background: rgba(52,199,89,0.14); }
-        .med-row.enabled.selected { background: rgba(0,122,255,0.08); }
 
         .med-row-dot {
             width: 8px;
@@ -387,13 +384,6 @@
         .toggle input:checked + .toggle-slider { background: #34c759; }
         .toggle input:checked + .toggle-slider::after { transform: translateX(16px); }
 
-        .form-row.is-on {
-            background: rgba(52,199,89,0.12);
-            border-radius: 8px;
-            padding: 0.3rem 0.5rem;
-            margin-left: -0.5rem;
-            margin-right: -0.5rem;
-        }
 
         .toggle-label { font-size: 0.87rem; color: var(--text-secondary); }
 
@@ -822,7 +812,7 @@
 
     function makeMedRow(item, isEquip) {
         const row = document.createElement("div");
-        row.className = "med-row" + (!item.isVisible ? " disabled" : " enabled") + (item.id === selectedId ? " selected" : "");
+        row.className = "med-row" + (!item.isVisible ? " disabled" : "") + (item.id === selectedId ? " selected" : "");
         row.dataset.id = item.id;
 
         const dot = document.createElement("div");
@@ -955,7 +945,7 @@
             renderList();
             selectedId = id;
             updateStats();
-        }, true));
+        }));
 
         // ---- Section 2: Timer ----
         const timerSection = makeSection("Timer");
@@ -1102,7 +1092,7 @@
                     item.doseSequence = [{amount: item.defaultDose, unit: item.defaultDoseUnit, intervalMinutes: 0}];
                 }
                 renderEditForm(id);
-            }, true));  // greenWhenOn
+            }));
 
             if (item.usesDoseSequence) {
                 const note = document.createElement("div");
@@ -1276,9 +1266,9 @@
         return row;
     }
 
-    function makeToggleRow(label, checked, onChange, greenWhenOn = false) {
+    function makeToggleRow(label, checked, onChange) {
         const row = document.createElement("div");
-        row.className = "form-row" + (greenWhenOn && checked ? " is-on" : "");
+        row.className = "form-row";
         const lbl = document.createElement("div");
         lbl.className = "form-label";
         lbl.textContent = label;
@@ -1289,10 +1279,7 @@
         const input = document.createElement("input");
         input.type = "checkbox";
         input.checked = checked;
-        input.addEventListener("change", () => {
-            if (greenWhenOn) row.classList.toggle("is-on", input.checked);
-            onChange(input.checked);
-        });
+        input.addEventListener("change", () => onChange(input.checked));
         const slider = document.createElement("div");
         slider.className = "toggle-slider";
         toggleLabel.appendChild(input);
