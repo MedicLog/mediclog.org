@@ -757,14 +757,18 @@
         } catch(e) {}
     }
 
-    let _savedTimeout = null;
+    let _savedDebounce = null;
+    let _savedTimeout  = null;
     function showSaved() {
-        persistState();
-        const el = document.getElementById("saved-indicator");
-        if (!el) return;
-        el.style.opacity = "1";
+        persistState(); // always save immediately
+        clearTimeout(_savedDebounce);
         clearTimeout(_savedTimeout);
-        _savedTimeout = setTimeout(() => { el.style.opacity = "0"; }, 1200);
+        _savedDebounce = setTimeout(() => {
+            const el = document.getElementById("saved-indicator");
+            if (!el) return;
+            el.style.opacity = "1";
+            _savedTimeout = setTimeout(() => { el.style.opacity = "0"; }, 1500);
+        }, 700);
     }
     let selectedId  = null;
     let searchQuery = "";
