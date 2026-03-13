@@ -217,10 +217,13 @@
         </section>
 
         <section class="section">
-            <h2>Why No Account, No Cloud</h2>
-            <p>Patient data is patient data. MedicLog stores everything locally on your device. There's no account creation, no cloud sync, no server that can be breached. Your data is protected by iOS device encryption — inaccessible without your passcode. The cross-device transfer between iOS and Android uses end-to-end encryption — the data never leaves your hands in readable form.</p>
-            <p>The same principle applies to location. On the Destinations tab, tapping <strong>Find Closest</strong> grabs a single one-time location snapshot to sort your destinations by distance — that's it. The coordinate is never stored, never transmitted, and the permission is "While Using" only. Navigation is your navigation app's job, not ours.</p>
-            <p>This isn't a marketing position. It's an architectural decision made on purpose, from the start.</p>
+            <h2>What Stays on Your Device — and What Doesn't</h2>
+            <p>The core app is fully offline. Logging, timers, sessions, radio report, hospital handoff — none of it requires a network connection or an account. Your data lives on your device, protected by iOS encryption and inaccessible without your passcode. Cross-device transfers use end-to-end encryption — the data never leaves your hands in readable form.</p>
+            <p>Two newer optional features do use external services, and you should know exactly what they do:</p>
+            <p><strong>Enhanced OCR</strong> — when you photograph a medication sheet, local OCR runs on-device first. If you've configured a HIPAA-compliant Anthropic API key, the SSL-encrypted image can be sent to Anthropic's servers for better accuracy, then discarded. You control whether this happens, and you decide what to do with the photo on your device afterward. No key configured means nothing leaves your device.</p>
+            <p><strong>Agency cloud export</strong> (V2, in development) — pushing session files directly to gDrive, OneDrive, or iCloud Drive will be an explicit opt-in for agencies that need it. It will not be a background sync.</p>
+            <p>The same principle applies to location. Tapping <strong>Find Closest</strong> on the Destinations tab grabs a single one-time location snapshot to sort your destinations by distance — never stored, never transmitted, "While Using" permission only.</p>
+            <p>No analytics. No telemetry. No account. No background data collection. That's not a marketing position — it's how it was built from the start.</p>
         </section>
 
 <div class="text-center mt-2">
