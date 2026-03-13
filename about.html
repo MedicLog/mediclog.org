@@ -187,13 +187,28 @@
         <section class="section">
             <h2>Who Built This</h2>
             <p>My name is Joel. I'm an active EMT and paramedic student working rural Minnesota, and an assistant EMT instructor. I spent 25+ years in software and IT before transitioning to EMS — which means I had both the clinical context to understand the problem and the technical background to do something about it.</p>
-            <p>MedicLog is a one-person project. No team, no funding, no venture backing. The iOS app has been through 23+ builds of real beta testing with working providers. The feature set has grown well past medication logging — it now includes IV drip calculator with pump and gravity rates, ventilator settings documentation with computed Minute Volume, EKG rhythm logging, trauma diagram with zone overlay, structured hospital handoff with PDF export, Apple Watch speech confirmation, and session photo bundling for crew transfers. Android is in active development.</p>
+            <p>MedicLog is a one-person project. No team, no funding, no venture backing. It started as a medication log and kept growing because the problems kept presenting themselves on actual calls.</p>
         </section>
 
         <section class="section">
+            <h2>What It Does</h2>
+            <p>The core is a timestamped call log you can actually use with gloves on — voice entry, Apple Watch logging with spoken confirmation, one-tap med entry, and redose timers that alert you before the window closes. But it's grown well past that.</p>
+            <p>MedicLog handles a lot of the math so you don't have to. Mean Arterial Pressure, shock index, drip rates, pump calculations — computed in the moment, not on a card in your pocket. Running a critical patient on a drip? The drip calculator gives you pump rate and gravity rate simultaneously, so if the pump fails mid-transport you're not doing weight-based math in your head at 70mph. Got a vented patient? Vent settings log with computed Minute Volume and show up as a dedicated section on the hospital handoff — not buried in procedure notes the receiving team has to dig through.</p>
+            <p>Neurological assessments are built in — a full GCS calculator with Eye, Verbal, and Motor breakdown, plus four stroke screening scales: Cincinnati, LAMS, FAST-ED, and RACE. All four flag LVO based on configurable thresholds your agency sets. If your agency uses something else, there's a freeform entry for that too. Results log directly to the timeline with a timestamp.</p>
+            <p>Procedures log the same way — a full list organized by category. Airway: BVM, NPA, OPA, King LT/iGel, ETT, cric, suctioning. Breathing: O2, needle decompression, CPAP. Circulation: tourniquet, wound packing, pressure dressing. Immobilization: C-collar, SMR, splint, pelvic binder. There's a dedicated cardiac workflow for defibrillation (standard, vector change, and dual sequential), cardioversion, external pacing, CPR events, and ROSC — with automatic pulse check timers. IV access logs gauge, anatomical location via a body diagram, success, and attempt count. Medications are grouped by category: cardiac, respiratory, diabetic, controlled/high-acuity, OB/maternal, fluids.</p>
+            <p>Speaking of handoff — when you pull up to the ED, you're not reading off a glove. MedicLog generates a structured clinical handoff: patient info, active medications with timestamps, vitals flowsheet, procedures, vent settings if applicable, rhythm, and assessment. For a shorter call, hand the nurse a QR code to pull the record, or a quick photo of the summary. For anything that needs a paper trail, it exports to PDF. The radio report works the same way — assembled automatically from what you logged, so you're transmitting real data instead of reconstructing it.</p>
+            <p>It also connects to your protocol app — or two of them — so you can jump directly to your reference without leaving the call. PHI-safe encrypted export formats let you transfer a full session to a partner's device securely. Scene photos and medication label photos bundle with the session so nothing gets orphaned when you hand off the call. And trauma documentation has a visual zone diagram so injury locations are recorded the way you actually think about them, not as a paragraph of text.</p>
+        </section>
+
+        <section class="section">
+            <h2>Platform Status</h2>
             <div class="status-banner">
                 <span class="status-dot"></span>
-                <p><strong>Current status:</strong> iOS beta via TestFlight — join at <a href="beta.html">mediclog.org/beta</a>. Android is in active development with alpha builds running. Both platforms are being built and tested by one developer on personal hardware.</p>
+                <div>
+                    <p><strong>iOS</strong> — Active beta via TestFlight, 23+ builds in. Join at <a href="beta.html">mediclog.org/beta</a>.</p>
+                    <p style="margin-top:0.5rem;"><strong>Android</strong> — In active development, alpha builds running. Beta expected later this year.</p>
+                    <p style="margin-top:0.5rem;color:var(--text-muted);font-size:0.9rem;">Both platforms built and tested by one developer on personal hardware.</p>
+                </div>
             </div>
         </section>
 
