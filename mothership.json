@@ -1,5 +1,13 @@
 {
   "version": "1.0",
-  "message": null,
-  "messages": null
+  "message": {
+    "id": "test-2026-03-13-001",
+    "type": "info",
+    "title": "Mothership Test",
+    "body": "If you can read this, the mothership pipeline is working end-to-end.",
+    "dismissible": true,
+    "expiresAt": "2026-04-13T23:59:59Z",
+    "signature": "rE6WT3tc/P10Ho/o0sOOGZE9t9OJ1dAY/W3VNQ5a7jJ+Kz5vn7iQAEmk87tJFTE9MghiS/8MihzK/mcj2qS5Cg==",
+    "keyId": "primary"
+  }
 }
