@@ -1,44 +1,64 @@
 {
   "version": 1,
+  "_notes": {
+    "lastReviewed": "2026-03-14",
+    "verificationStatus": {
+      "handtevy://": "VERIFIED - confirmed opens Handtevy Mobile on physical device (Safari test 2026-03-14)",
+      "nmas://": "UNVERIFIED - listed by convention, NOT confirmed by device test; pending Acid Remap confirmation",
+      "pulsara://": "UNVERIFIED - assumed from app name, not device-tested",
+      "muru://": "UNVERIFIED - assumed from app name, not device-tested",
+      "pedistat://": "UNVERIFIED - assumed from app name, not device-tested",
+      "ppp://": "UNVERIFIED - assumed from app name, not device-tested"
+    },
+    "pendingApps": {
+      "North Memorial Ambulance": {
+        "appStoreId": "1252050047",
+        "bundleId": "com.acidremap.PPPNorthMemorialAmbulance",
+        "urlScheme": "UNKNOWN - nmas:// confirmed NOT to work (Safari test 2026-03-14); awaiting Acid Remap response",
+        "action": "DO NOT ADD until scheme confirmed"
+      }
+    },
+    "bundleIdNote": "Bundle IDs below are confirmed via itunes.apple.com/lookup as of 2026-03-14. Earlier values (e.g. com.nmas.firstresponder) were placeholders and have been corrected."
+  },
   "apps": [
     {
       "name": "NMAS First Responder Protocols",
-      "bundleId": "com.nmas.firstresponder",
-      "urlScheme": "nmas://",
+      "bundleId": "com.acidremap.PPPNMASFirstResponderProtocols",
+      "urlScheme": null,
       "category": "protocols",
       "appStoreId": "6499279438"
     },
     {
       "name": "Handtevy Mobile",
-      "bundleId": "com.handtevy.mobile",
+      "bundleId": "com.originalimpression.handtevy",
       "urlScheme": "handtevy://",
       "category": "pediatric",
       "appStoreId": "1038174793"
     },
     {
       "name": "Pulsara",
-      "bundleId": "com.pulsara.app",
+      "bundleId": "com.pulsara.stopapps",
       "urlScheme": "pulsara://",
       "category": "communication",
       "appStoreId": "873184192"
     },
     {
       "name": "Muru",
-      "bundleId": "com.muru.app",
+      "bundleId": "com.murumed.Muru",
       "urlScheme": "muru://",
       "category": "protocols",
       "appStoreId": "1409950908"
     },
     {
       "name": "PediSTAT EMS",
-      "bundleId": "com.pedistat.ems",
+      "bundleId": "com.qxmd.pedsGuide.ems",
       "urlScheme": "pedistat://",
       "category": "pediatric",
       "appStoreId": "1595805495"
     },
     {
       "name": "PPP Protocols",
-      "bundleId": null,
+      "bundleId": "com.acidremap.ParamedicProtocolProvider",
       "urlScheme": "ppp://",
       "category": "protocols",
       "appStoreId": null
