@@ -1,20 +1,5 @@
 {
   "version": "1.0",
   "message": null,
-  "messages": [
-    {
-      "id": "test-expired-2026-03-14a",
-      "type": "info",
-      "title": "Expired Test",
-      "body": "TAMPERED \u2014 this should not appear.",
-      "dismissible": true,
-      "silent": false,
-      "expiresAt": "2020-01-01T00:00:00Z",
-      "action": null,
-      "minVersion": null,
-      "maxVersion": null,
-      "signature": "Rlrh6cgrIlszGSp6yfeUp8SLrZ1JhnK6bip1QxUpEfjhUn8gCf2XNpdmdQUxjtYYexU7RBesNOCtJZdjYw/2AQ==",
-      "keyId": "primary"
-    }
-  ]
+  "messages": null
 }
