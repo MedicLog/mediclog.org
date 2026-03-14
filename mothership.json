@@ -6,7 +6,7 @@
       "id": "test-expired-2026-03-14a",
       "type": "info",
       "title": "Expired Test",
-      "body": "This message should not appear.",
+      "body": "TAMPERED \u2014 this should not appear.",
       "dismissible": true,
       "silent": false,
       "expiresAt": "2020-01-01T00:00:00Z",
