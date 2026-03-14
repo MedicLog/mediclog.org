@@ -9,8 +9,8 @@
     "expiresAt": "2026-03-13T23:59:00Z",
     "action": null,
     "minVersion": "0.99",
-    "maxVersion": "0.99",
-    "signature": "heVNvjowADSQJsDt33ufpjfM5PURK1Sivl/FX+rSINyzqJKHRZuyiJE65fjNnqdsbWLBK2wc/+Y+1DyllxY5AA==",
+    "maxVersion": "1.0.0",
+    "signature": "D8KHG81wteSjK60KibdUhXUasV1m9/jkJs1EtX65z7aMt1grYWk/qe662ZHzf/oSCvl0KI3zyaaZAh3h1unBCA==",
     "keyId": "primary"
   }
 }
