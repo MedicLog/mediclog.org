@@ -1,16 +1,20 @@
 {
   "version": "1.0",
-  "message": {
-    "id": "test-info-2026-03-13b",
-    "type": "info",
-    "title": "Broadcast Test",
-    "body": "MedicLog broadcast system test \u2014 ignore.",
-    "dismissible": true,
-    "expiresAt": "2026-03-13T23:59:00Z",
-    "action": null,
-    "minVersion": null,
-    "maxVersion": null,
-    "signature": "GqctOcSlrzFrwKgHsXWuePvQU4zphz/UkNYzJqYnSr/BsTwQ7Y99vkTd5yC0xdoxZZ1eRuMt5SFh9yVGrk39BA==",
-    "keyId": "primary"
-  }
+  "message": null,
+  "messages": [
+    {
+      "id": "test-info-2026-03-13c",
+      "type": "info",
+      "title": "Broadcast Test",
+      "body": "MedicLog broadcast system test \u2014 ignore.",
+      "dismissible": true,
+      "silent": false,
+      "expiresAt": "2026-03-13T23:59:00Z",
+      "action": null,
+      "minVersion": null,
+      "maxVersion": null,
+      "signature": "8YI0axejf2UjzTiZCkRaWIDuaXFumWqgzdyJQ6c3dfgVTWJPRAd687ruqCBZubJyXsmZ/dLjP12YTzqXIYXbBw==",
+      "keyId": "primary"
+    }
+  ]
 }
