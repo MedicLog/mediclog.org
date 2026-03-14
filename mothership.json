@@ -3,17 +3,17 @@
   "message": null,
   "messages": [
     {
-      "id": "test-info-2026-03-14a",
-      "type": "info",
-      "title": "Broadcast Test",
-      "body": "MedicLog broadcast system test \u2014 ignore.",
-      "dismissible": true,
+      "id": "test-critical-2026-03-14a",
+      "type": "critical",
+      "title": "Critical Test",
+      "body": "MedicLog critical broadcast test \u2014 ignore.",
+      "dismissible": false,
       "silent": false,
       "expiresAt": "2026-03-14T06:00:00Z",
       "action": null,
       "minVersion": null,
       "maxVersion": null,
-      "signature": "8HPRwJK2sEkL1Ys4sPGZekNlid0x5BZ/KVr+i0Zrx6pFGNsa1WWDSuY+VzIHT/J/lKcD2NSHrdBhUoRBPT3OAQ==",
+      "signature": "saSt6fVx4Lw6BGgKnQ467opU7liiJq98nR16yBbCgvOecrQwAHoGtXxMo7zXMD4SJUMezDdAVVguIyz5xXDSDw==",
       "keyId": "primary"
     }
   ]
