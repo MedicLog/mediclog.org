@@ -1,33 +1,18 @@
 {
-  "version": 1,
+  "version": 2,
   "_notes": {
     "lastReviewed": "2026-03-14",
     "verificationStatus": {
       "handtevy://": "VERIFIED - confirmed opens Handtevy Mobile on physical device (Safari test 2026-03-14)",
-      "nmas://": "UNVERIFIED - listed by convention, NOT confirmed by device test; pending Acid Remap confirmation",
       "pulsara://": "UNVERIFIED - assumed from app name, not device-tested",
       "muru://": "UNVERIFIED - assumed from app name, not device-tested",
       "pedistat://": "UNVERIFIED - assumed from app name, not device-tested",
       "ppp://": "UNVERIFIED - assumed from app name, not device-tested"
     },
-    "pendingApps": {
-      "North Memorial Ambulance": {
-        "appStoreId": "1252050047",
-        "bundleId": "com.acidremap.PPPNorthMemorialAmbulance",
-        "urlScheme": "UNKNOWN - nmas:// confirmed NOT to work (Safari test 2026-03-14); awaiting Acid Remap response",
-        "action": "DO NOT ADD until scheme confirmed"
-      }
-    },
-    "bundleIdNote": "Bundle IDs below are confirmed via itunes.apple.com/lookup as of 2026-03-14. Earlier values (e.g. com.nmas.firstresponder) were placeholders and have been corrected."
+    "pendingApps": {},
+    "bundleIdNote": "Bundle IDs below are confirmed via itunes.apple.com/lookup as of 2026-03-14."
   },
   "apps": [
-    {
-      "name": "NMAS First Responder Protocols",
-      "bundleId": "com.acidremap.PPPNMASFirstResponderProtocols",
-      "urlScheme": null,
-      "category": "protocols",
-      "appStoreId": "6499279438"
-    },
     {
       "name": "Handtevy Mobile",
       "bundleId": "com.originalimpression.handtevy",
