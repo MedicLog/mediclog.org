@@ -103,6 +103,17 @@
             line-height: 1.7;
         }
 
+        .status-legend {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem 1.25rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
         .lang-table-wrap {
             overflow-x: auto;
             border: 1px solid var(--border);
@@ -440,6 +451,12 @@
         <div class="lang-section">
             <h2>Available Languages</h2>
             <p>All packs are downloadable in the app under Settings &gt; Language. Status indicates the review level of each translation.</p>
+
+            <div class="status-legend">
+                <span class="status-badge status-llm">LLM Translated</span> AI-generated baseline — functional but may have errors
+                <span class="status-badge status-community">Community</span> Improved by bilingual EMS professionals
+                <span class="status-badge status-verified">Verified</span> Professionally reviewed or extensively community-vetted
+            </div>
 
             <div id="lang-table-container">
                 <div class="lang-loading" id="lang-loading">Loading language packs...</div>
