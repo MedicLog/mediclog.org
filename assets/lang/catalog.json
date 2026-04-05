@@ -36,8 +36,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 203060,
-      "sha256": "a0b21439df7ea51a86f36a3dfd6a173c2352b0607f549f28d7a3b855750da3a4",
+      "packSizeBytes": 203341,
+      "sha256": "9e2b41a3be634583dcdd07bd386dc9681adc689a86da8f9e45914120e4b75842",
       "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
