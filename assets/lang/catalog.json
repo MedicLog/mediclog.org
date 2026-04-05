@@ -52,6 +52,19 @@
       "packSizeBytes": 202341,
       "sha256": "3d2e13bf4d8249f9fe41c6ba18e4cae369276fa297d3a835e0a2c7440d72da65",
       "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "ja",
+      "name": "日本語",
+      "englishName": "Japanese",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 211563,
+      "sha256": "15232e9dd39e17b5f70b13f6be03303b28024f476f89176a2f3c72fefa371d41",
+      "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
 }
