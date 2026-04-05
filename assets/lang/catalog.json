@@ -10,8 +10,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 204338,
-      "sha256": "b49d98c5893d9c47d9961599cf6f0ca1e6c21c227ad0285630df249a9c7e9c6b",
+      "packSizeBytes": 207392,
+      "sha256": "a9c280b3c59b50f8bb70d5239462b34c22ac0b9ec95f1a7ef969b3fc503781e5",
       "updatedAt": "2026-04-05T00:00:00Z"
     },
     {
@@ -23,8 +23,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 203604,
-      "sha256": "eb6478a1908d61dd3bfc5995407aab3ffac8756b11ed92737a323cfb02e4a2a2",
+      "packSizeBytes": 206630,
+      "sha256": "9455d0e49b4312f0b29ef6d925d885165853d1c76955c4835f2fcb64cfeed6e0",
       "updatedAt": "2026-04-05T00:00:00Z"
     },
     {
@@ -36,8 +36,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 203341,
-      "sha256": "9e2b41a3be634583dcdd07bd386dc9681adc689a86da8f9e45914120e4b75842",
+      "packSizeBytes": 206373,
+      "sha256": "37e0abe73a55a30daba18115226369e12065232404a50ebcc7d64eae912f5d3a",
       "updatedAt": "2026-04-05T00:00:00Z"
     },
     {
@@ -49,8 +49,34 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 202341,
-      "sha256": "3d2e13bf4d8249f9fe41c6ba18e4cae369276fa297d3a835e0a2c7440d72da65",
+      "packSizeBytes": 205430,
+      "sha256": "38f7c2a8d586f424f4103f45ec980c01a99595b69c934e72710bd3746bf2e969",
+      "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "ja",
+      "name": "日本語",
+      "englishName": "Japanese",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 214744,
+      "sha256": "a9178de6df55374aa3e7237f13443b88920e5644d6da35a0d6b4410db8746703",
+      "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "uk",
+      "name": "Українська",
+      "englishName": "Ukrainian",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 265708,
+      "sha256": "0291ef63ba8e2322123d07741b2c790c5ea61ad64590e3e06f743c364dbd4d2a",
       "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
