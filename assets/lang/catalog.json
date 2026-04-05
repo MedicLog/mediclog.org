@@ -65,6 +65,19 @@
       "packSizeBytes": 211563,
       "sha256": "15232e9dd39e17b5f70b13f6be03303b28024f476f89176a2f3c72fefa371d41",
       "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "uk",
+      "name": "Українська",
+      "englishName": "Ukrainian",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 261922,
+      "sha256": "bdb84af1df6907e5627dde0eb6c97a6daa6c666785b56637a7f6775f155c0541",
+      "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
 }
