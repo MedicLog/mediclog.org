@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Translate MedicLog — Language Packs for EMS Worldwide</title>
+    <meta name="description" content="MedicLog is available in dozens of languages. Every translation started as an AI baseline — help us make them better for EMS providers worldwide.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* translate.html — concurrent-dreaming-pretzel */
+
+        .translate-hero {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .translate-hero h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .translate-hero p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .translate-hero .lang-count {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-btn:hover {
+            text-decoration: none;
+        }
+
+        .cta-btn-primary {
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+            color: white;
+            box-shadow: 0 4px 16px rgba(33, 150, 243, 0.4);
+        }
+
+        .cta-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(33, 150, 243, 0.5);
+            color: white;
+        }
+
+        .cta-btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .cta-btn-secondary:hover {
+            transform: translateY(-2px);
+            color: var(--text-primary);
+            border-color: var(--accent);
+        }
+
+        /* ---- Language Table ---- */
+        .lang-section {
+            max-width: 860px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+        }
+
+        .lang-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .lang-section > p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .lang-table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--card-bg);
+        }
+
+        .lang-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .lang-table thead {
+            background: var(--bg-secondary);
+        }
+
+        .lang-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .lang-table td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+
+        .lang-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .lang-table tbody tr:hover {
+            background: var(--highlight-bg);
+        }
+
+        .lang-name-native {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .lang-name-english {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-left: 0.25rem;
+        }
+
+        .lang-flag {
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .status-llm {
+            background: rgba(255, 160, 0, 0.12);
+            color: #e65100;
+            border: 1px solid rgba(255, 160, 0, 0.3);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .status-llm {
+                background: rgba(255, 160, 0, 0.15);
+                color: #ffb74d;
+                border-color: rgba(255, 160, 0, 0.3);
+            }
+        }
+
+        .status-community {
+            background: rgba(33, 150, 243, 0.1);
+            color: #1565c0;
+            border: 1px solid rgba(33, 150, 243, 0.25);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .status-community {
+                color: #64b5f6;
+            }
+        }
+
+        .status-verified {
+            background: rgba(76, 175, 80, 0.1);
+            color: #2e7d32;
+            border: 1px solid rgba(76, 175, 80, 0.25);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .status-verified {
+                color: #81c784;
+            }
+        }
+
+        /* Completion bar */
+        .completion-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 100px;
+        }
+
+        .completion-bar {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+            min-width: 60px;
+        }
+
+        .completion-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: var(--accent);
+            transition: width 0.4s ease;
+        }
+
+        .completion-pct {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+            min-width: 36px;
+            text-align: right;
+        }
+
+        .lang-updated {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* ---- Community Seeds ---- */
+        .seeds-section {
+            max-width: 860px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+        }
+
+        .seeds-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .seeds-callout {
+            background: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .seeds-callout strong {
+            color: var(--text-primary);
+        }
+
+        .seeds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .seed-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .seed-tag .lang-flag {
+            font-size: 1.1rem;
+        }
+
+        .seed-tag-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ---- How to Help ---- */
+        .help-section {
+            max-width: 860px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+        }
+
+        .help-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .help-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .help-card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .help-card h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .help-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .help-card-link {
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .help-card-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ---- Loading / Error ---- */
+        .lang-loading {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .lang-error {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ---- Footer note ---- */
+        .translate-footer {
+            max-width: 720px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 600px) {
+            .translate-hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .cta-row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-btn {
+                width: 100%;
+                max-width: 320px;
+                justify-content: center;
+            }
+
+            .lang-table th:nth-child(6),
+            .lang-table td:nth-child(6) {
+                display: none;
+            }
+
+            .seeds-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" data-page="translate"></nav>
+
+    <main class="container">
+
+        <!-- Hero -->
+        <div class="translate-hero">
+            <h1>Help Translate MedicLog</h1>
+            <p>MedicLog is used by EMS providers in <span class="lang-count" id="lang-count">multiple</span> languages. Every translation started as an AI-generated baseline — help us make them better.</p>
+            <p>A paramedic documenting under pressure should be thinking about their patient, not translating UI labels in their head.</p>
+
+            <div class="cta-row">
+                <a href="mailto:support@mediclog.org?subject=Language%20Request%3A%20%5Byour%20language%5D&body=I'd%20like%20to%20request%20MedicLog%20support%20for%3A%20%0A%0ALanguage%3A%20%0ARegion%2FDialect%3A%20%0A%0AI%20can%20help%20review%20translations%3A%20yes%20%2F%20no" class="cta-btn cta-btn-primary">
+                    Request a Language
+                </a>
+                <a href="#how-to-help" class="cta-btn cta-btn-secondary">
+                    Help Improve Translations
+                </a>
+            </div>
+        </div>
+
+        <!-- Language Table -->
+        <div class="lang-section">
+            <h2>Available Languages</h2>
+            <p>All packs are downloadable in the app under Settings &gt; Language. Status indicates the review level of each translation.</p>
+
+            <div id="lang-table-container">
+                <div class="lang-loading" id="lang-loading">Loading language packs...</div>
+            </div>
+        </div>
+
+        <!-- Community Seeds -->
+        <div class="seeds-section" id="seeds-section" style="display:none;">
+            <h2>Community Seeds</h2>
+            <div class="seeds-callout">
+                <strong>We know these aren't perfect — but we tried, because representation matters.</strong>
+                If you speak one of these languages, even fixing one string helps the next provider who opens MedicLog in their language.
+            </div>
+            <div class="seeds-grid" id="seeds-grid"></div>
+        </div>
+
+        <!-- How to Help -->
+        <div class="help-section" id="how-to-help">
+            <h2>How to Help</h2>
+            <div class="help-grid">
+
+                <div class="help-card">
+                    <span class="help-card-icon">📱</span>
+                    <h3>Report a Bad Translation</h3>
+                    <p>See something wrong while using MedicLog? Use the built-in "Report Translation" button in Settings &gt; Language. It sends us the exact string so we can fix it.</p>
+                    <span class="help-card-link">Available in the app</span>
+                </div>
+
+                <div class="help-card">
+                    <span class="help-card-icon">👁️</span>
+                    <h3>Review Translations</h3>
+                    <p>Bilingual EMS professional? Become a language reviewer. You'll triage community-reported translation issues and help approve corrections.</p>
+                    <a href="mailto:support@mediclog.org?subject=Translation%20Reviewer%20Volunteer&body=Language(s)%20I%20can%20review%3A%20%0AEMS%20role%2Fexperience%3A%20%0AGitHub%20username%20(optional)%3A%20" class="help-card-link">Volunteer as a reviewer →</a>
+                </div>
+
+                <div class="help-card">
+                    <span class="help-card-icon">🌍</span>
+                    <h3>Request a Language</h3>
+                    <p>Don't see your language? Let us know. If there's an EMS provider somewhere in the world who needs it, we'll do our best to add it.</p>
+                    <a href="mailto:support@mediclog.org?subject=Language%20Request%3A%20%5Byour%20language%5D&body=I'd%20like%20to%20request%20MedicLog%20support%20for%3A%20%0A%0ALanguage%3A%20%0ARegion%2FDialect%3A%20%0A%0AI%20can%20help%20review%20translations%3A%20yes%20%2F%20no" class="help-card-link">Request a language →</a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="translate-footer">
+            Translations are LLM-generated baselines improved by community feedback. Medication names, dosage units, and clinical abbreviations are never translated — a paramedic in Berlin still pushes Epinephrine 1mg.
+        </div>
+
+    </main>
+
+    <script src="nav-loader.js"></script>
+    <script>
+    (function () {
+        // Heritage / low-resource language codes — shown in Community Seeds section
+        const seedCodes = new Set([
+            'gd', 'cy', 'ga', 'mi', 'haw', 'lou', 'ht', 'so', 'am', 'ne'
+        ]);
+
+        // Flag emoji lookup (BCP-47 code → emoji)
+        const flags = {
+            'es-419': '🇲🇽', 'fr-CA': '🇨🇦', 'fr': '🇫🇷', 'de': '🇩🇪',
+            'pt-BR': '🇧🇷', 'it': '🇮🇹', 'ja': '🇯🇵', 'uk': '🇺🇦',
+            'he': '🇮🇱', 'tr': '🇹🇷', 'ar': '🇸🇦', 'pl': '🇵🇱',
+            'hi': '🇮🇳', 'ko': '🇰🇷', 'th': '🇹🇭', 'id': '🇮🇩',
+            'zh-Hans': '🇨🇳', 'vi': '🇻🇳', 'tl': '🇵🇭', 'ro': '🇷🇴',
+            'nl': '🇳🇱', 'sv': '🇸🇪', 'sw': '🇰🇪', 'ne': '🇳🇵',
+            'fa': '🇮🇷', 'ru': '🇷🇺', 'gd': '🏴󠁧󠁢󠁳󠁣󠁴󠁿', 'cy': '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
+            'ga': '🇮🇪', 'mi': '🇳🇿', 'haw': '🇺🇸', 'lou': '🇺🇸',
+            'ht': '🇭🇹', 'so': '🇸🇴', 'am': '🇪🇹',
+        };
+
+        const statusLabels = {
+            'llm': 'LLM Translated',
+            'community': 'Community',
+            'verified': 'Verified'
+        };
+
+        const statusOrder = { 'verified': 0, 'community': 1, 'llm': 2 };
+
+        function formatDate(iso) {
+            if (!iso) return '—';
+            const d = new Date(iso);
+            return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        function formatSize(bytes) {
+            if (!bytes) return '';
+            return (bytes / 1024).toFixed(0) + ' KB';
+        }
+
+        function avgCompletion(lang) {
+            var t1 = lang.tier1Complete || 0;
+            var t2 = lang.tier2Complete || 0;
+            return Math.round(((t1 + t2) / 2) * 100);
+        }
+
+        function renderTable(languages) {
+            // Separate main languages from seed languages
+            var main = [];
+            var seeds = [];
+
+            languages.forEach(function (lang) {
+                if (seedCodes.has(lang.code)) {
+                    seeds.push(lang);
+                } else {
+                    main.push(lang);
+                }
+            });
+
+            // Sort: verified first, then community, then llm; within same status, by completion desc
+            main.sort(function (a, b) {
+                var sa = statusOrder[a.status] || 9;
+                var sb = statusOrder[b.status] || 9;
+                if (sa !== sb) return sa - sb;
+                return avgCompletion(b) - avgCompletion(a);
+            });
+
+            // Update language count
+            document.getElementById('lang-count').textContent = languages.length;
+
+            // Build main table
+            var html = '<div class="lang-table-wrap"><table class="lang-table">';
+            html += '<thead><tr>';
+            html += '<th></th><th>Language</th><th>Status</th><th>Completion</th><th>Size</th><th>Updated</th>';
+            html += '</tr></thead><tbody>';
+
+            main.forEach(function (lang) {
+                var pct = avgCompletion(lang);
+                var flag = flags[lang.code] || '🌐';
+                var statusClass = 'status-' + (lang.status || 'llm');
+                var statusLabel = statusLabels[lang.status] || lang.status;
+
+                html += '<tr>';
+                html += '<td class="lang-flag">' + flag + '</td>';
+                html += '<td><span class="lang-name-native">' + escHtml(lang.name) + '</span> <span class="lang-name-english">' + escHtml(lang.englishName) + '</span></td>';
+                html += '<td><span class="status-badge ' + statusClass + '">' + statusLabel + '</span></td>';
+                html += '<td><div class="completion-bar-wrap"><div class="completion-bar"><div class="completion-bar-fill" style="width:' + pct + '%"></div></div><span class="completion-pct">' + pct + '%</span></div></td>';
+                html += '<td class="lang-updated">' + formatSize(lang.packSizeBytes) + '</td>';
+                html += '<td class="lang-updated">' + formatDate(lang.updatedAt) + '</td>';
+                html += '</tr>';
+            });
+
+            html += '</tbody></table></div>';
+
+            document.getElementById('lang-table-container').innerHTML = html;
+
+            // Build seeds section
+            if (seeds.length > 0) {
+                var seedsEl = document.getElementById('seeds-section');
+                seedsEl.style.display = '';
+
+                var seedsHtml = '';
+                seeds.forEach(function (lang) {
+                    var flag = flags[lang.code] || '🌐';
+                    seedsHtml += '<div class="seed-tag">';
+                    seedsHtml += '<span class="lang-flag">' + flag + '</span>';
+                    seedsHtml += '<span class="seed-tag-name">' + escHtml(lang.name) + '</span>';
+                    seedsHtml += '</div>';
+                });
+
+                document.getElementById('seeds-grid').innerHTML = seedsHtml;
+            }
+        }
+
+        function escHtml(s) {
+            var el = document.createElement('span');
+            el.textContent = s;
+            return el.innerHTML;
+        }
+
+        function showError() {
+            document.getElementById('lang-table-container').innerHTML =
+                '<div class="lang-error">Language data is currently unavailable. Check back soon, or <a href="mailto:support@mediclog.org">contact us</a> to ask about a specific language.</div>';
+        }
+
+        // Fetch catalog
+        fetch('/assets/lang/catalog.json')
+            .then(function (res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
+            .then(function (data) {
+                if (data.languages && data.languages.length > 0) {
+                    renderTable(data.languages);
+                } else {
+                    showError();
+                }
+            })
+            .catch(function () {
+                showError();
+            });
+    })();
+    </script>
+</body>
+</html>

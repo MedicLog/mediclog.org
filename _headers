@@ -10,3 +10,11 @@
 /assets/presets/*.mlconfig
   Content-Type: application/octet-stream
   Content-Disposition: attachment
+
+/assets/lang/catalog.json
+  Content-Type: application/json; charset=UTF-8
+  Cache-Control: public, max-age=3600, s-maxage=300
+
+/assets/lang/*.json
+  Content-Type: application/json; charset=UTF-8
+  Cache-Control: public, max-age=86400, s-maxage=3600

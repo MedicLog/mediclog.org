@@ -1,5 +1,16 @@
 {
   "version": "1.0",
-  "message": null,
-  "messages": null
+  "message": {
+    "id": "test-info-2026-03-13",
+    "type": "info",
+    "title": "Broadcast Test",
+    "body": "MedicLog broadcast system test \u2014 ignore.",
+    "dismissible": true,
+    "expiresAt": "2026-03-13T23:59:00Z",
+    "action": null,
+    "minVersion": "0.99",
+    "maxVersion": "0.99",
+    "signature": "heVNvjowADSQJsDt33ufpjfM5PURK1Sivl/FX+rSINyzqJKHRZuyiJE65fjNnqdsbWLBK2wc/+Y+1DyllxY5AA==",
+    "keyId": "primary"
+  }
 }
