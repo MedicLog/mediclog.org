@@ -10,7 +10,7 @@
 
     const docsPages = ['docs', 'tutorial', 'shortcuts'];
     const agencyPages = ['agency', 'settings-creator', 'formulary-editor'];
-    const morePages = ['about', 'privacy', 'terms'];
+    const morePages = ['about', 'translate', 'privacy', 'terms'];
 
     nav.innerHTML = `
         <div class="nav-inner">
@@ -54,9 +54,10 @@
                         More <span class="nav-dropdown-chevron">▼</span>
                     </button>
                     <div class="nav-dropdown-menu">
-                        <a href="about.html"   data-nav="about">About</a>
-                        <a href="privacy.html" data-nav="privacy">Privacy</a>
-                        <a href="terms.html"   data-nav="terms">Terms</a>
+                        <a href="about.html"     data-nav="about">About</a>
+                        <a href="translate.html" data-nav="translate">Translate</a>
+                        <a href="privacy.html"   data-nav="privacy">Privacy</a>
+                        <a href="terms.html"     data-nav="terms">Terms</a>
                     </div>
                 </div>
 

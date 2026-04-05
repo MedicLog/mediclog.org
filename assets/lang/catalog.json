@@ -26,6 +26,19 @@
       "packSizeBytes": 203604,
       "sha256": "eb6478a1908d61dd3bfc5995407aab3ffac8756b11ed92737a323cfb02e4a2a2",
       "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "de",
+      "name": "Deutsch",
+      "englishName": "German",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 203060,
+      "sha256": "a0b21439df7ea51a86f36a3dfd6a173c2352b0607f549f28d7a3b855750da3a4",
+      "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
 }
