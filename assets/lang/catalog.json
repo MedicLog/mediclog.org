@@ -10,8 +10,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 204410,
-      "sha256": "66a1a25f2cb069a3b407d423e50416a69eeeb1e70c615b35cad8dce7d63a5588",
+      "packSizeBytes": 207392,
+      "sha256": "a9c280b3c59b50f8bb70d5239462b34c22ac0b9ec95f1a7ef969b3fc503781e5",
       "updatedAt": "2026-04-05T00:00:00Z"
     },
     {
@@ -23,8 +23,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 203676,
-      "sha256": "968e4780b2230170ca430a42991a776e428850c2ab91280559df69c253c6f5aa",
+      "packSizeBytes": 206630,
+      "sha256": "9455d0e49b4312f0b29ef6d925d885165853d1c76955c4835f2fcb64cfeed6e0",
       "updatedAt": "2026-04-05T00:00:00Z"
     },
     {
@@ -36,8 +36,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 203412,
-      "sha256": "d5fb723c1cab3ff754865600b0394bc4e51940011229cbbf09fe262fa652b08f",
+      "packSizeBytes": 206373,
+      "sha256": "37e0abe73a55a30daba18115226369e12065232404a50ebcc7d64eae912f5d3a",
       "updatedAt": "2026-04-05T00:00:00Z"
     },
     {
@@ -49,8 +49,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 202413,
-      "sha256": "ab9d58f9b27cfb307d373bf91834c3692c5a41437f85b90f83e54fe2738ef701",
+      "packSizeBytes": 205430,
+      "sha256": "38f7c2a8d586f424f4103f45ec980c01a99595b69c934e72710bd3746bf2e969",
       "updatedAt": "2026-04-05T00:00:00Z"
     },
     {
@@ -62,8 +62,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 211630,
-      "sha256": "4742b8fc133f9a75625c73db551c6a394d5c9382a4b168298625606ef49d2377",
+      "packSizeBytes": 214744,
+      "sha256": "a9178de6df55374aa3e7237f13443b88920e5644d6da35a0d6b4410db8746703",
       "updatedAt": "2026-04-05T00:00:00Z"
     },
     {
@@ -75,8 +75,8 @@
       "tier2Complete": 1.0,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 262005,
-      "sha256": "2ecf3f61e45f4766dc498436bdbe84127f8d27b2bdbd90ca0d806584f6764e51",
+      "packSizeBytes": 265708,
+      "sha256": "0291ef63ba8e2322123d07741b2c790c5ea61ad64590e3e06f743c364dbd4d2a",
       "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
