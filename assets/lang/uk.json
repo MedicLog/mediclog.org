@@ -2239,6 +2239,7 @@
     "ios.vitalsEntry.strokeScreenSectionHeader": "Скринінг інсульту",
     "ios.vitalsEntry.systolicLabel": "Систолічний",
     "ios.vitalsEntry.tempSectionHeader": "Температура (°F)",
+    "ios.vitalsEntry.tempSectionHeaderDual": "Температура (°C / °F)",
     "ios.vitalsEntry.title": "Введення вітальних",
     "ios.vitalsGroup.accessibilityCollapse": "Згорнути групу вітальних",
     "ios.vitalsGroup.accessibilityExpand": "Розгорнути групу вітальних",

@@ -2239,6 +2239,7 @@
     "ios.vitalsEntry.strokeScreenSectionHeader": "Rastreamento de AVC",
     "ios.vitalsEntry.systolicLabel": "Sistólica",
     "ios.vitalsEntry.tempSectionHeader": "Temperatura (°F)",
+    "ios.vitalsEntry.tempSectionHeaderDual": "Temperatura (°C / °F)",
     "ios.vitalsEntry.title": "Registro de Sinais Vitais",
     "ios.vitalsGroup.accessibilityCollapse": "Recolher grupo de sinais vitais",
     "ios.vitalsGroup.accessibilityExpand": "Expandir grupo de sinais vitais",

@@ -2239,6 +2239,7 @@
     "ios.vitalsEntry.strokeScreenSectionHeader": "脳卒中スクリーニング",
     "ios.vitalsEntry.systolicLabel": "収縮期",
     "ios.vitalsEntry.tempSectionHeader": "体温 (°F)",
+    "ios.vitalsEntry.tempSectionHeaderDual": "体温 (°C / °F)",
     "ios.vitalsEntry.title": "バイタル入力",
     "ios.vitalsGroup.accessibilityCollapse": "バイタルグループを折りたたむ",
     "ios.vitalsGroup.accessibilityExpand": "バイタルグループを展開",

@@ -2239,6 +2239,7 @@
     "ios.vitalsEntry.strokeScreenSectionHeader": "Tamizaje de ACV",
     "ios.vitalsEntry.systolicLabel": "Sistólica",
     "ios.vitalsEntry.tempSectionHeader": "Temperatura (°F)",
+    "ios.vitalsEntry.tempSectionHeaderDual": "Temperatura (°C / °F)",
     "ios.vitalsEntry.title": "Registro de signos vitales",
     "ios.vitalsGroup.accessibilityCollapse": "Contraer grupo de signos vitales",
     "ios.vitalsGroup.accessibilityExpand": "Expandir grupo de signos vitales",

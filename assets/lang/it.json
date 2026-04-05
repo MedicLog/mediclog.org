@@ -2239,6 +2239,7 @@
     "ios.vitalsEntry.strokeScreenSectionHeader": "Screening ictus",
     "ios.vitalsEntry.systolicLabel": "Sistolica",
     "ios.vitalsEntry.tempSectionHeader": "Temperatura (°F)",
+    "ios.vitalsEntry.tempSectionHeaderDual": "Temperatura (°C / °F)",
     "ios.vitalsEntry.title": "Inserimento parametri vitali",
     "ios.vitalsGroup.accessibilityCollapse": "Comprimi gruppo parametri vitali",
     "ios.vitalsGroup.accessibilityExpand": "Espandi gruppo parametri vitali",

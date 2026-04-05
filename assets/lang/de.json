@@ -2239,6 +2239,7 @@
     "ios.vitalsEntry.strokeScreenSectionHeader": "Schlaganfall-Screening",
     "ios.vitalsEntry.systolicLabel": "Systolisch",
     "ios.vitalsEntry.tempSectionHeader": "Temperatur (°F)",
+    "ios.vitalsEntry.tempSectionHeaderDual": "Temperatur (°C / °F)",
     "ios.vitalsEntry.title": "Vitalwerte-Eingabe",
     "ios.vitalsGroup.accessibilityCollapse": "Vitalwerte-Gruppe zuklappen",
     "ios.vitalsGroup.accessibilityExpand": "Vitalwerte-Gruppe aufklappen",
