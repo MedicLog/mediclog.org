@@ -1276,6 +1276,16 @@
                 'protocolApp.name': { type: 'text', default: '', placeholder: 'e.g. Lexipol', screens: ['agency'], section: 'Protocol Apps', description: 'Display name shown in the picker when both apps are configured.', qrPath: ['agency', 'protocolApp', 'name'] },
                 'referenceApp.scheme': { type: 'text', default: '', placeholder: 'e.g. handtevy://', screens: ['agency'], section: 'Protocol Apps', description: 'Optional second app (Slot 2). Only used if Primary App is also configured.', qrPath: ['agency', 'referenceApp', 'scheme'] },
                 'referenceApp.name': { type: 'text', default: '', placeholder: 'e.g. Handtevy', screens: ['agency'], section: 'Protocol Apps', qrPath: ['agency', 'referenceApp', 'name'] },
+                // T242: Preferred email client for Hospital Handoff send
+                'preferredEmailClient': { type: 'select', default: 'default', options: [
+                    {value: 'default', label: 'System Default'},
+                    {value: 'outlook', label: 'Outlook'},
+                    {value: 'gmail', label: 'Gmail'},
+                    {value: 'protonmail', label: 'ProtonMail'},
+                    {value: 'yahoo', label: 'Yahoo Mail'},
+                    {value: 'spark', label: 'Spark'}
+                ], screens: ['agency'], section: 'Email Client', description: 'Preferred email client for Hospital Handoff send button', qrPath: ['agency', 'preferredEmailClient'] },
+
                 'backgroundCrashLogging.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Support & Diagnostics', qrPath: ['agency', 'backgroundCrashLogging.enabled'] },
                 // Agency feature flags
                 'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'agencyGpsEnabled'] },
@@ -1291,6 +1301,42 @@
                     {value: 'off', label: 'Off'}
                 ], screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.verbosity'] },
                 'voice.autoPromoteThreshold': { type: 'number', default: 0.85, min: 0.0, max: 1.0, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.autoPromoteThreshold'] },
+                // Clinical Calculations — toggles and thresholds
+                'calcVitals.mapEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show MAP (Mean Arterial Pressure) calculation', qrPath: ['agency', 'calcVitals.mapEnabled'] },
+                'calcVitals.shockIndexEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Shock Index calculation', qrPath: ['agency', 'calcVitals.shockIndexEnabled'] },
+                'calcVitals.shockIndexMode': { type: 'select', default: 'standard', options: [
+                    {value: 'standard', label: 'Standard (HR/SBP)'},
+                    {value: 'modified', label: 'Modified (HR/MAP)'}
+                ], screens: ['vitals'], section: 'Clinical Calculations', qrPath: ['agency', 'calcVitals.shockIndexMode'] },
+                'calcVitals.pulsePressureEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Pulse Pressure calculation', qrPath: ['agency', 'calcVitals.pulsePressureEnabled'] },
+                'calcVitals.qsofaEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show qSOFA score', qrPath: ['agency', 'calcVitals.qsofaEnabled'] },
+                'calcVitals.sepsisScreeningMode': { type: 'select', default: 'qsofa', options: [
+                    {value: 'qsofa', label: 'qSOFA'},
+                    {value: 'sirs', label: 'SIRS'},
+                    {value: 'both', label: 'Both'},
+                    {value: 'off', label: 'Off'}
+                ], screens: ['vitals'], section: 'Sepsis Screening', qrPath: ['agency', 'calcVitals.sepsisScreeningMode'] },
+                'calcVitals.remsEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show REMS (Rapid Emergency Medicine Score)', qrPath: ['agency', 'calcVitals.remsEnabled'] },
+                'calcVitals.rtsEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Revised Trauma Score (RTS)', qrPath: ['agency', 'calcVitals.rtsEnabled'] },
+                'calcVitals.gcsPEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show GCS-P (GCS with Pupil reactivity)', qrPath: ['agency', 'calcVitals.gcsPEnabled'] },
+                'calcVitals.cppEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show CPP (Cerebral Perfusion Pressure) for TBI patients', qrPath: ['agency', 'calcVitals.cppEnabled'] },
+
+                // Shock Index thresholds
+                'calcVitals.si.yellowThreshold': { type: 'number', default: 0.8, min: 0.5, max: 1.5, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Yellow (caution) threshold', qrPath: ['agency', 'calcVitals.si.yellowThreshold'] },
+                'calcVitals.si.orangeThreshold': { type: 'number', default: 0.9, min: 0.5, max: 2.0, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Orange (warning) threshold', qrPath: ['agency', 'calcVitals.si.orangeThreshold'] },
+                'calcVitals.si.redThreshold': { type: 'number', default: 1.0, min: 0.5, max: 2.5, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Red (critical) threshold', qrPath: ['agency', 'calcVitals.si.redThreshold'] },
+                'calcVitals.msi.yellowThreshold': { type: 'number', default: 1.3, min: 0.5, max: 2.0, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Modified SI yellow threshold', qrPath: ['agency', 'calcVitals.msi.yellowThreshold'] },
+                'calcVitals.msi.orangeThreshold': { type: 'number', default: 1.5, min: 0.5, max: 2.5, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Modified SI orange threshold', qrPath: ['agency', 'calcVitals.msi.orangeThreshold'] },
+                'calcVitals.msi.redThreshold': { type: 'number', default: 1.7, min: 0.5, max: 3.0, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Modified SI red threshold', qrPath: ['agency', 'calcVitals.msi.redThreshold'] },
+
+                // REMS thresholds
+                'calcVitals.rems.moderateThreshold': { type: 'number', default: 6, min: 1, max: 20, screens: ['vitals'], section: 'REMS Thresholds', description: 'Moderate risk threshold', qrPath: ['agency', 'calcVitals.rems.moderateThreshold'] },
+                'calcVitals.rems.highThreshold': { type: 'number', default: 13, min: 1, max: 26, screens: ['vitals'], section: 'REMS Thresholds', description: 'High risk threshold', qrPath: ['agency', 'calcVitals.rems.highThreshold'] },
+
+                // CPP thresholds
+                'calcVitals.cpp.assumedICP': { type: 'number', default: 20, min: 5, max: 40, screens: ['vitals'], section: 'CPP Settings', description: 'Assumed ICP (mmHg) when no ICP monitor', qrPath: ['agency', 'calcVitals.cpp.assumedICP'] },
+                'calcVitals.cpp.threshold': { type: 'number', default: 60, min: 40, max: 80, screens: ['vitals'], section: 'CPP Settings', description: 'Minimum CPP threshold (mmHg)', qrPath: ['agency', 'calcVitals.cpp.threshold'] },
+
                 // LVO alert thresholds — only relevant when stroke scale is lams/fasted/race
                 'agency.lvoThreshold.lams': { type: 'number', default: 4, min: 1, max: 5, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.lams'] },
                 'agency.lvoThreshold.fasted': { type: 'number', default: 1, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.fasted'] },

@@ -103,6 +103,17 @@
             line-height: 1.7;
         }
 
+        .status-legend {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem 1.25rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
         .lang-table-wrap {
             overflow-x: auto;
             border: 1px solid var(--border);
@@ -361,6 +372,12 @@
             text-decoration: underline;
         }
 
+        .help-card-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
         /* ---- Loading / Error ---- */
         .lang-loading {
             text-align: center;
@@ -423,11 +440,11 @@
         <!-- Hero -->
         <div class="translate-hero">
             <h1>Help Translate MedicLog</h1>
-            <p>MedicLog is used by EMS providers in <span class="lang-count" id="lang-count">multiple</span> languages. Every translation started as an AI-generated baseline — help us make them better.</p>
+            <p>MedicLog is used by EMS providers in multiple languages. Every translation started as an AI-generated baseline — help us make them better.</p>
             <p>A paramedic documenting under pressure should be thinking about their patient, not translating UI labels in their head.</p>
 
             <div class="cta-row">
-                <a href="mailto:support@mediclog.org?subject=Language%20Request%3A%20%5Byour%20language%5D&body=I'd%20like%20to%20request%20MedicLog%20support%20for%3A%20%0A%0ALanguage%3A%20%0ARegion%2FDialect%3A%20%0A%0AI%20can%20help%20review%20translations%3A%20yes%20%2F%20no" class="cta-btn cta-btn-primary">
+                <a href="mailto:support@mediclog.org?subject=Language%20Request%3A%20%5Byour%20language%5D&body=I'd%20like%20to%20request%20MedicLog%20support%20for%3A%0A%0ALanguage%3A%20%0A%0ARegion%2FDialect%3A%20%0A%0AI%20can%20help%20review%20translations%3A%20yes%20%2F%20no" class="cta-btn cta-btn-primary">
                     Request a Language
                 </a>
                 <a href="#how-to-help" class="cta-btn cta-btn-secondary">
@@ -440,6 +457,12 @@
         <div class="lang-section">
             <h2>Available Languages</h2>
             <p>All packs are downloadable in the app under Settings &gt; Language. Status indicates the review level of each translation.</p>
+
+            <div class="status-legend">
+                <span class="status-badge status-llm">LLM Translated</span> AI-generated baseline — functional but may have errors
+                <span class="status-badge status-community">Community</span> Improved by bilingual EMS professionals
+                <span class="status-badge status-verified">Verified</span> Professionally reviewed or extensively community-vetted
+            </div>
 
             <div id="lang-table-container">
                 <div class="lang-loading" id="lang-loading">Loading language packs...</div>
@@ -465,21 +488,21 @@
                     <span class="help-card-icon">📱</span>
                     <h3>Report a Bad Translation</h3>
                     <p>See something wrong while using MedicLog? Use the built-in "Report Translation" button in Settings &gt; Language. It sends us the exact string so we can fix it.</p>
-                    <span class="help-card-link">Available in the app</span>
+                    <span class="help-card-note">Available in the app under Settings &gt; Language</span>
                 </div>
 
                 <div class="help-card">
                     <span class="help-card-icon">👁️</span>
                     <h3>Review Translations</h3>
                     <p>Bilingual EMS professional? Become a language reviewer. You'll triage community-reported translation issues and help approve corrections.</p>
-                    <a href="mailto:support@mediclog.org?subject=Translation%20Reviewer%20Volunteer&body=Language(s)%20I%20can%20review%3A%20%0AEMS%20role%2Fexperience%3A%20%0AGitHub%20username%20(optional)%3A%20" class="help-card-link">Volunteer as a reviewer →</a>
+                    <a href="mailto:support@mediclog.org?subject=Translation%20Reviewer%20Volunteer&body=Language(s)%20I%20can%20review%3A%20%0A%0AEMS%20role%2Fexperience%3A%20%0A%0AGitHub%20username%20(optional)%3A%20" class="help-card-link">Volunteer as a reviewer →</a>
                 </div>
 
                 <div class="help-card">
                     <span class="help-card-icon">🌍</span>
                     <h3>Request a Language</h3>
                     <p>Don't see your language? Let us know. If there's an EMS provider somewhere in the world who needs it, we'll do our best to add it.</p>
-                    <a href="mailto:support@mediclog.org?subject=Language%20Request%3A%20%5Byour%20language%5D&body=I'd%20like%20to%20request%20MedicLog%20support%20for%3A%20%0A%0ALanguage%3A%20%0ARegion%2FDialect%3A%20%0A%0AI%20can%20help%20review%20translations%3A%20yes%20%2F%20no" class="help-card-link">Request a language →</a>
+                    <a href="mailto:support@mediclog.org?subject=Language%20Request%3A%20%5Byour%20language%5D&body=I'd%20like%20to%20request%20MedicLog%20support%20for%3A%0A%0ALanguage%3A%20%0A%0ARegion%2FDialect%3A%20%0A%0AI%20can%20help%20review%20translations%3A%20yes%20%2F%20no" class="help-card-link">Request a language →</a>
                 </div>
 
             </div>
@@ -560,7 +583,7 @@
             });
 
             // Update language count
-            document.getElementById('lang-count').textContent = languages.length;
+            // Language count displayed in table, not hero text
 
             // Build main table
             var html = '<div class="lang-table-wrap"><table class="lang-table">';
