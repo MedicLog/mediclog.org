@@ -1,0 +1,31 @@
+{
+  "catalogVersion": 1,
+  "languages": [
+    {
+      "code": "es-419",
+      "name": "Español (Latinoamérica)",
+      "englishName": "Spanish (Latin American)",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 204434,
+      "sha256": "26a8ecdd7a4b94c0af87673af9c2dce7c715223e6d585c4be041b8dc246e8a13",
+      "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "pt-BR",
+      "name": "Português (Brasil)",
+      "englishName": "Portuguese (Brazilian)",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 203604,
+      "sha256": "eb6478a1908d61dd3bfc5995407aab3ffac8756b11ed92737a323cfb02e4a2a2",
+      "updatedAt": "2026-04-05T00:00:00Z"
+    }
+  ]
+}

@@ -1,2 +1,3 @@
 User-agent: *
 Disallow: /assets/config/
+Disallow: /assets/lang/
