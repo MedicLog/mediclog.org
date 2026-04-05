@@ -117,6 +117,18 @@
 
             <div class="faq-item">
                 <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    Does MedicLog use my GPS location?
+                </button>
+                <div class="faq-answer">
+                    <p>MedicLog uses your location for two optional features, both of which require your explicit permission:</p>
+                    <p><strong>Find Closest Hospital:</strong> When you tap "Find Hospital" during an active call, MedicLog uses your current location to sort nearby hospitals by distance and hand off navigation to your preferred mapping app.</p>
+                    <p><strong>Auto-Daylight (GPS/Solar mode):</strong> If you enable Auto-Daylight with the GPS/Solar option in Display Preferences, MedicLog requests your location to calculate actual sunrise and sunset times for your area. The app automatically switches to Night Red or NVG Green mode at sunset and restores your normal display at sunrise — no manual toggling needed. Your coordinates are used only for the solar calculation — they are never stored permanently, never attached to patient records, and never transmitted to any server.</p>
+                    <p>If you prefer not to share your location, Auto-Daylight also has a Manual mode where you set fixed night start and end times yourself. The hospital finder simply won't sort by distance without location access.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
                     Can I export my data?
                 </button>
                 <div class="faq-answer">
