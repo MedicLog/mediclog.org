@@ -39,6 +39,19 @@
       "packSizeBytes": 203341,
       "sha256": "9e2b41a3be634583dcdd07bd386dc9681adc689a86da8f9e45914120e4b75842",
       "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "it",
+      "name": "Italiano",
+      "englishName": "Italian",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 202341,
+      "sha256": "3d2e13bf4d8249f9fe41c6ba18e4cae369276fa297d3a835e0a2c7440d72da65",
+      "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
 }
