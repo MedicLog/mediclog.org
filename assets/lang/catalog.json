@@ -143,6 +143,19 @@
       "packSizeBytes": 197622,
       "sha256": "2b27412730d50ac92f9e5e1f8f860eee377413cb81020a1f7c9f40f3575ac84b",
       "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "hi",
+      "name": "हिन्दी",
+      "englishName": "Hindi",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 300091,
+      "sha256": "027c4f41615f41ad84ead73148f5de378e9f168d321fe397cfc74967796cb259",
+      "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
 }
