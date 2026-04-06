@@ -286,6 +286,19 @@
       "packSizeBytes": 200787,
       "sha256": "3d9d7ecc1667b5b8a310719018c3a1195dda917041669cb1ab98b1124ff2663f",
       "updatedAt": "2026-04-06T00:00:00Z"
+    },
+    {
+      "code": "sv",
+      "name": "Svenska",
+      "englishName": "Swedish",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 198494,
+      "sha256": "8eb28a24a834f4d55f13b61c866edb35c93ad200a2237a29701bb219ecc3f35c",
+      "updatedAt": "2026-04-06T00:00:00Z"
     }
   ]
 }
