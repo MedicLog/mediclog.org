@@ -182,6 +182,19 @@
       "packSizeBytes": 202302,
       "sha256": "dd387efc1b601f42f7f7efab1c3e1157b6235b796c3f69f925d8bdb05963e511",
       "updatedAt": "2026-04-06T00:00:00Z"
+    },
+    {
+      "code": "th",
+      "name": "ไทย",
+      "englishName": "Thai",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 289610,
+      "sha256": "1ca1634eda2dbd4f863c969eeec3808f441358d84cfb0a57342559eb2c15603e",
+      "updatedAt": "2026-04-06T00:00:00Z"
     }
   ]
 }
