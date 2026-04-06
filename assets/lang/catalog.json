@@ -104,6 +104,19 @@
       "packSizeBytes": 213122,
       "sha256": "d5849454b93793679bd690d19ed32865af7f8cf3c36881cd06c2b3bedb3cee66",
       "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "tr",
+      "name": "Türkçe",
+      "englishName": "Turkish",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 203326,
+      "sha256": "47c2758b04d9b76fe11df79cdb9250e66e96bee80b12bfb430862d9174dba48b",
+      "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
 }
