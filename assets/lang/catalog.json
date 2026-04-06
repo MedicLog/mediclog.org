@@ -78,6 +78,19 @@
       "packSizeBytes": 265708,
       "sha256": "0291ef63ba8e2322123d07741b2c790c5ea61ad64590e3e06f743c364dbd4d2a",
       "updatedAt": "2026-04-05T00:00:00Z"
+    },
+    {
+      "code": "fr",
+      "name": "Français (France)",
+      "englishName": "French (France)",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 211622,
+      "sha256": "2cb448df01566259e242e22fadc82a985074b97a3c5590441396ae00aefce3da",
+      "updatedAt": "2026-04-05T00:00:00Z"
     }
   ]
 }
