@@ -312,6 +312,19 @@
       "packSizeBytes": 200601,
       "sha256": "397d3200d40d45d41eef1fc956f10d3186ddc265407402116e8598f92852e8b7",
       "updatedAt": "2026-04-06T00:00:00Z"
+    },
+    {
+      "code": "fa",
+      "name": "فارسی",
+      "englishName": "Farsi/Persian",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 240611,
+      "sha256": "10d878ae11e32e20b6ad030e2026a1ba9543103a2e0325f49c9e60854f72d2f1",
+      "updatedAt": "2026-04-06T00:00:00Z"
     }
   ]
 }
