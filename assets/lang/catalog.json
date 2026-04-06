@@ -208,6 +208,19 @@
       "packSizeBytes": 197101,
       "sha256": "8876638b05cb4315de8185565e093ed29517c1f38a4d53fd44e0db2bf364f1b6",
       "updatedAt": "2026-04-06T00:00:00Z"
+    },
+    {
+      "code": "he",
+      "name": "עברית",
+      "englishName": "Hebrew",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 219710,
+      "sha256": "cf9aa9d591151dc656f21f6a3cfa2e46f72682a49925ce99af458a779f21b0d1",
+      "updatedAt": "2026-04-06T00:00:00Z"
     }
   ]
 }
