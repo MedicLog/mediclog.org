@@ -247,6 +247,19 @@
       "packSizeBytes": 206486,
       "sha256": "4748cf2f77223f87820e6612eb16e6a38f03fb2b6083cd44d69bf80b61f8ccac",
       "updatedAt": "2026-04-06T00:00:00Z"
+    },
+    {
+      "code": "tl",
+      "name": "Filipino",
+      "englishName": "Filipino/Tagalog",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 207057,
+      "sha256": "0ef5f0727e1ab3b5df59dc5f549b347cf82bd70104a4192f818f6e5f8b6a3424",
+      "updatedAt": "2026-04-06T00:00:00Z"
     }
   ]
 }
