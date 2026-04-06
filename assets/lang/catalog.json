@@ -195,6 +195,19 @@
       "packSizeBytes": 289610,
       "sha256": "1ca1634eda2dbd4f863c969eeec3808f441358d84cfb0a57342559eb2c15603e",
       "updatedAt": "2026-04-06T00:00:00Z"
+    },
+    {
+      "code": "id",
+      "name": "Bahasa Indonesia",
+      "englishName": "Indonesian",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 197101,
+      "sha256": "8876638b05cb4315de8185565e093ed29517c1f38a4d53fd44e0db2bf364f1b6",
+      "updatedAt": "2026-04-06T00:00:00Z"
     }
   ]
 }
