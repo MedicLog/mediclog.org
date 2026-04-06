@@ -234,6 +234,19 @@
       "packSizeBytes": 185530,
       "sha256": "d10e1ae17a1d0ec7d667b50ff013cc18e11c5eb208f1d8333217176c570fb21d",
       "updatedAt": "2026-04-06T00:00:00Z"
+    },
+    {
+      "code": "vi",
+      "name": "Tiếng Việt",
+      "englishName": "Vietnamese",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 206486,
+      "sha256": "4748cf2f77223f87820e6612eb16e6a38f03fb2b6083cd44d69bf80b61f8ccac",
+      "updatedAt": "2026-04-06T00:00:00Z"
     }
   ]
 }
