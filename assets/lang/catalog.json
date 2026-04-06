@@ -260,6 +260,19 @@
       "packSizeBytes": 207057,
       "sha256": "0ef5f0727e1ab3b5df59dc5f549b347cf82bd70104a4192f818f6e5f8b6a3424",
       "updatedAt": "2026-04-06T00:00:00Z"
+    },
+    {
+      "code": "ro",
+      "name": "Română",
+      "englishName": "Romanian",
+      "version": 1,
+      "tier1Complete": 1.0,
+      "tier2Complete": 1.0,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 206945,
+      "sha256": "8c4622e2b6542d1b05c57923792a38635b94806cbbde89781e3af1c6b16da38b",
+      "updatedAt": "2026-04-06T00:00:00Z"
     }
   ]
 }
