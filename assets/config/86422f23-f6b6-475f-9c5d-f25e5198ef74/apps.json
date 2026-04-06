@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "_notes": {
     "lastReviewed": "2026-03-14",
     "verificationStatus": {
@@ -40,6 +40,13 @@
       "urlScheme": "pedistat://",
       "category": "pediatric",
       "appStoreId": "1595805495"
+    },
+    {
+      "name": "NMAS First Responder Protocols",
+      "bundleId": "com.acidremap.PPPNorthMemorialAmbulance",
+      "urlScheme": null,
+      "category": "protocols",
+      "appStoreId": "6499279438"
     },
     {
       "name": "PPP Protocols",
