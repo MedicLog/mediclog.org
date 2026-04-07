@@ -351,6 +351,19 @@
       "packSizeBytes": 190453,
       "sha256": "1cacd516671fbc4a1437bdca6cbbdce2e89c38484a2e41e2145748b8621b5f54",
       "updatedAt": "2026-04-07T00:00:00Z"
+    },
+    {
+      "code": "so",
+      "name": "Soomaali",
+      "englishName": "Somali",
+      "version": 1,
+      "tier1Complete": 0.96,
+      "tier2Complete": 0.96,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 204672,
+      "sha256": "d32db0a031fcd7ecfbeefe2b0c576aa5f7b44f2874ca4952040ddb7cdacf8c88",
+      "updatedAt": "2026-04-07T00:00:00Z"
     }
   ]
 }
