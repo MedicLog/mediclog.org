@@ -364,6 +364,19 @@
       "packSizeBytes": 204672,
       "sha256": "d32db0a031fcd7ecfbeefe2b0c576aa5f7b44f2874ca4952040ddb7cdacf8c88",
       "updatedAt": "2026-04-07T00:00:00Z"
+    },
+    {
+      "code": "am",
+      "name": "አማርኛ",
+      "englishName": "Amharic",
+      "version": 1,
+      "tier1Complete": 0.96,
+      "tier2Complete": 0.96,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 240800,
+      "sha256": "414b55cf609785b2fa90cb769c6b2eaf3c4cd2234087f982589445007e64c053",
+      "updatedAt": "2026-04-07T00:00:00Z"
     }
   ]
 }
