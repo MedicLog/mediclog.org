@@ -325,6 +325,19 @@
       "packSizeBytes": 240611,
       "sha256": "10d878ae11e32e20b6ad030e2026a1ba9543103a2e0325f49c9e60854f72d2f1",
       "updatedAt": "2026-04-06T00:00:00Z"
+    },
+    {
+      "code": "ne",
+      "name": "नेपाली",
+      "englishName": "Nepali",
+      "version": 1,
+      "tier1Complete": 0.4,
+      "tier2Complete": 0.4,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 214114,
+      "sha256": "8d9555a5f4d069102722fb3822b5d5aab6bc9c0887dbb7336261e6ea64612506",
+      "updatedAt": "2026-04-07T00:00:00Z"
     }
   ]
 }
