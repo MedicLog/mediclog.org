@@ -338,6 +338,19 @@
       "packSizeBytes": 214114,
       "sha256": "8d9555a5f4d069102722fb3822b5d5aab6bc9c0887dbb7336261e6ea64612506",
       "updatedAt": "2026-04-07T00:00:00Z"
+    },
+    {
+      "code": "ht",
+      "name": "Kreyòl Ayisyen",
+      "englishName": "Haitian Creole",
+      "version": 1,
+      "tier1Complete": 0.96,
+      "tier2Complete": 0.96,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 190453,
+      "sha256": "1cacd516671fbc4a1437bdca6cbbdce2e89c38484a2e41e2145748b8621b5f54",
+      "updatedAt": "2026-04-07T00:00:00Z"
     }
   ]
 }
