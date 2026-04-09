@@ -377,6 +377,19 @@
       "packSizeBytes": 240800,
       "sha256": "414b55cf609785b2fa90cb769c6b2eaf3c4cd2234087f982589445007e64c053",
       "updatedAt": "2026-04-07T00:00:00Z"
+    },
+    {
+      "code": "cy",
+      "name": "Cymraeg",
+      "englishName": "Welsh",
+      "version": 1,
+      "tier1Complete": 0.96,
+      "tier2Complete": 0.96,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 201942,
+      "sha256": "9e06e69c17da593a7bedce90129ca7e0844bd1dd4ff64f3307a4b59a5c6df7cc",
+      "updatedAt": "2026-04-09T00:00:00Z"
     }
   ]
 }
