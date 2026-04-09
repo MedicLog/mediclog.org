@@ -429,6 +429,19 @@
       "packSizeBytes": 198453,
       "sha256": "79f638f55f9c170bf8f45eb3bf44ed4fee717d28b3f3e399a36decbc1dcc76f7",
       "updatedAt": "2026-04-09T00:00:00Z"
+    },
+    {
+      "code": "lou",
+      "name": "Kouri-Vini",
+      "englishName": "Louisiana Creole",
+      "version": 1,
+      "tier1Complete": 0.95,
+      "tier2Complete": 0.95,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 191836,
+      "sha256": "eef54c6940464611857ae5689e2d51b681b8b5ee70aa6300a5fd2ebb82bda9f6",
+      "updatedAt": "2026-04-09T00:00:00Z"
     }
   ]
 }
