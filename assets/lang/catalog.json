@@ -390,6 +390,19 @@
       "packSizeBytes": 201942,
       "sha256": "9e06e69c17da593a7bedce90129ca7e0844bd1dd4ff64f3307a4b59a5c6df7cc",
       "updatedAt": "2026-04-09T00:00:00Z"
+    },
+    {
+      "code": "ga",
+      "name": "Gaeilge",
+      "englishName": "Irish",
+      "version": 1,
+      "tier1Complete": 0.97,
+      "tier2Complete": 0.97,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 208084,
+      "sha256": "4c25fc61dd08a81f913c4ee3cf966eba16cdc4b65f6288ec33a701e209a80f0f",
+      "updatedAt": "2026-04-09T00:00:00Z"
     }
   ]
 }
