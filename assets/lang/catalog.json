@@ -416,6 +416,19 @@
       "packSizeBytes": 201500,
       "sha256": "f4b3052f37347d5edfe527fc5c947f033484eae45e2d83345b06622f073a40f7",
       "updatedAt": "2026-04-09T00:00:00Z"
+    },
+    {
+      "code": "haw",
+      "name": "ʻŌlelo Hawaiʻi",
+      "englishName": "Hawaiian",
+      "version": 1,
+      "tier1Complete": 0.9,
+      "tier2Complete": 0.9,
+      "status": "llm",
+      "minAppVersion": "1.1.0",
+      "packSizeBytes": 198340,
+      "sha256": "7c6915ff7f8bf395565d26468669ec0c54d10f799d238ef89371e2d0508c7f8e",
+      "updatedAt": "2026-04-09T00:00:00Z"
     }
   ]
 }
