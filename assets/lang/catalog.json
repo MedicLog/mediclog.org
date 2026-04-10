@@ -331,12 +331,12 @@
       "name": "नेपाली",
       "englishName": "Nepali",
       "version": 2,
-      "tier1Complete": 1.0,
-      "tier2Complete": 1.0,
+      "tier1Complete": 0.94,
+      "tier2Complete": 0.94,
       "status": "llm",
       "minAppVersion": "1.1.0",
-      "packSizeBytes": 315595,
-      "sha256": "bc9df5730d9415e0431be85d418cd92983b5e5b9b3b48eb86a9d32f5df93f2bf",
+      "packSizeBytes": 310511,
+      "sha256": "9ab5d261515438d5ca48df84c53edd6bdd3ddc2ceb1c3ca07fa3e26b20221446",
       "updatedAt": "2026-04-09T00:00:00Z"
     },
     {
