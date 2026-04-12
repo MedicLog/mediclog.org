@@ -1292,6 +1292,43 @@
                 'aiParsingEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsingEnabled'] },
                 'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
                 'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Crew Announce', qrPath: ['agency', 'crewAnnounceEnabled'] },
+                // Language
+                'activeLanguageCode': { type: 'dropdown', default: 'en', options: [
+                    {value: 'en',      label: 'English (built-in)'},
+                    {value: 'ar',      label: 'Arabic'},
+                    {value: 'bn',      label: 'Bengali'},
+                    {value: 'cs',      label: 'Czech'},
+                    {value: 'da',      label: 'Danish'},
+                    {value: 'de',      label: 'German'},
+                    {value: 'el',      label: 'Greek'},
+                    {value: 'es',      label: 'Spanish'},
+                    {value: 'fa',      label: 'Persian (Farsi)'},
+                    {value: 'fi',      label: 'Finnish'},
+                    {value: 'fr',      label: 'French'},
+                    {value: 'he',      label: 'Hebrew'},
+                    {value: 'hi',      label: 'Hindi'},
+                    {value: 'hu',      label: 'Hungarian'},
+                    {value: 'id',      label: 'Indonesian'},
+                    {value: 'it',      label: 'Italian'},
+                    {value: 'ja',      label: 'Japanese'},
+                    {value: 'ko',      label: 'Korean'},
+                    {value: 'ms',      label: 'Malay'},
+                    {value: 'nl',      label: 'Dutch'},
+                    {value: 'no',      label: 'Norwegian'},
+                    {value: 'pl',      label: 'Polish'},
+                    {value: 'pt',      label: 'Portuguese'},
+                    {value: 'ro',      label: 'Romanian'},
+                    {value: 'ru',      label: 'Russian'},
+                    {value: 'sv',      label: 'Swedish'},
+                    {value: 'sw',      label: 'Swahili'},
+                    {value: 'th',      label: 'Thai'},
+                    {value: 'tr',      label: 'Turkish'},
+                    {value: 'uk',      label: 'Ukrainian'},
+                    {value: 'ur',      label: 'Urdu'},
+                    {value: 'vi',      label: 'Vietnamese'},
+                    {value: 'zh-Hans', label: 'Chinese (Simplified)'},
+                    {value: 'zh-Hant', label: 'Chinese (Traditional)'}
+                ], screens: ['agency'], section: 'Language', description: 'App interface language. "English" uses the built-in strings; all others require the downloaded language pack.', qrPath: ['agency', 'activeLanguageCode'] },
                 // Voice pipeline config (T194/T195) — agency-level, included in QR export
                 'voice.silenceThreshold': { type: 'number', default: 2.0, min: 0.5, max: 10.0, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.silenceThreshold'] },
                 'voice.vadTrimEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.vadTrimEnabled'] },
@@ -1320,6 +1357,12 @@
                 'calcVitals.rtsEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Revised Trauma Score (RTS)', qrPath: ['agency', 'calcVitals.rtsEnabled'] },
                 'calcVitals.gcsPEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show GCS-P (GCS with Pupil reactivity)', qrPath: ['agency', 'calcVitals.gcsPEnabled'] },
                 'calcVitals.cppEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show CPP (Cerebral Perfusion Pressure) for TBI patients', qrPath: ['agency', 'calcVitals.cppEnabled'] },
+                'calcVitals.etco2Enabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show EtCO₂ waveform capnography interpretation and alerts', qrPath: ['agency', 'calcVitals.etco2Enabled'] },
+
+                // EtCO2 thresholds
+                'calcVitals.etco2.criticalLow': { type: 'number', default: 10, min: 5, max: 25, screens: ['vitals'], section: 'EtCO₂ Thresholds', description: 'Critical low EtCO₂ (mmHg) — apnea/severe hyperventilation alert', qrPath: ['agency', 'calcVitals.etco2.criticalLow'] },
+                'calcVitals.etco2.warningLow': { type: 'number', default: 35, min: 20, max: 40, screens: ['vitals'], section: 'EtCO₂ Thresholds', description: 'Low warning threshold (mmHg) — hyperventilation caution', qrPath: ['agency', 'calcVitals.etco2.warningLow'] },
+                'calcVitals.etco2.warningHigh': { type: 'number', default: 45, min: 40, max: 70, screens: ['vitals'], section: 'EtCO₂ Thresholds', description: 'High warning threshold (mmHg) — hypoventilation caution', qrPath: ['agency', 'calcVitals.etco2.warningHigh'] },
 
                 // Shock Index thresholds
                 'calcVitals.si.yellowThreshold': { type: 'number', default: 0.8, min: 0.5, max: 1.5, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Yellow (caution) threshold', qrPath: ['agency', 'calcVitals.si.yellowThreshold'] },
@@ -1352,6 +1395,7 @@
                 'useUTCTime': { type: 'toggle', default: false, screens: ['global'], section: 'Time & Date Format', qrPath: ['display', 'useUTCTime'] },
                 'useMilitaryDate': { type: 'toggle', default: false, screens: ['global'], section: 'Time & Date Format', qrPath: ['display', 'useMilitaryDate'] },
                 'groupActiveCallEntries': { type: 'toggle', default: false, screens: ['active-call'], section: 'Timeline Display', qrPath: ['display', 'groupActiveCallEntries'] },
+                'groupDetailEntries': { type: 'toggle', default: false, screens: ['active-call'], section: 'Timeline Display', description: 'Group entries by type in the call detail view', qrPath: ['display', 'groupDetailEntries'] },
                 'groupHistoryEntries': { type: 'toggle', default: false, screens: ['history'], section: 'History Display', qrPath: ['display', 'groupHistoryEntries'] },
                 'groupMedicationsByType': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timeline Display', qrPath: ['display', 'groupMedicationsByType'] },
                 'keepScreenAwake': { type: 'toggle', default: true, screens: ['active-call'], section: 'Timer & Screen', qrPath: ['display', 'keepScreenAwake'] },
@@ -1385,9 +1429,16 @@
                 ], screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'watchHapticIntensity'] },
                 'watchShakeAction': { type: 'select', default: 'snooze', options: [
                     {value: 'snooze', label: 'Snooze Timer (1 min)'},
+                    {value: 'dismiss', label: 'Dismiss Alert'},
+                    {value: 'none', label: 'No Action'},
                     {value: 'ignore', label: 'Ignore'}
                 ], screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'watchShakeAction'] },
-                'timerPageDwellSeconds': { type: 'number', default: 5, min: 0, max: 30, screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'timerPageDwellSeconds'] },
+                'timerPageDwellSeconds': { type: 'number', default: 5, min: 3, max: 10, screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'timerPageDwellSeconds'] },
+                'watchAutoPromoteThreshold': { type: 'select', default: 60, options: [
+                    {value: 30, label: '30 sec'},
+                    {value: 60, label: '60 sec'},
+                    {value: 90, label: '90 sec'}
+                ], screens: ['global'], section: 'Watch Configuration', description: 'Confidence score threshold for auto-promoting Watch voice entries without review', qrPath: ['watch', 'watchAutoPromoteThreshold'] },
 
                 // Vitals
                 'radioShowFullVitals': { type: 'toggle', default: true, screens: ['radio'], section: 'Radio Report', description: 'Show all recorded vitals in the radio report, not just the most recent set', qrPath: ['vitals', 'radioShowFullVitals'] },
@@ -1913,7 +1964,14 @@
                     'voice.autoPromoteThreshold': 'Voice Auto-Promote Threshold',
                     'agency.lvoThreshold.lams': 'LVO Threshold — LAMS',
                     'agency.lvoThreshold.fasted': 'LVO Threshold — FAST-ED',
-                    'agency.lvoThreshold.race': 'LVO Threshold — RACE'
+                    'agency.lvoThreshold.race': 'LVO Threshold — RACE',
+                    'activeLanguageCode': 'App Language',
+                    'calcVitals.etco2Enabled': 'EtCO₂ Interpretation',
+                    'calcVitals.etco2.criticalLow': 'Critical Low (mmHg)',
+                    'calcVitals.etco2.warningLow': 'Warning Low (mmHg)',
+                    'calcVitals.etco2.warningHigh': 'Warning High (mmHg)',
+                    'watchAutoPromoteThreshold': 'Auto-Promote Threshold',
+                    'groupDetailEntries': 'Group Detail View Entries'
                 };
                 return labels[key] || key;
             },
@@ -1951,6 +2009,20 @@
                         segmented.appendChild(label);
                     });
                     return segmented;
+                }
+
+                if (meta.type === 'dropdown') {
+                    const sel = document.createElement('select');
+                    sel.style.cssText = 'padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:6px;background:var(--bg-tertiary);color:var(--text-primary);font-size:0.875rem;max-width:200px;';
+                    meta.options.forEach(opt => {
+                        const option = document.createElement('option');
+                        option.value = opt.value;
+                        option.textContent = opt.label;
+                        if (opt.value === value) option.selected = true;
+                        sel.appendChild(option);
+                    });
+                    sel.onchange = () => SettingsState.set(key, sel.value);
+                    return sel;
                 }
 
                 if (meta.type === 'number') {
