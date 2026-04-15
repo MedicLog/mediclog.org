@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrations — MedicLog</title>
+    <meta name="description" content="MedicLog integrations — connect to ZOLL, Hamilton, and Lifepak devices for automated vitals capture, and export call data to ImageTrend and other ePCR systems.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .integrations-container { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; }
+        .integrations-header { text-align: center; margin-bottom: 3rem; }
+        .integrations-header h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+        .integrations-header .subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .integration-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .integration-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 20px rgba(33,150,243,0.12);
+        }
+        .integration-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 0.4rem 0.75rem;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .integration-logo:hover { opacity: 0.8; }
+        .integration-logo img {
+            height: 22px;
+            width: auto;
+        }
+        .integration-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.4rem;
+        }
+        .integration-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+        .badge-testing {
+            background: rgba(76,175,80,0.15);
+            color: #4caf50;
+            border: 1px solid rgba(76,175,80,0.3);
+        }
+        .badge-discussions {
+            background: rgba(33,150,243,0.12);
+            color: var(--accent);
+            border: 1px solid rgba(33,150,243,0.25);
+        }
+        .badge-planned {
+            background: rgba(156,39,176,0.12);
+            color: #9c27b0;
+            border: 1px solid rgba(156,39,176,0.25);
+        }
+
+        .integration-features {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .integration-features li {
+            padding: 0.25rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+        .integration-features li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+        .integration-card.active .integration-features li::before {
+            background: #4caf50;
+        }
+
+        .divider-section {
+            margin: 3rem 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .divider-section h2 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+        .divider-line { flex: 1; height: 1px; background: var(--border); }
+
+        .info-block {
+            background: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-top: 2.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .info-block strong { color: var(--text-primary); }
+
+        @media (max-width: 640px) {
+            .integrations-header h1 { font-size: 1.75rem; }
+            .integrations-container { padding: 2rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" data-page="integrations"></nav>
+
+    <div class="integrations-container">
+        <div class="integrations-header">
+            <h1>Integrations</h1>
+            <p class="subtitle">Connect MedicLog to your monitoring devices and ePCR systems. Pull vitals and events directly into your call log, and export to your agency's reporting platform.</p>
+        </div>
+
+        <div class="divider-section">
+            <h2>Active</h2>
+            <div class="divider-line"></div>
+        </div>
+
+        <div class="integrations-grid">
+            <div class="integration-card active">
+                <div class="integration-name">
+                    <a href="https://www.zoll.com/" target="_blank" rel="noopener" class="integration-logo"><img src="assets/integrations/zoll-logo.png" alt="Zoll"></a>
+                    <span class="badge badge-testing">In Testing</span>
+                </div>
+                <div class="integration-desc">
+                    Connect directly to ZOLL X Series and Zenix monitor/defibrillators over Bluetooth or WiFi. Vitals and cardiac events pull into your call log at intervals you set, or on demand with Collect Now.
+                </div>
+                <ul class="integration-features">
+                    <li>Auto-polling vitals at configurable intervals</li>
+                    <li>Cardiac events and procedures captured in real time</li>
+                    <li>Push patient demographics to the monitor — saves you from manual entry on the device</li>
+                    <li>Per-device password authentication</li>
+                    <li>Currently in alpha testing</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="divider-section">
+            <h2>Roadmap</h2>
+            <div class="divider-line"></div>
+        </div>
+
+        <div class="integrations-grid">
+            <div class="integration-card">
+                <div class="integration-name">
+                    Hamilton T1
+                    <span class="badge badge-discussions">In Discussions</span>
+                </div>
+                <div class="integration-desc">
+                    Direct ventilator integration with the Hamilton T1 transport ventilator. Capture ventilator parameters and waveform data into the active call.
+                </div>
+                <ul class="integration-features">
+                    <li>Awaiting SDK availability</li>
+                </ul>
+            </div>
+
+            <div class="integration-card">
+                <div class="integration-name">
+                    ImageTrend
+                    <span class="badge badge-planned">Planned</span>
+                </div>
+                <div class="integration-desc">
+                    Export MedicLog call data into ImageTrend Elite for agency ePCR workflows and state reporting.
+                </div>
+                <ul class="integration-features">
+                    <li>ePCR data export</li>
+                </ul>
+            </div>
+
+            <div class="integration-card">
+                <div class="integration-name">
+                    Stryker Lifepak
+                    <span class="badge badge-planned">Planned</span>
+                </div>
+                <div class="integration-desc">
+                    Direct device integration with Stryker Lifepak monitor/defibrillators for automated vitals and event capture.
+                </div>
+                <ul class="integration-features">
+                    <li>Camera-based vitals capture available now</li>
+                    <li>Direct device connection planned</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <strong>Want to integrate with MedicLog?</strong> If your agency uses an ePCR system not listed here, we'd like to hear from you. Reach out at <a href="mailto:support@mediclog.org">support@mediclog.org</a> and let us know what system you use — integration priority is driven by agency demand.
+        </div>
+    </div>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 3rem;">
+        <p>&copy; 2026 MedicLog &middot; <a href="privacy.html" style="color:var(--text-muted)">Privacy</a> &middot;
+        <a href="terms.html" style="color:var(--text-muted)">Terms</a> &middot;
+        <a href="https://github.com/MedicLog/mediclog-support/issues" style="color:var(--text-muted)">Support</a></p>
+    </footer>
+    <script src="nav-loader.js"></script>
+</body>
+</html>
