@@ -9,7 +9,7 @@
     const currentPage = nav.getAttribute('data-page');
 
     const docsPages = ['docs', 'tutorial', 'shortcuts'];
-    const agencyPages = ['agency', 'settings-creator', 'formulary-editor', 'integrations'];
+    const agencyPages = ['agency', 'settings-creator', 'formulary-editor', 'integrations', 'zdr-api-key'];
     const morePages = ['about', 'translate', 'privacy', 'terms'];
 
     nav.innerHTML = `
@@ -43,6 +43,7 @@
                         <a href="settings-creator.html"  data-nav="settings-creator">Settings Creator</a>
                         <a href="formulary-editor.html"  data-nav="formulary-editor">Formulary Editor</a>
                         <a href="integrations.html"      data-nav="integrations">Integrations</a>
+                        <a href="zdr-api-key.html"       data-nav="zdr-api-key">ZDR API Key</a>
                     </div>
                 </div>
 

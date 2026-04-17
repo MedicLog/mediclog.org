@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude ZDR API Key — MedicLog</title>
+    <meta name="description" content="How to request a Claude Zero Data Retention (ZDR) API key for HIPAA-compliant use of MedicLog's AI features like Vision OCR.">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .zdr-container { max-width: 780px; margin: 0 auto; padding: 3rem 2rem; }
+        .zdr-header { text-align: center; margin-bottom: 2.5rem; }
+        .zdr-header h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+        .zdr-header .subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        .hipaa-note {
+            background: rgba(52,199,89,0.1);
+            border: 1px solid rgba(52,199,89,0.35);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2.5rem;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+        .hipaa-note strong { display: block; margin-bottom: 0.4rem; font-size: 0.95rem; }
+
+        .section-heading {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        .section-heading:first-of-type { border-top: none; padding-top: 0; }
+
+        .step-list {
+            counter-reset: steps;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .step-list li {
+            counter-increment: steps;
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+        .step-list li::before {
+            content: counter(steps);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            height: 32px;
+            background: var(--highlight-bg);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+        .step-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .step-content p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+        .step-content a { color: var(--accent); }
+
+        .info-block {
+            background: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .info-block strong { color: var(--text-primary); }
+
+        .coverage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin: 1rem 0;
+        }
+        .coverage-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .coverage-card h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+        .coverage-card.yes h4 { color: #34c759; }
+        .coverage-card.no h4 { color: var(--text-muted); }
+        .coverage-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.87rem;
+            color: var(--text-secondary);
+        }
+        .coverage-card ul li {
+            padding: 0.2rem 0;
+        }
+
+        .cta-block {
+            text-align: center;
+            margin: 2.5rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+        .cta-block h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .cta-block p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 0.7rem 2rem;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .cta-button:hover { opacity: 0.85; text-decoration: none; }
+
+        @media (max-width: 640px) {
+            .zdr-header h1 { font-size: 1.75rem; }
+            .zdr-container { padding: 2rem 1.25rem; }
+            .coverage-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" data-page="zdr-api-key"></nav>
+
+    <div class="zdr-container">
+        <div class="zdr-header">
+            <h1>How to Request a Claude ZDR API Key</h1>
+            <p class="subtitle">Set up Zero Data Retention for HIPAA-compliant use of MedicLog's AI-powered features.</p>
+        </div>
+
+        <div class="hipaa-note">
+            <strong>Why ZDR matters for HIPAA compliance</strong>
+            MedicLog uses Claude Vision to extract data from photos of cardiac monitors (vitals OCR) and medication packaging (medication OCR). These images are sent to Anthropic's Claude API for processing. Under standard API terms, Anthropic may retain prompts and responses. With Zero Data Retention, your data is not stored at rest after the API response is returned — prompts and outputs are processed in real time and discarded. This means patient data in monitor photos and medication images never persists on Anthropic's servers, which is a key requirement for HIPAA compliance when processing protected health information (PHI). Anthropic also offers HIPAA-ready API access with a signed Business Associate Agreement (BAA) for organizations that need formal HIPAA coverage.
+        </div>
+
+        <h2 class="section-heading" style="border-top:none; padding-top:0;">Choose your path</h2>
+
+        <div class="coverage-grid">
+            <div class="coverage-card yes">
+                <h4>Individual Providers — ZDR</h4>
+                <ul>
+                    <li>Patient data not stored after API response</li>
+                    <li>No paperwork required</li>
+                    <li>Request through Anthropic sales</li>
+                    <li>Best for individual medics using their own API key</li>
+                </ul>
+            </div>
+            <div class="coverage-card yes">
+                <h4>Agencies — HIPAA-Ready</h4>
+                <ul>
+                    <li>Everything in ZDR, plus formal compliance</li>
+                    <li>Signed Business Associate Agreement (BAA)</li>
+                    <li>Non-eligible API features automatically blocked</li>
+                    <li>Best for agencies that need to demonstrate HIPAA compliance</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-heading">How to request access</h2>
+
+        <ol class="step-list">
+            <li>
+                <div class="step-content">
+                    <h3>Contact Anthropic Sales</h3>
+                    <p>Visit <a href="https://claude.com/contact-sales" target="_blank" rel="noopener">claude.com/contact-sales</a>. Request <strong>ZDR</strong> if you're an individual provider, or <strong>HIPAA-ready API access</strong> if you're an agency. Mention that you're using the Claude Messages API for medical image analysis (monitor vitals and medication OCR) in MedicLog.</p>
+                </div>
+            </li>
+            <li>
+                <div class="step-content">
+                    <h3>Sign a BAA (agencies only)</h3>
+                    <p>For HIPAA-ready access, Anthropic will provide a Business Associate Agreement. Individual providers requesting ZDR only do not need a BAA.</p>
+                </div>
+            </li>
+            <li>
+                <div class="step-content">
+                    <h3>Receive your dedicated organization</h3>
+                    <p>Anthropic provisions a dedicated organization with ZDR or HIPAA controls enabled. HIPAA-enabled organizations automatically block API features that aren't covered by the BAA.</p>
+                </div>
+            </li>
+            <li>
+                <div class="step-content">
+                    <h3>Generate an API key</h3>
+                    <p>Create an API key from your new organization at <a href="https://console.anthropic.com/" target="_blank" rel="noopener">console.anthropic.com</a>. This key inherits the ZDR or HIPAA protections of the organization.</p>
+                </div>
+            </li>
+            <li>
+                <div class="step-content">
+                    <h3>Enter the key in MedicLog</h3>
+                    <p>Open MedicLog &rarr; Settings &rarr; AI Parsing &rarr; enter your API key. All Vision OCR requests will now route through your protected organization.</p>
+                </div>
+            </li>
+        </ol>
+
+        <h2 class="section-heading">What's covered</h2>
+
+        <div class="coverage-grid">
+            <div class="coverage-card yes">
+                <h4>Eligible</h4>
+                <ul>
+                    <li>Messages API (what MedicLog uses)</li>
+                    <li>Vision / image input</li>
+                    <li>Token counting</li>
+                    <li>Prompt caching</li>
+                    <li>Extended thinking</li>
+                </ul>
+            </div>
+            <div class="coverage-card no">
+                <h4>Not eligible</h4>
+                <ul>
+                    <li>Batch processing</li>
+                    <li>Code execution</li>
+                    <li>Files API</li>
+                    <li>Console / Workbench usage</li>
+                    <li>Claude consumer products (Pro, Max)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <strong>Exception:</strong> Even with ZDR or HIPAA arrangements, Anthropic may retain data where required by law or to address Usage Policy violations — up to 2 years if a session is flagged.
+        </div>
+
+        <div class="cta-block">
+            <h3>Ready to get started?</h3>
+            <p>Contact Anthropic's sales team to set up ZDR or HIPAA-ready API access for your organization.</p>
+            <a href="https://claude.com/contact-sales" target="_blank" rel="noopener" class="cta-button">Contact Anthropic Sales</a>
+        </div>
+
+        <div class="info-block">
+            <strong>Questions about MedicLog's AI features?</strong> Reach out at <a href="mailto:support@mediclog.org">support@mediclog.org</a>. For questions about Anthropic's data retention policies, see the <a href="https://platform.claude.com/docs/en/build-with-claude/api-and-data-retention" target="_blank" rel="noopener">API and data retention documentation</a>.
+        </div>
+    </div>
+
+    <footer style="text-align:center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 3rem;">
+        <p>&copy; 2026 MedicLog &middot; <a href="privacy.html" style="color:var(--text-muted)">Privacy</a> &middot;
+        <a href="terms.html" style="color:var(--text-muted)">Terms</a> &middot;
+        <a href="https://github.com/MedicLog/mediclog-support/issues" style="color:var(--text-muted)">Support</a></p>
+    </footer>
+    <script src="nav-loader.js"></script>
+</body>
+</html>
