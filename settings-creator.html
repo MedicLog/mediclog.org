@@ -1293,6 +1293,24 @@
                 'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
                 'aiParsing.xaiModel': { type: 'text', default: '', screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok vision model ID. Leave empty for the app default (grok-4.6). Distributed to medics via QR.', qrPath: ['agency', 'aiParsing.xaiModel'] },
                 'aiParsing.claudeModel': { type: 'text', default: '', screens: ['agency'], section: 'Enhanced OCR', description: 'Anthropic / Claude vision model ID. Leave empty for the app default (claude-sonnet-5). Distributed to medics via QR.', qrPath: ['agency', 'aiParsing.claudeModel'] },
+                'aiParsing.xai.vitals': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Vitals OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.vitals'] },
+                'aiParsing.xai.meds': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Medications OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.meds'] },
+                'aiParsing.xai.labs': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Labs OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.labs'] },
+                'aiParsing.xai.pumpSapphire': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Pump (Sapphire) OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.pumpSapphire'] },
+                'aiParsing.xai.pumpPlum': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Pump (Plum 360) OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.pumpPlum'] },
+                'aiParsing.xai.vent': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Ventilator OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.vent'] },
+                'aiParsing.anthropic.vitals': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Vitals OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.vitals'] },
+                'aiParsing.anthropic.meds': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Medications OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.meds'] },
+                'aiParsing.anthropic.labs': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Labs OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.labs'] },
+                'aiParsing.anthropic.pumpSapphire': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Pump (Sapphire) OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.pumpSapphire'] },
+                'aiParsing.anthropic.pumpPlum': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Pump (Plum 360) OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.pumpPlum'] },
+                'aiParsing.anthropic.vent': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Ventilator OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.vent'] },
+                'aiParsing.onDevice.vitals': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Vitals OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.vitals'] },
+                'aiParsing.onDevice.meds': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Medications OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.meds'] },
+                'aiParsing.onDevice.labs': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Labs OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.labs'] },
+                'aiParsing.onDevice.pumpSapphire': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Pump (Sapphire) OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.pumpSapphire'] },
+                'aiParsing.onDevice.pumpPlum': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Pump (Plum 360) OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.pumpPlum'] },
+                'aiParsing.onDevice.vent': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Ventilator OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.vent'] },
                 'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Crew Announce', qrPath: ['agency', 'crewAnnounceEnabled'] },
                 // Language
                 'activeLanguageCode': { type: 'dropdown', default: 'en', options: [
@@ -1961,6 +1979,24 @@
                     'medOCRIncludeDoseFreq': 'Include Dose & Frequency',
                     'aiParsing.xaiModel': 'xAI / Grok Model',
                     'aiParsing.claudeModel': 'Claude Model',
+                    'aiParsing.xai.vitals': 'xAI / Grok — Vitals',
+                    'aiParsing.xai.meds': 'xAI / Grok — Medications',
+                    'aiParsing.xai.labs': 'xAI / Grok — Labs',
+                    'aiParsing.xai.pumpSapphire': 'xAI / Grok — Pump (Sapphire)',
+                    'aiParsing.xai.pumpPlum': 'xAI / Grok — Pump (Plum 360)',
+                    'aiParsing.xai.vent': 'xAI / Grok — Ventilator',
+                    'aiParsing.anthropic.vitals': 'Claude — Vitals',
+                    'aiParsing.anthropic.meds': 'Claude — Medications',
+                    'aiParsing.anthropic.labs': 'Claude — Labs',
+                    'aiParsing.anthropic.pumpSapphire': 'Claude — Pump (Sapphire)',
+                    'aiParsing.anthropic.pumpPlum': 'Claude — Pump (Plum 360)',
+                    'aiParsing.anthropic.vent': 'Claude — Ventilator',
+                    'aiParsing.onDevice.vitals': 'On Device — Vitals',
+                    'aiParsing.onDevice.meds': 'On Device — Medications',
+                    'aiParsing.onDevice.labs': 'On Device — Labs',
+                    'aiParsing.onDevice.pumpSapphire': 'On Device — Pump (Sapphire)',
+                    'aiParsing.onDevice.pumpPlum': 'On Device — Pump (Plum 360)',
+                    'aiParsing.onDevice.vent': 'On Device — Ventilator',
                     'crewAnnounceEnabled': 'Crew Announce',
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
@@ -2429,6 +2465,8 @@
                 const ai = SettingsState.get('aiParsingEnabled');
                 const xaiModel = (SettingsState.get('aiParsing.xaiModel') || '').trim();
                 const claudeModel = (SettingsState.get('aiParsing.claudeModel') || '').trim();
+                const ocrCapKeys = ['aiParsing.xai.vitals','aiParsing.xai.meds','aiParsing.xai.labs','aiParsing.xai.pumpSapphire','aiParsing.xai.pumpPlum','aiParsing.xai.vent','aiParsing.anthropic.vitals','aiParsing.anthropic.meds','aiParsing.anthropic.labs','aiParsing.anthropic.pumpSapphire','aiParsing.anthropic.pumpPlum','aiParsing.anthropic.vent','aiParsing.onDevice.vitals','aiParsing.onDevice.meds','aiParsing.onDevice.labs','aiParsing.onDevice.pumpSapphire','aiParsing.onDevice.pumpPlum','aiParsing.onDevice.vent'];
+                const ocrCapsOff = ocrCapKeys.filter(k => SettingsState.get(k) === false).length;
                 const dest = SettingsState.get('agency.destinationsEnabled');
                 const mapsApp = SettingsState.get('agency.preferredMapsApp');
                 const mapsLabel = mapsApp === 'google' ? 'Google Maps' : mapsApp === 'waze' ? 'Waze' : 'Apple Maps';
@@ -2466,6 +2504,7 @@
                             <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Claude Vision OCR</span><span class="preview-list-row-value preview-toggle-val ${ai ? 'on' : ''}" style="margin-right:4px">${ai ? 'On' : 'Not Configured'}</span><span class="preview-list-row-chevron">›</span></div>
                             ${xaiModel ? `<div class="preview-list-row"><span class="preview-list-row-label">xAI / Grok Model</span><span class="preview-list-row-value" style="font-size:0.7rem;max-width:140px;text-align:right;word-break:break-all">${xaiModel}</span></div>` : ''}
                             ${claudeModel ? `<div class="preview-list-row"><span class="preview-list-row-label">Claude Model</span><span class="preview-list-row-value" style="font-size:0.7rem;max-width:140px;text-align:right;word-break:break-all">${claudeModel}</span></div>` : ''}
+                            ${ocrCapsOff ? `<div class="preview-list-row"><span class="preview-list-row-label">OCR Caps Off</span><span class="preview-list-row-value">${ocrCapsOff}</span></div>` : ''}
                         </div>
                         <div class="preview-section-label">Destinations</div>
                         <div class="preview-card-group">
