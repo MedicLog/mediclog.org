@@ -1291,6 +1291,8 @@
                 'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'agencyGpsEnabled'] },
                 'aiParsingEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsingEnabled'] },
                 'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
+                'aiParsing.xaiModel': { type: 'text', default: '', screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok vision model ID. Leave empty for the app default (grok-4.6). Distributed to medics via QR.', qrPath: ['agency', 'aiParsing.xaiModel'] },
+                'aiParsing.claudeModel': { type: 'text', default: '', screens: ['agency'], section: 'Enhanced OCR', description: 'Anthropic / Claude vision model ID. Leave empty for the app default (claude-sonnet-5). Distributed to medics via QR.', qrPath: ['agency', 'aiParsing.claudeModel'] },
                 'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Crew Announce', qrPath: ['agency', 'crewAnnounceEnabled'] },
                 // Language
                 'activeLanguageCode': { type: 'dropdown', default: 'en', options: [
@@ -1957,6 +1959,8 @@
                     'agencyGpsEnabled': 'GPS Tracking',
                     'aiParsingEnabled': 'Claude Vision OCR',
                     'medOCRIncludeDoseFreq': 'Include Dose & Frequency',
+                    'aiParsing.xaiModel': 'xAI / Grok Model',
+                    'aiParsing.claudeModel': 'Claude Model',
                     'crewAnnounceEnabled': 'Crew Announce',
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
@@ -2423,6 +2427,8 @@
                 const useInc = SettingsState.get('useIncidentNumbers');
                 const incFmt = SettingsState.get('incidentNumberFormat') || '—';
                 const ai = SettingsState.get('aiParsingEnabled');
+                const xaiModel = (SettingsState.get('aiParsing.xaiModel') || '').trim();
+                const claudeModel = (SettingsState.get('aiParsing.claudeModel') || '').trim();
                 const dest = SettingsState.get('agency.destinationsEnabled');
                 const mapsApp = SettingsState.get('agency.preferredMapsApp');
                 const mapsLabel = mapsApp === 'google' ? 'Google Maps' : mapsApp === 'waze' ? 'Waze' : 'Apple Maps';
@@ -2458,6 +2464,8 @@
                         <div class="preview-section-label">Enhanced OCR</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Claude Vision OCR</span><span class="preview-list-row-value preview-toggle-val ${ai ? 'on' : ''}" style="margin-right:4px">${ai ? 'On' : 'Not Configured'}</span><span class="preview-list-row-chevron">›</span></div>
+                            ${xaiModel ? `<div class="preview-list-row"><span class="preview-list-row-label">xAI / Grok Model</span><span class="preview-list-row-value" style="font-size:0.7rem;max-width:140px;text-align:right;word-break:break-all">${xaiModel}</span></div>` : ''}
+                            ${claudeModel ? `<div class="preview-list-row"><span class="preview-list-row-label">Claude Model</span><span class="preview-list-row-value" style="font-size:0.7rem;max-width:140px;text-align:right;word-break:break-all">${claudeModel}</span></div>` : ''}
                         </div>
                         <div class="preview-section-label">Destinations</div>
                         <div class="preview-card-group">
