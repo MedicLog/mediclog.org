@@ -1243,6 +1243,8 @@
                 'agencyLogoURL': { type: 'url', default: '', screens: ['agency'], section: 'Agency Information', description: 'Publicly accessible URL to your agency logo. App will download and cache on import.', qrPath: ['agency', 'logoURL'] },
                 'useIncidentNumbers': { type: 'toggle', default: true, screens: ['agency'], section: 'Incident Tracking & Dispatch', qrPath: ['agency', 'useIncidentNumbers'] },
                 'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'showPHIWarnings'] },
+                'showMRNField': { type: 'toggle', default: false, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'showMRNField'] },
+                'collectPatientAddress': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'collectPatientAddress'] },
                 'showTestDataTools': { type: 'toggle', default: true, screens: ['agency'], section: 'Training & Testing', qrPath: ['agency', 'showTestDataTools'] },
                 'cardiac.showVectorChange': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showVectorChange'] },
                 'cardiac.showDualSequential': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showDualSequential'] },
@@ -1912,6 +1914,8 @@
                     'agencyName': 'Agency Name',
                     'useIncidentNumbers': 'Use Incident Numbers',
                     'showPHIWarnings': 'Show PHI Warnings',
+                    'showMRNField': 'Show MRN Field',
+                    'collectPatientAddress': 'Collect Scene Address',
                     'showTestDataTools': 'Show Test Data Tools',
                     'cardiac.showVectorChange': 'Vector Change',
                     'cardiac.showDualSequential': 'Dual Sequential',
@@ -2479,6 +2483,8 @@
                 const referenceScheme = SettingsState.get('referenceApp.scheme');
                 const referenceName = SettingsState.get('referenceApp.name');
                 const phi = SettingsState.get('showPHIWarnings');
+                const showMRN = SettingsState.get('showMRNField');
+                const collectAddress = SettingsState.get('collectPatientAddress');
                 const crew = SettingsState.get('crewAnnounceEnabled');
                 const testTools = SettingsState.get('showTestDataTools');
                 preview.innerHTML = `
@@ -2532,6 +2538,8 @@
                         <div class="preview-section-label">Privacy &amp; PHI Safety</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Show PHI Warnings</span><span class="preview-list-row-value preview-toggle-val ${phi ? 'on' : ''}">${phi ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Show MRN Field</span><span class="preview-list-row-value preview-toggle-val ${showMRN ? 'on' : ''}">${showMRN ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Collect Scene Address</span><span class="preview-list-row-value preview-toggle-val ${collectAddress ? 'on' : ''}">${collectAddress ? 'On' : 'Off'}</span></div>
                         </div>
                         <div class="preview-section-label">Training &amp; Testing</div>
                         <div class="preview-card-group">
