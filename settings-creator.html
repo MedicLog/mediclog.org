@@ -1256,7 +1256,6 @@
                     {value: 'none', label: 'None'}
                 ], screens: ['handoff'], section: 'End of Call Action', qrPath: ['agency', 'endOfCallAction'] },
                 'hospitalHandoff.showInShareMenu': { type: 'toggle', default: true, screens: ['handoff'], section: 'Hospital Handoff', qrPath: ['agency', 'hospitalHandoff.showInShareMenu'] },
-                'hospitalHandoff.showAtEndCall': { type: 'toggle', default: true, screens: ['handoff'], section: 'Hospital Handoff', qrPath: ['agency', 'hospitalHandoff.showAtEndCall'] },
                 'strokeScale': { type: 'select', default: 'cincinnati', options: [
                     {value: 'cincinnati', label: 'Cincinnati (CPSS)'},
                     {value: 'lams', label: 'LAMS'},
@@ -1361,7 +1360,6 @@
                     {value: 'full', label: 'Full'},
                     {value: 'off', label: 'Off'}
                 ], screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.verbosity'] },
-                'voice.autoPromoteThreshold': { type: 'number', default: 0.85, min: 0.0, max: 1.0, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.autoPromoteThreshold'] },
                 // Clinical Calculations — toggles and thresholds
                 'calcVitals.mapEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show MAP (Mean Arterial Pressure) calculation', qrPath: ['agency', 'calcVitals.mapEnabled'] },
                 'calcVitals.shockIndexEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Shock Index calculation', qrPath: ['agency', 'calcVitals.shockIndexEnabled'] },
@@ -1451,12 +1449,6 @@
                     {value: 'Normal', label: 'Normal'},
                     {value: 'Strong', label: 'Strong'}
                 ], screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'watchHapticIntensity'] },
-                'watchShakeAction': { type: 'select', default: 'snooze', options: [
-                    {value: 'snooze', label: 'Snooze Timer (1 min)'},
-                    {value: 'dismiss', label: 'Dismiss Alert'},
-                    {value: 'none', label: 'No Action'},
-                    {value: 'ignore', label: 'Ignore'}
-                ], screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'watchShakeAction'] },
                 'timerPageDwellSeconds': { type: 'number', default: 5, min: 3, max: 10, screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'timerPageDwellSeconds'] },
                 'watchAutoPromoteThreshold': { type: 'select', default: 60, options: [
                     {value: 30, label: '30 sec'},
@@ -1925,7 +1917,6 @@
                     'cardiac.showDualSequential': 'Dual Sequential',
                     'endOfCallAction': 'End of Call Action',
                     'hospitalHandoff.showInShareMenu': 'Show in Share Menu',
-                    'hospitalHandoff.showAtEndCall': 'Show at End Call',
                     'strokeScale': 'Stroke Scale',
                     'appearanceMode': 'Theme',
                     'use24HourTime': '24-Hour Time',
@@ -1943,7 +1934,6 @@
                     'watchVoiceMode': 'Watch Voice Mode',
                     'watchEnabled': 'Enable Apple Watch',
                     'watchHapticIntensity': 'Haptic Intensity',
-                    'watchShakeAction': 'Shake Gesture Action',
                     'timerPageDwellSeconds': 'Timer Page Auto-Return (sec)',
                     'radioShowFullVitals': 'Radio Report: Full Vitals',
                     'vitalsReminderEnabled': 'Enable Reminder',
@@ -2009,7 +1999,6 @@
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
                     'voice.verbosity': 'Voice Verbosity',
-                    'voice.autoPromoteThreshold': 'Voice Auto-Promote Threshold',
                     'agency.lvoThreshold.lams': 'LVO Threshold — LAMS',
                     'agency.lvoThreshold.fasted': 'LVO Threshold — FAST-ED',
                     'agency.lvoThreshold.race': 'LVO Threshold — RACE',
@@ -2378,7 +2367,6 @@
             },
 
             renderHandoff(preview) {
-                const showAtEndCall = SettingsState.get('hospitalHandoff.showAtEndCall');
                 const showInShare = SettingsState.get('hospitalHandoff.showInShareMenu');
                 const use24h = SettingsState.get('use24HourTime');
                 const timeStr = use24h ? '15:47' : '3:47 PM';
@@ -2398,7 +2386,6 @@
                         </div>
                         <div class="preview-section-label">Availability</div>
                         <div class="preview-card-group">
-                            <div class="preview-list-row"><span class="preview-list-row-label">At End of Call</span><span class="preview-list-row-value preview-toggle-val ${showAtEndCall ? 'on' : ''}">${showAtEndCall ? 'On' : 'Off'}</span></div>
                             <div class="preview-list-row"><span class="preview-list-row-label">In Share Menu</span><span class="preview-list-row-value preview-toggle-val ${showInShare ? 'on' : ''}">${showInShare ? 'On' : 'Off'}</span></div>
                         </div>
                     </div>
