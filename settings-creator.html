@@ -1263,6 +1263,8 @@
                     {value: 'fasted', label: 'FAST-ED'},
                     {value: 'none', label: 'Generic Score'}
                 ], screens: ['vitals'], section: 'Stroke Scale', qrPath: ['agency', 'strokeScale'] },
+                // T321-A6 / N336: Registry jsonKey agencyShowDripDefaults (NOT UD agency.showDripDefaults)
+                'agencyShowDripDefaults': { type: 'toggle', default: false, screens: ['agency'], section: 'Drip Calculator Defaults', description: 'When enabled, medical directors can set agency-standard drip concentrations per medication. Off by default.', qrPath: ['agency', 'agencyShowDripDefaults'] },
 
                 // Agency — features and clinical thresholds (T143 gap settings)
                 'agency.destinationsEnabled': { type: 'toggle', default: true, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'destinationsEnabled'] },
@@ -1918,6 +1920,7 @@
                     'endOfCallAction': 'End of Call Action',
                     'hospitalHandoff.showInShareMenu': 'Show in Share Menu',
                     'strokeScale': 'Stroke Scale',
+                    'agencyShowDripDefaults': 'Show Default Drip Concentrations',
                     'appearanceMode': 'Theme',
                     'use24HourTime': '24-Hour Time',
                     'useUTCTime': 'UTC Time',
@@ -2518,6 +2521,7 @@
                         <div class="preview-section-label">Clinical Protocols</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Stroke Scale</span><span class="preview-list-row-value">${strokeLabel}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Drip Defaults</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('agencyShowDripDefaults') ? 'on' : ''}">${SettingsState.get('agencyShowDripDefaults') ? 'On' : 'Off'}</span></div>
                         </div>
                         <div class="preview-section-label">Hospital Handoff Report</div>
                         <div class="preview-card-group">
