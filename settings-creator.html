@@ -1369,6 +1369,9 @@
                 'zoll.monitorNetwork': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Network', description: 'Monitor ZOLL device network connectivity.', qrPath: ['agency', 'zoll.monitorNetwork'] },
                 'zoll.preferredConnectionType': { type: 'dropdown', default: 'auto', options: [{value: 'auto', label: 'Auto (default)'}, {value: 'wifi', label: 'WiFi'}, {value: 'bluetooth', label: 'Bluetooth'}], screens: ['agency'], section: 'ZOLL — Network', description: 'Preferred connection type (store-only until SDK filter ships).', qrPath: ['agency', 'zoll.preferredConnectionType'] },
 
+                // T321-A-formulary: agency.formulary array in QuickConfig envelope (T300 Collect SoT). NOT .mlformulary-only.
+                'formulary': { type: 'formulary', default: [], screens: ['agency'], section: 'Agency Formulary', description: 'Agency medication formulary embedded in the Quick Config QR as agency.formulary (Codable MedicationConfig array). Personal formulary is never included. Empty = omit.', qrPath: ['agency', 'formulary'] },
+
                 // Language
                 'activeLanguageCode': { type: 'dropdown', default: 'en', options: [
                     {value: 'en',      label: 'English (built-in)'},
@@ -1560,14 +1563,89 @@
 
         const STORAGE_KEY = 'mediclog-settings-creator';
 
+
+        // ========== T321-A-formulary: agency formulary for QuickConfig envelope ==========
+        // Converts Formulary Editor / .mlformulary med dicts → MedicationConfig Codable keys
+        // (timerColor, interval_minutes, tts_name) matching Collect JSONEncoder output.
+        const AgencyFormulary = {
+            toQrMed(m) {
+                if (!m || !m.name) return null;
+                const doseSequence = (m.doseSequence || []).map(s => ({
+                    amount: s.amount,
+                    unit: s.unit,
+                    interval_minutes: (s.interval_minutes != null ? s.interval_minutes : s.intervalMinutes) ?? 0
+                }));
+                const d = {
+                    id: m.id || (crypto.randomUUID ? crypto.randomUUID() : ('00000000-0000-4000-8000-' + String(Date.now()).padStart(12, '0'))),
+                    name: m.name,
+                    displayColor: m.displayColor || 'cardiac',
+                    displayGroup: m.displayGroup != null ? m.displayGroup : null,
+                    timerEnabled: !!m.timerEnabled,
+                    timerDuration: m.timerDuration != null ? m.timerDuration : 0,
+                    timerLabel: m.timerLabel || '',
+                    timerColor: m.timerColor || m.timerColorString || 'blue',
+                    isVisible: m.isVisible !== false,
+                    sortOrder: m.sortOrder != null ? m.sortOrder : 0,
+                    defaultDose: m.defaultDose != null ? m.defaultDose : 0,
+                    defaultDoseUnit: m.defaultDoseUnit || 'mg',
+                    defaultRoute: m.defaultRoute || 'IV',
+                    alternativeRoutes: Array.isArray(m.alternativeRoutes) ? m.alternativeRoutes : [],
+                    controlledSubstance: !!m.controlledSubstance,
+                    quickActionCategories: Array.isArray(m.quickActionCategories) ? m.quickActionCategories : [],
+                    usesDoseSequence: !!m.usesDoseSequence,
+                    doseSequence
+                };
+                if (m.hapticPattern) d.hapticPattern = m.hapticPattern;
+                const tts = m.tts_name || m.ttsName;
+                if (tts) d.tts_name = tts;
+                if (m.defaultDripConcentration != null) d.defaultDripConcentration = m.defaultDripConcentration;
+                if (m.defaultDripConcentrationUnit) d.defaultDripConcentrationUnit = m.defaultDripConcentrationUnit;
+                if (m.defaultDripVolume != null) d.defaultDripVolume = m.defaultDripVolume;
+                return d;
+            },
+
+            fromMlformularyJson(json) {
+                if (!json || typeof json !== 'object') throw new Error('Invalid formulary JSON');
+                let list;
+                if (Array.isArray(json)) {
+                    list = json;
+                } else if (Array.isArray(json.medications)) {
+                    if (json.type && json.type !== 'mlformulary' && json.type !== 'quick_config') {
+                        throw new Error('Unsupported file type: ' + json.type);
+                    }
+                    list = json.medications;
+                } else if (json.agency && Array.isArray(json.agency.formulary)) {
+                    list = json.agency.formulary;
+                } else if (Array.isArray(json.formulary)) {
+                    list = json.formulary;
+                } else {
+                    throw new Error('No medications / formulary array found');
+                }
+                const out = [];
+                for (const m of list) {
+                    const qr = this.toQrMed(m);
+                    if (qr) out.push(qr);
+                }
+                return out;
+            },
+
+            fromEditorLocalStorage() {
+                const raw = localStorage.getItem('mediclog_formulary_meds');
+                if (!raw) throw new Error('No Formulary Editor data in this browser (open Formulary Editor first)');
+                const meds = JSON.parse(raw);
+                if (!Array.isArray(meds) || meds.length === 0) throw new Error('Formulary Editor list is empty');
+                return meds.map(m => this.toQrMed(m)).filter(Boolean);
+            }
+        };
+
         const SettingsState = {
             values: {},
 
             init() {
                 // Initialize with defaults
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
-                    this.values[key] = (meta.type === 'json')
-                        ? JSON.parse(JSON.stringify(meta.default ?? {}))
+                    this.values[key] = (meta.type === 'json' || meta.type === 'formulary')
+                        ? JSON.parse(JSON.stringify(meta.default ?? (meta.type === 'formulary' ? [] : {})))
                         : meta.default;
                 }
                 // Restore from localStorage if available
@@ -1594,8 +1672,8 @@
 
             reset() {
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
-                    this.values[key] = (meta.type === 'json')
-                        ? JSON.parse(JSON.stringify(meta.default ?? {}))
+                    this.values[key] = (meta.type === 'json' || meta.type === 'formulary')
+                        ? JSON.parse(JSON.stringify(meta.default ?? (meta.type === 'formulary' ? [] : {})))
                         : meta.default;
                 }
                 MedicationTimers.init();
@@ -1945,6 +2023,104 @@
                 const row = document.createElement('div');
                 row.className = 'setting-row';
 
+                if (meta.type === 'formulary') {
+                    const value = SettingsState.get(key);
+                    const label = document.createElement('div');
+                    label.className = 'setting-label';
+                    label.innerHTML = `<span>${this.getLabelText(key)}</span>${meta.description ? `<small>${meta.description}</small>` : ''}`;
+
+                    const wrap = document.createElement('div');
+                    wrap.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;max-width:320px;';
+                    const status = document.createElement('div');
+                    status.style.cssText = 'font-size:0.8rem;color:var(--text-secondary);text-align:right;';
+                    const arr = Array.isArray(value) ? value : [];
+                    status.textContent = arr.length
+                        ? `${arr.length} agency med${arr.length === 1 ? '' : 's'} in QR envelope`
+                        : 'None — QR will omit formulary (file-only is not enough)';
+                    wrap.appendChild(status);
+
+                    const btnRow = document.createElement('div');
+                    btnRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:0.35rem;justify-content:flex-end;';
+
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = '.mlformulary,application/json,.json';
+                    fileInput.style.display = 'none';
+                    fileInput.onchange = async () => {
+                        const f = fileInput.files && fileInput.files[0];
+                        if (!f) return;
+                        try {
+                            const text = await f.text();
+                            const json = JSON.parse(text);
+                            const meds = AgencyFormulary.fromMlformularyJson(json);
+                            SettingsState.set(key, meds);
+                            ScreenFilter.filterSettings();
+                            PreviewRenderer.update();
+                        } catch (e) {
+                            alert('Formulary import failed: ' + (e && e.message ? e.message : e));
+                        }
+                        fileInput.value = '';
+                    };
+                    wrap.appendChild(fileInput);
+
+                    const btnImport = document.createElement('button');
+                    btnImport.type = 'button';
+                    btnImport.textContent = 'Import .mlformulary';
+                    btnImport.style.cssText = 'padding:0.3rem 0.55rem;border:1px solid var(--border);border-radius:6px;background:var(--bg-tertiary);color:var(--text-primary);font-size:0.75rem;cursor:pointer;';
+                    btnImport.onclick = () => fileInput.click();
+                    btnRow.appendChild(btnImport);
+
+                    const btnPull = document.createElement('button');
+                    btnPull.type = 'button';
+                    btnPull.textContent = 'Pull from Editor';
+                    btnPull.title = 'Load medications from Formulary Editor (same browser)';
+                    btnPull.style.cssText = btnImport.style.cssText;
+                    btnPull.onclick = () => {
+                        try {
+                            const meds = AgencyFormulary.fromEditorLocalStorage();
+                            SettingsState.set(key, meds);
+                            ScreenFilter.filterSettings();
+                            PreviewRenderer.update();
+                        } catch (e) {
+                            alert(e && e.message ? e.message : String(e));
+                        }
+                    };
+                    btnRow.appendChild(btnPull);
+
+                    const btnClear = document.createElement('button');
+                    btnClear.type = 'button';
+                    btnClear.textContent = 'Clear';
+                    btnClear.style.cssText = btnImport.style.cssText;
+                    btnClear.onclick = () => {
+                        SettingsState.set(key, []);
+                        ScreenFilter.filterSettings();
+                        PreviewRenderer.update();
+                    };
+                    btnRow.appendChild(btnClear);
+
+                    wrap.appendChild(btnRow);
+
+                    const editorLink = document.createElement('a');
+                    editorLink.href = 'formulary-editor.html';
+                    editorLink.target = '_blank';
+                    editorLink.rel = 'noopener';
+                    editorLink.textContent = 'Open Formulary Editor to author…';
+                    editorLink.style.cssText = 'font-size:0.75rem;color:var(--accent);';
+                    wrap.appendChild(editorLink);
+
+                    if (arr.length) {
+                        const names = document.createElement('div');
+                        names.style.cssText = 'font-size:0.7rem;color:var(--text-secondary);text-align:right;max-height:4.5rem;overflow:auto;max-width:300px;';
+                        names.textContent = arr.map(m => m.name).filter(Boolean).slice(0, 40).join(', ')
+                            + (arr.length > 40 ? '…' : '');
+                        wrap.appendChild(names);
+                    }
+
+                    row.appendChild(label);
+                    row.appendChild(wrap);
+                    return row;
+                }
+
                 if (meta.type === 'link') {
                     const control = this.createControl(key, meta);
                     row.appendChild(control);
@@ -2102,6 +2278,7 @@
                     'zoll.autoPullDemographics': 'Auto Pull Demographics',
                     'zoll.monitorNetwork': 'Monitor Network',
                     'zoll.preferredConnectionType': 'Preferred Connection Type',
+                    'formulary': 'Agency Formulary',
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
                     'voice.verbosity': 'Voice Verbosity',
@@ -2691,6 +2868,10 @@
                             <div class="preview-list-row"><span class="preview-list-row-label">Device Filter</span><span class="preview-list-row-value">${SettingsState.get('zoll.deviceTypeFilter')}</span></div>
                             <div class="preview-list-row"><span class="preview-list-row-label">Connection</span><span class="preview-list-row-value">${SettingsState.get('zoll.preferredConnectionType')}</span></div>
                         </div>
+                        <div class="preview-section-label">Agency Formulary</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">QR Embed</span><span class="preview-list-row-value">${(Array.isArray(SettingsState.get('formulary')) && SettingsState.get('formulary').length) ? (SettingsState.get('formulary').length + ' meds') : 'Omitted'}</span></div>
+                        </div>
                         <div class="preview-section-label">Clinical Protocols</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Stroke Scale</span><span class="preview-list-row-value">${strokeLabel}</span></div>
@@ -2836,6 +3017,9 @@
                 if (meta.type === 'json') {
                     if (value == null) continue;
                     if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0) continue;
+                } else if (meta.type === 'formulary') {
+                    // T321-A-formulary: empty array omit (Collect returns nil when empty)
+                    if (!Array.isArray(value) || value.length === 0) continue;
                 } else if (value === meta.default) {
                     continue; // Skip defaults
                 }
@@ -2892,9 +3076,17 @@
                 return [payload];
             }
 
-            // Too large - split into 2 pages
-            const page1 = { ...payload };
+            // Too large — peel formulary (T300/T321-A-formulary) + timers onto page 2.
+            // App Collect puts overflow formulary at top-level page2 key "formulary".
+            const page1 = JSON.parse(JSON.stringify(payload));
+            let formulary = null;
+            if (page1.agency && page1.agency.formulary) {
+                formulary = page1.agency.formulary;
+                delete page1.agency.formulary;
+            }
+            const timers = page1.timers || [];
             delete page1.timers;
+            page1.page = 1;
             page1.totalPages = 2;
 
             const page2 = {
@@ -2902,8 +3094,11 @@
                 configVersion: 1,
                 page: 2,
                 totalPages: 2,
-                timers: payload.timers || []
+                timers: timers
             };
+            if (formulary && formulary.length) {
+                page2.formulary = formulary;
+            }
 
             return [page1, page2];
         }
