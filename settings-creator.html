@@ -1266,6 +1266,18 @@
                 // T321-A6 / N336: Registry jsonKey agencyShowDripDefaults (NOT UD agency.showDripDefaults)
                 'agencyShowDripDefaults': { type: 'toggle', default: false, screens: ['agency'], section: 'Drip Calculator Defaults', description: 'When enabled, medical directors can set agency-standard drip concentrations per medication. Off by default.', qrPath: ['agency', 'agencyShowDripDefaults'] },
 
+                // T321-A-core: Creator expose (QC already green @ MedicLog)
+                'isarEnabled': { type: 'toggle', default: false, screens: ['agency', 'vitals'], section: 'Clinical Protocols', description: 'When enabled, Vitals shows the ISAR screen and handoff/PDF print the score.', qrPath: ['agency', 'isarEnabled'] },
+                'burnAssessmentMethod': { type: 'select', default: 'lundBrowder', options: [
+                    {value: 'lundBrowder', label: 'Lund-Browder (JTS)'},
+                    {value: 'ruleOfNines', label: 'Rule of Nines'}
+                ], screens: ['agency'], section: 'Clinical Protocols', description: 'Burn BSA assessment method for live call + history.', qrPath: ['agency', 'burnAssessmentMethod'] },
+                'burnPediatricAgeThreshold': { type: 'number', default: 14, min: 1, max: 18, screens: ['agency'], section: 'Clinical Protocols', description: 'Age cutoff (years) for pediatric burn fluid formula.', qrPath: ['agency', 'burnPediatricAgeThreshold'] },
+                'mothershipURL': { type: 'url', default: '', placeholder: 'https://mothership.example/', screens: ['agency'], section: 'Agency Mothership', description: 'Agency Mothership base URL for remote config.', qrPath: ['agency', 'mothershipURL'] },
+                'mothershipPublicKey': { type: 'text', default: '', placeholder: 'Base64 / PEM public key', screens: ['agency'], section: 'Agency Mothership', description: 'Mothership public key used to verify agency payloads.', qrPath: ['agency', 'mothershipPublicKey'] },
+                'ccLabRanges': { type: 'json', default: {}, screens: ['agency', 'vitals'], section: 'CC Lab Range Overrides', description: 'JSON object: { labId: { normalMin, normalMax, criticalMin, criticalMax } }. Empty = omit (app keeps defaults).', qrPath: ['agency', 'ccLabRanges'] },
+                'ccLabRangeCustomUnits': { type: 'json', default: {}, screens: ['agency', 'vitals'], section: 'CC Lab Range Overrides', description: 'JSON object: { labId: "unit string" } for custom labs. Empty = omit.', qrPath: ['agency', 'ccLabRangeCustomUnits'] },
+
                 // Agency — features and clinical thresholds (T143 gap settings)
                 'agency.destinationsEnabled': { type: 'toggle', default: true, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'destinationsEnabled'] },
                 'agency.preferredMapsApp': { type: 'select', default: 'apple', options: [
@@ -1389,6 +1401,8 @@
                 'calcVitals.etco2.warningHigh': { type: 'number', default: 45, min: 40, max: 70, screens: ['vitals'], section: 'EtCO₂ Thresholds', description: 'High warning threshold (mmHg) — hypoventilation caution', qrPath: ['agency', 'calcVitals.etco2.warningHigh'] },
 
                 // Shock Index thresholds
+                // T321-A-core EXPOSE: legacy Collect key shockIndex.threshold (def 0.9, clamp [0.5,2.0]); keep calcVitals.si.*
+                'shockIndex.threshold': { type: 'number', default: 0.9, min: 0.5, max: 2.0, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Legacy agency shock index threshold (Collect key shockIndex.threshold). Color bands below remain.', qrPath: ['agency', 'shockIndex.threshold'] },
                 'calcVitals.si.yellowThreshold': { type: 'number', default: 0.8, min: 0.5, max: 1.5, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Yellow (caution) threshold', qrPath: ['agency', 'calcVitals.si.yellowThreshold'] },
                 'calcVitals.si.orangeThreshold': { type: 'number', default: 0.9, min: 0.5, max: 2.0, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Orange (warning) threshold', qrPath: ['agency', 'calcVitals.si.orangeThreshold'] },
                 'calcVitals.si.redThreshold': { type: 'number', default: 1.0, min: 0.5, max: 2.5, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Red (critical) threshold', qrPath: ['agency', 'calcVitals.si.redThreshold'] },
@@ -1512,7 +1526,9 @@
             init() {
                 // Initialize with defaults
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
-                    this.values[key] = meta.default;
+                    this.values[key] = (meta.type === 'json')
+                        ? JSON.parse(JSON.stringify(meta.default ?? {}))
+                        : meta.default;
                 }
                 // Restore from localStorage if available
                 try {
@@ -1538,7 +1554,9 @@
 
             reset() {
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
-                    this.values[key] = meta.default;
+                    this.values[key] = (meta.type === 'json')
+                        ? JSON.parse(JSON.stringify(meta.default ?? {}))
+                        : meta.default;
                 }
                 MedicationTimers.init();
                 VitalsFieldOrder.order = ['BP', 'HR', 'SpO2', 'RR', 'Temp', 'ETCO2', 'Glucose', 'Pain', 'GCS', 'StrokeScreen'];
@@ -1921,6 +1939,14 @@
                     'hospitalHandoff.showInShareMenu': 'Show in Share Menu',
                     'strokeScale': 'Stroke Scale',
                     'agencyShowDripDefaults': 'Show Default Drip Concentrations',
+                    'isarEnabled': 'ISAR Screening',
+                    'burnAssessmentMethod': 'Burn Assessment Method',
+                    'burnPediatricAgeThreshold': 'Burn Pediatric Age Threshold',
+                    'mothershipURL': 'Mothership URL',
+                    'mothershipPublicKey': 'Mothership Public Key',
+                    'ccLabRanges': 'CC Lab Range Overrides (JSON)',
+                    'ccLabRangeCustomUnits': 'CC Lab Custom Units (JSON)',
+                    'shockIndex.threshold': 'Shock Index Threshold (legacy)',
                     'appearanceMode': 'Theme',
                     'use24HourTime': '24-Hour Time',
                     'useUTCTime': 'UTC Time',
@@ -2122,6 +2148,60 @@
                     input.style.color = 'var(--text-primary)';
                     input.onchange = () => SettingsState.set(key, input.value);
                     return input;
+                }
+
+                // T321-A-core: JSON object controls (ccLabRanges / ccLabRangeCustomUnits)
+                if (meta.type === 'json') {
+                    const wrapper = document.createElement('div');
+                    wrapper.style.display = 'flex';
+                    wrapper.style.flexDirection = 'column';
+                    wrapper.style.alignItems = 'flex-end';
+                    wrapper.style.gap = '0.2rem';
+                    const ta = document.createElement('textarea');
+                    ta.rows = 6;
+                    ta.cols = 36;
+                    try {
+                        ta.value = (value && typeof value === 'object' && Object.keys(value).length)
+                            ? JSON.stringify(value, null, 2)
+                            : '';
+                    } catch (e) {
+                        ta.value = '';
+                    }
+                    ta.placeholder = meta.placeholder || '{ }';
+                    ta.style.cssText = 'width:280px;max-width:100%;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:6px;background:var(--bg-tertiary);color:var(--text-primary);font-family:ui-monospace,monospace;font-size:0.75rem;';
+                    const errorMsg = document.createElement('span');
+                    errorMsg.style.cssText = 'font-size:0.75rem;color:#f44336;display:none;';
+                    const validate = () => {
+                        const raw = ta.value.trim();
+                        if (!raw) {
+                            ta.style.borderColor = '';
+                            errorMsg.style.display = 'none';
+                            if (SettingsState.errors) delete SettingsState.errors[key];
+                            SettingsState.set(key, {});
+                            return;
+                        }
+                        try {
+                            const parsed = JSON.parse(raw);
+                            if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+                                throw new Error('Must be a JSON object');
+                            }
+                            ta.style.borderColor = '';
+                            errorMsg.style.display = 'none';
+                            if (SettingsState.errors) delete SettingsState.errors[key];
+                            SettingsState.set(key, parsed);
+                        } catch (e) {
+                            ta.style.borderColor = '#f44336';
+                            errorMsg.textContent = 'Invalid JSON object';
+                            errorMsg.style.display = 'block';
+                            SettingsState.errors = SettingsState.errors || {};
+                            SettingsState.errors[key] = true;
+                        }
+                    };
+                    ta.oninput = validate;
+                    ta.onchange = validate;
+                    wrapper.appendChild(ta);
+                    wrapper.appendChild(errorMsg);
+                    return wrapper;
                 }
 
                 if (meta.type === 'link') {
@@ -2521,7 +2601,20 @@
                         <div class="preview-section-label">Clinical Protocols</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Stroke Scale</span><span class="preview-list-row-value">${strokeLabel}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">ISAR</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('isarEnabled') ? 'on' : ''}">${SettingsState.get('isarEnabled') ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Burn Method</span><span class="preview-list-row-value">${SettingsState.get('burnAssessmentMethod') === 'ruleOfNines' ? 'Rule of Nines' : 'Lund-Browder'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Burn Ped Age</span><span class="preview-list-row-value">${SettingsState.get('burnPediatricAgeThreshold')}</span></div>
                             <div class="preview-list-row"><span class="preview-list-row-label">Drip Defaults</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('agencyShowDripDefaults') ? 'on' : ''}">${SettingsState.get('agencyShowDripDefaults') ? 'On' : 'Off'}</span></div>
+                        </div>
+                        <div class="preview-section-label">Agency Mothership</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">URL</span><span class="preview-list-row-value" style="font-size:0.7rem;max-width:140px;text-align:right;word-break:break-all">${SettingsState.get('mothershipURL') || 'Not Set'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Public Key</span><span class="preview-list-row-value">${SettingsState.get('mothershipPublicKey') ? 'Set' : 'Not Set'}</span></div>
+                        </div>
+                        <div class="preview-section-label">CC Lab Overrides</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Range Labs</span><span class="preview-list-row-value">${Object.keys(SettingsState.get('ccLabRanges') || {}).length}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Custom Units</span><span class="preview-list-row-value">${Object.keys(SettingsState.get('ccLabRangeCustomUnits') || {}).length}</span></div>
                         </div>
                         <div class="preview-section-label">Hospital Handoff Report</div>
                         <div class="preview-card-group">
@@ -2646,7 +2739,13 @@
                 if (!meta.qrPath) continue; // Skip non-setting entries (links, info rows)
                 if (screen && !meta.screens.includes(screen)) continue;
                 const value = SettingsState.get(key);
-                if (value === meta.default) continue; // Skip defaults
+                // T321-A-core: json objects use empty-object omit (=== fails for {})
+                if (meta.type === 'json') {
+                    if (value == null) continue;
+                    if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0) continue;
+                } else if (value === meta.default) {
+                    continue; // Skip defaults
+                }
 
                 const path = meta.qrPath;
                 let current = payload;
