@@ -1245,6 +1245,8 @@
                 'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'showPHIWarnings'] },
                 'showMRNField': { type: 'toggle', default: false, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'showMRNField'] },
                 'collectPatientAddress': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'collectPatientAddress'] },
+                'collectPatientName': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'collectPatientName'] },
+                'collectPatientDOB': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'collectPatientDOB'] },
                 'showTestDataTools': { type: 'toggle', default: true, screens: ['agency'], section: 'Training & Testing', qrPath: ['agency', 'showTestDataTools'] },
                 'cardiac.showVectorChange': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showVectorChange'] },
                 'cardiac.showDualSequential': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showDualSequential'] },
@@ -1916,6 +1918,8 @@
                     'showPHIWarnings': 'Show PHI Warnings',
                     'showMRNField': 'Show MRN Field',
                     'collectPatientAddress': 'Collect Scene Address',
+                    'collectPatientName': 'Collect Patient Name',
+                    'collectPatientDOB': 'Collect Patient DOB',
                     'showTestDataTools': 'Show Test Data Tools',
                     'cardiac.showVectorChange': 'Vector Change',
                     'cardiac.showDualSequential': 'Dual Sequential',
@@ -2485,6 +2489,8 @@
                 const phi = SettingsState.get('showPHIWarnings');
                 const showMRN = SettingsState.get('showMRNField');
                 const collectAddress = SettingsState.get('collectPatientAddress');
+                const collectName = SettingsState.get('collectPatientName');
+                const collectDOB = SettingsState.get('collectPatientDOB');
                 const crew = SettingsState.get('crewAnnounceEnabled');
                 const testTools = SettingsState.get('showTestDataTools');
                 preview.innerHTML = `
@@ -2539,6 +2545,8 @@
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Show PHI Warnings</span><span class="preview-list-row-value preview-toggle-val ${phi ? 'on' : ''}">${phi ? 'On' : 'Off'}</span></div>
                             <div class="preview-list-row"><span class="preview-list-row-label">Show MRN Field</span><span class="preview-list-row-value preview-toggle-val ${showMRN ? 'on' : ''}">${showMRN ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Collect Patient Name</span><span class="preview-list-row-value preview-toggle-val ${collectName ? 'on' : ''}">${collectName ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Collect Patient DOB</span><span class="preview-list-row-value preview-toggle-val ${collectDOB ? 'on' : ''}">${collectDOB ? 'On' : 'Off'}</span></div>
                             <div class="preview-list-row"><span class="preview-list-row-label">Collect Scene Address</span><span class="preview-list-row-value preview-toggle-val ${collectAddress ? 'on' : ''}">${collectAddress ? 'On' : 'Off'}</span></div>
                         </div>
                         <div class="preview-section-label">Training &amp; Testing</div>
@@ -2656,6 +2664,23 @@
                     current = current[path[i]];
                 }
                 current[path[path.length - 1]] = value;
+            }
+
+            // T291: derived legacy Identity = Name ∧ DOB when Name/DOB present or Identity is false
+            if (!screen || screen === 'agency' || screen === 'handoff' || screen === 'export') {
+                const n = SettingsState.get('collectPatientName');
+                const d = SettingsState.get('collectPatientDOB');
+                if (payload.agency && (payload.agency.collectPatientName !== undefined
+                    || payload.agency.collectPatientDOB !== undefined || !(n && d))) {
+                    payload.agency.collectPatientName = n;
+                    payload.agency.collectPatientDOB = d;
+                    payload.agency.collectPatientIdentity = !!(n && d);
+                } else if (!(n && d)) {
+                    if (!payload.agency) payload.agency = {};
+                    payload.agency.collectPatientName = n;
+                    payload.agency.collectPatientDOB = d;
+                    payload.agency.collectPatientIdentity = false;
+                }
             }
 
             // Quick entry slots and vitals field order: only include when relevant tab or full export
