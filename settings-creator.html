@@ -1329,6 +1329,46 @@
                 'aiParsing.onDevice.pumpPlum': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Pump (Plum 360) OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.pumpPlum'] },
                 'aiParsing.onDevice.vent': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Ventilator OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.vent'] },
                 'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Crew Announce', qrPath: ['agency', 'crewAnnounceEnabled'] },
+
+                // T321-A-zoll: all 37 Collect zoll.* keys (QC green @ MedicLog 025ac953). OUT: lastKnownDevice.
+                'zoll.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'ZOLL — Integration', description: 'Enable ZOLL device integration for this agency.', qrPath: ['agency', 'zoll.enabled'] },
+                'zoll.autoReconnect': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Integration', description: 'Automatically reconnect when the ZOLL device is in range.', qrPath: ['agency', 'zoll.autoReconnect'] },
+                'zoll.autoPolling': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Integration', description: 'Automatically poll the connected ZOLL device on an interval.', qrPath: ['agency', 'zoll.autoPolling'] },
+                'zoll.pollingInterval': { type: 'dropdown', default: 300, options: [{value: 60, label: '1 min'}, {value: 120, label: '2 min'}, {value: 300, label: '5 min (default)'}, {value: 600, label: '10 min'}, {value: 900, label: '15 min'}], screens: ['agency'], section: 'ZOLL — Integration', description: 'Polling interval in seconds.', qrPath: ['agency', 'zoll.pollingInterval'] },
+                'zoll.deviceTypeFilter': { type: 'dropdown', default: 'Unspecified', options: [{value: 'Unspecified', label: 'All Devices (default)'}, {value: 'XSeries', label: 'X Series'}, {value: 'Zenix', label: 'Zenix'}], screens: ['agency'], section: 'ZOLL — Discovery', description: 'Limit discovery to a ZOLL device family.', qrPath: ['agency', 'zoll.deviceTypeFilter'] },
+                'zoll.autoDiscoverOnCaseStart': { type: 'toggle', default: false, screens: ['agency'], section: 'ZOLL — Discovery', description: 'Start ZOLL discovery when a call/case starts.', qrPath: ['agency', 'zoll.autoDiscoverOnCaseStart'] },
+                'zoll.defaultPassword': { type: 'text', default: '', placeholder: 'Agency default password', screens: ['agency'], section: 'ZOLL — Connection', description: 'Agency default password pre-fill for newly discovered devices (omit when empty).', qrPath: ['agency', 'zoll.defaultPassword'] },
+                'zoll.rememberPasswords': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Connection', description: 'Remember per-device passwords in Keychain.', qrPath: ['agency', 'zoll.rememberPasswords'] },
+                'zoll.connectionTimeout': { type: 'dropdown', default: 30, options: [{value: 30, label: '30s (default)'}, {value: 60, label: '60s'}, {value: 120, label: '120s'}], screens: ['agency'], section: 'ZOLL — Connection', description: 'Connection timeout in seconds (distributed for future SDK use).', qrPath: ['agency', 'zoll.connectionTimeout'] },
+                'zoll.autoDownloadVitals': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Data Retrieval', description: 'Auto-download vitals from the ZOLL device.', qrPath: ['agency', 'zoll.autoDownloadVitals'] },
+                'zoll.autoDownload12Lead': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Data Retrieval', description: 'Auto-download 12-lead reports.', qrPath: ['agency', 'zoll.autoDownload12Lead'] },
+                'zoll.autoDownloadSnapshot': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Data Retrieval', description: 'Auto-download waveform snapshots.', qrPath: ['agency', 'zoll.autoDownloadSnapshot'] },
+                'zoll.hrSourcePreference': { type: 'dropdown', default: 'ecg', options: [{value: 'ecg', label: 'ECG (default)'}, {value: 'spo2', label: 'SpO2'}, {value: 'ibp', label: 'IBP'}], screens: ['agency'], section: 'ZOLL — Vitals Display', description: 'Preferred heart-rate source.', qrPath: ['agency', 'zoll.hrSourcePreference'] },
+                'zoll.tempUnit': { type: 'dropdown', default: 'celsius', options: [{value: 'celsius', label: 'Celsius (default)'}, {value: 'fahrenheit', label: 'Fahrenheit'}], screens: ['agency'], section: 'ZOLL — Vitals Display', description: 'Temperature unit.', qrPath: ['agency', 'zoll.tempUnit'] },
+                'zoll.bpUnit': { type: 'dropdown', default: 'mmhg', options: [{value: 'mmhg', label: 'mmHg (default)'}, {value: 'kpa', label: 'kPa'}], screens: ['agency'], section: 'ZOLL — Vitals Display', description: 'Blood pressure unit.', qrPath: ['agency', 'zoll.bpUnit'] },
+                'zoll.etco2Unit': { type: 'dropdown', default: 'mmhg', options: [{value: 'mmhg', label: 'mmHg (default)'}, {value: 'kpa', label: 'kPa'}, {value: 'percent', label: '%'}], screens: ['agency'], section: 'ZOLL — Vitals Display', description: 'EtCO₂ unit.', qrPath: ['agency', 'zoll.etco2Unit'] },
+                'zoll.12leadPrintFormat': { type: 'dropdown', default: 'standard', options: [{value: 'standard', label: 'Standard (default)'}, {value: 'cabrera', label: 'Cabrera'}], screens: ['agency'], section: 'ZOLL — 12-Lead', description: '12-lead print layout.', qrPath: ['agency', 'zoll.12leadPrintFormat'] },
+                'zoll.12leadReportFooter': { type: 'text', default: '', placeholder: 'Footer text', screens: ['agency'], section: 'ZOLL — 12-Lead', description: 'Optional footer text on 12-lead reports (omit when empty).', qrPath: ['agency', 'zoll.12leadReportFooter'] },
+                'zoll.12leadLocale': { type: 'text', default: '', placeholder: 'e.g. en_US', screens: ['agency'], section: 'ZOLL — 12-Lead', description: 'Optional locale identifier for 12-lead reports (omit when empty).', qrPath: ['agency', 'zoll.12leadLocale'] },
+                'zoll.12leadOutputFormat': { type: 'dropdown', default: 'pdfAndPng', options: [{value: 'pdfAndPng', label: 'PDF + PNG (default)'}, {value: 'pdfOnly', label: 'PDF Only'}], screens: ['agency'], section: 'ZOLL — 12-Lead', description: '12-lead output format.', qrPath: ['agency', 'zoll.12leadOutputFormat'] },
+                'zoll.captureShock': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture defibrillation shock events.', qrPath: ['agency', 'zoll.captureShock'] },
+                'zoll.captureAnalysis': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture analysis events.', qrPath: ['agency', 'zoll.captureAnalysis'] },
+                'zoll.captureTreatment': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture treatment events.', qrPath: ['agency', 'zoll.captureTreatment'] },
+                'zoll.capturePacing': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture pacing events.', qrPath: ['agency', 'zoll.capturePacing'] },
+                'zoll.captureSyncMode': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture sync-mode events.', qrPath: ['agency', 'zoll.captureSyncMode'] },
+                'zoll.waveform.primaryLead': { type: 'dropdown', default: 'leadII', options: [{value: 'pads', label: 'Pads'}, {value: 'leadI', label: 'Lead I'}, {value: 'leadII', label: 'Lead II'}, {value: 'leadIII', label: 'Lead III'}, {value: 'leadAvr', label: 'aVR'}, {value: 'leadAvl', label: 'aVL'}, {value: 'leadAvf', label: 'aVF'}, {value: 'leadV1', label: 'V1'}, {value: 'leadV2', label: 'V2'}, {value: 'leadV3', label: 'V3'}, {value: 'leadV4', label: 'V4'}, {value: 'leadV5', label: 'V5'}, {value: 'leadV6', label: 'V6'}], screens: ['agency'], section: 'ZOLL — Waveform', description: 'Primary ECG waveform lead.', qrPath: ['agency', 'zoll.waveform.primaryLead'] },
+                'zoll.waveform.secondaryLead': { type: 'dropdown', default: 'leadV1', options: [{value: 'pads', label: 'Pads'}, {value: 'leadI', label: 'Lead I'}, {value: 'leadII', label: 'Lead II'}, {value: 'leadIII', label: 'Lead III'}, {value: 'leadAvr', label: 'aVR'}, {value: 'leadAvl', label: 'aVL'}, {value: 'leadAvf', label: 'aVF'}, {value: 'leadV1', label: 'V1'}, {value: 'leadV2', label: 'V2'}, {value: 'leadV3', label: 'V3'}, {value: 'leadV4', label: 'V4'}, {value: 'leadV5', label: 'V5'}, {value: 'leadV6', label: 'V6'}], screens: ['agency'], section: 'ZOLL — Waveform', description: 'Secondary ECG waveform lead.', qrPath: ['agency', 'zoll.waveform.secondaryLead'] },
+                'zoll.waveform.thirdLead': { type: 'dropdown', default: '', options: [{value: '', label: 'None / Off (default)'}, {value: 'pads', label: 'Pads'}, {value: 'leadI', label: 'Lead I'}, {value: 'leadII', label: 'Lead II'}, {value: 'leadIII', label: 'Lead III'}, {value: 'leadAvr', label: 'aVR'}, {value: 'leadAvl', label: 'aVL'}, {value: 'leadAvf', label: 'aVF'}, {value: 'leadV1', label: 'V1'}, {value: 'leadV2', label: 'V2'}, {value: 'leadV3', label: 'V3'}, {value: 'leadV4', label: 'V4'}, {value: 'leadV5', label: 'V5'}, {value: 'leadV6', label: 'V6'}], screens: ['agency'], section: 'ZOLL — Waveform', description: 'Optional third ECG waveform lead (empty = off).', qrPath: ['agency', 'zoll.waveform.thirdLead'] },
+                'zoll.waveform.filteredECG': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Waveform', description: 'Request filtered ECG waveform when available.', qrPath: ['agency', 'zoll.waveform.filteredECG'] },
+                'zoll.waveform.displayFormat': { type: 'dropdown', default: 'standard', options: [{value: 'standard', label: 'Standard (default)'}, {value: 'cabrera', label: 'Cabrera'}], screens: ['agency'], section: 'ZOLL — Waveform', description: 'Waveform lead ordering arrangement.', qrPath: ['agency', 'zoll.waveform.displayFormat'] },
+                'zoll.forwardAlarms': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Alarms', description: 'Forward ZOLL device alarms into MedicLog.', qrPath: ['agency', 'zoll.forwardAlarms'] },
+                'zoll.alarmLow': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Alarms', description: 'Include low-priority alarms.', qrPath: ['agency', 'zoll.alarmLow'] },
+                'zoll.alarmHigh': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Alarms', description: 'Include high-priority alarms.', qrPath: ['agency', 'zoll.alarmHigh'] },
+                'zoll.autoPushDemographics': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Demographics', description: 'Auto-push patient demographics to the ZOLL device.', qrPath: ['agency', 'zoll.autoPushDemographics'] },
+                'zoll.autoPullDemographics': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Demographics', description: 'Auto-pull demographics from the ZOLL device.', qrPath: ['agency', 'zoll.autoPullDemographics'] },
+                'zoll.monitorNetwork': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Network', description: 'Monitor ZOLL device network connectivity.', qrPath: ['agency', 'zoll.monitorNetwork'] },
+                'zoll.preferredConnectionType': { type: 'dropdown', default: 'auto', options: [{value: 'auto', label: 'Auto (default)'}, {value: 'wifi', label: 'WiFi'}, {value: 'bluetooth', label: 'Bluetooth'}], screens: ['agency'], section: 'ZOLL — Network', description: 'Preferred connection type (store-only until SDK filter ships).', qrPath: ['agency', 'zoll.preferredConnectionType'] },
+
                 // Language
                 'activeLanguageCode': { type: 'dropdown', default: 'en', options: [
                     {value: 'en',      label: 'English (built-in)'},
@@ -2025,6 +2065,43 @@
                     'aiParsing.onDevice.pumpPlum': 'On Device — Pump (Plum 360)',
                     'aiParsing.onDevice.vent': 'On Device — Ventilator',
                     'crewAnnounceEnabled': 'Crew Announce',
+                    'zoll.enabled': 'ZOLL Enabled',
+                    'zoll.autoReconnect': 'Auto Reconnect',
+                    'zoll.autoPolling': 'Auto Polling',
+                    'zoll.pollingInterval': 'Polling Interval',
+                    'zoll.deviceTypeFilter': 'Device Type Filter',
+                    'zoll.autoDiscoverOnCaseStart': 'Auto Discover on Case Start',
+                    'zoll.defaultPassword': 'Default Password',
+                    'zoll.rememberPasswords': 'Remember Passwords',
+                    'zoll.connectionTimeout': 'Connection Timeout',
+                    'zoll.autoDownloadVitals': 'Auto Download Vitals',
+                    'zoll.autoDownload12Lead': 'Auto Download 12-Lead',
+                    'zoll.autoDownloadSnapshot': 'Auto Download Snapshot',
+                    'zoll.hrSourcePreference': 'HR Source Preference',
+                    'zoll.tempUnit': 'Temperature Unit',
+                    'zoll.bpUnit': 'BP Unit',
+                    'zoll.etco2Unit': 'EtCO₂ Unit',
+                    'zoll.12leadPrintFormat': '12-Lead Print Format',
+                    'zoll.12leadReportFooter': '12-Lead Report Footer',
+                    'zoll.12leadLocale': '12-Lead Locale',
+                    'zoll.12leadOutputFormat': '12-Lead Output Format',
+                    'zoll.captureShock': 'Capture Shock Events',
+                    'zoll.captureAnalysis': 'Capture Analysis Events',
+                    'zoll.captureTreatment': 'Capture Treatment Events',
+                    'zoll.capturePacing': 'Capture Pacing Events',
+                    'zoll.captureSyncMode': 'Capture Sync Mode Events',
+                    'zoll.waveform.primaryLead': 'Waveform Primary Lead',
+                    'zoll.waveform.secondaryLead': 'Waveform Secondary Lead',
+                    'zoll.waveform.thirdLead': 'Waveform Third Lead',
+                    'zoll.waveform.filteredECG': 'Filtered ECG',
+                    'zoll.waveform.displayFormat': 'Waveform Display Format',
+                    'zoll.forwardAlarms': 'Forward Alarms',
+                    'zoll.alarmLow': 'Low Alarms',
+                    'zoll.alarmHigh': 'High Alarms',
+                    'zoll.autoPushDemographics': 'Auto Push Demographics',
+                    'zoll.autoPullDemographics': 'Auto Pull Demographics',
+                    'zoll.monitorNetwork': 'Monitor Network',
+                    'zoll.preferredConnectionType': 'Preferred Connection Type',
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
                     'voice.verbosity': 'Voice Verbosity',
@@ -2084,10 +2161,19 @@
                         const option = document.createElement('option');
                         option.value = opt.value;
                         option.textContent = opt.label;
-                        if (opt.value === value) option.selected = true;
+                        // Loose equality: HTML option values are strings; numeric defaults must still match
+                        if (opt.value == value) option.selected = true;
                         sel.appendChild(option);
                     });
-                    sel.onchange = () => SettingsState.set(key, sel.value);
+                    sel.onchange = () => {
+                        let v = sel.value;
+                        // T321-A-zoll: coerce Int Collect keys (pollingInterval, connectionTimeout)
+                        if (typeof meta.default === 'number') {
+                            const n = Number(v);
+                            v = Number.isFinite(n) ? n : meta.default;
+                        }
+                        SettingsState.set(key, v);
+                    };
                     return sel;
                 }
 
@@ -2597,6 +2683,13 @@
                         <div class="preview-section-label">Crew Announce</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Crew Announce</span><span class="preview-list-row-value preview-toggle-val ${crew ? 'on' : ''}">${crew ? 'On' : 'Off'}</span></div>
+                        </div>
+                        <div class="preview-section-label">ZOLL Integration</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Enabled</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('zoll.enabled') ? 'on' : ''}">${SettingsState.get('zoll.enabled') ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Auto Poll</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('zoll.autoPolling') ? 'on' : ''}">${SettingsState.get('zoll.autoPolling') ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Device Filter</span><span class="preview-list-row-value">${SettingsState.get('zoll.deviceTypeFilter')}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Connection</span><span class="preview-list-row-value">${SettingsState.get('zoll.preferredConnectionType')}</span></div>
                         </div>
                         <div class="preview-section-label">Clinical Protocols</div>
                         <div class="preview-card-group">
