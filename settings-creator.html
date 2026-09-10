@@ -1369,7 +1369,7 @@
                     {value: 'standard', label: 'Standard (HR/SBP)'},
                     {value: 'modified', label: 'Modified (HR/MAP)'}
                 ], screens: ['vitals'], section: 'Clinical Calculations', qrPath: ['agency', 'calcVitals.shockIndexMode'] },
-                'calcVitals.pulsePressureEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Pulse Pressure calculation', qrPath: ['agency', 'calcVitals.pulsePressureEnabled'] },
+                'calcVitals.pulsePressureEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Pulse Pressure calculation', qrPath: ['agency', 'calcVitals.pulsePressureEnabled'] },
                 'calcVitals.qsofaEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show qSOFA score', qrPath: ['agency', 'calcVitals.qsofaEnabled'] },
                 'calcVitals.sepsisScreeningMode': { type: 'select', default: 'qsofa', options: [
                     {value: 'qsofa', label: 'qSOFA'},
@@ -1377,9 +1377,9 @@
                     {value: 'both', label: 'Both'},
                     {value: 'off', label: 'Off'}
                 ], screens: ['vitals'], section: 'Sepsis Screening', qrPath: ['agency', 'calcVitals.sepsisScreeningMode'] },
-                'calcVitals.remsEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show REMS (Rapid Emergency Medicine Score)', qrPath: ['agency', 'calcVitals.remsEnabled'] },
-                'calcVitals.rtsEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Revised Trauma Score (RTS)', qrPath: ['agency', 'calcVitals.rtsEnabled'] },
-                'calcVitals.gcsPEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show GCS-P (GCS with Pupil reactivity)', qrPath: ['agency', 'calcVitals.gcsPEnabled'] },
+                'calcVitals.remsEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show REMS (Rapid Emergency Medicine Score)', qrPath: ['agency', 'calcVitals.remsEnabled'] },
+                'calcVitals.rtsEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Revised Trauma Score (RTS)', qrPath: ['agency', 'calcVitals.rtsEnabled'] },
+                'calcVitals.gcsPEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show GCS-P (GCS with Pupil reactivity)', qrPath: ['agency', 'calcVitals.gcsPEnabled'] },
                 'calcVitals.cppEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show CPP (Cerebral Perfusion Pressure) for TBI patients', qrPath: ['agency', 'calcVitals.cppEnabled'] },
                 'calcVitals.etco2Enabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show EtCO₂ waveform capnography interpretation and alerts', qrPath: ['agency', 'calcVitals.etco2Enabled'] },
 
@@ -1398,15 +1398,15 @@
 
                 // REMS thresholds
                 'calcVitals.rems.moderateThreshold': { type: 'number', default: 6, min: 1, max: 20, screens: ['vitals'], section: 'REMS Thresholds', description: 'Moderate risk threshold', qrPath: ['agency', 'calcVitals.rems.moderateThreshold'] },
-                'calcVitals.rems.highThreshold': { type: 'number', default: 13, min: 1, max: 26, screens: ['vitals'], section: 'REMS Thresholds', description: 'High risk threshold', qrPath: ['agency', 'calcVitals.rems.highThreshold'] },
+                'calcVitals.rems.highThreshold': { type: 'number', default: 9, min: 1, max: 26, screens: ['vitals'], section: 'REMS Thresholds', description: 'High risk threshold', qrPath: ['agency', 'calcVitals.rems.highThreshold'] },
 
                 // CPP thresholds
                 'calcVitals.cpp.assumedICP': { type: 'number', default: 20, min: 5, max: 40, screens: ['vitals'], section: 'CPP Settings', description: 'Assumed ICP (mmHg) when no ICP monitor', qrPath: ['agency', 'calcVitals.cpp.assumedICP'] },
                 'calcVitals.cpp.threshold': { type: 'number', default: 60, min: 40, max: 80, screens: ['vitals'], section: 'CPP Settings', description: 'Minimum CPP threshold (mmHg)', qrPath: ['agency', 'calcVitals.cpp.threshold'] },
 
                 // LVO alert thresholds — only relevant when stroke scale is lams/fasted/race
-                'agency.lvoThreshold.lams': { type: 'number', default: 4, min: 1, max: 5, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.lams'] },
-                'agency.lvoThreshold.fasted': { type: 'number', default: 1, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.fasted'] },
+                'agency.lvoThreshold.lams': { type: 'number', default: 3, min: 1, max: 5, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.lams'] },
+                'agency.lvoThreshold.fasted': { type: 'number', default: 4, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.fasted'] },
                 'agency.lvoThreshold.race': { type: 'number', default: 5, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.race'] },
 
                 // Display
