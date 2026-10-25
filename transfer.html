@@ -301,9 +301,9 @@
                         QR Code
                         <span class="method-badge badge-fast">No Setup</span>
                     </h3>
-                    <p class="when-to-use"><strong>When to use:</strong> Quick share when AirDrop isn't available, cross-platform (iOS ↔ Android)</p>
+                    <p class="when-to-use"><strong>When to use:</strong> Quick share when AirDrop isn't available (different agencies, managed devices)</p>
                     <ul>
-                        <li>Receiver scans from within MedicLog on iOS or Android — loads instantly</li>
+                        <li>Receiver scans from within MedicLog — loads instantly</li>
                         <li>Small calls (&lt;3KB) fit in a single QR code</li>
                         <li>Physical security: you control who can see the screen</li>
                         <li>Works completely offline</li>
@@ -319,7 +319,7 @@
                         Email/SMS
                         <span class="method-badge badge-secure">Encrypted</span>
                     </h3>
-                    <p class="when-to-use"><strong>When to use:</strong> Remote sharing, iOS ↔ Android cross-platform, you scan flight crew's contact QR so they can get in the air</p>
+                    <p class="when-to-use"><strong>When to use:</strong> Remote sharing, asynchronous handoff, or scanning a flight crew's contact QR so they can get in the air</p>
                     <ul>
                         <li>File sent via email, 6-digit code sent via SMS (or vice versa)</li>
                         <li>AES-256 encryption — file is useless without the code</li>
@@ -467,18 +467,18 @@
             <p>All exports support <strong>PHI redaction</strong> — toggle "Redact patient info" to replace names and DOB with [REDACTED] for privacy-safe sharing.</p>
         </section>
 
-        <!-- Cross-Platform -->
+        <!-- Platform Support -->
         <section class="section" id="cross-platform">
-            <h2>Cross-Platform Sharing</h2>
-            <p>MedicLog supports sharing between iOS and Android:</p>
+            <h2>Platform Availability &amp; Portable Formats</h2>
+            <p>MedicLog is currently built for iOS (iPhone, iPad, and Apple Watch), using portable, standards-based transfer formats:</p>
 
             <ul>
-                <li><strong>QR Code</strong> — works between any devices</li>
-                <li><strong>Email/SMS</strong> — encrypted files work on both platforms</li>
-                <li><strong>.mlshare files</strong> — identical format, cross-platform compatible</li>
+                <li><strong>QR Code</strong> — encrypted payload scannable directly within MedicLog</li>
+                <li><strong>Email/SMS</strong> — AES-256 encrypted <code>.mlshare</code> files with two-channel key delivery</li>
+                <li><strong>Photo &amp; PDF Handoff</strong> — readable on any phone, tablet, or hospital workstation without MedicLog installed</li>
             </ul>
 
-            <p>The Android version is currently in alpha — join the beta to test cross-platform sharing.</p>
+            <p>An Android version is not currently in development, but may be explored in the future if there is enough interest from the EMS community.</p>
         </section>
 
         <div class="text-center mt-2">

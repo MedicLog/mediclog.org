@@ -1243,6 +1243,10 @@
                 'agencyLogoURL': { type: 'url', default: '', screens: ['agency'], section: 'Agency Information', description: 'Publicly accessible URL to your agency logo. App will download and cache on import.', qrPath: ['agency', 'logoURL'] },
                 'useIncidentNumbers': { type: 'toggle', default: true, screens: ['agency'], section: 'Incident Tracking & Dispatch', qrPath: ['agency', 'useIncidentNumbers'] },
                 'showPHIWarnings': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'showPHIWarnings'] },
+                'showMRNField': { type: 'toggle', default: false, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'showMRNField'] },
+                'collectPatientAddress': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'collectPatientAddress'] },
+                'collectPatientName': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'collectPatientName'] },
+                'collectPatientDOB': { type: 'toggle', default: true, screens: ['handoff', 'export', 'agency'], section: 'Privacy & PHI Safety', qrPath: ['agency', 'collectPatientDOB'] },
                 'showTestDataTools': { type: 'toggle', default: true, screens: ['agency'], section: 'Training & Testing', qrPath: ['agency', 'showTestDataTools'] },
                 'cardiac.showVectorChange': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showVectorChange'] },
                 'cardiac.showDualSequential': { type: 'toggle', default: true, screens: ['agency'], section: 'Cardiac Procedures', qrPath: ['agency', 'cardiac.showDualSequential'] },
@@ -1252,7 +1256,6 @@
                     {value: 'none', label: 'None'}
                 ], screens: ['handoff'], section: 'End of Call Action', qrPath: ['agency', 'endOfCallAction'] },
                 'hospitalHandoff.showInShareMenu': { type: 'toggle', default: true, screens: ['handoff'], section: 'Hospital Handoff', qrPath: ['agency', 'hospitalHandoff.showInShareMenu'] },
-                'hospitalHandoff.showAtEndCall': { type: 'toggle', default: true, screens: ['handoff'], section: 'Hospital Handoff', qrPath: ['agency', 'hospitalHandoff.showAtEndCall'] },
                 'strokeScale': { type: 'select', default: 'cincinnati', options: [
                     {value: 'cincinnati', label: 'Cincinnati (CPSS)'},
                     {value: 'lams', label: 'LAMS'},
@@ -1260,6 +1263,20 @@
                     {value: 'fasted', label: 'FAST-ED'},
                     {value: 'none', label: 'Generic Score'}
                 ], screens: ['vitals'], section: 'Stroke Scale', qrPath: ['agency', 'strokeScale'] },
+                // T321-A6 / N336: Registry jsonKey agencyShowDripDefaults (NOT UD agency.showDripDefaults)
+                'agencyShowDripDefaults': { type: 'toggle', default: false, screens: ['agency'], section: 'Drip Calculator Defaults', description: 'When enabled, medical directors can set agency-standard drip concentrations per medication. Off by default.', qrPath: ['agency', 'agencyShowDripDefaults'] },
+
+                // T321-A-core: Creator expose (QC already green @ MedicLog)
+                'isarEnabled': { type: 'toggle', default: false, screens: ['agency', 'vitals'], section: 'Clinical Protocols', description: 'When enabled, Vitals shows the ISAR screen and handoff/PDF print the score.', qrPath: ['agency', 'isarEnabled'] },
+                'burnAssessmentMethod': { type: 'select', default: 'lundBrowder', options: [
+                    {value: 'lundBrowder', label: 'Lund-Browder (JTS)'},
+                    {value: 'ruleOfNines', label: 'Rule of Nines'}
+                ], screens: ['agency'], section: 'Clinical Protocols', description: 'Burn BSA assessment method for live call + history.', qrPath: ['agency', 'burnAssessmentMethod'] },
+                'burnPediatricAgeThreshold': { type: 'number', default: 14, min: 1, max: 18, screens: ['agency'], section: 'Clinical Protocols', description: 'Age cutoff (years) for pediatric burn fluid formula.', qrPath: ['agency', 'burnPediatricAgeThreshold'] },
+                'mothershipURL': { type: 'url', default: '', placeholder: 'https://mothership.example/', screens: ['agency'], section: 'Agency Mothership', description: 'Agency Mothership base URL for remote config.', qrPath: ['agency', 'mothershipURL'] },
+                'mothershipPublicKey': { type: 'text', default: '', placeholder: 'Base64 / PEM public key', screens: ['agency'], section: 'Agency Mothership', description: 'Mothership public key used to verify agency payloads.', qrPath: ['agency', 'mothershipPublicKey'] },
+                'ccLabRanges': { type: 'json', default: {}, screens: ['agency', 'vitals'], section: 'CC Lab Range Overrides', description: 'JSON object: { labId: { normalMin, normalMax, criticalMin, criticalMax } }. Empty = omit (app keeps defaults).', qrPath: ['agency', 'ccLabRanges'] },
+                'ccLabRangeCustomUnits': { type: 'json', default: {}, screens: ['agency', 'vitals'], section: 'CC Lab Range Overrides', description: 'JSON object: { labId: "unit string" } for custom labs. Empty = omit.', qrPath: ['agency', 'ccLabRangeCustomUnits'] },
 
                 // Agency — features and clinical thresholds (T143 gap settings)
                 'agency.destinationsEnabled': { type: 'toggle', default: true, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'destinationsEnabled'] },
@@ -1272,10 +1289,10 @@
                 'incidentNumberFormat': { type: 'text', default: '', placeholder: 'E##########', screens: ['agency'], section: 'Incident Tracking & Dispatch', description: 'Use # for digits, any other character stays literal. Examples: E########## → E2601100255 · R####-###-## → R2026-001-42 · INC-###### → INC-123456', qrPath: ['agency', 'incidentNumberFormat'] },
                 // T200: Protocol App quick-launch (Active Call middle button)
                 'protocolApp.finder': { type: 'link', href: 'protocol-finder.html', linkLabel: '🔍 Protocol Link Finder — look up URL schemes', screens: ['agency'], section: 'Protocol Apps' },
-                'protocolApp.scheme': { type: 'text', default: '', placeholder: 'e.g. lexipol://', screens: ['agency'], section: 'Protocol Apps', description: 'URL scheme for the primary protocol/reference app shown as a quick-launch button during active calls.', qrPath: ['agency', 'protocolApp', 'scheme'] },
-                'protocolApp.name': { type: 'text', default: '', placeholder: 'e.g. Lexipol', screens: ['agency'], section: 'Protocol Apps', description: 'Display name shown in the picker when both apps are configured.', qrPath: ['agency', 'protocolApp', 'name'] },
-                'referenceApp.scheme': { type: 'text', default: '', placeholder: 'e.g. handtevy://', screens: ['agency'], section: 'Protocol Apps', description: 'Optional second app (Slot 2). Only used if Primary App is also configured.', qrPath: ['agency', 'referenceApp', 'scheme'] },
-                'referenceApp.name': { type: 'text', default: '', placeholder: 'e.g. Handtevy', screens: ['agency'], section: 'Protocol Apps', qrPath: ['agency', 'referenceApp', 'name'] },
+                'protocolApp.scheme': { type: 'text', default: '', placeholder: 'e.g. lexipol://', screens: ['agency'], section: 'Protocol Apps', description: 'URL scheme for the primary protocol/reference app shown as a quick-launch button during active calls.', qrPath: ['agency', 'protocols.appURLScheme'] },
+                'protocolApp.name': { type: 'text', default: '', placeholder: 'e.g. Lexipol', screens: ['agency'], section: 'Protocol Apps', description: 'Display name shown in the picker when both apps are configured.', qrPath: ['agency', 'protocols.appName'] },
+                'referenceApp.scheme': { type: 'text', default: '', placeholder: 'e.g. handtevy://', screens: ['agency'], section: 'Protocol Apps', description: 'Optional second app (Slot 2). Only used if Primary App is also configured.', qrPath: ['agency', 'protocols.ref.appURLScheme'] },
+                'referenceApp.name': { type: 'text', default: '', placeholder: 'e.g. Handtevy', screens: ['agency'], section: 'Protocol Apps', qrPath: ['agency', 'protocols.ref.appName'] },
                 // T242: Preferred email client for Hospital Handoff send
                 'preferredEmailClient': { type: 'select', default: 'default', options: [
                     {value: 'default', label: 'System Default'},
@@ -1291,7 +1308,70 @@
                 'agencyGpsEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Destinations', qrPath: ['agency', 'agencyGpsEnabled'] },
                 'aiParsingEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsingEnabled'] },
                 'medOCRIncludeDoseFreq': { type: 'toggle', default: false, screens: ['agency'], section: 'Enhanced OCR', qrPath: ['agency', 'aiParsing.medOCRIncludeDoseFreq'] },
+                'aiParsing.xaiModel': { type: 'text', default: '', screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok vision model ID. Leave empty for the app default (grok-4.6). Distributed to medics via QR.', qrPath: ['agency', 'aiParsing.xaiModel'] },
+                'aiParsing.claudeModel': { type: 'text', default: '', screens: ['agency'], section: 'Enhanced OCR', description: 'Anthropic / Claude vision model ID. Leave empty for the app default (claude-sonnet-5). Distributed to medics via QR.', qrPath: ['agency', 'aiParsing.claudeModel'] },
+                'aiParsing.xai.vitals': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Vitals OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.vitals'] },
+                'aiParsing.xai.meds': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Medications OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.meds'] },
+                'aiParsing.xai.labs': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Labs OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.labs'] },
+                'aiParsing.xai.pumpSapphire': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Pump (Sapphire) OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.pumpSapphire'] },
+                'aiParsing.xai.pumpPlum': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Pump (Plum 360) OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.pumpPlum'] },
+                'aiParsing.xai.vent': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'xAI / Grok: allow Ventilator OCR. Default on.', qrPath: ['agency', 'aiParsing.xai.vent'] },
+                'aiParsing.anthropic.vitals': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Vitals OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.vitals'] },
+                'aiParsing.anthropic.meds': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Medications OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.meds'] },
+                'aiParsing.anthropic.labs': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Labs OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.labs'] },
+                'aiParsing.anthropic.pumpSapphire': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Pump (Sapphire) OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.pumpSapphire'] },
+                'aiParsing.anthropic.pumpPlum': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Pump (Plum 360) OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.pumpPlum'] },
+                'aiParsing.anthropic.vent': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'Claude: allow Ventilator OCR. Default on.', qrPath: ['agency', 'aiParsing.anthropic.vent'] },
+                'aiParsing.onDevice.vitals': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Vitals OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.vitals'] },
+                'aiParsing.onDevice.meds': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Medications OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.meds'] },
+                'aiParsing.onDevice.labs': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Labs OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.labs'] },
+                'aiParsing.onDevice.pumpSapphire': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Pump (Sapphire) OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.pumpSapphire'] },
+                'aiParsing.onDevice.pumpPlum': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Pump (Plum 360) OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.pumpPlum'] },
+                'aiParsing.onDevice.vent': { type: 'toggle', default: true, screens: ['agency'], section: 'Enhanced OCR', description: 'On Device: allow Ventilator OCR. Default on.', qrPath: ['agency', 'aiParsing.onDevice.vent'] },
                 'crewAnnounceEnabled': { type: 'toggle', default: false, screens: ['agency'], section: 'Crew Announce', qrPath: ['agency', 'crewAnnounceEnabled'] },
+
+                // T321-A-zoll: all 37 Collect zoll.* keys (QC green @ MedicLog 025ac953). OUT: lastKnownDevice.
+                'zoll.enabled': { type: 'toggle', default: false, screens: ['agency'], section: 'ZOLL — Integration', description: 'Enable ZOLL device integration for this agency.', qrPath: ['agency', 'zoll.enabled'] },
+                'zoll.autoReconnect': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Integration', description: 'Automatically reconnect when the ZOLL device is in range.', qrPath: ['agency', 'zoll.autoReconnect'] },
+                'zoll.autoPolling': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Integration', description: 'Automatically poll the connected ZOLL device on an interval.', qrPath: ['agency', 'zoll.autoPolling'] },
+                'zoll.pollingInterval': { type: 'dropdown', default: 300, options: [{value: 60, label: '1 min'}, {value: 120, label: '2 min'}, {value: 300, label: '5 min (default)'}, {value: 600, label: '10 min'}, {value: 900, label: '15 min'}], screens: ['agency'], section: 'ZOLL — Integration', description: 'Polling interval in seconds.', qrPath: ['agency', 'zoll.pollingInterval'] },
+                'zoll.deviceTypeFilter': { type: 'dropdown', default: 'Unspecified', options: [{value: 'Unspecified', label: 'All Devices (default)'}, {value: 'XSeries', label: 'X Series'}, {value: 'Zenix', label: 'Zenix'}], screens: ['agency'], section: 'ZOLL — Discovery', description: 'Limit discovery to a ZOLL device family.', qrPath: ['agency', 'zoll.deviceTypeFilter'] },
+                'zoll.autoDiscoverOnCaseStart': { type: 'toggle', default: false, screens: ['agency'], section: 'ZOLL — Discovery', description: 'Start ZOLL discovery when a call/case starts.', qrPath: ['agency', 'zoll.autoDiscoverOnCaseStart'] },
+                'zoll.defaultPassword': { type: 'text', default: '', placeholder: 'Agency default password', screens: ['agency'], section: 'ZOLL — Connection', description: 'Agency default password pre-fill for newly discovered devices (omit when empty).', qrPath: ['agency', 'zoll.defaultPassword'] },
+                'zoll.rememberPasswords': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Connection', description: 'Remember per-device passwords in Keychain.', qrPath: ['agency', 'zoll.rememberPasswords'] },
+                'zoll.connectionTimeout': { type: 'dropdown', default: 30, options: [{value: 30, label: '30s (default)'}, {value: 60, label: '60s'}, {value: 120, label: '120s'}], screens: ['agency'], section: 'ZOLL — Connection', description: 'Connection timeout in seconds (distributed for future SDK use).', qrPath: ['agency', 'zoll.connectionTimeout'] },
+                'zoll.autoDownloadVitals': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Data Retrieval', description: 'Auto-download vitals from the ZOLL device.', qrPath: ['agency', 'zoll.autoDownloadVitals'] },
+                'zoll.autoDownload12Lead': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Data Retrieval', description: 'Auto-download 12-lead reports.', qrPath: ['agency', 'zoll.autoDownload12Lead'] },
+                'zoll.autoDownloadSnapshot': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Data Retrieval', description: 'Auto-download waveform snapshots.', qrPath: ['agency', 'zoll.autoDownloadSnapshot'] },
+                'zoll.hrSourcePreference': { type: 'dropdown', default: 'ecg', options: [{value: 'ecg', label: 'ECG (default)'}, {value: 'spo2', label: 'SpO2'}, {value: 'ibp', label: 'IBP'}], screens: ['agency'], section: 'ZOLL — Vitals Display', description: 'Preferred heart-rate source.', qrPath: ['agency', 'zoll.hrSourcePreference'] },
+                'zoll.tempUnit': { type: 'dropdown', default: 'celsius', options: [{value: 'celsius', label: 'Celsius (default)'}, {value: 'fahrenheit', label: 'Fahrenheit'}], screens: ['agency'], section: 'ZOLL — Vitals Display', description: 'Temperature unit.', qrPath: ['agency', 'zoll.tempUnit'] },
+                'zoll.bpUnit': { type: 'dropdown', default: 'mmhg', options: [{value: 'mmhg', label: 'mmHg (default)'}, {value: 'kpa', label: 'kPa'}], screens: ['agency'], section: 'ZOLL — Vitals Display', description: 'Blood pressure unit.', qrPath: ['agency', 'zoll.bpUnit'] },
+                'zoll.etco2Unit': { type: 'dropdown', default: 'mmhg', options: [{value: 'mmhg', label: 'mmHg (default)'}, {value: 'kpa', label: 'kPa'}, {value: 'percent', label: '%'}], screens: ['agency'], section: 'ZOLL — Vitals Display', description: 'EtCO₂ unit.', qrPath: ['agency', 'zoll.etco2Unit'] },
+                'zoll.12leadPrintFormat': { type: 'dropdown', default: 'standard', options: [{value: 'standard', label: 'Standard (default)'}, {value: 'cabrera', label: 'Cabrera'}], screens: ['agency'], section: 'ZOLL — 12-Lead', description: '12-lead print layout.', qrPath: ['agency', 'zoll.12leadPrintFormat'] },
+                'zoll.12leadReportFooter': { type: 'text', default: '', placeholder: 'Footer text', screens: ['agency'], section: 'ZOLL — 12-Lead', description: 'Optional footer text on 12-lead reports (omit when empty).', qrPath: ['agency', 'zoll.12leadReportFooter'] },
+                'zoll.12leadLocale': { type: 'text', default: '', placeholder: 'e.g. en_US', screens: ['agency'], section: 'ZOLL — 12-Lead', description: 'Optional locale identifier for 12-lead reports (omit when empty).', qrPath: ['agency', 'zoll.12leadLocale'] },
+                'zoll.12leadOutputFormat': { type: 'dropdown', default: 'pdfAndPng', options: [{value: 'pdfAndPng', label: 'PDF + PNG (default)'}, {value: 'pdfOnly', label: 'PDF Only'}], screens: ['agency'], section: 'ZOLL — 12-Lead', description: '12-lead output format.', qrPath: ['agency', 'zoll.12leadOutputFormat'] },
+                'zoll.captureShock': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture defibrillation shock events.', qrPath: ['agency', 'zoll.captureShock'] },
+                'zoll.captureAnalysis': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture analysis events.', qrPath: ['agency', 'zoll.captureAnalysis'] },
+                'zoll.captureTreatment': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture treatment events.', qrPath: ['agency', 'zoll.captureTreatment'] },
+                'zoll.capturePacing': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture pacing events.', qrPath: ['agency', 'zoll.capturePacing'] },
+                'zoll.captureSyncMode': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Event Capture', description: 'Capture sync-mode events.', qrPath: ['agency', 'zoll.captureSyncMode'] },
+                'zoll.waveform.primaryLead': { type: 'dropdown', default: 'leadII', options: [{value: 'pads', label: 'Pads'}, {value: 'leadI', label: 'Lead I'}, {value: 'leadII', label: 'Lead II'}, {value: 'leadIII', label: 'Lead III'}, {value: 'leadAvr', label: 'aVR'}, {value: 'leadAvl', label: 'aVL'}, {value: 'leadAvf', label: 'aVF'}, {value: 'leadV1', label: 'V1'}, {value: 'leadV2', label: 'V2'}, {value: 'leadV3', label: 'V3'}, {value: 'leadV4', label: 'V4'}, {value: 'leadV5', label: 'V5'}, {value: 'leadV6', label: 'V6'}], screens: ['agency'], section: 'ZOLL — Waveform', description: 'Primary ECG waveform lead.', qrPath: ['agency', 'zoll.waveform.primaryLead'] },
+                'zoll.waveform.secondaryLead': { type: 'dropdown', default: 'leadV1', options: [{value: 'pads', label: 'Pads'}, {value: 'leadI', label: 'Lead I'}, {value: 'leadII', label: 'Lead II'}, {value: 'leadIII', label: 'Lead III'}, {value: 'leadAvr', label: 'aVR'}, {value: 'leadAvl', label: 'aVL'}, {value: 'leadAvf', label: 'aVF'}, {value: 'leadV1', label: 'V1'}, {value: 'leadV2', label: 'V2'}, {value: 'leadV3', label: 'V3'}, {value: 'leadV4', label: 'V4'}, {value: 'leadV5', label: 'V5'}, {value: 'leadV6', label: 'V6'}], screens: ['agency'], section: 'ZOLL — Waveform', description: 'Secondary ECG waveform lead.', qrPath: ['agency', 'zoll.waveform.secondaryLead'] },
+                'zoll.waveform.thirdLead': { type: 'dropdown', default: '', options: [{value: '', label: 'None / Off (default)'}, {value: 'pads', label: 'Pads'}, {value: 'leadI', label: 'Lead I'}, {value: 'leadII', label: 'Lead II'}, {value: 'leadIII', label: 'Lead III'}, {value: 'leadAvr', label: 'aVR'}, {value: 'leadAvl', label: 'aVL'}, {value: 'leadAvf', label: 'aVF'}, {value: 'leadV1', label: 'V1'}, {value: 'leadV2', label: 'V2'}, {value: 'leadV3', label: 'V3'}, {value: 'leadV4', label: 'V4'}, {value: 'leadV5', label: 'V5'}, {value: 'leadV6', label: 'V6'}], screens: ['agency'], section: 'ZOLL — Waveform', description: 'Optional third ECG waveform lead (empty = off).', qrPath: ['agency', 'zoll.waveform.thirdLead'] },
+                'zoll.waveform.filteredECG': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Waveform', description: 'Request filtered ECG waveform when available.', qrPath: ['agency', 'zoll.waveform.filteredECG'] },
+                'zoll.waveform.displayFormat': { type: 'dropdown', default: 'standard', options: [{value: 'standard', label: 'Standard (default)'}, {value: 'cabrera', label: 'Cabrera'}], screens: ['agency'], section: 'ZOLL — Waveform', description: 'Waveform lead ordering arrangement.', qrPath: ['agency', 'zoll.waveform.displayFormat'] },
+                'zoll.forwardAlarms': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Alarms', description: 'Forward ZOLL device alarms into MedicLog.', qrPath: ['agency', 'zoll.forwardAlarms'] },
+                'zoll.alarmLow': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Alarms', description: 'Include low-priority alarms.', qrPath: ['agency', 'zoll.alarmLow'] },
+                'zoll.alarmHigh': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Alarms', description: 'Include high-priority alarms.', qrPath: ['agency', 'zoll.alarmHigh'] },
+                'zoll.autoPushDemographics': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Demographics', description: 'Auto-push patient demographics to the ZOLL device.', qrPath: ['agency', 'zoll.autoPushDemographics'] },
+                'zoll.autoPullDemographics': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Demographics', description: 'Auto-pull demographics from the ZOLL device.', qrPath: ['agency', 'zoll.autoPullDemographics'] },
+                'zoll.monitorNetwork': { type: 'toggle', default: true, screens: ['agency'], section: 'ZOLL — Network', description: 'Monitor ZOLL device network connectivity.', qrPath: ['agency', 'zoll.monitorNetwork'] },
+                'zoll.preferredConnectionType': { type: 'dropdown', default: 'auto', options: [{value: 'auto', label: 'Auto (default)'}, {value: 'wifi', label: 'WiFi'}, {value: 'bluetooth', label: 'Bluetooth'}], screens: ['agency'], section: 'ZOLL — Network', description: 'Preferred connection type (store-only until SDK filter ships).', qrPath: ['agency', 'zoll.preferredConnectionType'] },
+
+                // T321-A-formulary: agency.formulary array in QuickConfig envelope (T300 Collect SoT). NOT .mlformulary-only.
+                'formulary': { type: 'formulary', default: [], screens: ['agency'], section: 'Agency Formulary', description: 'Agency medication formulary embedded in the Quick Config QR as agency.formulary (Codable MedicationConfig array). Personal formulary is never included. Empty = omit.', qrPath: ['agency', 'formulary'] },
+
                 // Language
                 'activeLanguageCode': { type: 'dropdown', default: 'en', options: [
                     {value: 'en',      label: 'English (built-in)'},
@@ -1337,7 +1417,6 @@
                     {value: 'full', label: 'Full'},
                     {value: 'off', label: 'Off'}
                 ], screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.verbosity'] },
-                'voice.autoPromoteThreshold': { type: 'number', default: 0.85, min: 0.0, max: 1.0, screens: ['agency'], section: 'Voice Pipeline', qrPath: ['agency', 'voice.autoPromoteThreshold'] },
                 // Clinical Calculations — toggles and thresholds
                 'calcVitals.mapEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show MAP (Mean Arterial Pressure) calculation', qrPath: ['agency', 'calcVitals.mapEnabled'] },
                 'calcVitals.shockIndexEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Shock Index calculation', qrPath: ['agency', 'calcVitals.shockIndexEnabled'] },
@@ -1345,7 +1424,7 @@
                     {value: 'standard', label: 'Standard (HR/SBP)'},
                     {value: 'modified', label: 'Modified (HR/MAP)'}
                 ], screens: ['vitals'], section: 'Clinical Calculations', qrPath: ['agency', 'calcVitals.shockIndexMode'] },
-                'calcVitals.pulsePressureEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Pulse Pressure calculation', qrPath: ['agency', 'calcVitals.pulsePressureEnabled'] },
+                'calcVitals.pulsePressureEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Pulse Pressure calculation', qrPath: ['agency', 'calcVitals.pulsePressureEnabled'] },
                 'calcVitals.qsofaEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show qSOFA score', qrPath: ['agency', 'calcVitals.qsofaEnabled'] },
                 'calcVitals.sepsisScreeningMode': { type: 'select', default: 'qsofa', options: [
                     {value: 'qsofa', label: 'qSOFA'},
@@ -1353,9 +1432,9 @@
                     {value: 'both', label: 'Both'},
                     {value: 'off', label: 'Off'}
                 ], screens: ['vitals'], section: 'Sepsis Screening', qrPath: ['agency', 'calcVitals.sepsisScreeningMode'] },
-                'calcVitals.remsEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show REMS (Rapid Emergency Medicine Score)', qrPath: ['agency', 'calcVitals.remsEnabled'] },
-                'calcVitals.rtsEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Revised Trauma Score (RTS)', qrPath: ['agency', 'calcVitals.rtsEnabled'] },
-                'calcVitals.gcsPEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show GCS-P (GCS with Pupil reactivity)', qrPath: ['agency', 'calcVitals.gcsPEnabled'] },
+                'calcVitals.remsEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show REMS (Rapid Emergency Medicine Score)', qrPath: ['agency', 'calcVitals.remsEnabled'] },
+                'calcVitals.rtsEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show Revised Trauma Score (RTS)', qrPath: ['agency', 'calcVitals.rtsEnabled'] },
+                'calcVitals.gcsPEnabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show GCS-P (GCS with Pupil reactivity)', qrPath: ['agency', 'calcVitals.gcsPEnabled'] },
                 'calcVitals.cppEnabled': { type: 'toggle', default: false, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show CPP (Cerebral Perfusion Pressure) for TBI patients', qrPath: ['agency', 'calcVitals.cppEnabled'] },
                 'calcVitals.etco2Enabled': { type: 'toggle', default: true, screens: ['vitals'], section: 'Clinical Calculations', description: 'Show EtCO₂ waveform capnography interpretation and alerts', qrPath: ['agency', 'calcVitals.etco2Enabled'] },
 
@@ -1365,6 +1444,8 @@
                 'calcVitals.etco2.warningHigh': { type: 'number', default: 45, min: 40, max: 70, screens: ['vitals'], section: 'EtCO₂ Thresholds', description: 'High warning threshold (mmHg) — hypoventilation caution', qrPath: ['agency', 'calcVitals.etco2.warningHigh'] },
 
                 // Shock Index thresholds
+                // T321-A-core EXPOSE: legacy Collect key shockIndex.threshold (def 0.9, clamp [0.5,2.0]); keep calcVitals.si.*
+                'shockIndex.threshold': { type: 'number', default: 0.9, min: 0.5, max: 2.0, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Legacy agency shock index threshold (Collect key shockIndex.threshold). Color bands below remain.', qrPath: ['agency', 'shockIndex.threshold'] },
                 'calcVitals.si.yellowThreshold': { type: 'number', default: 0.8, min: 0.5, max: 1.5, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Yellow (caution) threshold', qrPath: ['agency', 'calcVitals.si.yellowThreshold'] },
                 'calcVitals.si.orangeThreshold': { type: 'number', default: 0.9, min: 0.5, max: 2.0, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Orange (warning) threshold', qrPath: ['agency', 'calcVitals.si.orangeThreshold'] },
                 'calcVitals.si.redThreshold': { type: 'number', default: 1.0, min: 0.5, max: 2.5, screens: ['vitals'], section: 'Shock Index Thresholds', description: 'Red (critical) threshold', qrPath: ['agency', 'calcVitals.si.redThreshold'] },
@@ -1374,15 +1455,15 @@
 
                 // REMS thresholds
                 'calcVitals.rems.moderateThreshold': { type: 'number', default: 6, min: 1, max: 20, screens: ['vitals'], section: 'REMS Thresholds', description: 'Moderate risk threshold', qrPath: ['agency', 'calcVitals.rems.moderateThreshold'] },
-                'calcVitals.rems.highThreshold': { type: 'number', default: 13, min: 1, max: 26, screens: ['vitals'], section: 'REMS Thresholds', description: 'High risk threshold', qrPath: ['agency', 'calcVitals.rems.highThreshold'] },
+                'calcVitals.rems.highThreshold': { type: 'number', default: 9, min: 1, max: 26, screens: ['vitals'], section: 'REMS Thresholds', description: 'High risk threshold', qrPath: ['agency', 'calcVitals.rems.highThreshold'] },
 
                 // CPP thresholds
                 'calcVitals.cpp.assumedICP': { type: 'number', default: 20, min: 5, max: 40, screens: ['vitals'], section: 'CPP Settings', description: 'Assumed ICP (mmHg) when no ICP monitor', qrPath: ['agency', 'calcVitals.cpp.assumedICP'] },
                 'calcVitals.cpp.threshold': { type: 'number', default: 60, min: 40, max: 80, screens: ['vitals'], section: 'CPP Settings', description: 'Minimum CPP threshold (mmHg)', qrPath: ['agency', 'calcVitals.cpp.threshold'] },
 
                 // LVO alert thresholds — only relevant when stroke scale is lams/fasted/race
-                'agency.lvoThreshold.lams': { type: 'number', default: 4, min: 1, max: 5, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.lams'] },
-                'agency.lvoThreshold.fasted': { type: 'number', default: 1, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.fasted'] },
+                'agency.lvoThreshold.lams': { type: 'number', default: 3, min: 1, max: 5, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.lams'] },
+                'agency.lvoThreshold.fasted': { type: 'number', default: 4, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.fasted'] },
                 'agency.lvoThreshold.race': { type: 'number', default: 5, min: 1, max: 9, screens: ['vitals'], section: 'LVO Alert Thresholds', qrPath: ['agency', 'lvoThreshold.race'] },
 
                 // Display
@@ -1427,12 +1508,6 @@
                     {value: 'Normal', label: 'Normal'},
                     {value: 'Strong', label: 'Strong'}
                 ], screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'watchHapticIntensity'] },
-                'watchShakeAction': { type: 'select', default: 'snooze', options: [
-                    {value: 'snooze', label: 'Snooze Timer (1 min)'},
-                    {value: 'dismiss', label: 'Dismiss Alert'},
-                    {value: 'none', label: 'No Action'},
-                    {value: 'ignore', label: 'Ignore'}
-                ], screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'watchShakeAction'] },
                 'timerPageDwellSeconds': { type: 'number', default: 5, min: 3, max: 10, screens: ['global'], section: 'Watch Configuration', qrPath: ['watch', 'timerPageDwellSeconds'] },
                 'watchAutoPromoteThreshold': { type: 'select', default: 60, options: [
                     {value: 30, label: '30 sec'},
@@ -1488,13 +1563,90 @@
 
         const STORAGE_KEY = 'mediclog-settings-creator';
 
+
+        // ========== T321-A-formulary: agency formulary for QuickConfig envelope ==========
+        // Converts Formulary Editor / .mlformulary med dicts → MedicationConfig Codable keys
+        // (timerColor, interval_minutes, tts_name) matching Collect JSONEncoder output.
+        const AgencyFormulary = {
+            toQrMed(m) {
+                if (!m || !m.name) return null;
+                const doseSequence = (m.doseSequence || []).map(s => ({
+                    amount: s.amount,
+                    unit: s.unit,
+                    interval_minutes: (s.interval_minutes != null ? s.interval_minutes : s.intervalMinutes) ?? 0
+                }));
+                const d = {
+                    id: m.id || (crypto.randomUUID ? crypto.randomUUID() : ('00000000-0000-4000-8000-' + String(Date.now()).padStart(12, '0'))),
+                    name: m.name,
+                    displayColor: m.displayColor || 'cardiac',
+                    displayGroup: m.displayGroup != null ? m.displayGroup : null,
+                    timerEnabled: !!m.timerEnabled,
+                    timerDuration: m.timerDuration != null ? m.timerDuration : 0,
+                    timerLabel: m.timerLabel || '',
+                    timerColor: m.timerColor || m.timerColorString || 'blue',
+                    isVisible: m.isVisible !== false,
+                    sortOrder: m.sortOrder != null ? m.sortOrder : 0,
+                    defaultDose: m.defaultDose != null ? m.defaultDose : 0,
+                    defaultDoseUnit: m.defaultDoseUnit || 'mg',
+                    defaultRoute: m.defaultRoute || 'IV',
+                    alternativeRoutes: Array.isArray(m.alternativeRoutes) ? m.alternativeRoutes : [],
+                    controlledSubstance: !!m.controlledSubstance,
+                    quickActionCategories: Array.isArray(m.quickActionCategories) ? m.quickActionCategories : [],
+                    usesDoseSequence: !!m.usesDoseSequence,
+                    doseSequence
+                };
+                if (m.hapticPattern) d.hapticPattern = m.hapticPattern;
+                const tts = m.tts_name || m.ttsName;
+                if (tts) d.tts_name = tts;
+                if (m.defaultDripConcentration != null) d.defaultDripConcentration = m.defaultDripConcentration;
+                if (m.defaultDripConcentrationUnit) d.defaultDripConcentrationUnit = m.defaultDripConcentrationUnit;
+                if (m.defaultDripVolume != null) d.defaultDripVolume = m.defaultDripVolume;
+                return d;
+            },
+
+            fromMlformularyJson(json) {
+                if (!json || typeof json !== 'object') throw new Error('Invalid formulary JSON');
+                let list;
+                if (Array.isArray(json)) {
+                    list = json;
+                } else if (Array.isArray(json.medications)) {
+                    if (json.type && json.type !== 'mlformulary' && json.type !== 'quick_config') {
+                        throw new Error('Unsupported file type: ' + json.type);
+                    }
+                    list = json.medications;
+                } else if (json.agency && Array.isArray(json.agency.formulary)) {
+                    list = json.agency.formulary;
+                } else if (Array.isArray(json.formulary)) {
+                    list = json.formulary;
+                } else {
+                    throw new Error('No medications / formulary array found');
+                }
+                const out = [];
+                for (const m of list) {
+                    const qr = this.toQrMed(m);
+                    if (qr) out.push(qr);
+                }
+                return out;
+            },
+
+            fromEditorLocalStorage() {
+                const raw = localStorage.getItem('mediclog_formulary_meds');
+                if (!raw) throw new Error('No Formulary Editor data in this browser (open Formulary Editor first)');
+                const meds = JSON.parse(raw);
+                if (!Array.isArray(meds) || meds.length === 0) throw new Error('Formulary Editor list is empty');
+                return meds.map(m => this.toQrMed(m)).filter(Boolean);
+            }
+        };
+
         const SettingsState = {
             values: {},
 
             init() {
                 // Initialize with defaults
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
-                    this.values[key] = meta.default;
+                    this.values[key] = (meta.type === 'json' || meta.type === 'formulary')
+                        ? JSON.parse(JSON.stringify(meta.default ?? (meta.type === 'formulary' ? [] : {})))
+                        : meta.default;
                 }
                 // Restore from localStorage if available
                 try {
@@ -1520,7 +1672,9 @@
 
             reset() {
                 for (const [key, meta] of Object.entries(SettingsRegistry.settings)) {
-                    this.values[key] = meta.default;
+                    this.values[key] = (meta.type === 'json' || meta.type === 'formulary')
+                        ? JSON.parse(JSON.stringify(meta.default ?? (meta.type === 'formulary' ? [] : {})))
+                        : meta.default;
                 }
                 MedicationTimers.init();
                 VitalsFieldOrder.order = ['BP', 'HR', 'SpO2', 'RR', 'Temp', 'ETCO2', 'Glucose', 'Pain', 'GCS', 'StrokeScreen'];
@@ -1869,6 +2023,104 @@
                 const row = document.createElement('div');
                 row.className = 'setting-row';
 
+                if (meta.type === 'formulary') {
+                    const value = SettingsState.get(key);
+                    const label = document.createElement('div');
+                    label.className = 'setting-label';
+                    label.innerHTML = `<span>${this.getLabelText(key)}</span>${meta.description ? `<small>${meta.description}</small>` : ''}`;
+
+                    const wrap = document.createElement('div');
+                    wrap.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;max-width:320px;';
+                    const status = document.createElement('div');
+                    status.style.cssText = 'font-size:0.8rem;color:var(--text-secondary);text-align:right;';
+                    const arr = Array.isArray(value) ? value : [];
+                    status.textContent = arr.length
+                        ? `${arr.length} agency med${arr.length === 1 ? '' : 's'} in QR envelope`
+                        : 'None — QR will omit formulary (file-only is not enough)';
+                    wrap.appendChild(status);
+
+                    const btnRow = document.createElement('div');
+                    btnRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:0.35rem;justify-content:flex-end;';
+
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = '.mlformulary,application/json,.json';
+                    fileInput.style.display = 'none';
+                    fileInput.onchange = async () => {
+                        const f = fileInput.files && fileInput.files[0];
+                        if (!f) return;
+                        try {
+                            const text = await f.text();
+                            const json = JSON.parse(text);
+                            const meds = AgencyFormulary.fromMlformularyJson(json);
+                            SettingsState.set(key, meds);
+                            ScreenFilter.filterSettings();
+                            PreviewRenderer.update();
+                        } catch (e) {
+                            alert('Formulary import failed: ' + (e && e.message ? e.message : e));
+                        }
+                        fileInput.value = '';
+                    };
+                    wrap.appendChild(fileInput);
+
+                    const btnImport = document.createElement('button');
+                    btnImport.type = 'button';
+                    btnImport.textContent = 'Import .mlformulary';
+                    btnImport.style.cssText = 'padding:0.3rem 0.55rem;border:1px solid var(--border);border-radius:6px;background:var(--bg-tertiary);color:var(--text-primary);font-size:0.75rem;cursor:pointer;';
+                    btnImport.onclick = () => fileInput.click();
+                    btnRow.appendChild(btnImport);
+
+                    const btnPull = document.createElement('button');
+                    btnPull.type = 'button';
+                    btnPull.textContent = 'Pull from Editor';
+                    btnPull.title = 'Load medications from Formulary Editor (same browser)';
+                    btnPull.style.cssText = btnImport.style.cssText;
+                    btnPull.onclick = () => {
+                        try {
+                            const meds = AgencyFormulary.fromEditorLocalStorage();
+                            SettingsState.set(key, meds);
+                            ScreenFilter.filterSettings();
+                            PreviewRenderer.update();
+                        } catch (e) {
+                            alert(e && e.message ? e.message : String(e));
+                        }
+                    };
+                    btnRow.appendChild(btnPull);
+
+                    const btnClear = document.createElement('button');
+                    btnClear.type = 'button';
+                    btnClear.textContent = 'Clear';
+                    btnClear.style.cssText = btnImport.style.cssText;
+                    btnClear.onclick = () => {
+                        SettingsState.set(key, []);
+                        ScreenFilter.filterSettings();
+                        PreviewRenderer.update();
+                    };
+                    btnRow.appendChild(btnClear);
+
+                    wrap.appendChild(btnRow);
+
+                    const editorLink = document.createElement('a');
+                    editorLink.href = 'formulary-editor.html';
+                    editorLink.target = '_blank';
+                    editorLink.rel = 'noopener';
+                    editorLink.textContent = 'Open Formulary Editor to author…';
+                    editorLink.style.cssText = 'font-size:0.75rem;color:var(--accent);';
+                    wrap.appendChild(editorLink);
+
+                    if (arr.length) {
+                        const names = document.createElement('div');
+                        names.style.cssText = 'font-size:0.7rem;color:var(--text-secondary);text-align:right;max-height:4.5rem;overflow:auto;max-width:300px;';
+                        names.textContent = arr.map(m => m.name).filter(Boolean).slice(0, 40).join(', ')
+                            + (arr.length > 40 ? '…' : '');
+                        wrap.appendChild(names);
+                    }
+
+                    row.appendChild(label);
+                    row.appendChild(wrap);
+                    return row;
+                }
+
                 if (meta.type === 'link') {
                     const control = this.createControl(key, meta);
                     row.appendChild(control);
@@ -1892,13 +2144,25 @@
                     'agencyName': 'Agency Name',
                     'useIncidentNumbers': 'Use Incident Numbers',
                     'showPHIWarnings': 'Show PHI Warnings',
+                    'showMRNField': 'Show MRN Field',
+                    'collectPatientAddress': 'Collect Scene Address',
+                    'collectPatientName': 'Collect Patient Name',
+                    'collectPatientDOB': 'Collect Patient DOB',
                     'showTestDataTools': 'Show Test Data Tools',
                     'cardiac.showVectorChange': 'Vector Change',
                     'cardiac.showDualSequential': 'Dual Sequential',
                     'endOfCallAction': 'End of Call Action',
                     'hospitalHandoff.showInShareMenu': 'Show in Share Menu',
-                    'hospitalHandoff.showAtEndCall': 'Show at End Call',
                     'strokeScale': 'Stroke Scale',
+                    'agencyShowDripDefaults': 'Show Default Drip Concentrations',
+                    'isarEnabled': 'ISAR Screening',
+                    'burnAssessmentMethod': 'Burn Assessment Method',
+                    'burnPediatricAgeThreshold': 'Burn Pediatric Age Threshold',
+                    'mothershipURL': 'Mothership URL',
+                    'mothershipPublicKey': 'Mothership Public Key',
+                    'ccLabRanges': 'CC Lab Range Overrides (JSON)',
+                    'ccLabRangeCustomUnits': 'CC Lab Custom Units (JSON)',
+                    'shockIndex.threshold': 'Shock Index Threshold (legacy)',
                     'appearanceMode': 'Theme',
                     'use24HourTime': '24-Hour Time',
                     'useUTCTime': 'UTC Time',
@@ -1915,7 +2179,6 @@
                     'watchVoiceMode': 'Watch Voice Mode',
                     'watchEnabled': 'Enable Apple Watch',
                     'watchHapticIntensity': 'Haptic Intensity',
-                    'watchShakeAction': 'Shake Gesture Action',
                     'timerPageDwellSeconds': 'Timer Page Auto-Return (sec)',
                     'radioShowFullVitals': 'Radio Report: Full Vitals',
                     'vitalsReminderEnabled': 'Enable Reminder',
@@ -1957,11 +2220,68 @@
                     'agencyGpsEnabled': 'GPS Tracking',
                     'aiParsingEnabled': 'Claude Vision OCR',
                     'medOCRIncludeDoseFreq': 'Include Dose & Frequency',
+                    'aiParsing.xaiModel': 'xAI / Grok Model',
+                    'aiParsing.claudeModel': 'Claude Model',
+                    'aiParsing.xai.vitals': 'xAI / Grok — Vitals',
+                    'aiParsing.xai.meds': 'xAI / Grok — Medications',
+                    'aiParsing.xai.labs': 'xAI / Grok — Labs',
+                    'aiParsing.xai.pumpSapphire': 'xAI / Grok — Pump (Sapphire)',
+                    'aiParsing.xai.pumpPlum': 'xAI / Grok — Pump (Plum 360)',
+                    'aiParsing.xai.vent': 'xAI / Grok — Ventilator',
+                    'aiParsing.anthropic.vitals': 'Claude — Vitals',
+                    'aiParsing.anthropic.meds': 'Claude — Medications',
+                    'aiParsing.anthropic.labs': 'Claude — Labs',
+                    'aiParsing.anthropic.pumpSapphire': 'Claude — Pump (Sapphire)',
+                    'aiParsing.anthropic.pumpPlum': 'Claude — Pump (Plum 360)',
+                    'aiParsing.anthropic.vent': 'Claude — Ventilator',
+                    'aiParsing.onDevice.vitals': 'On Device — Vitals',
+                    'aiParsing.onDevice.meds': 'On Device — Medications',
+                    'aiParsing.onDevice.labs': 'On Device — Labs',
+                    'aiParsing.onDevice.pumpSapphire': 'On Device — Pump (Sapphire)',
+                    'aiParsing.onDevice.pumpPlum': 'On Device — Pump (Plum 360)',
+                    'aiParsing.onDevice.vent': 'On Device — Ventilator',
                     'crewAnnounceEnabled': 'Crew Announce',
+                    'zoll.enabled': 'ZOLL Enabled',
+                    'zoll.autoReconnect': 'Auto Reconnect',
+                    'zoll.autoPolling': 'Auto Polling',
+                    'zoll.pollingInterval': 'Polling Interval',
+                    'zoll.deviceTypeFilter': 'Device Type Filter',
+                    'zoll.autoDiscoverOnCaseStart': 'Auto Discover on Case Start',
+                    'zoll.defaultPassword': 'Default Password',
+                    'zoll.rememberPasswords': 'Remember Passwords',
+                    'zoll.connectionTimeout': 'Connection Timeout',
+                    'zoll.autoDownloadVitals': 'Auto Download Vitals',
+                    'zoll.autoDownload12Lead': 'Auto Download 12-Lead',
+                    'zoll.autoDownloadSnapshot': 'Auto Download Snapshot',
+                    'zoll.hrSourcePreference': 'HR Source Preference',
+                    'zoll.tempUnit': 'Temperature Unit',
+                    'zoll.bpUnit': 'BP Unit',
+                    'zoll.etco2Unit': 'EtCO₂ Unit',
+                    'zoll.12leadPrintFormat': '12-Lead Print Format',
+                    'zoll.12leadReportFooter': '12-Lead Report Footer',
+                    'zoll.12leadLocale': '12-Lead Locale',
+                    'zoll.12leadOutputFormat': '12-Lead Output Format',
+                    'zoll.captureShock': 'Capture Shock Events',
+                    'zoll.captureAnalysis': 'Capture Analysis Events',
+                    'zoll.captureTreatment': 'Capture Treatment Events',
+                    'zoll.capturePacing': 'Capture Pacing Events',
+                    'zoll.captureSyncMode': 'Capture Sync Mode Events',
+                    'zoll.waveform.primaryLead': 'Waveform Primary Lead',
+                    'zoll.waveform.secondaryLead': 'Waveform Secondary Lead',
+                    'zoll.waveform.thirdLead': 'Waveform Third Lead',
+                    'zoll.waveform.filteredECG': 'Filtered ECG',
+                    'zoll.waveform.displayFormat': 'Waveform Display Format',
+                    'zoll.forwardAlarms': 'Forward Alarms',
+                    'zoll.alarmLow': 'Low Alarms',
+                    'zoll.alarmHigh': 'High Alarms',
+                    'zoll.autoPushDemographics': 'Auto Push Demographics',
+                    'zoll.autoPullDemographics': 'Auto Pull Demographics',
+                    'zoll.monitorNetwork': 'Monitor Network',
+                    'zoll.preferredConnectionType': 'Preferred Connection Type',
+                    'formulary': 'Agency Formulary',
                     'voice.silenceThreshold': 'Voice Silence Threshold (sec)',
                     'voice.vadTrimEnabled': 'Voice VAD Trim',
                     'voice.verbosity': 'Voice Verbosity',
-                    'voice.autoPromoteThreshold': 'Voice Auto-Promote Threshold',
                     'agency.lvoThreshold.lams': 'LVO Threshold — LAMS',
                     'agency.lvoThreshold.fasted': 'LVO Threshold — FAST-ED',
                     'agency.lvoThreshold.race': 'LVO Threshold — RACE',
@@ -2018,10 +2338,19 @@
                         const option = document.createElement('option');
                         option.value = opt.value;
                         option.textContent = opt.label;
-                        if (opt.value === value) option.selected = true;
+                        // Loose equality: HTML option values are strings; numeric defaults must still match
+                        if (opt.value == value) option.selected = true;
                         sel.appendChild(option);
                     });
-                    sel.onchange = () => SettingsState.set(key, sel.value);
+                    sel.onchange = () => {
+                        let v = sel.value;
+                        // T321-A-zoll: coerce Int Collect keys (pollingInterval, connectionTimeout)
+                        if (typeof meta.default === 'number') {
+                            const n = Number(v);
+                            v = Number.isFinite(n) ? n : meta.default;
+                        }
+                        SettingsState.set(key, v);
+                    };
                     return sel;
                 }
 
@@ -2082,6 +2411,60 @@
                     input.style.color = 'var(--text-primary)';
                     input.onchange = () => SettingsState.set(key, input.value);
                     return input;
+                }
+
+                // T321-A-core: JSON object controls (ccLabRanges / ccLabRangeCustomUnits)
+                if (meta.type === 'json') {
+                    const wrapper = document.createElement('div');
+                    wrapper.style.display = 'flex';
+                    wrapper.style.flexDirection = 'column';
+                    wrapper.style.alignItems = 'flex-end';
+                    wrapper.style.gap = '0.2rem';
+                    const ta = document.createElement('textarea');
+                    ta.rows = 6;
+                    ta.cols = 36;
+                    try {
+                        ta.value = (value && typeof value === 'object' && Object.keys(value).length)
+                            ? JSON.stringify(value, null, 2)
+                            : '';
+                    } catch (e) {
+                        ta.value = '';
+                    }
+                    ta.placeholder = meta.placeholder || '{ }';
+                    ta.style.cssText = 'width:280px;max-width:100%;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:6px;background:var(--bg-tertiary);color:var(--text-primary);font-family:ui-monospace,monospace;font-size:0.75rem;';
+                    const errorMsg = document.createElement('span');
+                    errorMsg.style.cssText = 'font-size:0.75rem;color:#f44336;display:none;';
+                    const validate = () => {
+                        const raw = ta.value.trim();
+                        if (!raw) {
+                            ta.style.borderColor = '';
+                            errorMsg.style.display = 'none';
+                            if (SettingsState.errors) delete SettingsState.errors[key];
+                            SettingsState.set(key, {});
+                            return;
+                        }
+                        try {
+                            const parsed = JSON.parse(raw);
+                            if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+                                throw new Error('Must be a JSON object');
+                            }
+                            ta.style.borderColor = '';
+                            errorMsg.style.display = 'none';
+                            if (SettingsState.errors) delete SettingsState.errors[key];
+                            SettingsState.set(key, parsed);
+                        } catch (e) {
+                            ta.style.borderColor = '#f44336';
+                            errorMsg.textContent = 'Invalid JSON object';
+                            errorMsg.style.display = 'block';
+                            SettingsState.errors = SettingsState.errors || {};
+                            SettingsState.errors[key] = true;
+                        }
+                    };
+                    ta.oninput = validate;
+                    ta.onchange = validate;
+                    wrapper.appendChild(ta);
+                    wrapper.appendChild(errorMsg);
+                    return wrapper;
                 }
 
                 if (meta.type === 'link') {
@@ -2330,7 +2713,6 @@
             },
 
             renderHandoff(preview) {
-                const showAtEndCall = SettingsState.get('hospitalHandoff.showAtEndCall');
                 const showInShare = SettingsState.get('hospitalHandoff.showInShareMenu');
                 const use24h = SettingsState.get('use24HourTime');
                 const timeStr = use24h ? '15:47' : '3:47 PM';
@@ -2350,7 +2732,6 @@
                         </div>
                         <div class="preview-section-label">Availability</div>
                         <div class="preview-card-group">
-                            <div class="preview-list-row"><span class="preview-list-row-label">At End of Call</span><span class="preview-list-row-value preview-toggle-val ${showAtEndCall ? 'on' : ''}">${showAtEndCall ? 'On' : 'Off'}</span></div>
                             <div class="preview-list-row"><span class="preview-list-row-label">In Share Menu</span><span class="preview-list-row-value preview-toggle-val ${showInShare ? 'on' : ''}">${showInShare ? 'On' : 'Off'}</span></div>
                         </div>
                     </div>
@@ -2423,6 +2804,10 @@
                 const useInc = SettingsState.get('useIncidentNumbers');
                 const incFmt = SettingsState.get('incidentNumberFormat') || '—';
                 const ai = SettingsState.get('aiParsingEnabled');
+                const xaiModel = (SettingsState.get('aiParsing.xaiModel') || '').trim();
+                const claudeModel = (SettingsState.get('aiParsing.claudeModel') || '').trim();
+                const ocrCapKeys = ['aiParsing.xai.vitals','aiParsing.xai.meds','aiParsing.xai.labs','aiParsing.xai.pumpSapphire','aiParsing.xai.pumpPlum','aiParsing.xai.vent','aiParsing.anthropic.vitals','aiParsing.anthropic.meds','aiParsing.anthropic.labs','aiParsing.anthropic.pumpSapphire','aiParsing.anthropic.pumpPlum','aiParsing.anthropic.vent','aiParsing.onDevice.vitals','aiParsing.onDevice.meds','aiParsing.onDevice.labs','aiParsing.onDevice.pumpSapphire','aiParsing.onDevice.pumpPlum','aiParsing.onDevice.vent'];
+                const ocrCapsOff = ocrCapKeys.filter(k => SettingsState.get(k) === false).length;
                 const dest = SettingsState.get('agency.destinationsEnabled');
                 const mapsApp = SettingsState.get('agency.preferredMapsApp');
                 const mapsLabel = mapsApp === 'google' ? 'Google Maps' : mapsApp === 'waze' ? 'Waze' : 'Apple Maps';
@@ -2435,6 +2820,10 @@
                 const referenceScheme = SettingsState.get('referenceApp.scheme');
                 const referenceName = SettingsState.get('referenceApp.name');
                 const phi = SettingsState.get('showPHIWarnings');
+                const showMRN = SettingsState.get('showMRNField');
+                const collectAddress = SettingsState.get('collectPatientAddress');
+                const collectName = SettingsState.get('collectPatientName');
+                const collectDOB = SettingsState.get('collectPatientDOB');
                 const crew = SettingsState.get('crewAnnounceEnabled');
                 const testTools = SettingsState.get('showTestDataTools');
                 preview.innerHTML = `
@@ -2458,6 +2847,9 @@
                         <div class="preview-section-label">Enhanced OCR</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row preview-list-row-nav"><span class="preview-list-row-label">Claude Vision OCR</span><span class="preview-list-row-value preview-toggle-val ${ai ? 'on' : ''}" style="margin-right:4px">${ai ? 'On' : 'Not Configured'}</span><span class="preview-list-row-chevron">›</span></div>
+                            ${xaiModel ? `<div class="preview-list-row"><span class="preview-list-row-label">xAI / Grok Model</span><span class="preview-list-row-value" style="font-size:0.7rem;max-width:140px;text-align:right;word-break:break-all">${xaiModel}</span></div>` : ''}
+                            ${claudeModel ? `<div class="preview-list-row"><span class="preview-list-row-label">Claude Model</span><span class="preview-list-row-value" style="font-size:0.7rem;max-width:140px;text-align:right;word-break:break-all">${claudeModel}</span></div>` : ''}
+                            ${ocrCapsOff ? `<div class="preview-list-row"><span class="preview-list-row-label">OCR Caps Off</span><span class="preview-list-row-value">${ocrCapsOff}</span></div>` : ''}
                         </div>
                         <div class="preview-section-label">Destinations</div>
                         <div class="preview-card-group">
@@ -2469,9 +2861,34 @@
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Crew Announce</span><span class="preview-list-row-value preview-toggle-val ${crew ? 'on' : ''}">${crew ? 'On' : 'Off'}</span></div>
                         </div>
+                        <div class="preview-section-label">ZOLL Integration</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Enabled</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('zoll.enabled') ? 'on' : ''}">${SettingsState.get('zoll.enabled') ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Auto Poll</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('zoll.autoPolling') ? 'on' : ''}">${SettingsState.get('zoll.autoPolling') ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Device Filter</span><span class="preview-list-row-value">${SettingsState.get('zoll.deviceTypeFilter')}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Connection</span><span class="preview-list-row-value">${SettingsState.get('zoll.preferredConnectionType')}</span></div>
+                        </div>
+                        <div class="preview-section-label">Agency Formulary</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">QR Embed</span><span class="preview-list-row-value">${(Array.isArray(SettingsState.get('formulary')) && SettingsState.get('formulary').length) ? (SettingsState.get('formulary').length + ' meds') : 'Omitted'}</span></div>
+                        </div>
                         <div class="preview-section-label">Clinical Protocols</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Stroke Scale</span><span class="preview-list-row-value">${strokeLabel}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">ISAR</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('isarEnabled') ? 'on' : ''}">${SettingsState.get('isarEnabled') ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Burn Method</span><span class="preview-list-row-value">${SettingsState.get('burnAssessmentMethod') === 'ruleOfNines' ? 'Rule of Nines' : 'Lund-Browder'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Burn Ped Age</span><span class="preview-list-row-value">${SettingsState.get('burnPediatricAgeThreshold')}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Drip Defaults</span><span class="preview-list-row-value preview-toggle-val ${SettingsState.get('agencyShowDripDefaults') ? 'on' : ''}">${SettingsState.get('agencyShowDripDefaults') ? 'On' : 'Off'}</span></div>
+                        </div>
+                        <div class="preview-section-label">Agency Mothership</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">URL</span><span class="preview-list-row-value" style="font-size:0.7rem;max-width:140px;text-align:right;word-break:break-all">${SettingsState.get('mothershipURL') || 'Not Set'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Public Key</span><span class="preview-list-row-value">${SettingsState.get('mothershipPublicKey') ? 'Set' : 'Not Set'}</span></div>
+                        </div>
+                        <div class="preview-section-label">CC Lab Overrides</div>
+                        <div class="preview-card-group">
+                            <div class="preview-list-row"><span class="preview-list-row-label">Range Labs</span><span class="preview-list-row-value">${Object.keys(SettingsState.get('ccLabRanges') || {}).length}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Custom Units</span><span class="preview-list-row-value">${Object.keys(SettingsState.get('ccLabRangeCustomUnits') || {}).length}</span></div>
                         </div>
                         <div class="preview-section-label">Hospital Handoff Report</div>
                         <div class="preview-card-group">
@@ -2485,6 +2902,10 @@
                         <div class="preview-section-label">Privacy &amp; PHI Safety</div>
                         <div class="preview-card-group">
                             <div class="preview-list-row"><span class="preview-list-row-label">Show PHI Warnings</span><span class="preview-list-row-value preview-toggle-val ${phi ? 'on' : ''}">${phi ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Show MRN Field</span><span class="preview-list-row-value preview-toggle-val ${showMRN ? 'on' : ''}">${showMRN ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Collect Patient Name</span><span class="preview-list-row-value preview-toggle-val ${collectName ? 'on' : ''}">${collectName ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Collect Patient DOB</span><span class="preview-list-row-value preview-toggle-val ${collectDOB ? 'on' : ''}">${collectDOB ? 'On' : 'Off'}</span></div>
+                            <div class="preview-list-row"><span class="preview-list-row-label">Collect Scene Address</span><span class="preview-list-row-value preview-toggle-val ${collectAddress ? 'on' : ''}">${collectAddress ? 'On' : 'Off'}</span></div>
                         </div>
                         <div class="preview-section-label">Training &amp; Testing</div>
                         <div class="preview-card-group">
@@ -2592,7 +3013,16 @@
                 if (!meta.qrPath) continue; // Skip non-setting entries (links, info rows)
                 if (screen && !meta.screens.includes(screen)) continue;
                 const value = SettingsState.get(key);
-                if (value === meta.default) continue; // Skip defaults
+                // T321-A-core: json objects use empty-object omit (=== fails for {})
+                if (meta.type === 'json') {
+                    if (value == null) continue;
+                    if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0) continue;
+                } else if (meta.type === 'formulary') {
+                    // T321-A-formulary: empty array omit (Collect returns nil when empty)
+                    if (!Array.isArray(value) || value.length === 0) continue;
+                } else if (value === meta.default) {
+                    continue; // Skip defaults
+                }
 
                 const path = meta.qrPath;
                 let current = payload;
@@ -2601,6 +3031,23 @@
                     current = current[path[i]];
                 }
                 current[path[path.length - 1]] = value;
+            }
+
+            // T291: derived legacy Identity = Name ∧ DOB when Name/DOB present or Identity is false
+            if (!screen || screen === 'agency' || screen === 'handoff' || screen === 'export') {
+                const n = SettingsState.get('collectPatientName');
+                const d = SettingsState.get('collectPatientDOB');
+                if (payload.agency && (payload.agency.collectPatientName !== undefined
+                    || payload.agency.collectPatientDOB !== undefined || !(n && d))) {
+                    payload.agency.collectPatientName = n;
+                    payload.agency.collectPatientDOB = d;
+                    payload.agency.collectPatientIdentity = !!(n && d);
+                } else if (!(n && d)) {
+                    if (!payload.agency) payload.agency = {};
+                    payload.agency.collectPatientName = n;
+                    payload.agency.collectPatientDOB = d;
+                    payload.agency.collectPatientIdentity = false;
+                }
             }
 
             // Quick entry slots and vitals field order: only include when relevant tab or full export
@@ -2629,9 +3076,17 @@
                 return [payload];
             }
 
-            // Too large - split into 2 pages
-            const page1 = { ...payload };
+            // Too large — peel formulary (T300/T321-A-formulary) + timers onto page 2.
+            // App Collect puts overflow formulary at top-level page2 key "formulary".
+            const page1 = JSON.parse(JSON.stringify(payload));
+            let formulary = null;
+            if (page1.agency && page1.agency.formulary) {
+                formulary = page1.agency.formulary;
+                delete page1.agency.formulary;
+            }
+            const timers = page1.timers || [];
             delete page1.timers;
+            page1.page = 1;
             page1.totalPages = 2;
 
             const page2 = {
@@ -2639,8 +3094,11 @@
                 configVersion: 1,
                 page: 2,
                 totalPages: 2,
-                timers: payload.timers || []
+                timers: timers
             };
+            if (formulary && formulary.length) {
+                page2.formulary = formulary;
+            }
 
             return [page1, page2];
         }
